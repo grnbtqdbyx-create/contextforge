@@ -18,6 +18,19 @@ task-specific context packs for Codex and Claude Code users.
 | [Snyk agent-scan](https://github.com/snyk/agent-scan) | security-focused | Scans agent components for prompt injections, toxic flows, and risky data handling. | Bring a lighter, repo-instruction-focused subset into ContextForge audits. |
 | [Cisco skill-scanner](https://github.com/cisco-ai-defense/skill-scanner) | security-focused | Detects prompt injection, data exfiltration, and malicious code patterns in agent skills. | Apply similar checks to `AGENTS.md`, `CLAUDE.md`, and coding-agent context files. |
 
+## 2026 Onboarding and Output Snapshot
+
+May 31, 2026 research shows that tools in this space earn trust quickly when
+they expose a low-friction first command plus machine-readable output:
+
+| Project | Current signal | What it suggests for ContextForge |
+| --- | --- | --- |
+| [mco](https://github.com/mco-org/mco) | Multi-agent orchestration CLI with `doctor` and JSON-oriented workflows. | Keep `contextforge doctor` as the fastest first-run proof and add JSON for agent/CI consumption. |
+| [promptfoo-action](https://github.com/promptfoo/promptfoo-action) | GitHub Action focused on prompt/agent/RAG tests with PR integration. | Make ContextForge outputs easy to wire into PR checks, comments, and artifacts. |
+| [agent-security-scanner-mcp](https://github.com/sinewaveai/agent-security-scanner-mcp) | Security scanner docs emphasize fail-closed CI behavior, SARIF, and agent prompt/action scans. | ContextForge should keep deterministic local checks and eventually expose SARIF or PR annotations. |
+| [ccusage](https://github.com/ryoppippi/ccusage) | Unified local usage reports now span many coding-agent CLIs, including Codex and Claude Code. | Avoid competing as a generic cost dashboard; connect usage signals to repo hygiene and context-pack actions. |
+| [Repomix](https://github.com/yamadashy/repomix) | Mature repository packing category with strong adoption. | ContextForge should explain why it is not just another packer: scoring, security, cache, CI, and next actions. |
+
 ## 2026 Security Scanner Snapshot
 
 May 31, 2026 GitHub and web research shows a fast-growing cluster around agent

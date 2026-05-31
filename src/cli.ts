@@ -26,6 +26,7 @@ export interface CliArgs {
   report: string;
   benchmarkDir: string | undefined;
   sessions: boolean;
+  json: boolean;
   write: boolean;
   openPr: boolean;
   minContextScore: number;
@@ -93,6 +94,7 @@ function parseArgs(argv: string[]): CliArgs {
     report: valueAfter(argv, '--report') ?? 'contextforge-report.html',
     benchmarkDir: valueAfter(argv, '--benchmark-dir'),
     sessions: argv.includes('--sessions') || argv.includes('--demo') || providerFlagProvided,
+    json: argv.includes('--json'),
     write: argv.includes('--write'),
     openPr: argv.includes('--open-pr'),
     minContextScore: Number(valueAfter(argv, '--min-context-score') ?? 60),
@@ -258,7 +260,7 @@ async function commandDoctor(args: CliArgs): Promise<void> {
     minCacheScore: args.minCacheScore,
     minSecurityScore: args.minSecurityScore
   });
-  console.log(formatDoctor(result));
+  console.log(args.json ? JSON.stringify(result, null, 2) : formatDoctor(result));
   if (result.status === 'fail') process.exitCode = 1;
 }
 
@@ -327,7 +329,7 @@ Usage:
   contextforge improve [--demo] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
   contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--min-security-score 60]
-  contextforge doctor [--demo] [--benchmark-dir fixtures/security-benchmark]
+  contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
