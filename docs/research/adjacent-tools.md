@@ -34,6 +34,8 @@ they expose a low-friction first command plus machine-readable output:
 ContextForge v0.12.0 follows the SARIF direction by turning file-backed context
 health and context security findings into GitHub Code Scanning alerts while
 keeping broader token/cache/session evidence in JSON and HTML reports.
+ContextForge v0.13.0 adds a root composite GitHub Action so repositories can
+adopt that workflow before npm publishing is complete.
 
 ## 2026 Security Scanner Snapshot
 

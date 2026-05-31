@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.0 - 2026-05-31
+
+- Add a reusable root GitHub Action so repositories can run ContextForge with `uses: grnbtqdbyx-create/contextforge@v0.13.0`.
+- Expose score thresholds and JSON, HTML, and SARIF output paths as action inputs and outputs.
+- Document a copy-paste workflow that uploads audit artifacts and optionally uploads SARIF to GitHub Code Scanning.
+
 ## 0.12.0 - 2026-05-31
 
 - Add `contextforge audit --sarif contextforge.sarif` for GitHub Code Scanning compatible SARIF 2.1.0 output.

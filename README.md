@@ -56,6 +56,16 @@ contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-sc
 contextforge pack --task "review auth regression" --budget 20000 --sessions
 ```
 
+Or use the GitHub Action before npm publishing is complete:
+
+```yaml
+- uses: grnbtqdbyx-create/contextforge@v0.13.0
+  with:
+    min-context-score: 60
+    min-cache-score: 60
+    min-security-score: 60
+```
+
 ## Why ContextForge?
 
 - **See token waste:** identify expensive sessions, tool outputs, and context files.
@@ -147,7 +157,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.12.0 is a public MVP CLI with:
+ContextForge v0.13.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -163,6 +173,7 @@ ContextForge v0.12.0 is a public MVP CLI with:
 - real README report screenshot generated from the CLI
 - DCO-based contribution flow
 - CI-ready `contextforge audit` dogfood workflow
+- reusable GitHub Action entrypoint
 - manual npm publish workflow draft with OIDC/trusted-publishing preparation
 
 ## Roadmap
@@ -180,6 +191,7 @@ ContextForge v0.12.0 is a public MVP CLI with:
 - **v0.10.0:** first-run `doctor` command for repo readiness and launch-friendly onboarding.
 - **v0.11.0:** machine-readable `doctor --json` output and sharper README positioning.
 - **v0.12.0:** SARIF output and GitHub Code Scanning dogfood workflow.
+- **v0.13.0:** reusable GitHub Action entrypoint before npm publishing is complete.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

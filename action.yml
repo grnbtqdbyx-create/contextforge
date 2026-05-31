@@ -1,0 +1,65 @@
+name: 'ContextForge Audit'
+description: 'Run ContextForge context health, cache stability, security, HTML, JSON, and SARIF audits.'
+author: 'Ogün Keskin'
+
+branding:
+  icon: 'shield'
+  color: 'green'
+
+inputs:
+  min-context-score:
+    description: 'Minimum context health score.'
+    required: false
+    default: '60'
+  min-cache-score:
+    description: 'Minimum cache stability score.'
+    required: false
+    default: '60'
+  min-security-score:
+    description: 'Minimum context security score.'
+    required: false
+    default: '60'
+  output:
+    description: 'JSON audit output path in the caller workspace.'
+    required: false
+    default: 'contextforge-audit.json'
+  report:
+    description: 'HTML report output path in the caller workspace.'
+    required: false
+    default: 'contextforge-report.html'
+  sarif:
+    description: 'SARIF output path in the caller workspace.'
+    required: false
+    default: 'contextforge.sarif'
+
+outputs:
+  audit-json:
+    description: 'Path to the generated JSON audit report.'
+    value: ${{ inputs.output }}
+  html-report:
+    description: 'Path to the generated HTML report.'
+    value: ${{ inputs.report }}
+  sarif:
+    description: 'Path to the generated SARIF report.'
+    value: ${{ inputs.sarif }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Build ContextForge CLI
+      shell: bash
+      run: |
+        cd "$GITHUB_ACTION_PATH"
+        npm exec --yes --package pnpm@11.2.2 -- pnpm install --frozen-lockfile
+        npm exec --yes --package pnpm@11.2.2 -- pnpm build
+    - name: Run ContextForge audit
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        node "$GITHUB_ACTION_PATH/dist/cli.js" audit \
+          --min-context-score "${{ inputs.min-context-score }}" \
+          --min-cache-score "${{ inputs.min-cache-score }}" \
+          --min-security-score "${{ inputs.min-security-score }}" \
+          --output "${{ inputs.output }}" \
+          --report "${{ inputs.report }}" \
+          --sarif "${{ inputs.sarif }}"
