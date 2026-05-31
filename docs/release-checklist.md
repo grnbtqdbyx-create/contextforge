@@ -9,6 +9,8 @@
 - [x] Context security findings appear in JSON and HTML audit output.
 - [x] Public security benchmark fixtures run from the CLI.
 - [x] Context packs can use session-derived failure/read/edit signals.
+- [x] Modern Codex rollout JSONL fixture coverage.
+- [x] Local session scans are bounded by count and file size.
 - [ ] Publish package to npm.
 
 ## GitHub

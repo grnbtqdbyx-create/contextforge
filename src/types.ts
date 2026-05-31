@@ -18,6 +18,8 @@ export interface SessionRecord {
 export interface ScannerOptions {
   demo?: boolean;
   rootDir?: string;
+  maxFiles?: number;
+  maxFileBytes?: number;
 }
 
 export type Severity = 'low' | 'medium' | 'high';

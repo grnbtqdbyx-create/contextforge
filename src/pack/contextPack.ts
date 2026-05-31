@@ -202,7 +202,7 @@ function isFailureRecord(record: SessionRecord): boolean {
 }
 
 function isReadRecord(record: SessionRecord): boolean {
-  return /\b(read|open|view|cat|sed|file_path)\b/i.test(`${record.toolName ?? ''} ${record.content}`);
+  return /\b(read|open|view|inspect|cat|sed|file_path)\b/i.test(`${record.toolName ?? ''} ${record.content}`);
 }
 
 function isEditRecord(record: SessionRecord): boolean {
