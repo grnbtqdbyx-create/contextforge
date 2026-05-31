@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.21.0 - 2026-05-31
+
+- Add PR-ready Markdown comment output with a stable marker for sticky-comment workflows.
+- Add `contextforge audit --comment contextforge-pr-comment.md` and include the PR comment artifact in the reusable Action and generated workflows.
+- Refresh README, GitHub Action docs, and research notes around review-surface visibility for maintainers using Codex and Claude.
+
 ## 0.20.0 - 2026-05-31
 
 - Add `contextforge examples` to generate deterministic public demo output from fixture data.

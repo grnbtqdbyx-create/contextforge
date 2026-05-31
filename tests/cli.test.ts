@@ -21,6 +21,7 @@ describe('CLI argument mapping', () => {
         sarif: undefined,
         summary: undefined,
         plan: undefined,
+        comment: undefined,
         sessions: true,
         json: false,
         write: false,

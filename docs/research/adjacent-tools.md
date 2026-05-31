@@ -54,6 +54,8 @@ current incident reports and benchmarks where agents follow malicious
 instructions embedded in repository entrypoints.
 ContextForge v0.20.0 adds deterministic public demo output so new visitors can
 inspect token usage, CI audit, and handoff artifacts in the first 30 seconds.
+ContextForge v0.21.0 adds a PR-ready Markdown comment artifact so maintainers
+can bring the same evidence into review surfaces without running a model.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -112,6 +114,10 @@ With v0.20.0, ContextForge also makes its value inspectable without setup:
 
 > deterministic demo output that can be regenerated and reviewed in public.
 
+With v0.21.0, ContextForge makes the CI result easier to discuss in reviews:
+
+> deterministic PR comments that summarize gates, scores, and top agent fixes.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -122,6 +128,7 @@ That means every repository can ask:
 - Are repo context files trying to override instructions, exfiltrate secrets, or weaken tool approvals?
 - Is our README carrying instructions that an AI coding agent might mistake for trusted commands?
 - Can a visitor see real token, audit, and handoff output before installing the CLI?
+- Can reviewers see the agent-context gate directly in a PR discussion?
 
 ## Next Differentiators
 
@@ -134,6 +141,7 @@ That means every repository can ask:
 7. Minimal context-file scaffolds that prevent new repositories from starting with bloated instructions.
 8. README prompt-injection coverage for repository entrypoints agents read by default.
 9. Regenerable demo output that turns the README into a verifiable product surface.
+10. PR-ready deterministic comments that make context quality visible during review.
 
 ## Explainability Direction
 

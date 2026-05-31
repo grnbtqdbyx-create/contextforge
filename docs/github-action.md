@@ -1,8 +1,9 @@
 # GitHub Action Mode
 
 ContextForge can dogfood itself in CI by generating a JSON audit, an HTML
-report, a SARIF file for GitHub Code Scanning, a Markdown job summary, and an
-agent-readable action plan on every push or pull request.
+report, a SARIF file for GitHub Code Scanning, a Markdown job summary, a
+PR-ready Markdown comment, and an agent-readable action plan on every push or
+pull request.
 
 ## One-command Setup
 
@@ -13,12 +14,12 @@ contextforge init --github-action
 ```
 
 The command writes `.github/workflows/contextforge-audit.yml` with JSON, HTML,
-SARIF, Markdown summary, and agent action plan artifacts. It refuses to
+SARIF, Markdown summary, PR comment, and agent action plan artifacts. It refuses to
 overwrite an existing workflow by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.20.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.21.0
 ```
 
 ## Reusable Action
@@ -43,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: grnbtqdbyx-create/contextforge@v0.20.0
+      - uses: grnbtqdbyx-create/contextforge@v0.21.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -53,6 +54,7 @@ jobs:
           sarif: contextforge.sarif
           summary: contextforge-summary.md
           plan: contextforge-agent-plan.md
+          comment: contextforge-pr-comment.md
       - uses: actions/upload-artifact@v5
         if: always()
         with:
@@ -63,6 +65,7 @@ jobs:
             contextforge.sarif
             contextforge-summary.md
             contextforge-agent-plan.md
+            contextforge-pr-comment.md
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
@@ -71,7 +74,10 @@ jobs:
 
 The action builds ContextForge from the action checkout, then runs the built CLI
 against the caller repository workspace. It also appends the generated Markdown
-summary to `$GITHUB_STEP_SUMMARY` when the workflow runner provides it.
+summary to `$GITHUB_STEP_SUMMARY` when the workflow runner provides it. The
+`contextforge-pr-comment.md` artifact is deterministic and safe to publish with
+a separate sticky-comment workflow if the repository grants pull-request write
+permissions.
 
 ## Dogfood Workflow
 
@@ -100,7 +106,7 @@ jobs:
       - run: corepack prepare pnpm@11.2.2 --activate
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md
+      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md
       - name: Write job summary
         if: always()
         run: cat contextforge-summary.md >> "$GITHUB_STEP_SUMMARY"
@@ -114,6 +120,7 @@ jobs:
             contextforge.sarif
             contextforge-summary.md
             contextforge-agent-plan.md
+            contextforge-pr-comment.md
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
