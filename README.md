@@ -36,11 +36,11 @@ pnpm contextforge report --demo
 Example output:
 
 ```text
-ContextForge scan complete: 7 records
+ContextForge scan complete: 9 records
 Providers: claude, codex
 
-Total tokens: 11482
-Input: 8112  Output: 3370  Cached: 3328
+Total tokens: 12582
+Input: 8832  Output: 3750  Cached: 3328
 ```
 
 ## Why ContextForge?
@@ -74,7 +74,7 @@ contextforge cache-audit [--demo]
 contextforge security-audit [--demo] [--min-security-score 60]
 contextforge security-benchmark [--benchmark-dir fixtures/security-benchmark]
 contextforge agents-md-audit [--demo]
-contextforge pack --task "fix auth bug" --budget 20000 [--demo]
+contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
 contextforge improve [--demo] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
 contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--min-security-score 60]
@@ -110,7 +110,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.6.0 is a public MVP CLI with:
+ContextForge v0.7.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - local session scanning fallbacks
@@ -119,7 +119,7 @@ ContextForge v0.6.0 is a public MVP CLI with:
 - context security audit
 - public malicious-context benchmark fixtures
 - cache stability audit
-- task-specific Markdown context packs
+- task-specific Markdown context packs with session-derived scoring
 - HTML report generation
 - real README report screenshot generated from the CLI
 - DCO-based contribution flow
@@ -133,6 +133,7 @@ ContextForge v0.6.0 is a public MVP CLI with:
 - **v0.4.0:** explainable context pack scoring with per-file inclusion reasons.
 - **v0.5.0:** real generated HTML report screenshot and packaged README assets.
 - **v0.6.0:** public malicious-context benchmark fixtures and `security-benchmark` command.
+- **v0.7.0:** session-derived context pack scoring from failure/read/edit signals.
 - **Next:** broader Codex session format coverage, npm publish workflow draft.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

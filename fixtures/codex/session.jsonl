@@ -1,3 +1,4 @@
 {"role":"user","content":"Run tests and create a context pack","usage":{"input_tokens":800,"output_tokens":0,"prompt_tokens_details":{"cached_tokens":256}}}
 {"type":"tool_call","tool":"exec_command","content":"pnpm test","usage":{"input_tokens":100,"output_tokens":1800}}
 {"role":"assistant","content":"Tests failed because contextHealth is missing.","usage":{"input_tokens":2100,"output_tokens":250,"prompt_tokens_details":{"cached_tokens":1024}}}
+{"type":"tool_call","tool":"apply_patch","content":"*** Update File: fixtures/project/src/auth.ts\n@@\n-export function login(user: string) {\n+export function login(user: string) {","usage":{"input_tokens":120,"output_tokens":260}}

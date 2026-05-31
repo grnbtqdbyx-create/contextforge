@@ -23,6 +23,7 @@ interface CliArgs {
   output: string;
   report: string;
   benchmarkDir: string | undefined;
+  sessions: boolean;
   write: boolean;
   openPr: boolean;
   minContextScore: number;
@@ -84,6 +85,7 @@ function parseArgs(argv: string[]): CliArgs {
     output: valueAfter(argv, '--output') ?? defaultOutput,
     report: valueAfter(argv, '--report') ?? 'contextforge-report.html',
     benchmarkDir: valueAfter(argv, '--benchmark-dir'),
+    sessions: argv.includes('--sessions') || argv.includes('--demo') || providerFlagProvided,
     write: argv.includes('--write'),
     openPr: argv.includes('--open-pr'),
     minContextScore: Number(valueAfter(argv, '--min-context-score') ?? 60),
@@ -149,10 +151,12 @@ async function commandSecurityBenchmark(args: CliArgs): Promise<void> {
 }
 
 async function commandPack(args: CliArgs): Promise<void> {
+  const records = args.sessions ? await loadRecords(args) : [];
   const pack = await createContextPack({
     rootDir: args.demo ? 'fixtures/project' : process.cwd(),
     task: args.task,
-    budget: args.budget
+    budget: args.budget,
+    records
   });
   const output = valueAfter(process.argv.slice(2), '--output') ?? 'contextforge-pack.md';
   await fs.writeFile(output, pack.content);
@@ -263,7 +267,7 @@ Usage:
   contextforge security-audit [--demo] [--min-security-score 60]
   contextforge security-benchmark [--benchmark-dir fixtures/security-benchmark]
   contextforge agents-md-audit [--demo]
-  contextforge pack --task "fix auth bug" --budget 20000 [--demo]
+  contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
   contextforge improve [--demo] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
   contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--min-security-score 60]

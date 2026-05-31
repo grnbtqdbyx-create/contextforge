@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.0 - 2026-05-31
+
+- Add session-derived context pack scoring for files mentioned in failures, recent reads, and recent edits.
+- Surface session scoring reasons in `Why included` so Codex and Claude users can audit why files were selected.
+- Keep `pack` repo-first by default while enabling session signals with `--sessions`, `--codex`, `--claude`, or `--demo`.
+- Refresh demo session fixtures so generated packs show failure/read/edit signals.
+- Exclude generated ContextForge artifacts from future packs and avoid false secret redaction for ordinary `sk-` word fragments.
+
 ## 0.6.0 - 2026-05-31
 
 - Add public malicious-context benchmark fixtures for benign, suspicious, and malicious repo instructions.

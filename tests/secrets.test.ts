@@ -8,6 +8,10 @@ describe('secret protection', () => {
     expect(redacted).toContain('[REDACTED');
   });
 
+  it('does not redact ordinary words that contain sk-dash fragments', () => {
+    expect(redactSecrets('task-term-match path-match')).toContain('task-term-match');
+  });
+
   it('ignores secret and build artifact paths by default', () => {
     expect(shouldIgnorePath('/repo/.env')).toBe(true);
     expect(shouldIgnorePath('/repo/node_modules/pkg/index.js')).toBe(true);

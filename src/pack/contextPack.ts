@@ -3,15 +3,25 @@ import path from 'node:path';
 import { redactSecrets, isLikelyBinary } from '../security/secrets.js';
 import { estimateTokens } from '../tokenizers/index.js';
 import { listFiles } from '../utils/files.js';
+import type { SessionRecord } from '../types.js';
 
 export interface ContextPackOptions {
   rootDir?: string;
   task: string;
   budget: number;
+  records?: SessionRecord[];
 }
 
 export interface PackReason {
-  type: 'task-term-match' | 'path-match' | 'instruction-file' | 'manifest' | 'readme';
+  type:
+    | 'task-term-match'
+    | 'path-match'
+    | 'instruction-file'
+    | 'manifest'
+    | 'readme'
+    | 'session-failure'
+    | 'session-read'
+    | 'session-edit';
   label: string;
   points: number;
 }
@@ -36,6 +46,7 @@ export async function createContextPack(options: ContextPackOptions): Promise<Co
   const budget = Math.max(100, options.budget);
   const terms = options.task.toLowerCase().split(/[^a-z0-9_./-]+/).filter((term) => term.length > 2);
   const files = await listFiles(rootDir, (filePath) => TEXT_EXTENSIONS.has(path.extname(filePath)));
+  const sessionSignals = buildSessionSignals(files.map((file) => path.relative(rootDir, file)), options.records ?? []);
   const candidates: Array<PackedFile & { body: string }> = [];
 
   for (const file of files) {
@@ -44,7 +55,7 @@ export async function createContextPack(options: ContextPackOptions): Promise<Co
     const relative = path.relative(rootDir, file);
     const body = redactSecrets(buffer.toString('utf8'));
     const haystack = `${relative}\n${body}`.toLowerCase();
-    const reasons = scoreReasons(relative, haystack, terms);
+    const reasons = scoreReasons(relative, haystack, terms, sessionSignals.get(relative));
     const score = reasons.reduce((sum, reason) => sum + reason.points, 0);
     candidates.push({ path: relative, estimatedTokens: estimateTokens(body), score, reasons, body });
   }
@@ -92,7 +103,13 @@ function trimToBudget(content: string, budget: number): string {
   return `${content.slice(0, approxChars)}\n[ContextForge truncated this file to fit the token budget]`;
 }
 
-function scoreReasons(relative: string, haystack: string, terms: string[]): PackReason[] {
+interface SessionSignals {
+  failureMentions: number;
+  reads: number;
+  edits: number;
+}
+
+function scoreReasons(relative: string, haystack: string, terms: string[], signals?: SessionSignals): PackReason[] {
   const reasons: PackReason[] = [];
   const lowerPath = relative.toLowerCase();
   const matchedTerms = terms.filter((term) => haystack.includes(term));
@@ -132,7 +149,64 @@ function scoreReasons(relative: string, haystack: string, terms: string[]): Pack
       points: 1
     });
   }
+  if (signals && signals.failureMentions > 0) {
+    reasons.push({
+      type: 'session-failure',
+      label: `session failure mention: ${signals.failureMentions}`,
+      points: Math.min(12, signals.failureMentions * 6)
+    });
+  }
+  if (signals && signals.reads > 0) {
+    reasons.push({
+      type: 'session-read',
+      label: `recent session read: ${signals.reads}`,
+      points: Math.min(8, signals.reads * 4)
+    });
+  }
+  if (signals && signals.edits > 0) {
+    reasons.push({
+      type: 'session-edit',
+      label: `recent session edit: ${signals.edits}`,
+      points: Math.min(10, signals.edits * 5)
+    });
+  }
   return reasons;
+}
+
+function buildSessionSignals(files: string[], records: SessionRecord[]): Map<string, SessionSignals> {
+  const signals = new Map<string, SessionSignals>();
+  if (records.length === 0) return signals;
+
+  const normalizedFiles = files.map((file) => ({ file, variants: fileReferenceVariants(file) }));
+  for (const record of records) {
+    const content = record.content.toLowerCase();
+    for (const { file, variants } of normalizedFiles) {
+      if (!variants.some((variant) => content.includes(variant))) continue;
+      const signal = signals.get(file) ?? { failureMentions: 0, reads: 0, edits: 0 };
+      if (isFailureRecord(record)) signal.failureMentions += 1;
+      if (isReadRecord(record)) signal.reads += 1;
+      if (isEditRecord(record)) signal.edits += 1;
+      signals.set(file, signal);
+    }
+  }
+  return signals;
+}
+
+function fileReferenceVariants(file: string): string[] {
+  const normalized = file.toLowerCase();
+  return [normalized, `./${normalized}`, normalized.replaceAll('/', path.sep)].filter((item, index, items) => items.indexOf(item) === index);
+}
+
+function isFailureRecord(record: SessionRecord): boolean {
+  return /\b(fail(?:ed|ing|ure)?|error|exception|regression|stack trace)\b/i.test(record.content);
+}
+
+function isReadRecord(record: SessionRecord): boolean {
+  return /\b(read|open|view|cat|sed|file_path)\b/i.test(`${record.toolName ?? ''} ${record.content}`);
+}
+
+function isEditRecord(record: SessionRecord): boolean {
+  return /\b(edit|write|multiedit|patch|apply_patch|modified|touched)\b/i.test(`${record.toolName ?? ''} ${record.content}`);
 }
 
 function formatReasons(reasons: PackReason[]): string {

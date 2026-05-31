@@ -67,3 +67,20 @@ should keep a maintainer-oriented explanation layer: every context pack should
 show why a file was selected, how many points it received, and which signal
 caused inclusion. This keeps the tool useful in PR review and CI artifacts, not
 only during local prompting.
+
+## Session-Derived Context Direction
+
+Recent benchmark and tool signals point toward context systems that learn from
+working traces instead of only ranking static repo text. ContextForge should use
+that direction conservatively: deterministic scoring from local session records,
+visible `Why included` reasons, and repo-first defaults that avoid surprising
+large history scans.
+
+The v0.7.0 scoring model adds three trace-derived signals:
+
+- files mentioned near failures, errors, exceptions, or regressions
+- files recently read or opened by tools
+- files recently edited, patched, written, modified, or touched
+
+This keeps ContextForge aligned with retrieval/context benchmarks while staying
+small enough for CI and build-in-public maintenance.
