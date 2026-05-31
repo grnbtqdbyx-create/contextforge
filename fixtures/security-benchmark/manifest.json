@@ -35,6 +35,21 @@
           "unsafe-shell"
         ]
       }
+    },
+    {
+      "name": "malicious-readme-injection",
+      "path": "malicious-readme-injection",
+      "expected": {
+        "minScore": 0,
+        "maxScore": 40,
+        "findingTypes": [
+          "data-exfiltration",
+          "hidden-directive",
+          "permission-escalation",
+          "prompt-injection",
+          "unsafe-shell"
+        ]
+      }
     }
   ]
 }

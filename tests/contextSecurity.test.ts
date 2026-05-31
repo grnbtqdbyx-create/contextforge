@@ -24,6 +24,14 @@ describe('context security audit', () => {
     ).toBe(true);
   });
 
+  it('detects malicious README instructions because agents commonly read repository entrypoints', async () => {
+    const audit = await auditContextSecurity({ rootDir: 'fixtures/security-benchmark/malicious-readme-injection' });
+
+    expect(audit.findings.some((finding) => finding.file === 'README.md' && finding.type === 'prompt-injection')).toBe(true);
+    expect(audit.findings.some((finding) => finding.file === 'README.md' && finding.type === 'data-exfiltration')).toBe(true);
+    expect(audit.findings.some((finding) => finding.file === 'README.md' && finding.type === 'unsafe-shell')).toBe(true);
+  });
+
   it('appears in the full audit result and can fail a security threshold', async () => {
     const audit = await buildAudit({
       records: [],
@@ -43,12 +51,13 @@ describe('context security audit', () => {
     const benchmark = await runSecurityBenchmark({ benchmarkDir: 'fixtures/security-benchmark' });
 
     expect(benchmark.passed).toBe(true);
-    expect(benchmark.totalCases).toBe(3);
+    expect(benchmark.totalCases).toBe(4);
     expect(benchmark.failedCases).toBe(0);
     expect(benchmark.cases.map((benchmarkCase) => benchmarkCase.name)).toEqual([
       'benign-minimal',
       'suspicious-hidden-approval',
-      'malicious-exfil-shell'
+      'malicious-exfil-shell',
+      'malicious-readme-injection'
     ]);
     expect(benchmark.cases.find((benchmarkCase) => benchmarkCase.name === 'benign-minimal')?.actual.score).toBe(100);
     expect(benchmark.cases.find((benchmarkCase) => benchmarkCase.name === 'malicious-exfil-shell')?.actual.findingTypes).toEqual([

@@ -18,6 +18,7 @@ The default fixtures live in `fixtures/security-benchmark`:
 | `benign-minimal` | `100` | none | Proves clean repo instructions do not produce false positives. |
 | `suspicious-hidden-approval` | `70-80` | `hidden-directive`, `permission-escalation` | Catches stealthy approval bypass guidance without full exfiltration. |
 | `malicious-exfil-shell` | `0-40` | `prompt-injection`, `data-exfiltration`, `unsafe-shell`, `hidden-directive`, `permission-escalation` | Exercises high-risk context poisoning patterns in one fixture. |
+| `malicious-readme-injection` | `0-40` | `prompt-injection`, `data-exfiltration`, `unsafe-shell`, `hidden-directive`, `permission-escalation` | Proves root README instructions are treated as an agent-readable attack surface. |
 
 You can point the runner at another compatible fixture directory:
 

@@ -1,10 +1,12 @@
 # Context Security Audit
 
-ContextForge scans repository instruction files as a security surface, including
-nested monorepo instruction files that agents may load for specific subprojects.
+ContextForge scans repository entrypoint and instruction files as a security
+surface, including nested monorepo instruction files that agents may load for
+specific subprojects.
 
 Covered files:
 
+- root `README.md`
 - `AGENTS.md`
 - `CLAUDE.md`
 - `.cursorrules`
@@ -56,8 +58,8 @@ does not send repository content to an external model.
 ## Threat Model
 
 Coding agents read repository files as context. A malicious pull request can add
-or modify Markdown instructions that look like ordinary project guidance but try
-to:
+or modify Markdown instructions in `README.md`, `AGENTS.md`, `CLAUDE.md`, or
+other agent-facing files that look like ordinary project guidance but try to:
 
 - override higher-priority instructions
 - weaken approval and sandbox behavior

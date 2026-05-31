@@ -426,7 +426,7 @@ Usage:
   contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--min-security-score 60]
   contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
   contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
-  contextforge init [--github-action] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.18.0] [--force]
+  contextforge init [--github-action] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.19.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
