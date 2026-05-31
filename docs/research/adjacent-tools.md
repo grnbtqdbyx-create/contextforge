@@ -36,6 +36,8 @@ health and context security findings into GitHub Code Scanning alerts while
 keeping broader token/cache/session evidence in JSON and HTML reports.
 ContextForge v0.13.0 adds a root composite GitHub Action so repositories can
 adopt that workflow before npm publishing is complete.
+ContextForge v0.14.0 adds Markdown summaries for GitHub Actions job summaries
+so maintainers can inspect the result without downloading artifacts.
 
 ## 2026 Security Scanner Snapshot
 

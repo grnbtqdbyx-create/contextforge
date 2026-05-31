@@ -19,6 +19,7 @@ describe('CLI argument mapping', () => {
         report: 'report',
         benchmarkDir: undefined,
         sarif: undefined,
+        summary: undefined,
         sessions: true,
         json: false,
         write: false,

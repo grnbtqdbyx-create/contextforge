@@ -6,6 +6,7 @@ coverage/
 .env.*
 contextforge-report.html
 contextforge-audit.json
+contextforge-summary.md
 contextforge-pack.md
 contextforge-suggestions.md
 contextforge.sarif
