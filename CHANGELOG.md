@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.1 - 2026-05-31
+
+- Normalize npm `bin.contextforge` metadata to avoid publish-time package correction warnings.
+- Add package metadata coverage for the CLI bin path before the first public npm publish.
+
 ## 0.11.0 - 2026-05-31
 
 - Add `contextforge doctor --json` for machine-readable readiness reports that CI jobs and coding agents can consume.
