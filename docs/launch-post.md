@@ -8,6 +8,7 @@ ContextForge is a local-first context readiness gate for Codex and Claude Code r
 
 ```bash
 contextforge doctor --summary contextforge-doctor.md
+contextforge artifact-map --output docs/artifacts.md
 contextforge review-kit --base main --output contextforge-review-kit.md
 contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
 contextforge pack --task "review auth regression" --budget 20000 --sessions
@@ -29,6 +30,7 @@ Try the proof path:
 
 ```bash
 contextforge doctor --summary contextforge-doctor.md
+contextforge artifact-map --output docs/artifacts.md
 ```
 
 Repo: https://github.com/grnbtqdbyx-create/contextforge
@@ -39,6 +41,7 @@ If this helps your agent work with less waste and better handoffs, a star helps 
 
 - README explains the problem in the first screen.
 - `contextforge doctor --summary` produces a shareable readiness report.
+- `contextforge artifact-map --output docs/artifacts.md` tells visitors which proof artifact to inspect first.
 - GitHub topics match the target audience.
 - Release notes include validation commands.
 - Open issues show what contributors can help with next.

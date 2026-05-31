@@ -208,6 +208,23 @@ describe('CLI launch-kit command', () => {
   });
 });
 
+describe('CLI artifact-map command', () => {
+  it('writes an artifact map Markdown file for reviewers and agents', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-artifact-map-'));
+    const outputPath = path.join(rootDir, 'artifacts.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'artifact-map', '--output', outputPath]);
+    const map = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(map).toContain('# ContextForge Artifact Map');
+    expect(map).toContain('contextforge-review-kit.md');
+    expect(map).toContain('contextforge-proof-pack.md');
+    expect(map).toContain('For a PR reviewer');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
 describe('CLI compare command', () => {
   it('writes a comparison guide for README and launch positioning', async () => {
     const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-compare-'));

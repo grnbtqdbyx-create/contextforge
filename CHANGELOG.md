@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.40.0 - 2026-06-01
+
+- Add `contextforge artifact-map --output docs/artifacts.md` to generate a deterministic catalog of every ContextForge JSON, Markdown, SARIF, SVG, and HTML artifact.
+- Include reviewer, Codex/Claude fix-session, and public-launch fast paths so maintainers know which proof file to inspect first.
+- Refresh README, doctor docs, launch/comparison outputs, LLM discovery files, changelog, and research notes around artifact discoverability.
+
 ## 0.39.0 - 2026-06-01
 
 - Add `contextforge-review-kit.md` to the deterministic PR-ready comment artifact so sticky PR discussions point reviewers at the Codex/Claude review brief.

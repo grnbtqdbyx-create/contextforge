@@ -18,7 +18,7 @@ separate tools:
   shell instructions, hidden directives, and permission escalation
 - task-specific context packs with explainable file inclusion reasons
 - CI artifacts: JSON audit, HTML report, SARIF, Markdown summary, PR-ready
-  comment, review kit, proof pack, and agent action plan
+  comment, review kit, artifact map, proof pack, and agent action plan
 
 ## Quick Adoption Path
 
@@ -59,6 +59,7 @@ contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
 contextforge compare [--output docs/comparison.md]
 contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
+contextforge artifact-map [--output docs/artifacts.md]
 contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--force]
 ```
 
@@ -92,6 +93,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-doctor.md`: shareable first-run readiness checklist from `doctor --summary`
 - `contextforge-proof-pack.md`: shareable doctor, audit, command, and handoff evidence from `proof-pack`
 - `contextforge-review-kit.md`: changed-file review brief and Codex/Claude review prompt from `review-kit`
+- `docs/artifacts.md`: generated artifact catalog and fast paths from `artifact-map`
 - Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md` and `contextforge-review-kit.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts.
 - PR-ready comments point reviewers at `contextforge-proof-pack.md` and `contextforge-review-kit.md` so sticky review discussions can lead to both the deeper doctor/audit proof packet and the changed-file review brief.
 - `docs/launch-post.md`: generated build-in-public launch kit from `launch-kit`

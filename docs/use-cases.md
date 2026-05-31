@@ -128,6 +128,7 @@ real, deterministic, and useful before npm publishing or broad launch.
 contextforge examples --output examples/demo-output.md
 contextforge review-kit --demo --base main --output examples/review-kit.md
 contextforge doctor --summary contextforge-doctor.md
+contextforge artifact-map --output docs/artifacts.md
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge launch-kit --output docs/launch-post.md
 contextforge compare --output docs/comparison.md
@@ -140,6 +141,8 @@ Success signal:
   without installing anything.
 - Reviewers can jump from the generated PR comment to `contextforge-proof-pack.md`
   for the deeper doctor/audit proof packet.
+- Visitors and reviewers can open `docs/artifacts.md` to choose the right proof
+  artifact before reading the whole repository.
 - Maintainers have a generated launch post, suggested GitHub topics, and proof
   commands that stay aligned with the CLI.
 - Maintainers can attach one proof pack to README updates, launch posts, and

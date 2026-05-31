@@ -184,7 +184,8 @@ async function launchProfileChecks(rootDir: string): Promise<{ present: string[]
     { label: 'demo-terminal.svg', file: 'assets/demo-terminal.svg' },
     { label: 'contextforge-report.png', file: 'assets/contextforge-report.png' },
     { label: 'docs/launch-post.md', file: 'docs/launch-post.md' },
-    { label: 'docs/comparison.md', file: 'docs/comparison.md' }
+    { label: 'docs/comparison.md', file: 'docs/comparison.md' },
+    { label: 'docs/artifacts.md', file: 'docs/artifacts.md' }
   ];
   const results = await Promise.all(
     expected.map(async (surface) => ({
