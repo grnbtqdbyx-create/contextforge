@@ -18,7 +18,7 @@ packs, and produces CI artifacts that Codex and Claude can act on.
 - `contextforge compare --output docs/comparison.md`: generate adjacent-tool positioning for README and launch use.
 - `contextforge improve --demo --json`: emit structured repo-rule suggestions for agents and bots.
 - `contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg`: create CI, PR-review, structured suggestion, and status badge artifacts.
-- The reusable GitHub Action and generated audit workflow publish `contextforge-proof-pack.md` and `contextforge-review-kit.md` as CI artifacts, and PR-ready comments point reviewers to the proof pack.
+- The reusable GitHub Action and generated audit workflow publish `contextforge-proof-pack.md` and `contextforge-review-kit.md` as CI artifacts, and PR-ready comments point reviewers to both.
 - `contextforge pack --task "review auth regression" --budget 20000 --sessions`: build an explainable task context pack.
 
 ## Key Docs

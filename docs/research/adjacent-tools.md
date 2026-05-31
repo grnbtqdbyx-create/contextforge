@@ -112,6 +112,9 @@ connects changed files, risk focus, proof commands, and a Codex/Claude prompt.
 ContextForge v0.38.0 adds review-kit artifacts to the reusable GitHub Action,
 generated audit workflow, and dogfood workflow, because PR review briefs become
 more useful when every CI run uploads them next to audit and proof-pack evidence.
+ContextForge v0.39.0 points PR-ready comments at `contextforge-review-kit.md`,
+because GitHub review discussions should link directly to both the proof packet
+and the changed-file Codex/Claude review brief.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -266,6 +269,11 @@ With v0.38.0, ContextForge makes review handoffs CI-visible:
 > next to audit, summary, plan, PR comment, suggestions, badge, proof pack, and
 > SARIF artifacts.
 
+With v0.39.0, ContextForge makes review handoffs PR-visible:
+
+> `contextforge-pr-comment.md` points reviewers at `contextforge-review-kit.md`
+> as well as `contextforge-proof-pack.md`.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -295,6 +303,7 @@ That means every repository can ask:
 - Can PR reviewers discover the proof packet from the sticky comment?
 - Can Codex, Claude, and human reviewers start from the same deterministic review brief?
 - Can every PR upload that review brief as a GitHub Actions artifact?
+- Can sticky PR comments point reviewers at that review brief immediately?
 
 ## Next Differentiators
 
@@ -325,6 +334,7 @@ That means every repository can ask:
 25. PR-visible proof-pack links in sticky review comments.
 26. Review kits that turn changed files into Codex/Claude review prompts and evidence commands.
 27. CI-uploaded review-kit artifacts in reusable and generated GitHub workflows.
+28. PR-visible review-kit links in sticky review comments.
 
 ## Explainability Direction
 

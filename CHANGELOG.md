@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.39.0 - 2026-06-01
+
+- Add `contextforge-review-kit.md` to the deterministic PR-ready comment artifact so sticky PR discussions point reviewers at the Codex/Claude review brief.
+- Regenerate `examples/pr-comment.md` from the CLI so public README visitors see both proof-pack and review-kit artifact pointers.
+- Refresh README, GitHub Action docs, review-kit docs, LLM discovery files, changelog, and research notes around PR-visible review-kit handoffs.
+
 ## 0.38.0 - 2026-06-01
 
 - Add `contextforge-review-kit.md` to the reusable GitHub Action, generated audit workflow, and dogfood workflow artifact set.

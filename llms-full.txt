@@ -93,7 +93,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-proof-pack.md`: shareable doctor, audit, command, and handoff evidence from `proof-pack`
 - `contextforge-review-kit.md`: changed-file review brief and Codex/Claude review prompt from `review-kit`
 - Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md` and `contextforge-review-kit.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts.
-- PR-ready comments point reviewers at `contextforge-proof-pack.md` so sticky review discussions can lead to the deeper doctor/audit proof packet.
+- PR-ready comments point reviewers at `contextforge-proof-pack.md` and `contextforge-review-kit.md` so sticky review discussions can lead to both the deeper doctor/audit proof packet and the changed-file review brief.
 - `docs/launch-post.md`: generated build-in-public launch kit from `launch-kit`
 - `docs/comparison.md`: generated adjacent-tool positioning guide from `compare`
 - `assets/demo-terminal.svg` and `assets/contextforge-report.png`: launch profile assets checked by `contextforge doctor`

@@ -35,3 +35,7 @@ publish `contextforge-review-kit.md` alongside the audit, PR comment, proof
 pack, suggestions, badge, summary, SARIF, and HTML artifacts. Use checkout
 `fetch-depth: 0` when CI should compare the PR branch against the configured
 base ref.
+
+When `contextforge audit --comment contextforge-pr-comment.md` is enabled, the
+PR-ready comment lists `contextforge-review-kit.md` so reviewers can jump from
+the sticky PR discussion to the changed-file review brief.
