@@ -18,7 +18,7 @@ separate tools:
   shell instructions, hidden directives, and permission escalation
 - task-specific context packs with explainable file inclusion reasons
 - CI artifacts: JSON audit, HTML report, SARIF, Markdown summary, PR-ready
-  comment, and agent action plan
+  comment, review kit, proof pack, and agent action plan
 
 ## Quick Adoption Path
 
@@ -58,6 +58,7 @@ contextforge examples [--output examples/demo-output.md]
 contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
 contextforge compare [--output docs/comparison.md]
 contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
+contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--force]
 ```
 
@@ -90,6 +91,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-badge.svg`: compact audit status badge generated from context, cache, and security scores
 - `contextforge-doctor.md`: shareable first-run readiness checklist from `doctor --summary`
 - `contextforge-proof-pack.md`: shareable doctor, audit, command, and handoff evidence from `proof-pack`
+- `contextforge-review-kit.md`: changed-file review brief and Codex/Claude review prompt from `review-kit`
 - Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts.
 - PR-ready comments point reviewers at `contextforge-proof-pack.md` so sticky review discussions can lead to the deeper doctor/audit proof packet.
 - `docs/launch-post.md`: generated build-in-public launch kit from `launch-kit`
@@ -97,6 +99,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `assets/demo-terminal.svg` and `assets/contextforge-report.png`: launch profile assets checked by `contextforge doctor`
 - `examples/demo-output.md`: deterministic token usage, CI audit, and handoff output
 - `examples/pr-comment.md`: deterministic PR-ready comment preview
+- `examples/review-kit.md`: deterministic Codex/Claude review-kit preview
 - GitHub releases: tagged build-in-public release history
 - GitHub Actions: CI and ContextForge Audit dogfood workflows
 - `docs/research/adjacent-tools.md`: research notes and differentiation

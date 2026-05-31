@@ -8,6 +8,7 @@ ContextForge is a local-first context readiness gate for Codex and Claude Code r
 
 ```bash
 contextforge doctor --summary contextforge-doctor.md
+contextforge review-kit --base main --output contextforge-review-kit.md
 contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
 contextforge pack --task "review auth regression" --budget 20000 --sessions
 ```
@@ -22,7 +23,7 @@ I am building ContextForge in public.
 
 AI coding agents are powerful, but repositories still waste their context with noisy instructions, unstable cache prefixes, huge tool outputs, and unsafe Markdown.
 
-ContextForge turns that layer into a deterministic readiness check for Codex and Claude Code: context health, cache stability, prompt-injection safety, public proof files, community health files, CI artifacts, and task-specific context packs.
+ContextForge turns that layer into a deterministic readiness check for Codex and Claude Code: context health, cache stability, prompt-injection safety, review kits, public proof files, community health files, CI artifacts, and task-specific context packs.
 
 Try the proof path:
 

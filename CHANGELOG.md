@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.37.0 - 2026-06-01
+
+- Add `contextforge review-kit --base main --output contextforge-review-kit.md` to generate a deterministic Codex/Claude review brief from changed files.
+- Include review focus areas, evidence commands, and a copyable Codex/Claude review prompt so PR reviewers can check behavior, safety, CI artifact drift, tests, and public claims.
+- Add a generated `examples/review-kit.md` preview and refresh README, use cases, launch/comparison outputs, LLM discovery files, changelog, and research notes around review-ready agent handoffs.
+
 ## 0.36.0 - 2026-06-01
 
 - Add `contextforge-proof-pack.md` to the PR-ready comment artifact so reviewers can jump from the sticky PR comment to the shareable doctor/audit proof packet.

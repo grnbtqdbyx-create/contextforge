@@ -164,7 +164,8 @@ async function publicProofChecks(rootDir: string): Promise<{ present: string[]; 
     { label: 'llms.txt', file: 'llms.txt' },
     { label: 'llms-full.txt', file: 'llms-full.txt' },
     { label: 'examples/demo-output.md', file: 'examples/demo-output.md' },
-    { label: 'examples/pr-comment.md', file: 'examples/pr-comment.md' }
+    { label: 'examples/pr-comment.md', file: 'examples/pr-comment.md' },
+    { label: 'examples/review-kit.md', file: 'examples/review-kit.md' }
   ];
   const results = await Promise.all(
     expected.map(async (surface) => ({

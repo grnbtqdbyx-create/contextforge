@@ -39,6 +39,7 @@ describe('CLI argument mapping', () => {
         force: false,
         actionRef: undefined,
         projectName: undefined,
+        baseRef: 'main',
         minContextScore: 60,
         minCacheScore: 60,
         minSecurityScore: 60,
@@ -253,6 +254,23 @@ describe('CLI proof-pack command', () => {
     expect(proof).toContain('contextforge doctor --summary contextforge-doctor.md');
     expect(proof).toContain('contextforge audit --summary contextforge-summary.md');
     expect(proof).toContain('## Codex / Claude Handoff');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
+describe('CLI review-kit command', () => {
+  it('writes a deterministic review kit in demo mode', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-review-kit-'));
+    const outputPath = path.join(rootDir, 'contextforge-review-kit.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'review-kit', '--demo', '--output', outputPath, '--base', 'main']);
+    const kit = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(kit).toContain('# ContextForge Review Kit');
+    expect(kit).toContain('| Base ref | `main` |');
+    expect(kit).toContain('## Codex / Claude Review Prompt');
+    expect(kit).toContain('contextforge-proof-pack.md');
     await rm(rootDir, { recursive: true, force: true });
   });
 });

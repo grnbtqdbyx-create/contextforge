@@ -18,7 +18,7 @@ The report checks:
 - public security benchmark status
 - GitHub workflow presence for CI and ContextForge audit artifacts
 - public proof surfaces: README, license, contribution guide, changelog,
-  demo output, PR comment preview, and LLM discovery files
+  demo output, PR comment preview, review-kit preview, and LLM discovery files
 - launch profile surfaces: terminal demo asset, report screenshot, launch kit,
   and comparison guide
 - community health surfaces: Code of Conduct, security policy, issue
