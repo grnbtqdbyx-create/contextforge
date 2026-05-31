@@ -37,6 +37,7 @@ instructions, or stale process notes.
 
 ```bash
 contextforge agents-md-audit
+contextforge improve --json
 contextforge improve --write
 contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md
 ```
@@ -44,6 +45,8 @@ contextforge audit --summary contextforge-summary.md --plan contextforge-agent-p
 Success signal:
 
 - Repeated, vague, or oversized instructions become concrete repo rules.
+- Codex, Claude, or a bot can parse structured `title`, `text`, and `source`
+  fields instead of scraping Markdown bullets.
 - `contextforge-agent-plan.md` tells Codex or Claude what to fix first.
 
 ## 3. Defend Against Malicious Repo Instructions

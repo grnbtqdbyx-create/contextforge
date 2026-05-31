@@ -63,6 +63,11 @@ quickstart pattern used by mature CLI tools.
 ContextForge v0.23.0 adds root `llms.txt` and `llms-full.txt` files as an
 AI-readable project map for coding agents, while documenting that `llms.txt` is
 an emerging convention rather than a guaranteed discovery or ranking signal.
+ContextForge v0.24.0 adds use-case-first onboarding so maintainers can map
+common agent-context problems to exact commands, artifacts, and success signals.
+ContextForge v0.25.0 follows the structured-output pattern used by agent-friendly
+CLIs by adding `contextforge improve --json`, so repo-rule suggestions can move
+from human-readable bullets into Codex, Claude, CI bots, or PR automation.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -140,6 +145,11 @@ With v0.24.0, ContextForge makes the value proposition easier to scan:
 > use-case-first onboarding that maps maintainer problems to commands,
 > artifacts, and success signals.
 
+With v0.25.0, ContextForge makes rule improvement automation easier:
+
+> machine-readable `improve --json` suggestions that agents and bots can parse
+> without scraping Markdown.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -155,6 +165,7 @@ That means every repository can ask:
 - Can a new repository adopt the whole ContextForge loop with one command?
 - Can an AI coding agent find the right ContextForge docs without guessing from the README alone?
 - Which concrete ContextForge workflow should a maintainer run for this problem?
+- Can a bot or coding agent parse suggested repo-rule fixes without scraping text?
 
 ## Next Differentiators
 
@@ -171,6 +182,7 @@ That means every repository can ask:
 11. One-command recommended setup for audit, PR comment, AGENTS.md, and CLAUDE.md.
 12. LLM-readable discovery files that give agents a stable repository map.
 13. Use-case-first onboarding for first PR gates, security defense, cache triage, and context packs.
+14. Machine-readable improvement suggestions for Codex, Claude, bots, and CI scripts.
 
 ## Explainability Direction
 
