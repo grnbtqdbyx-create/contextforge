@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.0 - 2026-05-31
+
+- Add `contextforge init --github-action` to scaffold a ready-to-run ContextForge audit workflow.
+- Generate reusable-action CI with JSON, HTML, SARIF, Markdown summary artifacts, and fork-safe SARIF upload.
+- Support `--force` overwrite and `--action-ref` pinning for build-in-public adoption before npm publish completes.
+
 ## 0.15.0 - 2026-05-31
 
 - Discover nested `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, `.clinerules`, and `SKILL.md` files in monorepos.

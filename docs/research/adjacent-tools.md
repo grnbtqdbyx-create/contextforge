@@ -41,6 +41,9 @@ so maintainers can inspect the result without downloading artifacts.
 ContextForge v0.15.0 follows the nested-instruction direction by recursively
 auditing monorepo-local `AGENTS.md`, `CLAUDE.md`, and skill files instead of
 assuming that only root-level context exists.
+ContextForge v0.16.0 turns that adoption path into a one-command scaffold with
+`contextforge init --github-action`, so maintainers can add the reusable action
+without hand-copying YAML.
 
 ## 2026 Security Scanner Snapshot
 

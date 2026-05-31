@@ -3,6 +3,23 @@
 ContextForge can dogfood itself in CI by generating a JSON audit, an HTML
 report, and a SARIF file for GitHub Code Scanning on every push or pull request.
 
+## One-command Setup
+
+Run this from a repository that should audit its agent context in CI:
+
+```bash
+contextforge init --github-action
+```
+
+The command writes `.github/workflows/contextforge-audit.yml` with JSON, HTML,
+SARIF, and Markdown summary artifacts. It refuses to overwrite an existing
+workflow by default:
+
+```bash
+contextforge init --github-action --force
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.16.0
+```
+
 ## Reusable Action
 
 The root `action.yml` lets another repository run ContextForge directly from
@@ -25,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: grnbtqdbyx-create/contextforge@v0.13.0
+      - uses: grnbtqdbyx-create/contextforge@v0.16.0
         with:
           min-context-score: 60
           min-cache-score: 60

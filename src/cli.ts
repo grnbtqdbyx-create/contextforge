@@ -15,6 +15,7 @@ import { createMarkdownSummary } from './report/markdownSummary.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
 import { formatDoctor, runDoctor } from './doctor/doctor.js';
+import { scaffoldGithubActionWorkflow } from './init/githubAction.js';
 import type { ScannerOptions, SessionRecord } from './types.js';
 
 export interface CliArgs {
@@ -33,6 +34,9 @@ export interface CliArgs {
   json: boolean;
   write: boolean;
   openPr: boolean;
+  githubAction: boolean;
+  force: boolean;
+  actionRef: string | undefined;
   minContextScore: number;
   minCacheScore: number;
   minSecurityScore: number;
@@ -76,6 +80,9 @@ async function main(): Promise<void> {
     case 'doctor':
       await commandDoctor(args);
       break;
+    case 'init':
+      await commandInit(args);
+      break;
     case 'help':
     default:
       printHelp();
@@ -103,6 +110,9 @@ function parseArgs(argv: string[]): CliArgs {
     json: argv.includes('--json'),
     write: argv.includes('--write'),
     openPr: argv.includes('--open-pr'),
+    githubAction: argv.includes('--github-action'),
+    force: argv.includes('--force'),
+    actionRef: valueAfter(argv, '--action-ref'),
     minContextScore: Number(valueAfter(argv, '--min-context-score') ?? 60),
     minCacheScore: Number(valueAfter(argv, '--min-cache-score') ?? 60),
     minSecurityScore: Number(valueAfter(argv, '--min-security-score') ?? 60),
@@ -272,6 +282,28 @@ async function commandDoctor(args: CliArgs): Promise<void> {
   if (result.status === 'fail') process.exitCode = 1;
 }
 
+async function commandInit(args: CliArgs): Promise<void> {
+  if (!args.githubAction) {
+    console.log('Choose what to initialize. Try: contextforge init --github-action');
+    process.exitCode = 1;
+    return;
+  }
+
+  const result = await scaffoldGithubActionWorkflow({
+    rootDir: process.cwd(),
+    actionRef: args.actionRef,
+    force: args.force
+  });
+  const relativePath = pathRelativeToCwd(result.path);
+
+  if (result.created) {
+    console.log(`Wrote ${relativePath}`);
+    return;
+  }
+
+  console.log(`Skipped ${relativePath} because it already exists. Use --force to overwrite.`);
+}
+
 function printObjectTable(title: string, table: Record<string, { totalTokens: number; records: number }>): void {
   console.log(title);
   for (const [key, value] of Object.entries(table)) {
@@ -310,6 +342,10 @@ function optionalMegabytes(value: string | undefined): number | undefined {
   return parsed === undefined ? undefined : Math.max(1, parsed) * 1024 * 1024;
 }
 
+function pathRelativeToCwd(filePath: string): string {
+  return filePath.startsWith(process.cwd()) ? filePath.slice(process.cwd().length + 1) : filePath;
+}
+
 export function isCliEntrypoint(moduleUrl: string, argvPath: string | undefined = process.argv[1]): boolean {
   if (!argvPath) return false;
   return realPath(fileURLToPath(moduleUrl)) === realPath(argvPath);
@@ -338,6 +374,7 @@ Usage:
   contextforge report [--demo] [--output contextforge-report.html]
   contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--min-security-score 60]
   contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
+  contextforge init --github-action [--action-ref grnbtqdbyx-create/contextforge@v0.16.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
