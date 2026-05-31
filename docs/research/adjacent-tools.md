@@ -109,6 +109,9 @@ the deeper doctor/audit packet reviewers can verify."
 ContextForge v0.37.0 adds `contextforge review-kit`, because AI code review is
 becoming a primary agent workflow and reviewers need a deterministic brief that
 connects changed files, risk focus, proof commands, and a Codex/Claude prompt.
+ContextForge v0.38.0 adds review-kit artifacts to the reusable GitHub Action,
+generated audit workflow, and dogfood workflow, because PR review briefs become
+more useful when every CI run uploads them next to audit and proof-pack evidence.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -257,6 +260,12 @@ With v0.37.0, ContextForge makes review handoffs deterministic:
 > writes changed files, inferred review focus, proof commands, and a copyable
 > Codex/Claude review prompt.
 
+With v0.38.0, ContextForge makes review handoffs CI-visible:
+
+> reusable and generated GitHub workflows upload `contextforge-review-kit.md`
+> next to audit, summary, plan, PR comment, suggestions, badge, proof pack, and
+> SARIF artifacts.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -285,6 +294,7 @@ That means every repository can ask:
 - Can every PR and push publish that proof packet as a GitHub Actions artifact?
 - Can PR reviewers discover the proof packet from the sticky comment?
 - Can Codex, Claude, and human reviewers start from the same deterministic review brief?
+- Can every PR upload that review brief as a GitHub Actions artifact?
 
 ## Next Differentiators
 
@@ -314,6 +324,7 @@ That means every repository can ask:
 24. CI-uploaded proof-pack artifacts in reusable and generated GitHub workflows.
 25. PR-visible proof-pack links in sticky review comments.
 26. Review kits that turn changed files into Codex/Claude review prompts and evidence commands.
+27. CI-uploaded review-kit artifacts in reusable and generated GitHub workflows.
 
 ## Explainability Direction
 

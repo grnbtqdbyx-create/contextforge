@@ -29,3 +29,9 @@ against `--base` with `git diff --name-only` and also includes uncommitted or
 untracked working-tree files, so maintainers can run it before opening a PR. In
 demo mode it writes stable fixture-style review content for README and launch
 previews.
+
+The reusable GitHub Action and `contextforge init --github-action` workflow can
+publish `contextforge-review-kit.md` alongside the audit, PR comment, proof
+pack, suggestions, badge, summary, SARIF, and HTML artifacts. Use checkout
+`fetch-depth: 0` when CI should compare the PR branch against the configured
+base ref.
