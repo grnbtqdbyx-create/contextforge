@@ -2,12 +2,19 @@
 
 **Self-learning token and context optimizer for Codex and Claude Code.**
 
+[![CI](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/ci.yml/badge.svg)](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+[![Built in public](https://img.shields.io/badge/built%20in-public-0e8a16.svg)](docs/build-in-public.md)
+[![DCO](https://img.shields.io/badge/DCO-required-7057ff.svg)](CONTRIBUTING.md)
+
 AI coding agents burn tokens by re-reading noisy context, huge tool outputs,
 unstable cache prefixes, and bloated `AGENTS.md` / `CLAUDE.md` files.
 ContextForge shows where those tokens go, reduces context bloat, audits cache
 stability, and creates task-specific context packs.
 
 > Built in public by Ogün Keskin. Early APIs may change.
+
+![ContextForge terminal demo](assets/demo-terminal.svg)
 
 ## Quickstart
 
@@ -38,6 +45,15 @@ Input: 8112  Output: 3370  Cached: 3328
 - **Evolve safely:** suggest improved repo-level rules before writing anything.
 
 If this saves you tokens or helps your agent work better, please star the repo.
+
+## Before / After
+
+| Before ContextForge | After ContextForge |
+| --- | --- |
+| Agents reread noisy logs and broad repo instructions. | Agents get a task-specific context pack. |
+| Token spend is visible only after the session is over. | Token waste is summarized by provider, project, and record kind. |
+| Cache misses are hard to diagnose. | Volatile prefixes and large tool outputs are flagged. |
+| `AGENTS.md` / `CLAUDE.md` grows by guesswork. | Repo instructions get measurable health checks and suggestions. |
 
 ## Commands
 
@@ -70,6 +86,8 @@ ContextForge v0.1.0 is an MVP CLI with:
 - **v0.2.0:** richer Codex/Claude log adapters, npm publish, screenshots/GIF.
 - **v0.3.0:** GitHub Action, benchmark mode, PR-based rule improvements.
 - **v0.4.0:** optional hosted dashboard and team workflows.
+
+Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).
 
 ## Built for Open Source Maintainers
 
