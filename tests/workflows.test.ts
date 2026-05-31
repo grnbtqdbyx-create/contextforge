@@ -25,6 +25,8 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('needs: preflight');
     expect(workflow).toContain('environment: npm-publish');
     expect(workflow).toContain('npm publish --access public');
+    expect(workflow).toContain('publish-readiness --summary contextforge-publish-readiness.md');
+    expect(workflow).toContain('contextforge-publish-readiness.md');
     expect(workflow).toContain("if: ${{ inputs.dry_run == false }}");
     expect(workflow).not.toContain('NPM_TOKEN');
   });

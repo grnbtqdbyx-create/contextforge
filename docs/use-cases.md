@@ -129,6 +129,7 @@ contextforge examples --output examples/demo-output.md
 contextforge review-kit --demo --base main --output examples/review-kit.md
 contextforge doctor --summary contextforge-doctor.md
 contextforge artifact-map --output docs/artifacts.md
+contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge launch-kit --output docs/launch-post.md
 contextforge compare --output docs/comparison.md
@@ -145,6 +146,8 @@ Success signal:
   artifact before reading the whole repository.
 - CI readers can download `contextforge-artifact-map.md` from the audit artifact
   set instead of guessing which uploaded file to inspect first.
+- Release maintainers can attach `contextforge-publish-readiness.md` to the
+  first npm publish issue and see which steps still require account-level setup.
 - Maintainers have a generated launch post, suggested GitHub topics, and proof
   commands that stay aligned with the CLI.
 - Maintainers can attach one proof pack to README updates, launch posts, and

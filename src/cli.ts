@@ -27,6 +27,7 @@ import { createArtifactMap } from './report/artifactMap.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
 import { createDoctorSummary, formatDoctor, runDoctor } from './doctor/doctor.js';
+import { createNpmPublishReadiness, createNpmPublishReadinessSummary, formatNpmPublishReadiness } from './publish/npmReadiness.js';
 import { scaffoldGithubActionWorkflow, scaffoldPrCommentWorkflow } from './init/githubAction.js';
 import { scaffoldAgentContextFiles } from './init/agentContext.js';
 import type { ScannerOptions, SessionRecord } from './types.js';
@@ -125,6 +126,9 @@ async function main(): Promise<void> {
       break;
     case 'artifact-map':
       await commandArtifactMap(args);
+      break;
+    case 'publish-readiness':
+      await commandPublishReadiness(args);
       break;
     case 'init':
       await commandInit(args);
@@ -438,6 +442,19 @@ async function commandArtifactMap(args: CliArgs): Promise<void> {
   console.log(`Wrote ${args.output}`);
 }
 
+async function commandPublishReadiness(args: CliArgs): Promise<void> {
+  const result = await createNpmPublishReadiness({ rootDir: process.cwd() });
+  console.log(args.json ? JSON.stringify(result, null, 2) : formatNpmPublishReadiness(result));
+  if (args.summary) {
+    await fs.mkdir(dirname(args.summary), { recursive: true });
+    await fs.writeFile(args.summary, createNpmPublishReadinessSummary(result));
+    const message = `Wrote ${args.summary}`;
+    if (args.json) console.error(message);
+    else console.log(message);
+  }
+  if (result.status === 'fail') process.exitCode = 1;
+}
+
 async function commandInit(args: CliArgs): Promise<void> {
   if (!args.githubAction && !args.prCommentWorkflow && !args.agentsMd && !args.claudeMd) {
     console.log('Choose what to initialize. Try: contextforge init --all');
@@ -510,6 +527,7 @@ function defaultOutputForCommand(command: string): string {
   if (command === 'proof-pack') return 'contextforge-proof-pack.md';
   if (command === 'review-kit') return 'contextforge-review-kit.md';
   if (command === 'artifact-map') return 'docs/artifacts.md';
+  if (command === 'publish-readiness') return 'contextforge-publish-readiness.md';
   return 'contextforge-report.html';
 }
 
@@ -612,7 +630,8 @@ Usage:
   contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
   contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
   contextforge artifact-map [--output docs/artifacts.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.41.0] [--force]
+  contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.42.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
