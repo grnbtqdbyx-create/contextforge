@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0 - 2026-05-31
+
+- Add public malicious-context benchmark fixtures for benign, suspicious, and malicious repo instructions.
+- Add `contextforge security-benchmark` to compare scanner output against expected findings and score ranges.
+- Include docs and fixtures in the npm package so demo and benchmark commands work after install.
+
 ## 0.5.0 - 2026-05-31
 
 - Add a real generated HTML report screenshot to the README.

@@ -10,6 +10,7 @@ import { createContextPack } from './pack/contextPack.js';
 import { suggestRuleImprovements } from './improve/ruleSuggestions.js';
 import { writeHtmlReport } from './report/htmlReport.js';
 import { buildAudit } from './audit/buildAudit.js';
+import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
 import type { SessionRecord } from './types.js';
 
 interface CliArgs {
@@ -21,6 +22,7 @@ interface CliArgs {
   budget: number;
   output: string;
   report: string;
+  benchmarkDir: string | undefined;
   write: boolean;
   openPr: boolean;
   minContextScore: number;
@@ -42,6 +44,9 @@ async function main(): Promise<void> {
       break;
     case 'security-audit':
       await commandSecurityAudit(args);
+      break;
+    case 'security-benchmark':
+      await commandSecurityBenchmark(args);
       break;
     case 'agents-md-audit':
       await commandContextAudit(args);
@@ -78,6 +83,7 @@ function parseArgs(argv: string[]): CliArgs {
     budget: Number(valueAfter(argv, '--budget') ?? 20000),
     output: valueAfter(argv, '--output') ?? defaultOutput,
     report: valueAfter(argv, '--report') ?? 'contextforge-report.html',
+    benchmarkDir: valueAfter(argv, '--benchmark-dir'),
     write: argv.includes('--write'),
     openPr: argv.includes('--open-pr'),
     minContextScore: Number(valueAfter(argv, '--min-context-score') ?? 60),
@@ -126,6 +132,20 @@ async function commandSecurityAudit(args: CliArgs): Promise<void> {
   console.log(`Context Security Score: ${audit.score}/100`);
   printFindings(audit.findings);
   if (audit.score < args.minSecurityScore) process.exitCode = 1;
+}
+
+async function commandSecurityBenchmark(args: CliArgs): Promise<void> {
+  const benchmark = await runSecurityBenchmark({ benchmarkDir: args.benchmarkDir });
+  const passedCases = benchmark.totalCases - benchmark.failedCases;
+  console.log(`Security benchmark: ${benchmark.passed ? 'pass' : 'fail'} (${passedCases}/${benchmark.totalCases})`);
+  for (const benchmarkCase of benchmark.cases) {
+    console.log(
+      `- ${benchmarkCase.name}: ${benchmarkCase.passed ? 'pass' : 'fail'} ` +
+        `score ${benchmarkCase.actual.score}/100 findings ${formatFindingTypes(benchmarkCase.actual.findingTypes)}`
+    );
+    for (const failure of benchmarkCase.failures) console.log(`  FAIL: ${failure}`);
+  }
+  if (!benchmark.passed) process.exitCode = 1;
 }
 
 async function commandPack(args: CliArgs): Promise<void> {
@@ -224,6 +244,10 @@ function printFindings(findings: Array<{ severity: string; type: string; message
   }
 }
 
+function formatFindingTypes(types: string[]): string {
+  return types.length > 0 ? types.join(', ') : 'none';
+}
+
 function valueAfter(argv: string[], flag: string): string | undefined {
   const index = argv.indexOf(flag);
   return index >= 0 ? argv[index + 1] : undefined;
@@ -237,6 +261,7 @@ Usage:
   contextforge usage [--demo] [--codex] [--claude]
   contextforge cache-audit [--demo]
   contextforge security-audit [--demo] [--min-security-score 60]
+  contextforge security-benchmark [--benchmark-dir fixtures/security-benchmark]
   contextforge agents-md-audit [--demo]
   contextforge pack --task "fix auth bug" --budget 20000 [--demo]
   contextforge improve [--demo] [--write] [--open-pr]

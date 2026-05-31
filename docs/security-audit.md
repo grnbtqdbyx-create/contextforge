@@ -26,6 +26,12 @@ Run the focused scanner:
 contextforge security-audit --min-security-score 80
 ```
 
+Run the public benchmark fixtures:
+
+```bash
+contextforge security-benchmark
+```
+
 Run the full CI audit:
 
 ```bash
