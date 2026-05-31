@@ -152,7 +152,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.37.0
+- uses: grnbtqdbyx-create/contextforge@v0.38.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -243,7 +243,7 @@ contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
 contextforge compare [--output docs/comparison.md]
 contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.37.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.38.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -267,6 +267,7 @@ contextforge audit --min-context-score 60 --min-cache-score 60 --min-security-sc
   --suggestions contextforge-suggestions.json \
   --badge contextforge-badge.svg
 contextforge proof-pack --output contextforge-proof-pack.md
+contextforge review-kit --base main --output contextforge-review-kit.md
 ```
 
 See [docs/github-action.md](docs/github-action.md) for a complete GitHub Actions
@@ -308,7 +309,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.37.0 is a public MVP CLI with:
+ContextForge v0.38.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -317,6 +318,7 @@ ContextForge v0.37.0 is a public MVP CLI with:
 - shareable `contextforge proof-pack` readiness packets for launch, PR, and OSS evidence
 - deterministic `contextforge review-kit` briefs for Codex, Claude, and human PR review
 - reusable GitHub Action and dogfood workflow support for `contextforge-proof-pack.md`
+- reusable GitHub Action and dogfood workflow support for `contextforge-review-kit.md`
 - PR-ready comments that point reviewers at `contextforge-proof-pack.md`
 - generated `contextforge launch-kit` build-in-public launch posts
 - generated `contextforge compare` adjacent-tool positioning guides
@@ -390,6 +392,7 @@ ContextForge v0.37.0 is a public MVP CLI with:
 - **v0.35.0:** proof-pack artifacts in the reusable GitHub Action, generated workflow, and dogfood workflow.
 - **v0.36.0:** proof-pack visibility in PR-ready comments for reviewer handoff.
 - **v0.37.0:** review kits with changed files, risk focus, proof commands, and Codex/Claude prompts.
+- **v0.38.0:** review-kit artifacts in the reusable GitHub Action, generated workflow, and dogfood workflow.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

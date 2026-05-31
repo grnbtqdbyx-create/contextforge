@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.38.0 - 2026-06-01
+
+- Add `contextforge-review-kit.md` to the reusable GitHub Action, generated audit workflow, and dogfood workflow artifact set.
+- Add `review-kit` and `review-base-ref` action inputs plus a `review-kit-md` action output for downstream PR review automation.
+- Fetch full Git history in generated and dogfood audit workflows so changed-file review kits can compare against `main`.
+
 ## 0.37.0 - 2026-06-01
 
 - Add `contextforge review-kit --base main --output contextforge-review-kit.md` to generate a deterministic Codex/Claude review brief from changed files.

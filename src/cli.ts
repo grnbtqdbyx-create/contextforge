@@ -600,7 +600,7 @@ Usage:
   contextforge compare [--output docs/comparison.md]
   contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
   contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.37.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.38.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
