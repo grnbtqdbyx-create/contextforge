@@ -44,3 +44,9 @@
 - demo report screenshot or GIF
 - public launch post
 
+## Milestone 7: v0.2.0 Growth
+
+- GitHub Action dogfood audit
+- real README report screenshot
+- richer Codex and Claude Code session fixtures
+- npm publish workflow
