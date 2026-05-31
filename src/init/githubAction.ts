@@ -1,7 +1,7 @@
 import { access, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.21.0';
+export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.22.0';
 
 export interface GithubActionScaffoldOptions {
   rootDir: string;
@@ -20,6 +20,15 @@ export async function scaffoldGithubActionWorkflow(options: GithubActionScaffold
 
   await mkdir(path.dirname(workflowPath), { recursive: true });
   await writeFile(workflowPath, githubActionWorkflow(options.actionRef ?? DEFAULT_GITHUB_ACTION_REF));
+  return { path: workflowPath, created: true };
+}
+
+export async function scaffoldPrCommentWorkflow(options: GithubActionScaffoldOptions): Promise<GithubActionScaffoldResult> {
+  const workflowPath = path.join(options.rootDir, '.github', 'workflows', 'contextforge-pr-comment.yml');
+  if (!options.force && (await fileExists(workflowPath))) return { path: workflowPath, created: false };
+
+  await mkdir(path.dirname(workflowPath), { recursive: true });
+  await writeFile(workflowPath, prCommentWorkflow());
   return { path: workflowPath, created: true };
 }
 
@@ -68,6 +77,42 @@ jobs:
         if: ${sarifGuard}
         with:
           sarif_file: contextforge.sarif
+`;
+}
+
+function prCommentWorkflow(): string {
+  const runGuard = "${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion != 'skipped' && github.event.workflow_run.pull_requests[0].number }}";
+  const runId = "${{ github.event.workflow_run.id }}";
+  const githubToken = "${{ github.token }}";
+  const pullRequestNumber = "${{ github.event.workflow_run.pull_requests[0].number }}";
+
+  return `name: ContextForge PR Comment
+
+on:
+  workflow_run:
+    workflows: ["ContextForge Audit"]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: write
+
+jobs:
+  contextforge-pr-comment:
+    if: ${runGuard}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v6
+        with:
+          name: contextforge-audit
+          run-id: ${runId}
+          github-token: ${githubToken}
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: contextforge
+          number: ${pullRequestNumber}
+          path: contextforge-pr-comment.md
 `;
 }
 

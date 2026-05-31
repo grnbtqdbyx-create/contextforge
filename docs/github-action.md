@@ -11,6 +11,7 @@ Run this from a repository that should audit its agent context in CI:
 
 ```bash
 contextforge init --github-action
+contextforge init --pr-comment-workflow
 ```
 
 The command writes `.github/workflows/contextforge-audit.yml` with JSON, HTML,
@@ -19,8 +20,13 @@ overwrite an existing workflow by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.21.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.22.0
 ```
+
+`contextforge init --pr-comment-workflow` writes a separate
+`.github/workflows/contextforge-pr-comment.yml` workflow that downloads the
+`contextforge-pr-comment.md` artifact from the audit run and posts it as a
+sticky PR comment. It is opt-in because it requires `pull-requests: write`.
 
 ## Reusable Action
 
@@ -44,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: grnbtqdbyx-create/contextforge@v0.21.0
+      - uses: grnbtqdbyx-create/contextforge@v0.22.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -78,6 +84,45 @@ summary to `$GITHUB_STEP_SUMMARY` when the workflow runner provides it. The
 `contextforge-pr-comment.md` artifact is deterministic and safe to publish with
 a separate sticky-comment workflow if the repository grants pull-request write
 permissions.
+
+## Sticky PR Comment Workflow
+
+The optional PR comment workflow keeps write permissions separate from the
+audit job:
+
+```yaml
+name: ContextForge PR Comment
+
+on:
+  workflow_run:
+    workflows: ["ContextForge Audit"]
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: write
+
+jobs:
+  contextforge-pr-comment:
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion != 'skipped' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v6
+        with:
+          name: contextforge-audit
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: contextforge
+          path: contextforge-pr-comment.md
+```
+
+This posts only the deterministic ContextForge artifact. It does not run a
+model, scan local developer history, or expose secrets from the audit job. The
+generated workflow passes the pull request number from `workflow_run` explicitly
+and only runs when the completed audit run is tied to a pull request.
 
 ## Dogfood Workflow
 

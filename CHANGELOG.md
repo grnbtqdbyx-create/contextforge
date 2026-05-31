@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.22.0 - 2026-05-31
+
+- Add `contextforge init --pr-comment-workflow` to scaffold an opt-in sticky PR comment workflow.
+- Keep PR comment posting separate from the audit workflow so repositories must explicitly grant `pull-requests: write`.
+- Update onboarding docs around safe PR comment publishing from the generated `contextforge-pr-comment.md` artifact.
+
 ## 0.21.0 - 2026-05-31
 
 - Add PR-ready Markdown comment output with a stable marker for sticky-comment workflows.
