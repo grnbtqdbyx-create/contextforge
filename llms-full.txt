@@ -82,6 +82,7 @@ cases so maintainers can see what the scanner is expected to catch.
 
 ## Public Proof Surfaces
 
+- `docs/use-cases.md`: maintainer scenarios with commands, artifacts, and success signals
 - `examples/demo-output.md`: deterministic token usage, CI audit, and handoff output
 - `examples/pr-comment.md`: deterministic PR-ready comment preview
 - GitHub releases: tagged build-in-public release history

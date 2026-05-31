@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.24.0 - 2026-05-31
+
+- Add `docs/use-cases.md` with concrete maintainer workflows, commands, artifacts, and success signals.
+- Link use cases from README and LLM discovery docs so humans and agents can choose the right ContextForge entrypoint.
+- Refresh research notes around use-case-first onboarding from adjacent CLI tools.
+
 ## 0.23.0 - 2026-05-31
 
 - Add root `llms.txt` and `llms-full.txt` files so Codex, Claude, and other coding agents can read a concise project map.

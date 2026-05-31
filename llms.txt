@@ -18,6 +18,7 @@ packs, and produces CI artifacts that Codex and Claude can act on.
 
 - [README](README.md): Human-facing overview, quickstart, commands, roadmap, and current status.
 - [GitHub Action](docs/github-action.md): Reusable action, generated workflows, artifacts, and PR comment publishing.
+- [Use Cases](docs/use-cases.md): Concrete maintainer workflows, commands, artifacts, and success signals.
 - [Agent Context Init](docs/agent-context-init.md): Minimal `AGENTS.md` and `CLAUDE.md` scaffolding.
 - [Agent Action Plan](docs/agent-action-plan.md): `contextforge plan` and audit handoff artifacts for Codex/Claude.
 - [Security Audit](docs/security-audit.md): Prompt/context poisoning checks for repo instruction files.
