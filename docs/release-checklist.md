@@ -12,6 +12,7 @@
 - [x] Modern Codex rollout JSONL fixture coverage.
 - [x] Local session scans are bounded by count and file size.
 - [x] Manual npm publish workflow draft.
+- [x] npm publish-readiness report separates repo checks from account-level setup.
 - [ ] First approved npm publish.
 
 ## GitHub

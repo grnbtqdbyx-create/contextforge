@@ -60,6 +60,7 @@ contextforge compare [--output docs/comparison.md]
 contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
+contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
 contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--force]
 ```
 
@@ -95,6 +96,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-review-kit.md`: changed-file review brief and Codex/Claude review prompt from `review-kit`
 - `docs/artifacts.md`: generated artifact catalog and fast paths from `artifact-map`
 - `contextforge-artifact-map.md`: CI-uploaded artifact catalog from reusable and generated workflows
+- `contextforge-publish-readiness.md`: npm Trusted Publishing readiness summary from `publish-readiness`
 - Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts.
 - PR-ready comments point reviewers at `contextforge-proof-pack.md` and `contextforge-review-kit.md` so sticky review discussions can lead to both the deeper doctor/audit proof packet and the changed-file review brief.
 - `docs/launch-post.md`: generated build-in-public launch kit from `launch-kit`

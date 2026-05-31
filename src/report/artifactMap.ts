@@ -85,6 +85,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge artifact-map --output contextforge-artifact-map.md`'
   },
   {
+    artifact: 'contextforge-publish-readiness.md',
+    audience: 'Release maintainers',
+    useWhen: 'you need npm metadata, Trusted Publishing, and human approval readiness in one file',
+    producedBy: '`contextforge publish-readiness --summary contextforge-publish-readiness.md`'
+  },
+  {
     artifact: 'docs/launch-post.md',
     audience: 'Build-in-public readers',
     useWhen: 'you need launch copy, proof commands, and topic suggestions',
@@ -139,6 +145,7 @@ export function createArtifactMap(): string {
     '```bash',
     'contextforge artifact-map --output docs/artifacts.md',
     'contextforge artifact-map --output contextforge-artifact-map.md',
+    'contextforge publish-readiness --summary contextforge-publish-readiness.md',
     'contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg',
     'contextforge proof-pack --output contextforge-proof-pack.md',
     'contextforge review-kit --base main --output contextforge-review-kit.md',

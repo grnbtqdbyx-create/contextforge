@@ -242,6 +242,34 @@ describe('CLI compare command', () => {
   });
 });
 
+describe('CLI publish-readiness command', () => {
+  it('prints npm publish readiness and writes a Markdown summary', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-publish-readiness-'));
+    const outputPath = path.join(rootDir, 'publish-readiness.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'publish-readiness', '--summary', outputPath]);
+    const summary = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain('ContextForge npm publish readiness:');
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(summary).toContain('# ContextForge npm Publish Readiness');
+    expect(summary).toContain('Trusted publishing workflow');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+
+  it('keeps publish readiness JSON stdout parseable when also writing a summary', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-publish-readiness-json-'));
+    const outputPath = path.join(rootDir, 'publish-readiness.md');
+
+    const { stdout, stderr } = await execFileAsync('pnpm', ['contextforge', 'publish-readiness', '--json', '--summary', outputPath]);
+    const result = JSON.parse(stdout) as { checks: Array<{ name: string }> };
+
+    expect(result.checks.some((check) => check.name === 'Trusted publishing workflow')).toBe(true);
+    expect(stderr).toContain(`Wrote ${outputPath}`);
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
 describe('CLI proof-pack command', () => {
   it('stays repo-first by default so public proof generation does not depend on local sessions', async () => {
     const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-proof-pack-repo-first-'));

@@ -29,8 +29,15 @@ pnpm typecheck
 pnpm build
 node dist/cli.js security-benchmark
 node dist/cli.js audit --min-context-score 70 --min-cache-score 70 --min-security-score 70
+node dist/cli.js publish-readiness --summary contextforge-publish-readiness.md
 npm pack --dry-run
 ```
+
+`contextforge publish-readiness` separates what the repository can verify from
+what must be completed in npm and GitHub settings. A `warn` status is expected
+until Ogün Keskin creates or verifies the npm package, configures Trusted
+Publishing for this repository, and approves the `npm-publish` environment for a
+real publish run.
 
 The current package name is not published at the time this workflow was added.
 Verify before first publish:

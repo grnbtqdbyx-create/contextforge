@@ -121,6 +121,10 @@ Claude need one deterministic guide that says which artifact to inspect first.
 ContextForge v0.41.0 uploads that map from the reusable GitHub Action and
 dogfood workflow, because GitHub Actions artifacts are the durable review
 surface where maintainers inspect proof after a CI run.
+ContextForge v0.42.0 adds `contextforge publish-readiness`, because first npm
+publish should be a verifiable supply-chain handoff: repo metadata and workflow
+safety can pass locally, while npm account ownership and Trusted Publisher
+configuration stay explicitly human-approved.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -359,6 +363,7 @@ That means every repository can ask:
 28. PR-visible review-kit links in sticky review comments.
 29. Generated artifact maps that route reviewers, agents, and launch visitors to the right proof file.
 30. CI-uploaded artifact maps in reusable and generated GitHub workflows.
+31. npm publish-readiness checks that separate repo-verifiable supply-chain setup from account-level maintainer steps.
 
 ## Explainability Direction
 
@@ -402,3 +407,8 @@ Publishing/OIDC over long-lived automation tokens, with provenance generated for
 public packages published from public GitHub repositories. ContextForge follows
 that direction with a manual `npm Publish` workflow that defaults to dry-run and
 expects maintainer approval before the first real publish.
+ContextForge v0.42.0 turns that guidance into a first-class readiness report:
+`contextforge publish-readiness --summary contextforge-publish-readiness.md`
+checks package metadata, OIDC workflow safety, preflight commands, docs, and the
+remaining human npm account setup without pretending account-level state can be
+verified from the repository alone.

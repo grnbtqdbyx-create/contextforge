@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.42.0 - 2026-06-01
+
+- Add `contextforge publish-readiness` to verify npm package metadata, Trusted Publishing workflow safety, publish preflight commands, and human npm account setup separately.
+- Generate `contextforge-publish-readiness.md` from the manual npm Publish workflow so dry-run publish attempts leave a shareable readiness artifact.
+- Refresh README, npm publish docs, artifact map, LLM discovery files, changelog, and research notes around supply-chain proof before first npm publish.
+
 ## 0.41.0 - 2026-06-01
 
 - Add `contextforge-artifact-map.md` to the reusable GitHub Action, generated audit workflow, and dogfood workflow artifact set.
