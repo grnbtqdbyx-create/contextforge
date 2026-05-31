@@ -27,6 +27,9 @@ interface PackageJson {
   bin?: Record<string, string> | string;
   publishConfig?: { access?: string };
   packageManager?: string;
+  repository?: { type?: string; url?: string } | string;
+  homepage?: string;
+  bugs?: { url?: string } | string;
 }
 
 export async function createNpmPublishReadiness(options: NpmPublishReadinessOptions): Promise<NpmPublishReadinessResult> {
@@ -36,6 +39,7 @@ export async function createNpmPublishReadiness(options: NpmPublishReadinessOpti
 
   const checks = [
     packageMetadataCheck(packageJson),
+    packageProvenanceMetadataCheck(packageJson),
     trustedPublishingWorkflowCheck(workflow),
     preflightCheck(workflow),
     docsCheck(docs),
@@ -116,6 +120,22 @@ function packageMetadataCheck(pkg: PackageJson | undefined): NpmPublishReadiness
   };
 }
 
+function packageProvenanceMetadataCheck(pkg: PackageJson | undefined): NpmPublishReadinessCheck {
+  const missing: string[] = [];
+  if (!hasExpectedRepository(pkg)) missing.push('repository.url grnbtqdbyx-create/contextforge');
+  if (pkg?.homepage !== 'https://github.com/grnbtqdbyx-create/contextforge#readme') missing.push('homepage');
+  if (!hasExpectedBugsUrl(pkg)) missing.push('bugs.url');
+
+  return {
+    name: 'Package provenance metadata',
+    status: missing.length === 0 ? 'pass' : 'fail',
+    detail:
+      missing.length === 0
+        ? 'repository, homepage, and issue tracker point at grnbtqdbyx-create/contextforge for npm provenance readers'
+        : `missing ${missing.join(', ')}`
+  };
+}
+
 function trustedPublishingWorkflowCheck(workflow: string): NpmPublishReadinessCheck {
   const missing = requiredFragments(workflow, [
     'workflow_dispatch:',
@@ -184,6 +204,18 @@ function requiredFragments(text: string, fragments: string[]): string[] {
 
 function hasContextForgeBin(pkg: PackageJson | undefined): boolean {
   return typeof pkg?.bin === 'object' && pkg.bin.contextforge === 'dist/cli.js';
+}
+
+function hasExpectedRepository(pkg: PackageJson | undefined): boolean {
+  return (
+    typeof pkg?.repository === 'object' &&
+    pkg.repository.type === 'git' &&
+    pkg.repository.url === 'git+https://github.com/grnbtqdbyx-create/contextforge.git'
+  );
+}
+
+function hasExpectedBugsUrl(pkg: PackageJson | undefined): boolean {
+  return typeof pkg?.bugs === 'object' && pkg.bugs.url === 'https://github.com/grnbtqdbyx-create/contextforge/issues';
 }
 
 function overallStatus(checks: NpmPublishReadinessCheck[]): NpmPublishReadinessStatus {

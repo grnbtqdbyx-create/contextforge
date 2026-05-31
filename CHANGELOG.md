@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.43.0 - 2026-06-01
+
+- Add npm provenance metadata (`repository`, `homepage`, and `bugs`) so Trusted Publishing readers can verify the package points back to the public GitHub repo.
+- Add a `Package provenance metadata` readiness check to `contextforge publish-readiness`.
+- Opt dogfood and generated GitHub workflows into the Node 24 JavaScript action runtime with `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24`.
+
 ## 0.42.0 - 2026-06-01
 
 - Add `contextforge publish-readiness` to verify npm package metadata, Trusted Publishing workflow safety, publish preflight commands, and human npm account setup separately.

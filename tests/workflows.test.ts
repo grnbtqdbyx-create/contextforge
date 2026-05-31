@@ -12,6 +12,7 @@ describe('GitHub workflows', () => {
       expect(workflow).toContain('package-manager-cache: false');
       expect(workflow).toContain('corepack enable');
       expect(workflow).toContain('corepack prepare pnpm@11.2.2 --activate');
+      expect(workflow).toContain('FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true');
     }
   });
 

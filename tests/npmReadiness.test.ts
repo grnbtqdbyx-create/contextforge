@@ -16,7 +16,13 @@ describe('npm publish readiness', () => {
         version: '1.2.3',
         bin: { contextforge: 'dist/cli.js' },
         publishConfig: { access: 'public' },
-        packageManager: 'pnpm@11.2.2'
+        packageManager: 'pnpm@11.2.2',
+        repository: {
+          type: 'git',
+          url: 'git+https://github.com/grnbtqdbyx-create/contextforge.git'
+        },
+        homepage: 'https://github.com/grnbtqdbyx-create/contextforge#readme',
+        bugs: { url: 'https://github.com/grnbtqdbyx-create/contextforge/issues' }
       })
     );
     await writeFile(
@@ -58,6 +64,7 @@ describe('npm publish readiness', () => {
 
     expect(result.status).toBe('warn');
     expect(result.checks.find((check) => check.name === 'Package metadata')?.status).toBe('pass');
+    expect(result.checks.find((check) => check.name === 'Package provenance metadata')?.status).toBe('pass');
     expect(result.checks.find((check) => check.name === 'Trusted publishing workflow')?.status).toBe('pass');
     expect(result.checks.find((check) => check.name === 'Human npm account setup')?.status).toBe('warn');
     expect(text).toContain('ContextForge npm publish readiness: warn');

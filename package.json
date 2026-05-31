@@ -1,9 +1,17 @@
 {
   "name": "contextforge",
-  "version": "0.42.0",
+  "version": "0.43.0",
   "description": "Self-learning token and context optimizer for Codex and Claude Code.",
   "type": "module",
   "packageManager": "pnpm@11.2.2",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grnbtqdbyx-create/contextforge.git"
+  },
+  "homepage": "https://github.com/grnbtqdbyx-create/contextforge#readme",
+  "bugs": {
+    "url": "https://github.com/grnbtqdbyx-create/contextforge/issues"
+  },
   "bin": {
     "contextforge": "dist/cli.js"
   },
