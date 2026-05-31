@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.0 - 2026-05-31
+
+- Add `contextforge audit --summary contextforge-summary.md` for human-readable Markdown audit summaries.
+- Append Markdown summaries to GitHub Actions job summaries from the reusable action and dogfood workflow.
+- Include summary artifacts alongside JSON, HTML, and SARIF outputs.
+
 ## 0.13.0 - 2026-05-31
 
 - Add a reusable root GitHub Action so repositories can run ContextForge with `uses: grnbtqdbyx-create/contextforge@v0.13.0`.

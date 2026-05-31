@@ -1,5 +1,5 @@
 name: 'ContextForge Audit'
-description: 'Run ContextForge context health, cache stability, security, HTML, JSON, and SARIF audits.'
+description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, and Markdown audits.'
 author: 'Ogün Keskin'
 
 branding:
@@ -31,6 +31,10 @@ inputs:
     description: 'SARIF output path in the caller workspace.'
     required: false
     default: 'contextforge.sarif'
+  summary:
+    description: 'Markdown summary output path in the caller workspace.'
+    required: false
+    default: 'contextforge-summary.md'
 
 outputs:
   audit-json:
@@ -42,6 +46,9 @@ outputs:
   sarif:
     description: 'Path to the generated SARIF report.'
     value: ${{ inputs.sarif }}
+  markdown-summary:
+    description: 'Path to the generated Markdown summary.'
+    value: ${{ inputs.summary }}
 
 runs:
   using: 'composite'
@@ -62,4 +69,8 @@ runs:
           --min-security-score "${{ inputs.min-security-score }}" \
           --output "${{ inputs.output }}" \
           --report "${{ inputs.report }}" \
-          --sarif "${{ inputs.sarif }}"
+          --sarif "${{ inputs.sarif }}" \
+          --summary "${{ inputs.summary }}"
+        if [[ -n "${GITHUB_STEP_SUMMARY:-}" && -f "${{ inputs.summary }}" ]]; then
+          cat "${{ inputs.summary }}" >> "$GITHUB_STEP_SUMMARY"
+        fi

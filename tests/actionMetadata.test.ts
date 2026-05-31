@@ -10,10 +10,13 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('min-cache-score:');
     expect(action).toContain('min-security-score:');
     expect(action).toContain('sarif:');
+    expect(action).toContain('summary:');
     expect(action).toContain('GITHUB_ACTION_PATH');
     expect(action).toContain('GITHUB_WORKSPACE');
+    expect(action).toContain('GITHUB_STEP_SUMMARY');
     expect(action).toContain('npm exec --yes --package pnpm@11.2.2');
     expect(action).toContain('--sarif');
+    expect(action).toContain('--summary');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" audit');
   });
 });

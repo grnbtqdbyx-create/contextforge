@@ -33,6 +33,7 @@ jobs:
           output: contextforge-audit.json
           report: contextforge-report.html
           sarif: contextforge.sarif
+          summary: contextforge-summary.md
       - uses: actions/upload-artifact@v5
         if: always()
         with:
@@ -41,6 +42,7 @@ jobs:
             contextforge-audit.json
             contextforge-report.html
             contextforge.sarif
+            contextforge-summary.md
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
@@ -48,7 +50,8 @@ jobs:
 ```
 
 The action builds ContextForge from the action checkout, then runs the built CLI
-against the caller repository workspace.
+against the caller repository workspace. It also appends the generated Markdown
+summary to `$GITHUB_STEP_SUMMARY` when the workflow runner provides it.
 
 ## Dogfood Workflow
 
@@ -78,7 +81,10 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif
+      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md
+      - name: Write job summary
+        if: always()
+        run: cat contextforge-summary.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v5
         if: always()
         with:
@@ -87,6 +93,7 @@ jobs:
             contextforge-audit.json
             contextforge-report.html
             contextforge.sarif
+            contextforge-summary.md
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
@@ -106,8 +113,8 @@ execution, hidden directives, and permission escalation.
 
 The SARIF output currently includes file-backed context health and context
 security findings so GitHub can attach alerts to repository instruction files.
-Cache/session findings remain in the JSON and HTML reports because they are not
-always tied to a repository file location.
+Cache/session findings remain in the JSON, HTML, and Markdown reports because
+they are not always tied to a repository file location.
 
 The upload step is guarded so forked pull requests still get JSON/HTML/SARIF
 artifacts without requiring `security-events: write` from an untrusted fork.
