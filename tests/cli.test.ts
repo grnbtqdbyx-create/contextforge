@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { execFile } from 'node:child_process';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
 import { promisify } from 'node:util';
 import { scannerOptionsFromArgs } from '../src/cli.js';
 
@@ -22,6 +25,7 @@ describe('CLI argument mapping', () => {
         summary: undefined,
         plan: undefined,
         comment: undefined,
+        suggestions: undefined,
         sessions: true,
         json: false,
         write: false,
@@ -91,5 +95,39 @@ describe('CLI improve command', () => {
         source: expect.any(String)
       })
     );
+  });
+});
+
+describe('CLI audit command', () => {
+  it('writes machine-readable improvement suggestions when requested', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-suggestions-'));
+    const auditPath = path.join(rootDir, 'audit.json');
+    const reportPath = path.join(rootDir, 'report.html');
+    const suggestionsPath = path.join(rootDir, 'suggestions.json');
+
+    await execFileAsync('pnpm', [
+      'contextforge',
+      'audit',
+      '--demo',
+      '--output',
+      auditPath,
+      '--report',
+      reportPath,
+      '--suggestions',
+      suggestionsPath
+    ]);
+    const result = JSON.parse(await readFile(suggestionsPath, 'utf8')) as {
+      suggestions: Array<{ title: string; text: string; source: string }>;
+    };
+
+    expect(result.suggestions.length).toBeGreaterThan(0);
+    expect(result.suggestions[0]).toEqual(
+      expect.objectContaining({
+        title: expect.any(String),
+        text: expect.any(String),
+        source: expect.any(String)
+      })
+    );
+    await rm(rootDir, { recursive: true, force: true });
   });
 });

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.26.0 - 2026-05-31
+
+- Add `contextforge audit --suggestions contextforge-suggestions.json` so CI can upload machine-readable improvement suggestions as a first-class artifact.
+- Extend the reusable GitHub Action, dogfood workflow, and generated audit workflow with `contextforge-suggestions.json`.
+- Refresh docs and LLM discovery files so agents can consume suggestions from either `improve --json` or audit artifacts.
+
 ## 0.25.0 - 2026-05-31
 
 - Add `contextforge improve --json` for machine-readable repo-rule suggestions that Codex, Claude, CI jobs, and bots can parse directly.

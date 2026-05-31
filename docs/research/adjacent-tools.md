@@ -68,6 +68,9 @@ common agent-context problems to exact commands, artifacts, and success signals.
 ContextForge v0.25.0 follows the structured-output pattern used by agent-friendly
 CLIs by adding `contextforge improve --json`, so repo-rule suggestions can move
 from human-readable bullets into Codex, Claude, CI bots, or PR automation.
+ContextForge v0.26.0 promotes those suggestions into a CI artifact with
+`contextforge audit --suggestions contextforge-suggestions.json`, matching the
+artifact-first workflow used by Actions-native maintainer tools.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -150,6 +153,11 @@ With v0.25.0, ContextForge makes rule improvement automation easier:
 > machine-readable `improve --json` suggestions that agents and bots can parse
 > without scraping Markdown.
 
+With v0.26.0, ContextForge makes that structure available in CI:
+
+> `contextforge-suggestions.json` travels with the audit artifacts so downstream
+> agents and bots can act after the check finishes.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -166,6 +174,7 @@ That means every repository can ask:
 - Can an AI coding agent find the right ContextForge docs without guessing from the README alone?
 - Which concrete ContextForge workflow should a maintainer run for this problem?
 - Can a bot or coding agent parse suggested repo-rule fixes without scraping text?
+- Can CI hand those same suggestions to downstream automation as an artifact?
 
 ## Next Differentiators
 
@@ -183,6 +192,7 @@ That means every repository can ask:
 12. LLM-readable discovery files that give agents a stable repository map.
 13. Use-case-first onboarding for first PR gates, security defense, cache triage, and context packs.
 14. Machine-readable improvement suggestions for Codex, Claude, bots, and CI scripts.
+15. CI-uploaded suggestions artifacts for downstream agent automation.
 
 ## Explainability Direction
 

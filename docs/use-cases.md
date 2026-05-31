@@ -39,7 +39,7 @@ instructions, or stale process notes.
 contextforge agents-md-audit
 contextforge improve --json
 contextforge improve --write
-contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md
+contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --suggestions contextforge-suggestions.json
 ```
 
 Success signal:
@@ -47,6 +47,7 @@ Success signal:
 - Repeated, vague, or oversized instructions become concrete repo rules.
 - Codex, Claude, or a bot can parse structured `title`, `text`, and `source`
   fields instead of scraping Markdown bullets.
+- CI uploads the same structured suggestions as `contextforge-suggestions.json`.
 - `contextforge-agent-plan.md` tells Codex or Claude what to fix first.
 
 ## 3. Defend Against Malicious Repo Instructions
