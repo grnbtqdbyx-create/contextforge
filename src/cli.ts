@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { promises as fs, realpathSync } from 'node:fs';
+import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { scanClaudeSessions } from './scanners/claude.js';
 import { scanCodexSessions } from './scanners/codex.js';
@@ -13,6 +14,7 @@ import { writeHtmlReport } from './report/htmlReport.js';
 import { createSarifReport } from './report/sarifReport.js';
 import { createMarkdownSummary } from './report/markdownSummary.js';
 import { createActionPlan } from './report/actionPlan.js';
+import { createDemoOutput } from './report/demoOutput.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
 import { formatDoctor, runDoctor } from './doctor/doctor.js';
@@ -88,6 +90,9 @@ async function main(): Promise<void> {
       break;
     case 'plan':
       await commandPlan(args);
+      break;
+    case 'examples':
+      await commandExamples(args);
       break;
     case 'init':
       await commandInit(args);
@@ -312,6 +317,12 @@ async function commandPlan(args: CliArgs): Promise<void> {
   if (audit.status === 'fail') process.exitCode = 1;
 }
 
+async function commandExamples(args: CliArgs): Promise<void> {
+  await fs.mkdir(dirname(args.output), { recursive: true });
+  await fs.writeFile(args.output, await createDemoOutput());
+  console.log(`Wrote ${args.output}`);
+}
+
 async function commandInit(args: CliArgs): Promise<void> {
   if (!args.githubAction && !args.agentsMd && !args.claudeMd) {
     console.log('Choose what to initialize. Try: contextforge init --github-action --agents-md --claude-md');
@@ -370,6 +381,7 @@ function valueAfter(argv: string[], flag: string): string | undefined {
 function defaultOutputForCommand(command: string): string {
   if (command === 'audit') return 'contextforge-audit.json';
   if (command === 'plan') return 'contextforge-agent-plan.md';
+  if (command === 'examples') return 'examples/demo-output.md';
   return 'contextforge-report.html';
 }
 
@@ -426,7 +438,8 @@ Usage:
   contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--min-security-score 60]
   contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
   contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
-  contextforge init [--github-action] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.19.0] [--force]
+  contextforge examples [--output examples/demo-output.md]
+  contextforge init [--github-action] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.20.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
