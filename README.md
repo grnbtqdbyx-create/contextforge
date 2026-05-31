@@ -17,6 +17,12 @@ task-specific context packs.
 
 ![ContextForge terminal demo](assets/demo-terminal.svg)
 
+## Report Preview
+
+Generated from the built CLI with `contextforge report --demo`:
+
+![ContextForge HTML report screenshot](assets/contextforge-report.png)
+
 ## Quickstart
 
 ```bash
@@ -101,7 +107,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.1.0 is an MVP CLI with:
+ContextForge v0.5.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - local session scanning fallbacks
@@ -111,15 +117,18 @@ ContextForge v0.1.0 is an MVP CLI with:
 - cache stability audit
 - task-specific Markdown context packs
 - HTML report generation
+- real README report screenshot generated from the CLI
 - DCO-based contribution flow
 - CI-ready `contextforge audit` dogfood workflow
 
 ## Roadmap
 
 - **v0.1.0:** CLI MVP, demo mode, scanners, audits, report.
-- **v0.2.0:** richer Codex/Claude log adapters, npm publish, screenshots/GIF.
-- **v0.3.0:** GitHub Action, benchmark mode, PR-based rule improvements.
-- **v0.4.0:** optional hosted dashboard and team workflows.
+- **v0.2.0:** CI-ready audit command, GitHub Actions dogfood, adjacent-tool positioning.
+- **v0.3.0:** context-file security audit for malicious repo instructions.
+- **v0.4.0:** explainable context pack scoring with per-file inclusion reasons.
+- **v0.5.0:** real generated HTML report screenshot and packaged README assets.
+- **Next:** public malicious-context benchmark fixtures, broader Codex session format coverage, npm publish workflow draft.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).
 

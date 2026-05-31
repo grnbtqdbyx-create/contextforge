@@ -23,5 +23,6 @@
 
 - [x] Build-in-public launch post draft.
 - [x] Demo terminal SVG.
+- [x] Generated HTML report screenshot.
 - [ ] Record short GIF or terminal session.
 - [ ] Share first public post.
