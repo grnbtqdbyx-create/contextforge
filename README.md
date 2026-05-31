@@ -85,7 +85,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.27.0
+- uses: grnbtqdbyx-create/contextforge@v0.28.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -95,6 +95,7 @@ Or use the GitHub Action before npm publishing is complete:
 ## Why ContextForge?
 
 - **See token waste:** identify expensive sessions, tool outputs, and context files.
+- **Check public trust surfaces:** verify README, license, contributing, changelog, demo output, and LLM discovery docs from `contextforge doctor`.
 - **Improve cache stability:** catch volatile prefixes, timestamps, and large tool dumps.
 - **Audit repo instructions:** keep root `README.md`, nested `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, and `.clinerules` useful instead of bloated or unsafe.
 - **Bootstrap minimal context files:** scaffold concise `AGENTS.md` and `CLAUDE.md` files without filling the repo with vague prompt folklore.
@@ -138,6 +139,7 @@ and tuned for Codex/Claude repository work.
 | Coding agents guess which docs matter. | `llms.txt` points them at the important project surfaces. |
 | Agents need structured fixes, not copied bullets. | `contextforge improve --json` emits parseable rule suggestions. |
 | Repo visitors need instant proof. | `--badge contextforge-badge.svg` creates a compact audit status badge. |
+| OSS launch readiness is scattered. | `contextforge doctor` checks public proof surfaces in one report. |
 
 ## Commands
 
@@ -155,7 +157,7 @@ contextforge audit [--demo] [--output contextforge-audit.json] [--report context
 contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
 contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
 contextforge examples [--output examples/demo-output.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.27.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.28.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -217,11 +219,12 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.27.0 is a public MVP CLI with:
+ContextForge v0.28.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
 - first-run `contextforge doctor` readiness report with JSON output
+- `Public proof surfaces` doctor check for OSS trust/readiness files
 - token usage summaries
 - machine-readable `contextforge improve --json` repo-rule suggestions
 - CI-ready `contextforge-suggestions.json` improvement artifacts
@@ -279,6 +282,7 @@ ContextForge v0.27.0 is a public MVP CLI with:
 - **v0.25.0:** machine-readable `improve --json` suggestions for agent and bot consumption.
 - **v0.26.0:** audit-level `contextforge-suggestions.json` artifact for CI and reusable actions.
 - **v0.27.0:** SVG audit badge artifact for visible repo proof.
+- **v0.28.0:** public proof surface checks in `contextforge doctor`.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

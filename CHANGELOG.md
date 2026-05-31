@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.28.0 - 2026-05-31
+
+- Add a `Public proof surfaces` check to `contextforge doctor` so maintainers can verify README, license, contribution, changelog, demo, and LLM discovery files from the first command.
+- Include the new doctor check in text and JSON output for CI, dashboards, and coding agents.
+- Refresh README, doctor docs, and research notes around public OSS trust surfaces.
+
 ## 0.27.0 - 2026-05-31
 
 - Add `contextforge audit --badge contextforge-badge.svg` for a compact SVG status badge generated from audit scores.

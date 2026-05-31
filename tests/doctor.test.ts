@@ -10,6 +10,15 @@ describe('doctor readiness report', () => {
     await mkdir(path.join(rootDir, '.github/workflows'), { recursive: true });
     await writeFile(path.join(rootDir, 'AGENTS.md'), 'Keep instructions short, explicit, and reviewed.\n');
     await writeFile(path.join(rootDir, 'CLAUDE.md'), 'Use repo-local context and avoid unrelated files.\n');
+    await writeFile(path.join(rootDir, 'README.md'), '# Test project\n');
+    await writeFile(path.join(rootDir, 'LICENSE'), 'Apache-2.0\n');
+    await writeFile(path.join(rootDir, 'CONTRIBUTING.md'), '# Contributing\n');
+    await writeFile(path.join(rootDir, 'CHANGELOG.md'), '# Changelog\n');
+    await writeFile(path.join(rootDir, 'llms.txt'), '# Test project\n');
+    await writeFile(path.join(rootDir, 'llms-full.txt'), '# Test project full context\n');
+    await mkdir(path.join(rootDir, 'examples'), { recursive: true });
+    await writeFile(path.join(rootDir, 'examples/demo-output.md'), '# Demo output\n');
+    await writeFile(path.join(rootDir, 'examples/pr-comment.md'), '# PR comment\n');
     await writeFile(path.join(rootDir, '.github/workflows/ci.yml'), 'name: CI\n');
     await writeFile(path.join(rootDir, '.github/workflows/contextforge-audit.yml'), 'name: ContextForge Audit\n');
 
@@ -27,9 +36,29 @@ describe('doctor readiness report', () => {
       'Cache stability',
       'Context security',
       'Security benchmark',
-      'GitHub workflows'
+      'GitHub workflows',
+      'Public proof surfaces'
     ]);
     expect(result.nextActions.length).toBeGreaterThan(0);
     expect(formatDoctor(result)).toContain('ContextForge doctor: pass');
+  });
+
+  it('warns when public proof surfaces are missing', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-public-proof-'));
+    await writeFile(path.join(rootDir, 'AGENTS.md'), 'Keep instructions short, explicit, and reviewed.\n');
+
+    const result = await runDoctor({
+      rootDir,
+      records: [],
+      minContextScore: 60,
+      minCacheScore: 60,
+      minSecurityScore: 60
+    });
+
+    const proofCheck = result.checks.find((check) => check.name === 'Public proof surfaces');
+
+    expect(proofCheck?.status).toBe('warn');
+    expect(proofCheck?.detail).toContain('missing README.md');
+    expect(result.nextActions).toContain('Add README, license, contribution, changelog, demo, and LLM discovery surfaces so visitors and agents can verify the project quickly.');
   });
 });

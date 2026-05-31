@@ -37,6 +37,7 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
   });
   const benchmark = await runSecurityBenchmark({ benchmarkDir: options.benchmarkDir });
   const workflows = await workflowChecks(options.rootDir);
+  const publicProof = await publicProofChecks(options.rootDir);
 
   const checks: DoctorCheck[] = [
     {
@@ -69,6 +70,14 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
         workflows.present.length > 0
           ? `${workflows.present.join(', ')} present${workflows.missing.length > 0 ? `; missing ${workflows.missing.join(', ')}` : ''}`
           : `missing ${workflows.missing.join(', ')}`
+    },
+    {
+      name: 'Public proof surfaces',
+      status: publicProof.missing.length === 0 ? 'pass' : 'warn',
+      detail:
+        publicProof.present.length > 0
+          ? `${publicProof.present.join(', ')} present${publicProof.missing.length > 0 ? `; missing ${publicProof.missing.join(', ')}` : ''}`
+          : `missing ${publicProof.missing.join(', ')}`
     }
   ];
 
@@ -106,6 +115,29 @@ async function workflowChecks(rootDir: string): Promise<{ present: string[]; mis
   };
 }
 
+async function publicProofChecks(rootDir: string): Promise<{ present: string[]; missing: string[] }> {
+  const expected = [
+    { label: 'README.md', file: 'README.md' },
+    { label: 'LICENSE', file: 'LICENSE' },
+    { label: 'CONTRIBUTING.md', file: 'CONTRIBUTING.md' },
+    { label: 'CHANGELOG.md', file: 'CHANGELOG.md' },
+    { label: 'llms.txt', file: 'llms.txt' },
+    { label: 'llms-full.txt', file: 'llms-full.txt' },
+    { label: 'examples/demo-output.md', file: 'examples/demo-output.md' },
+    { label: 'examples/pr-comment.md', file: 'examples/pr-comment.md' }
+  ];
+  const results = await Promise.all(
+    expected.map(async (surface) => ({
+      label: surface.label,
+      exists: await exists(path.join(rootDir, surface.file))
+    }))
+  );
+  return {
+    present: results.filter((result) => result.exists).map((result) => result.label),
+    missing: results.filter((result) => !result.exists).map((result) => result.label)
+  };
+}
+
 async function exists(filePath: string): Promise<boolean> {
   try {
     await access(filePath);
@@ -125,6 +157,9 @@ function nextActions(checks: DoctorCheck[], auditActions: string[]): string[] {
   const actions: string[] = [];
   if (checks.some((check) => check.name === 'GitHub workflows' && check.status === 'warn')) {
     actions.push('Add the ContextForge GitHub Action so every PR uploads JSON and HTML audit artifacts.');
+  }
+  if (checks.some((check) => check.name === 'Public proof surfaces' && check.status === 'warn')) {
+    actions.push('Add README, license, contribution, changelog, demo, and LLM discovery surfaces so visitors and agents can verify the project quickly.');
   }
   actions.push(...auditActions.slice(0, 3));
   if (actions.length === 0) {
