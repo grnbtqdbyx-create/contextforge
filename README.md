@@ -9,7 +9,7 @@
 [![npm publish ready](https://img.shields.io/badge/npm-publish%20ready-cb3837.svg)](docs/npm-publish.md)
 
 AI coding agents burn tokens by re-reading noisy context, huge tool outputs,
-unstable cache prefixes, and bloated `AGENTS.md` / `CLAUDE.md` files.
+unstable cache prefixes, and bloated root or nested `AGENTS.md` / `CLAUDE.md` files.
 ContextForge shows where those tokens go, reduces context bloat, audits cache
 stability, scans repo instructions for prompt/context poisoning, and creates
 task-specific context packs.
@@ -70,7 +70,7 @@ Or use the GitHub Action before npm publishing is complete:
 
 - **See token waste:** identify expensive sessions, tool outputs, and context files.
 - **Improve cache stability:** catch volatile prefixes, timestamps, and large tool dumps.
-- **Audit repo instructions:** keep `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, and `.clinerules` useful instead of bloated.
+- **Audit repo instructions:** keep root and nested `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, and `.clinerules` useful instead of bloated.
 - **Catch context poisoning:** flag instruction overrides, secret exfiltration, unsafe shell, hidden directives, and permission escalation.
 - **Generate explainable context packs:** give Codex or Claude only the files needed for a task, with "why included" reasons.
 - **Evolve safely:** suggest improved repo-level rules before writing anything.
@@ -158,14 +158,14 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.14.0 is a public MVP CLI with:
+ContextForge v0.15.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
 - first-run `contextforge doctor` readiness report with JSON output
 - token usage summaries
-- context health audit
-- context security audit
+- context health audit with nested monorepo instruction discovery
+- context security audit with nested monorepo instruction discovery
 - public malicious-context benchmark fixtures
 - cache stability audit
 - task-specific Markdown context packs with session-derived scoring
@@ -195,6 +195,7 @@ ContextForge v0.14.0 is a public MVP CLI with:
 - **v0.12.0:** SARIF output and GitHub Code Scanning dogfood workflow.
 - **v0.13.0:** reusable GitHub Action entrypoint before npm publishing is complete.
 - **v0.14.0:** Markdown audit summaries in GitHub Actions job summaries.
+- **v0.15.0:** recursive monorepo instruction discovery for nested agent files.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

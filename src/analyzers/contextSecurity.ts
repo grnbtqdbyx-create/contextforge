@@ -1,9 +1,6 @@
 import { promises as fs } from 'node:fs';
-import path from 'node:path';
 import type { ContextSecurityAudit, Finding, Severity } from '../types.js';
-import { pathExists } from '../utils/files.js';
-
-const SECURITY_CONTEXT_FILES = ['AGENTS.md', 'CLAUDE.md', '.cursorrules', '.clinerules', 'SKILL.md'];
+import { listSecurityContextFiles } from '../utils/contextFiles.js';
 
 interface Rule {
   type: string;
@@ -75,10 +72,9 @@ export async function auditContextSecurity(options: { rootDir?: string } = {}): 
   const rootDir = options.rootDir ?? process.cwd();
   const findings: Finding[] = [];
 
-  for (const name of SECURITY_CONTEXT_FILES) {
-    const filePath = path.join(rootDir, name);
-    if (!(await pathExists(filePath))) continue;
-    const content = await fs.readFile(filePath, 'utf8');
+  for (const file of await listSecurityContextFiles(rootDir)) {
+    const name = file.relativePath;
+    const content = await fs.readFile(file.absolutePath, 'utf8');
     for (const rule of RULES) {
       if (rule.patterns.some((pattern) => pattern.test(content))) {
         findings.push({

@@ -1,10 +1,8 @@
 import { promises as fs } from 'node:fs';
-import path from 'node:path';
 import type { ContextFileAudit, Finding } from '../types.js';
 import { estimateTokens } from '../tokenizers/index.js';
-import { pathExists } from '../utils/files.js';
+import { listContextFiles } from '../utils/contextFiles.js';
 
-const CONTEXT_FILES = ['AGENTS.md', 'CLAUDE.md', '.cursorrules', '.clinerules'];
 const VAGUE_PATTERNS = [/\bbest practices\b/i, /\bmake (it|the code) good\b/i, /\bdo everything\b/i, /\balways be careful\b/i, /\bperfectly\b/i];
 
 export async function auditContextFiles(options: { rootDir?: string } = {}): Promise<ContextFileAudit> {
@@ -12,12 +10,11 @@ export async function auditContextFiles(options: { rootDir?: string } = {}): Pro
   const files: ContextFileAudit['files'] = [];
   const findings: Finding[] = [];
 
-  for (const name of CONTEXT_FILES) {
-    const filePath = path.join(rootDir, name);
-    if (!(await pathExists(filePath))) continue;
-    const content = await fs.readFile(filePath, 'utf8');
+  for (const file of await listContextFiles(rootDir)) {
+    const name = file.relativePath;
+    const content = await fs.readFile(file.absolutePath, 'utf8');
     const lines = content.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-    files.push({ path: filePath, estimatedTokens: estimateTokens(content), bytes: Buffer.byteLength(content) });
+    files.push({ path: name, estimatedTokens: estimateTokens(content), bytes: Buffer.byteLength(content) });
 
     const seen = new Map<string, number>();
     for (const line of lines) {

@@ -1,6 +1,7 @@
 # Context Security Audit
 
-ContextForge scans repository-level instruction files as a security surface.
+ContextForge scans repository instruction files as a security surface, including
+nested monorepo instruction files that agents may load for specific subprojects.
 
 Covered files:
 
@@ -9,6 +10,12 @@ Covered files:
 - `.cursorrules`
 - `.clinerules`
 - `SKILL.md`
+
+Nested files are reported with repository-relative paths such as
+`packages/api/AGENTS.md`. During repo-root scans, ContextForge skips repository
+fixture and test directories so benchmark fixtures do not become active
+production findings. You can still audit a fixture directory directly by passing
+that directory as the audit root.
 
 Current checks:
 
