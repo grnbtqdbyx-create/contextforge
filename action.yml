@@ -1,5 +1,5 @@
 name: 'ContextForge Audit'
-description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, scorecard, review kit, artifact map, and agent action plan audits.'
+description: 'Run ContextForge context health, cache stability, security, MCP exposure, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, scorecard, review kit, artifact map, and agent action plan audits.'
 author: 'Ogün Keskin'
 
 branding:
@@ -59,6 +59,10 @@ inputs:
     description: 'One-screen agent readiness scorecard Markdown output path in the caller workspace.'
     required: false
     default: 'contextforge-scorecard.md'
+  mcp-audit:
+    description: 'MCP exposure audit Markdown output path in the caller workspace.'
+    required: false
+    default: 'contextforge-mcp-audit.md'
   review-kit:
     description: 'Codex/Claude review kit Markdown output path in the caller workspace.'
     required: false
@@ -103,6 +107,9 @@ outputs:
   scorecard-md:
     description: 'Path to the generated agent readiness scorecard.'
     value: ${{ inputs.scorecard }}
+  mcp-audit-md:
+    description: 'Path to the generated MCP exposure audit.'
+    value: ${{ inputs.mcp-audit }}
   review-kit-md:
     description: 'Path to the generated Codex/Claude review kit.'
     value: ${{ inputs.review-kit }}
@@ -158,6 +165,13 @@ runs:
           --min-cache-score "${{ inputs.min-cache-score }}" \
           --min-security-score "${{ inputs.min-security-score }}" \
           --output "${{ inputs.scorecard }}"
+    - name: Run ContextForge MCP exposure audit
+      if: always()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        node "$GITHUB_ACTION_PATH/dist/cli.js" mcp-audit \
+          --summary "${{ inputs.mcp-audit }}"
     - name: Run ContextForge review kit
       if: always()
       shell: bash

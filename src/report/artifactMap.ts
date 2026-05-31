@@ -67,6 +67,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge scorecard --output contextforge-scorecard.md`'
   },
   {
+    artifact: 'contextforge-mcp-audit.md',
+    audience: 'Security reviewers and agent operators',
+    useWhen: 'you need to review MCP configs for hardcoded secrets, unsafe shell, or unpinned packages',
+    producedBy: '`contextforge mcp-audit --summary contextforge-mcp-audit.md`'
+  },
+  {
     artifact: 'contextforge-review-kit.md',
     audience: 'PR reviewers, Codex, and Claude',
     useWhen: 'you need changed-file review focus for agent-assisted PRs',
@@ -155,6 +161,7 @@ export function createArtifactMap(): string {
     'contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg',
     'contextforge proof-pack --output contextforge-proof-pack.md',
     'contextforge scorecard --output contextforge-scorecard.md',
+    'contextforge mcp-audit --summary contextforge-mcp-audit.md',
     'contextforge review-kit --base main --output contextforge-review-kit.md',
     '```',
     ''

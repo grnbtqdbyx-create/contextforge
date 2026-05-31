@@ -10,6 +10,7 @@ import { summarizeUsage } from './analyzers/usage.js';
 import { auditContextFiles } from './analyzers/contextHealth.js';
 import { auditCacheStability } from './analyzers/cacheAudit.js';
 import { auditContextSecurity } from './analyzers/contextSecurity.js';
+import { auditMcpExposure, createMcpExposureSummary, formatMcpExposureAudit } from './analyzers/mcpExposure.js';
 import { createContextPack } from './pack/contextPack.js';
 import { suggestRuleImprovements } from './improve/ruleSuggestions.js';
 import { writeHtmlReport } from './report/htmlReport.js';
@@ -88,6 +89,9 @@ async function main(): Promise<void> {
       break;
     case 'security-benchmark':
       await commandSecurityBenchmark(args);
+      break;
+    case 'mcp-audit':
+      await commandMcpAudit(args);
       break;
     case 'agents-md-audit':
       await commandContextAudit(args);
@@ -248,6 +252,21 @@ async function commandSecurityBenchmark(args: CliArgs): Promise<void> {
     for (const failure of benchmarkCase.failures) console.log(`  FAIL: ${failure}`);
   }
   if (!benchmark.passed) process.exitCode = 1;
+}
+
+async function commandMcpAudit(args: CliArgs): Promise<void> {
+  const audit = await auditMcpExposure({ rootDir: args.demo ? 'fixtures/mcp-risk-project' : process.cwd() });
+  if (args.summary) {
+    await fs.mkdir(dirname(args.summary), { recursive: true });
+    await fs.writeFile(args.summary, createMcpExposureSummary(audit));
+  }
+  console.log(args.json ? JSON.stringify(audit, null, 2) : formatMcpExposureAudit(audit));
+  if (args.summary) {
+    const message = `Wrote ${args.summary}`;
+    if (args.json) console.error(message);
+    else console.log(message);
+  }
+  if (audit.status === 'fail') process.exitCode = 1;
 }
 
 async function commandPack(args: CliArgs): Promise<void> {
@@ -557,6 +576,7 @@ function defaultOutputForCommand(command: string): string {
   if (command === 'examples') return 'examples/demo-output.md';
   if (command === 'launch-kit') return 'docs/launch-post.md';
   if (command === 'compare') return 'docs/comparison.md';
+  if (command === 'mcp-audit') return 'contextforge-mcp-audit.md';
   if (command === 'proof-pack') return 'contextforge-proof-pack.md';
   if (command === 'scorecard') return 'contextforge-scorecard.md';
   if (command === 'review-kit') return 'contextforge-review-kit.md';
@@ -651,6 +671,7 @@ Usage:
   contextforge cache-audit [--demo]
   contextforge security-audit [--demo] [--min-security-score 60]
   contextforge security-benchmark [--benchmark-dir fixtures/security-benchmark]
+  contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md]
   contextforge agents-md-audit [--demo]
   contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
   contextforge improve [--demo] [--json] [--write] [--open-pr]
@@ -666,7 +687,7 @@ Usage:
   contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
   contextforge artifact-map [--output docs/artifacts.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.44.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.45.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

@@ -1,5 +1,6 @@
 import { access } from 'node:fs/promises';
 import path from 'node:path';
+import { auditMcpExposure } from '../analyzers/mcpExposure.js';
 import { buildAudit } from '../audit/buildAudit.js';
 import { runSecurityBenchmark } from '../benchmark/securityBenchmark.js';
 import type { SessionRecord } from '../types.js';
@@ -36,6 +37,7 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
     minSecurityScore: options.minSecurityScore ?? 60
   });
   const benchmark = await runSecurityBenchmark({ benchmarkDir: options.benchmarkDir });
+  const mcpExposure = await auditMcpExposure({ rootDir: options.rootDir });
   const workflows = await workflowChecks(options.rootDir);
   const publicProof = await publicProofChecks(options.rootDir);
   const launchProfile = await launchProfileChecks(options.rootDir);
@@ -96,6 +98,14 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
         communityHealth.present.length > 0
           ? `${communityHealth.present.join(', ')} present${communityHealth.missing.length > 0 ? `; missing ${communityHealth.missing.join(', ')}` : ''}`
           : `missing ${communityHealth.missing.join(', ')}`
+    },
+    {
+      name: 'MCP exposure',
+      status: mcpExposure.status,
+      detail:
+        mcpExposure.files.length > 0
+          ? `${mcpExposure.score}/100 across ${mcpExposure.files.join(', ')}${mcpExposure.findings.length > 0 ? `; ${mcpExposure.findings.length} findings` : ''}`
+          : `${mcpExposure.score}/100 with no repo MCP configs found`
     }
   ];
 
@@ -238,6 +248,9 @@ function nextActions(checks: DoctorCheck[], auditActions: string[]): string[] {
   const actions: string[] = [];
   if (checks.some((check) => check.name === 'GitHub workflows' && check.status === 'warn')) {
     actions.push('Add the ContextForge GitHub Action so every PR uploads JSON and HTML audit artifacts.');
+  }
+  if (checks.some((check) => check.name === 'MCP exposure' && check.status !== 'pass')) {
+    actions.push('Review MCP configs for hardcoded secrets, unsafe shell installers, and unpinned packages before enabling agents.');
   }
   if (checks.some((check) => check.name === 'Public proof surfaces' && check.status === 'warn')) {
     actions.push('Add README, license, contribution, changelog, demo, and LLM discovery surfaces so visitors and agents can verify the project quickly.');

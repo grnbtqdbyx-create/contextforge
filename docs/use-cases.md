@@ -130,6 +130,7 @@ contextforge review-kit --demo --base main --output examples/review-kit.md
 contextforge doctor --summary contextforge-doctor.md
 contextforge artifact-map --output docs/artifacts.md
 contextforge scorecard --output contextforge-scorecard.md
+contextforge mcp-audit --summary contextforge-mcp-audit.md
 contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge launch-kit --output docs/launch-post.md
@@ -143,6 +144,8 @@ Success signal:
   without installing anything.
 - Visitors can open `contextforge-scorecard.md` first for a one-screen
   Codex/Claude readiness answer.
+- Visitors can open `contextforge-mcp-audit.md` to see whether committed MCP
+  configs expose secrets, unsafe shell installers, or unpinned packages.
 - Reviewers can jump from the generated PR comment to `contextforge-proof-pack.md`
   for the deeper doctor/audit proof packet.
 - Visitors and reviewers can open `docs/artifacts.md` to choose the right proof

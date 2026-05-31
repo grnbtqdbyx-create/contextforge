@@ -4,8 +4,8 @@ ContextForge can dogfood itself in CI by generating a JSON audit, an HTML
 report, a SARIF file for GitHub Code Scanning, a Markdown job summary, a
 PR-ready Markdown comment, machine-readable improvement suggestions, a compact
 SVG status badge, a shareable proof pack, a one-screen readiness scorecard, a
-Codex/Claude review kit, and an agent-readable action plan on every push or
-pull request.
+committed MCP exposure audit, a Codex/Claude review kit, and an agent-readable
+action plan on every push or pull request.
 
 ## One-command Setup
 
@@ -21,12 +21,12 @@ contextforge init --pr-comment-workflow
 workflow, the optional PR comment workflow, `AGENTS.md`, and `CLAUDE.md`.
 The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment,
 suggestions JSON, SVG badge, proof-pack Markdown, scorecard Markdown,
-review-kit Markdown, artifact-map Markdown, and agent action plan
+MCP audit Markdown, review-kit Markdown, artifact-map Markdown, and agent action plan
 artifacts. It refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.44.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.45.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -61,7 +61,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.44.0
+      - uses: grnbtqdbyx-create/contextforge@v0.45.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -76,6 +76,7 @@ jobs:
           badge: contextforge-badge.svg
           proof-pack: contextforge-proof-pack.md
           scorecard: contextforge-scorecard.md
+          mcp-audit: contextforge-mcp-audit.md
           review-kit: contextforge-review-kit.md
           artifact-map: contextforge-artifact-map.md
           review-base-ref: main
@@ -94,6 +95,7 @@ jobs:
             contextforge-badge.svg
             contextforge-proof-pack.md
             contextforge-scorecard.md
+            contextforge-mcp-audit.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
@@ -114,6 +116,9 @@ permissions.
 The `contextforge-scorecard.md` artifact is the first file to open when a
 reader needs a short agent-readiness answer before inspecting the deeper proof
 packet.
+The `contextforge-mcp-audit.md` artifact shows whether committed MCP configs
+contain hardcoded secrets, unsafe remote shell installers, or unpinned package
+launches before coding agents load those tool definitions.
 The `contextforge-review-kit.md` artifact gives Codex, Claude, and human
 reviewers the changed files, review focus areas, evidence commands, and a
 copyable review prompt. Use `fetch-depth: 0` on checkout when a repository wants
@@ -196,6 +201,8 @@ jobs:
         if: always()
       - run: node dist/cli.js scorecard --output contextforge-scorecard.md
         if: always()
+      - run: node dist/cli.js mcp-audit --summary contextforge-mcp-audit.md
+        if: always()
       - run: node dist/cli.js review-kit --base main --output contextforge-review-kit.md
         if: always()
       - run: node dist/cli.js artifact-map --output contextforge-artifact-map.md
@@ -218,6 +225,7 @@ jobs:
             contextforge-badge.svg
             contextforge-proof-pack.md
             contextforge-scorecard.md
+            contextforge-mcp-audit.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
