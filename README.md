@@ -6,6 +6,7 @@
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![Built in public](https://img.shields.io/badge/built%20in-public-0e8a16.svg)](docs/build-in-public.md)
 [![DCO](https://img.shields.io/badge/DCO-required-7057ff.svg)](CONTRIBUTING.md)
+[![npm publish ready](https://img.shields.io/badge/npm-publish%20ready-cb3837.svg)](docs/npm-publish.md)
 
 AI coding agents burn tokens by re-reading noisy context, huge tool outputs,
 unstable cache prefixes, and bloated `AGENTS.md` / `CLAUDE.md` files.
@@ -105,6 +106,7 @@ Public malicious-context benchmark details live in
 [docs/security-benchmark.md](docs/security-benchmark.md).
 Codex JSONL parser coverage is documented in
 [docs/codex-session-formats.md](docs/codex-session-formats.md).
+npm publish preparation is documented in [docs/npm-publish.md](docs/npm-publish.md).
 
 ## Research-backed Positioning
 
@@ -116,7 +118,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.8.0 is a public MVP CLI with:
+ContextForge v0.9.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -130,6 +132,7 @@ ContextForge v0.8.0 is a public MVP CLI with:
 - real README report screenshot generated from the CLI
 - DCO-based contribution flow
 - CI-ready `contextforge audit` dogfood workflow
+- manual npm publish workflow draft with OIDC/trusted-publishing preparation
 
 ## Roadmap
 
@@ -141,7 +144,8 @@ ContextForge v0.8.0 is a public MVP CLI with:
 - **v0.6.0:** public malicious-context benchmark fixtures and `security-benchmark` command.
 - **v0.7.0:** session-derived context pack scoring from failure/read/edit signals.
 - **v0.8.0:** broader modern Codex rollout JSONL parsing and bounded local scans.
-- **Next:** npm publish workflow draft.
+- **v0.9.0:** manual npm publish workflow draft with dry-run default and OIDC preparation.
+- **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).
 

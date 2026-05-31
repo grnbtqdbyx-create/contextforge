@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.0 - 2026-05-31
+
+- Add a manual npm publish workflow draft with dry-run default, Trusted Publishing/OIDC permissions, and package checks.
+- Add npm publish documentation for first-publish setup, maintainer approval, and local preflight commands.
+- Mark the package public via `publishConfig.access`.
+
 ## 0.8.0 - 2026-05-31
 
 - Expand Codex session parsing for modern rollout JSONL records such as `session_meta`, `turn_context`, `event_msg`, `response_item`, function calls, function call outputs, and token counts.

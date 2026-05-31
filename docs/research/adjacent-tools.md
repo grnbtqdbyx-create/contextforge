@@ -93,3 +93,12 @@ Observed modern sessions include `session_meta`, `turn_context`, `event_msg`,
 and `response_item` rows with nested `payload` data. ContextForge v0.8.0 parses
 these shapes from synthetic fixtures and keeps local scanning bounded so a large
 history folder cannot overwhelm the CLI.
+
+## Package Trust Direction
+
+Public maintainer tools earn trust faster when installation and release paths
+are boring, inspectable, and reversible. npm's current guidance favors Trusted
+Publishing/OIDC over long-lived automation tokens, with provenance generated for
+public packages published from public GitHub repositories. ContextForge follows
+that direction with a manual `npm Publish` workflow that defaults to dry-run and
+expects maintainer approval before the first real publish.
