@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 - Unreleased
+
+- Add explainable context pack file scoring.
+- Include per-file "Why included" reasons in generated context packs.
+- Surface path matches, task-term matches, instruction files, manifests, and README orientation files as scoring reasons.
+
 ## 0.3.0 - Unreleased
 
 - Add context-file security audit for prompt injection, secret exfiltration, unsafe shell instructions, hidden directives, and permission escalation.
