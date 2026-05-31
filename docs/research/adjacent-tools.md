@@ -60,6 +60,9 @@ ContextForge v0.22.0 follows the sticky-comment adoption pattern by scaffolding
 that posting workflow separately from the read-only audit job.
 It also adds `contextforge init --all` to match the successful one-command
 quickstart pattern used by mature CLI tools.
+ContextForge v0.23.0 adds root `llms.txt` and `llms-full.txt` files as an
+AI-readable project map for coding agents, while documenting that `llms.txt` is
+an emerging convention rather than a guaranteed discovery or ranking signal.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -127,6 +130,11 @@ With v0.22.0, ContextForge makes that review loop one command to adopt:
 > opt-in sticky PR comment workflow scaffolding with explicit write permissions,
 > plus `init --all` for the full recommended setup.
 
+With v0.23.0, ContextForge makes the repository easier for agents to enter:
+
+> root `llms.txt` and `llms-full.txt` maps that point Codex and Claude at the
+> docs, commands, safety model, and proof surfaces that matter.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -140,6 +148,7 @@ That means every repository can ask:
 - Can reviewers see the agent-context gate directly in a PR discussion?
 - Can maintainers add that PR comment without hand-copying a permission-sensitive workflow?
 - Can a new repository adopt the whole ContextForge loop with one command?
+- Can an AI coding agent find the right ContextForge docs without guessing from the README alone?
 
 ## Next Differentiators
 
@@ -154,6 +163,7 @@ That means every repository can ask:
 9. Regenerable demo output that turns the README into a verifiable product surface.
 10. PR-ready deterministic comments that make context quality visible during review.
 11. One-command recommended setup for audit, PR comment, AGENTS.md, and CLAUDE.md.
+12. LLM-readable discovery files that give agents a stable repository map.
 
 ## Explainability Direction
 

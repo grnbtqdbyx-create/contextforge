@@ -1,0 +1,102 @@
+# ContextForge Full Context
+
+ContextForge is a self-learning token and context optimizer for Codex and
+Claude Code. It is intended for open source maintainers who want coding agents
+to work with less context waste, better cache stability, safer repo
+instructions, and clearer handoffs.
+
+## What ContextForge Does
+
+ContextForge connects several maintainer problems that are usually handled by
+separate tools:
+
+- token usage visibility for Codex and Claude session data
+- prompt-cache stability checks for volatile prefixes and large tool outputs
+- repo context health checks for `AGENTS.md`, `CLAUDE.md`, `.cursorrules`,
+  `.clinerules`, `SKILL.md`, and root README files
+- context security checks for prompt injection, secret exfiltration, unsafe
+  shell instructions, hidden directives, and permission escalation
+- task-specific context packs with explainable file inclusion reasons
+- CI artifacts: JSON audit, HTML report, SARIF, Markdown summary, PR-ready
+  comment, and agent action plan
+
+## Quick Adoption Path
+
+Run this in a repository that should become agent-ready:
+
+```bash
+contextforge init --all --project-name "My Repo"
+```
+
+That writes:
+
+- `.github/workflows/contextforge-audit.yml`
+- `.github/workflows/contextforge-pr-comment.yml`
+- `AGENTS.md`
+- `CLAUDE.md`
+
+The PR comment workflow is separate because publishing comments requires
+`pull-requests: write`. The audit workflow can remain read-oriented and still
+upload all artifacts.
+
+## Commands
+
+```bash
+contextforge scan [--demo] [--codex] [--claude]
+contextforge usage [--demo] [--codex] [--claude]
+contextforge cache-audit [--demo]
+contextforge security-audit [--demo] [--min-security-score 60]
+contextforge security-benchmark [--benchmark-dir fixtures/security-benchmark]
+contextforge agents-md-audit [--demo]
+contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
+contextforge improve [--demo] [--write] [--open-pr]
+contextforge report [--demo] [--output contextforge-report.html]
+contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--min-security-score 60]
+contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
+contextforge plan [--demo] [--output contextforge-agent-plan.md]
+contextforge examples [--output examples/demo-output.md]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--force]
+```
+
+## Safety Model
+
+ContextForge is deterministic and local-first. It does not call an LLM to create
+audit results. CI mode is repo-first by default and does not scan developer
+session history unless a user explicitly requests session scanning with
+`--codex`, `--claude`, or `--demo`.
+
+Security findings are intentionally transparent and rule-based. The public
+benchmark fixtures cover benign, suspicious, malicious, and README-injection
+cases so maintainers can see what the scanner is expected to catch.
+
+## Source Map
+
+- `src/cli.ts`: command parsing and top-level command behavior
+- `src/audit/buildAudit.ts`: combined audit result for CI gates
+- `src/analyzers/`: usage, cache, context health, and context security checks
+- `src/report/`: HTML, Markdown summary, SARIF, PR comment, action plan, and demo output
+- `src/init/`: generated GitHub workflows and agent context files
+- `src/pack/contextPack.ts`: task-specific context pack generation
+- `fixtures/`: synthetic Codex/Claude sessions and security benchmark projects
+- `tests/`: Vitest coverage for CLI behavior, reports, workflows, scanners, and package metadata
+
+## Public Proof Surfaces
+
+- `examples/demo-output.md`: deterministic token usage, CI audit, and handoff output
+- `examples/pr-comment.md`: deterministic PR-ready comment preview
+- GitHub releases: tagged build-in-public release history
+- GitHub Actions: CI and ContextForge Audit dogfood workflows
+- `docs/research/adjacent-tools.md`: research notes and differentiation
+
+## License and Ownership
+
+Code is Apache-2.0 licensed. Copyright is held by Ogün Keskin. The
+ContextForge name, logo, domain names, and related branding are trademarks of
+Ogün Keskin.
+
+## LLM Discovery Note
+
+`llms.txt` and `llms-full.txt` are provided as an AI-readable project map for
+coding agents and assistant tools. The convention is emerging and useful for
+local agent context, but it is not a guarantee of model-provider indexing,
+ranking, or citation.

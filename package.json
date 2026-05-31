@@ -1,6 +1,6 @@
 {
   "name": "contextforge",
-  "version": "0.22.0",
+  "version": "0.23.0",
   "description": "Self-learning token and context optimizer for Codex and Claude Code.",
   "type": "module",
   "packageManager": "pnpm@11.2.2",
@@ -16,6 +16,8 @@
     "docs",
     "examples",
     "fixtures",
+    "llms.txt",
+    "llms-full.txt",
     "README.md",
     "LICENSE",
     "NOTICE",

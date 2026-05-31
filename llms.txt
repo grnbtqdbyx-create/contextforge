@@ -1,0 +1,37 @@
+# ContextForge
+
+> Self-learning token and context optimizer for Codex and Claude Code.
+
+ContextForge is a local-first TypeScript CLI for maintainers who use AI coding
+agents. It measures token usage, audits repo context files, checks prompt-cache
+stability, scans for malicious repo instructions, builds task-specific context
+packs, and produces CI artifacts that Codex and Claude can act on.
+
+## Quick Start
+
+- `contextforge init --all --project-name "My Repo"`: scaffold the recommended repo setup.
+- `contextforge doctor --demo`: run first-readiness checks on fixture data.
+- `contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md`: create CI and PR-review artifacts.
+- `contextforge pack --task "review auth regression" --budget 20000 --sessions`: build an explainable task context pack.
+
+## Key Docs
+
+- [README](README.md): Human-facing overview, quickstart, commands, roadmap, and current status.
+- [GitHub Action](docs/github-action.md): Reusable action, generated workflows, artifacts, and PR comment publishing.
+- [Agent Context Init](docs/agent-context-init.md): Minimal `AGENTS.md` and `CLAUDE.md` scaffolding.
+- [Agent Action Plan](docs/agent-action-plan.md): `contextforge plan` and audit handoff artifacts for Codex/Claude.
+- [Security Audit](docs/security-audit.md): Prompt/context poisoning checks for repo instruction files.
+- [Security Benchmark](docs/security-benchmark.md): Public malicious-context fixtures and expected findings.
+- [Context Pack Scoring](docs/context-pack-scoring.md): Explainable file selection and scoring signals.
+- [Adjacent Tool Research](docs/research/adjacent-tools.md): Positioning against token dashboards, repo packers, agent scanners, and CI eval tools.
+
+## Agent Notes
+
+- Start with `README.md`, then read `docs/github-action.md` for adoption or `docs/architecture.md` for internals.
+- Treat generated files named `contextforge-*.json`, `contextforge-*.md`, `contextforge*.sarif`, and `contextforge-report.html` as artifacts, not source.
+- The project is Apache-2.0 licensed, with trademarks reserved by Ogün Keskin.
+- `llms.txt` is an emerging convention, not a guaranteed discovery or ranking signal.
+
+## Full Context
+
+- [Full Context](llms-full.txt): Expanded project map, commands, safety model, and release evidence.
