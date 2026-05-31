@@ -54,6 +54,14 @@ describe('CLI argument mapping', () => {
   });
 });
 
+describe('CLI help command', () => {
+  it('prints the current default GitHub Action ref in init examples', async () => {
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
+
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.43.0');
+  });
+});
+
 describe('CLI doctor command', () => {
   it('prints a first-run readiness report in demo mode', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'doctor', '--demo']);

@@ -36,7 +36,7 @@ describe('GitHub Action init scaffold', () => {
     expect(workflow).toContain('github/codeql-action/upload-sarif');
     expect(workflow).toContain('github.event.pull_request.head.repo.full_name == github.repository');
     expect(workflow).not.toContain('pnpm/action-setup');
-    expect(workflow).not.toContain('FORCE_JAVASCRIPT_ACTIONS_TO_NODE24');
+    expect(workflow).toContain('FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true');
   });
 
   it('refuses to overwrite an existing workflow unless forced', async () => {
@@ -58,6 +58,13 @@ describe('GitHub Action init scaffold', () => {
     expect(skipped.created).toBe(false);
     expect(forced.created).toBe(true);
     expect(await readFile(workflowPath, 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.test');
+  });
+
+  it('uses the latest released action ref by default', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-init-default-ref-'));
+    const result = await scaffoldGithubActionWorkflow({ rootDir });
+
+    expect(await readFile(result.path, 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.43.0');
   });
 
   it('is available through the init CLI command', async () => {

@@ -125,6 +125,10 @@ ContextForge v0.42.0 adds `contextforge publish-readiness`, because first npm
 publish should be a verifiable supply-chain handoff: repo metadata and workflow
 safety can pass locally, while npm account ownership and Trusted Publisher
 configuration stay explicitly human-approved.
+ContextForge v0.43.0 adds npm provenance metadata checks and Node 24 workflow
+opt-in, because package trust includes both registry-readable repository links
+and CI workflows that are ready for GitHub's JavaScript action runtime
+migration.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -364,6 +368,7 @@ That means every repository can ask:
 29. Generated artifact maps that route reviewers, agents, and launch visitors to the right proof file.
 30. CI-uploaded artifact maps in reusable and generated GitHub workflows.
 31. npm publish-readiness checks that separate repo-verifiable supply-chain setup from account-level maintainer steps.
+32. npm provenance metadata and Node 24 workflow opt-in before the first public package.
 
 ## Explainability Direction
 
@@ -412,3 +417,7 @@ ContextForge v0.42.0 turns that guidance into a first-class readiness report:
 checks package metadata, OIDC workflow safety, preflight commands, docs, and the
 remaining human npm account setup without pretending account-level state can be
 verified from the repository alone.
+ContextForge v0.43.0 extends that report with package provenance metadata:
+`repository.url`, `homepage`, and `bugs.url` must point back to the public
+GitHub repo, and generated workflows opt into Node 24 JavaScript actions before
+the GitHub Actions Node 20 runtime migration.

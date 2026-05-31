@@ -147,7 +147,8 @@ Success signal:
 - CI readers can download `contextforge-artifact-map.md` from the audit artifact
   set instead of guessing which uploaded file to inspect first.
 - Release maintainers can attach `contextforge-publish-readiness.md` to the
-  first npm publish issue and see which steps still require account-level setup.
+  first npm publish issue and see which package provenance, workflow, and
+  account-level setup steps are ready or still human-owned.
 - Maintainers have a generated launch post, suggested GitHub topics, and proof
   commands that stay aligned with the CLI.
 - Maintainers can attach one proof pack to README updates, launch posts, and

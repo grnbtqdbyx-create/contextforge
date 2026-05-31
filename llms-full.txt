@@ -96,8 +96,8 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-review-kit.md`: changed-file review brief and Codex/Claude review prompt from `review-kit`
 - `docs/artifacts.md`: generated artifact catalog and fast paths from `artifact-map`
 - `contextforge-artifact-map.md`: CI-uploaded artifact catalog from reusable and generated workflows
-- `contextforge-publish-readiness.md`: npm Trusted Publishing readiness summary from `publish-readiness`
-- Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts.
+- `contextforge-publish-readiness.md`: npm Trusted Publishing and package provenance readiness summary from `publish-readiness`
+- Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts. Dogfood and generated workflows opt JavaScript actions into Node 24.
 - PR-ready comments point reviewers at `contextforge-proof-pack.md` and `contextforge-review-kit.md` so sticky review discussions can lead to both the deeper doctor/audit proof packet and the changed-file review brief.
 - `docs/launch-post.md`: generated build-in-public launch kit from `launch-kit`
 - `docs/comparison.md`: generated adjacent-tool positioning guide from `compare`
