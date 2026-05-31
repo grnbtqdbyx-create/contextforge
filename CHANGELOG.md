@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.0 - 2026-05-31
+
+- Discover nested `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, `.clinerules`, and `SKILL.md` files in monorepos.
+- Report repository-relative nested instruction paths in context health, context security, SARIF, and Markdown outputs.
+- Skip repository fixture and test directories during repo-root scans while still allowing fixture directories to be audited directly.
+
 ## 0.14.0 - 2026-05-31
 
 - Add `contextforge audit --summary contextforge-summary.md` for human-readable Markdown audit summaries.

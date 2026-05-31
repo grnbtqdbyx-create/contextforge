@@ -14,6 +14,16 @@ describe('context security audit', () => {
     expect(audit.findings.some((finding) => finding.type === 'hidden-directive')).toBe(true);
   });
 
+  it('detects malicious nested agent instruction files', async () => {
+    const audit = await auditContextSecurity({ rootDir: 'fixtures/monorepo-project' });
+
+    expect(
+      audit.findings.some(
+        (finding) => finding.file === 'packages/worker/AGENTS.md' && finding.type === 'prompt-injection'
+      )
+    ).toBe(true);
+  });
+
   it('appears in the full audit result and can fail a security threshold', async () => {
     const audit = await buildAudit({
       records: [],

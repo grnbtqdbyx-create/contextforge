@@ -38,6 +38,9 @@ ContextForge v0.13.0 adds a root composite GitHub Action so repositories can
 adopt that workflow before npm publishing is complete.
 ContextForge v0.14.0 adds Markdown summaries for GitHub Actions job summaries
 so maintainers can inspect the result without downloading artifacts.
+ContextForge v0.15.0 follows the nested-instruction direction by recursively
+auditing monorepo-local `AGENTS.md`, `CLAUDE.md`, and skill files instead of
+assuming that only root-level context exists.
 
 ## 2026 Security Scanner Snapshot
 
