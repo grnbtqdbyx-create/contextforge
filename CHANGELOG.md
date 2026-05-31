@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.17.0 - 2026-05-31
+
+- Add `contextforge plan` for agent-readable audit action plans that Codex and Claude can execute from.
+- Add `contextforge audit --plan contextforge-agent-plan.md` so CI artifacts include a prioritized fix plan.
+- Extend the reusable GitHub Action and generated workflows with `contextforge-agent-plan.md` artifacts.
+- Refresh README and adjacent-tool research around the gap between token dashboards, context registries, AGENTS.md research, and actionable repo context gates.
+
 ## 0.16.1 - 2026-05-31
 
 - Replace deprecated `pnpm/action-setup` usage with Corepack-based pnpm setup in GitHub workflows.

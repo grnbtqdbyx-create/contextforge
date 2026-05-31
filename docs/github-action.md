@@ -1,7 +1,8 @@
 # GitHub Action Mode
 
 ContextForge can dogfood itself in CI by generating a JSON audit, an HTML
-report, and a SARIF file for GitHub Code Scanning on every push or pull request.
+report, a SARIF file for GitHub Code Scanning, a Markdown job summary, and an
+agent-readable action plan on every push or pull request.
 
 ## One-command Setup
 
@@ -12,12 +13,12 @@ contextforge init --github-action
 ```
 
 The command writes `.github/workflows/contextforge-audit.yml` with JSON, HTML,
-SARIF, and Markdown summary artifacts. It refuses to overwrite an existing
-workflow by default:
+SARIF, Markdown summary, and agent action plan artifacts. It refuses to
+overwrite an existing workflow by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.16.1
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.17.0
 ```
 
 ## Reusable Action
@@ -42,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: grnbtqdbyx-create/contextforge@v0.16.1
+      - uses: grnbtqdbyx-create/contextforge@v0.17.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -51,6 +52,7 @@ jobs:
           report: contextforge-report.html
           sarif: contextforge.sarif
           summary: contextforge-summary.md
+          plan: contextforge-agent-plan.md
       - uses: actions/upload-artifact@v5
         if: always()
         with:
@@ -60,6 +62,7 @@ jobs:
             contextforge-report.html
             contextforge.sarif
             contextforge-summary.md
+            contextforge-agent-plan.md
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
@@ -89,16 +92,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 11.2.2
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-          cache: pnpm
+          package-manager-cache: false
+      - run: corepack enable
+      - run: corepack prepare pnpm@11.2.2 --activate
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md
+      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md
       - name: Write job summary
         if: always()
         run: cat contextforge-summary.md >> "$GITHUB_STEP_SUMMARY"
@@ -111,6 +113,7 @@ jobs:
             contextforge-report.html
             contextforge.sarif
             contextforge-summary.md
+            contextforge-agent-plan.md
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:

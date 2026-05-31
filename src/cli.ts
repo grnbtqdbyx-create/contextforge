@@ -12,6 +12,7 @@ import { suggestRuleImprovements } from './improve/ruleSuggestions.js';
 import { writeHtmlReport } from './report/htmlReport.js';
 import { createSarifReport } from './report/sarifReport.js';
 import { createMarkdownSummary } from './report/markdownSummary.js';
+import { createActionPlan } from './report/actionPlan.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
 import { formatDoctor, runDoctor } from './doctor/doctor.js';
@@ -30,6 +31,7 @@ export interface CliArgs {
   benchmarkDir: string | undefined;
   sarif: string | undefined;
   summary: string | undefined;
+  plan: string | undefined;
   sessions: boolean;
   json: boolean;
   write: boolean;
@@ -80,6 +82,9 @@ async function main(): Promise<void> {
     case 'doctor':
       await commandDoctor(args);
       break;
+    case 'plan':
+      await commandPlan(args);
+      break;
     case 'init':
       await commandInit(args);
       break;
@@ -91,7 +96,7 @@ async function main(): Promise<void> {
 
 function parseArgs(argv: string[]): CliArgs {
   const command = argv.find((item) => !item.startsWith('-')) ?? 'help';
-  const defaultOutput = command === 'audit' ? 'contextforge-audit.json' : 'contextforge-report.html';
+  const defaultOutput = defaultOutputForCommand(command);
   const providerFlagProvided = argv.includes('--codex') || argv.includes('--claude');
   const repoOnlyAudit = ['audit', 'doctor'].includes(command) && !argv.includes('--demo') && !providerFlagProvided;
   return {
@@ -106,6 +111,7 @@ function parseArgs(argv: string[]): CliArgs {
     benchmarkDir: valueAfter(argv, '--benchmark-dir'),
     sarif: valueAfter(argv, '--sarif'),
     summary: valueAfter(argv, '--summary'),
+    plan: valueAfter(argv, '--plan'),
     sessions: argv.includes('--sessions') || argv.includes('--demo') || providerFlagProvided,
     json: argv.includes('--json'),
     write: argv.includes('--write'),
@@ -258,10 +264,11 @@ async function commandAudit(args: CliArgs): Promise<void> {
   });
   if (args.sarif) await fs.writeFile(args.sarif, `${JSON.stringify(createSarifReport(audit), null, 2)}\n`);
   if (args.summary) await fs.writeFile(args.summary, createMarkdownSummary(audit));
+  if (args.plan) await fs.writeFile(args.plan, createActionPlan(audit));
 
   console.log(`ContextForge audit: ${audit.status}`);
   console.log(`Context health: ${audit.scores.contextHealth}/100  Cache stability: ${audit.scores.cacheStability}/100  Context security: ${audit.scores.contextSecurity}/100`);
-  console.log(`Wrote ${[args.output, args.report, args.sarif, args.summary].filter(Boolean).join(' and ')}`);
+  console.log(`Wrote ${[args.output, args.report, args.sarif, args.summary, args.plan].filter(Boolean).join(' and ')}`);
   if (audit.failures.length > 0) {
     for (const failure of audit.failures) console.log(`FAIL: ${failure}`);
     process.exitCode = 1;
@@ -280,6 +287,22 @@ async function commandDoctor(args: CliArgs): Promise<void> {
   });
   console.log(args.json ? JSON.stringify(result, null, 2) : formatDoctor(result));
   if (result.status === 'fail') process.exitCode = 1;
+}
+
+async function commandPlan(args: CliArgs): Promise<void> {
+  const records = await loadRecords(args);
+  const rootDir = args.demo ? 'fixtures/project' : process.cwd();
+  const audit = await buildAudit({
+    records,
+    rootDir,
+    minContextScore: args.minContextScore,
+    minCacheScore: args.minCacheScore,
+    minSecurityScore: args.minSecurityScore
+  });
+
+  await fs.writeFile(args.output, createActionPlan(audit));
+  console.log(`Wrote ${args.output}`);
+  if (audit.status === 'fail') process.exitCode = 1;
 }
 
 async function commandInit(args: CliArgs): Promise<void> {
@@ -331,6 +354,12 @@ function valueAfter(argv: string[], flag: string): string | undefined {
   return index >= 0 ? argv[index + 1] : undefined;
 }
 
+function defaultOutputForCommand(command: string): string {
+  if (command === 'audit') return 'contextforge-audit.json';
+  if (command === 'plan') return 'contextforge-agent-plan.md';
+  return 'contextforge-report.html';
+}
+
 function optionalNumber(value: string | undefined): number | undefined {
   if (!value) return undefined;
   const parsed = Number(value);
@@ -372,9 +401,10 @@ Usage:
   contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
   contextforge improve [--demo] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
-  contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--min-security-score 60]
+  contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--min-security-score 60]
   contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
-  contextforge init --github-action [--action-ref grnbtqdbyx-create/contextforge@v0.16.0] [--force]
+  contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
+  contextforge init --github-action [--action-ref grnbtqdbyx-create/contextforge@v0.17.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
