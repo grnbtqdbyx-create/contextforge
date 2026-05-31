@@ -118,7 +118,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.9.0 is a public MVP CLI with:
+ContextForge v0.9.1 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -145,6 +145,7 @@ ContextForge v0.9.0 is a public MVP CLI with:
 - **v0.7.0:** session-derived context pack scoring from failure/read/edit signals.
 - **v0.8.0:** broader modern Codex rollout JSONL parsing and bounded local scans.
 - **v0.9.0:** manual npm publish workflow draft with dry-run default and OIDC preparation.
+- **v0.9.1:** bounded session scan CLI option forwarding fix.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

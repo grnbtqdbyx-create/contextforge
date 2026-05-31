@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { promises as fs } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { scanClaudeSessions } from './scanners/claude.js';
 import { scanCodexSessions } from './scanners/codex.js';
 import { summarizeUsage } from './analyzers/usage.js';
@@ -11,9 +12,9 @@ import { suggestRuleImprovements } from './improve/ruleSuggestions.js';
 import { writeHtmlReport } from './report/htmlReport.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
-import type { SessionRecord } from './types.js';
+import type { ScannerOptions, SessionRecord } from './types.js';
 
-interface CliArgs {
+export interface CliArgs {
   command: string;
   demo: boolean;
   codex: boolean;
@@ -98,10 +99,19 @@ function parseArgs(argv: string[]): CliArgs {
   };
 }
 
+export function scannerOptionsFromArgs(args: CliArgs): ScannerOptions {
+  return {
+    demo: args.demo,
+    maxFiles: args.maxFiles,
+    maxFileBytes: args.maxFileBytes
+  };
+}
+
 async function loadRecords(args: CliArgs): Promise<SessionRecord[]> {
   const results: SessionRecord[][] = [];
-  if (args.claude) results.push(await scanClaudeSessions({ demo: args.demo }));
-  if (args.codex) results.push(await scanCodexSessions({ demo: args.demo }));
+  const scannerOptions = scannerOptionsFromArgs(args);
+  if (args.claude) results.push(await scanClaudeSessions(scannerOptions));
+  if (args.codex) results.push(await scanCodexSessions(scannerOptions));
   return results.flat();
 }
 
@@ -293,7 +303,9 @@ Session scan safety:
 `);
 }
 
-main().catch((error) => {
-  console.error(error instanceof Error ? error.message : String(error));
-  process.exitCode = 1;
-});
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  main().catch((error) => {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  });
+}
