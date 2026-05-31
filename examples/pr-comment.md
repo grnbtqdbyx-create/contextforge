@@ -25,5 +25,6 @@ Status: **pass**
 - `contextforge-audit.json` for machine-readable gates
 - `contextforge-report.html` for the full report
 - `contextforge-agent-plan.md` for Codex/Claude handoff
+- `contextforge-proof-pack.md` for shareable doctor/audit proof
 
 _Generated deterministically by ContextForge. No model or secret-bearing agent is needed to produce this comment._

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.36.0 - 2026-06-01
+
+- Add `contextforge-proof-pack.md` to the PR-ready comment artifact so reviewers can jump from the sticky PR comment to the shareable doctor/audit proof packet.
+- Regenerate `examples/pr-comment.md` from the CLI so README visitors see the proof-pack link in public output.
+- Refresh README, GitHub Action docs, LLM discovery files, changelog, and research notes around proof-pack visibility in PR review surfaces.
+
 ## 0.35.0 - 2026-06-01
 
 - Add `contextforge-proof-pack.md` to the reusable GitHub Action inputs and outputs so downstream repositories can publish a shareable readiness packet from CI.

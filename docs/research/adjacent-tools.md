@@ -103,6 +103,9 @@ doctor status, audit scores, rerun commands, and next handoff step together.
 ContextForge v0.35.0 adds proof-pack artifacts to the reusable GitHub Action,
 generated audit workflow, and dogfood workflow, because proof that stays only on
 a laptop is weaker than proof attached to every CI run.
+ContextForge v0.36.0 adds proof-pack visibility to PR-ready comments, because
+the review discussion is the fastest path from "the gate passed" to "here is
+the deeper doctor/audit packet reviewers can verify."
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -240,6 +243,11 @@ With v0.35.0, ContextForge makes that packet CI-visible:
 > upload `contextforge-proof-pack.md` as an artifact next to JSON, HTML, SARIF,
 > summary, plan, PR comment, suggestions, and badge outputs.
 
+With v0.36.0, ContextForge makes that packet review-visible:
+
+> `contextforge-pr-comment.md` points reviewers at `contextforge-proof-pack.md`
+> so a sticky PR comment can lead directly to the shareable doctor/audit proof.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -266,6 +274,7 @@ That means every repository can ask:
 - Can maintainers verify that README launch assets, launch copy, and comparison docs are present before asking for stars?
 - Can maintainers share one deterministic proof packet instead of asking visitors or agents to inspect many artifacts?
 - Can every PR and push publish that proof packet as a GitHub Actions artifact?
+- Can PR reviewers discover the proof packet from the sticky comment?
 
 ## Next Differentiators
 
@@ -293,6 +302,7 @@ That means every repository can ask:
 22. Launch profile checks for star-ready repository pages.
 23. Portable proof packs that combine doctor, audit, command, and agent handoff evidence.
 24. CI-uploaded proof-pack artifacts in reusable and generated GitHub workflows.
+25. PR-visible proof-pack links in sticky review comments.
 
 ## Explainability Direction
 

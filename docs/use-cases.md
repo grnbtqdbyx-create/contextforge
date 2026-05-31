@@ -119,6 +119,8 @@ Success signal:
 
 - Visitors can inspect generated token usage, CI audit, and PR comment previews
   without installing anything.
+- Reviewers can jump from the generated PR comment to `contextforge-proof-pack.md`
+  for the deeper doctor/audit proof packet.
 - Maintainers have a generated launch post, suggested GitHub topics, and proof
   commands that stay aligned with the CLI.
 - Maintainers can attach one proof pack to README updates, launch posts, and
