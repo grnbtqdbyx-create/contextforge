@@ -18,6 +18,7 @@ import { createComparisonGuide } from './report/comparison.js';
 import { createDemoOutput } from './report/demoOutput.js';
 import { createLaunchKit } from './report/launchKit.js';
 import { createPrComment } from './report/prComment.js';
+import { createProofPack } from './report/proofPack.js';
 import { createBadgeSvg } from './report/badge.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
@@ -109,6 +110,9 @@ async function main(): Promise<void> {
     case 'compare':
       await commandCompare(args);
       break;
+    case 'proof-pack':
+      await commandProofPack(args);
+      break;
     case 'init':
       await commandInit(args);
       break;
@@ -122,7 +126,7 @@ function parseArgs(argv: string[]): CliArgs {
   const command = argv.find((item) => !item.startsWith('-')) ?? 'help';
   const defaultOutput = defaultOutputForCommand(command);
   const providerFlagProvided = argv.includes('--codex') || argv.includes('--claude');
-  const repoOnlyAudit = ['audit', 'doctor'].includes(command) && !argv.includes('--demo') && !providerFlagProvided;
+  const repoOnlyAudit = ['audit', 'doctor', 'proof-pack'].includes(command) && !argv.includes('--demo') && !providerFlagProvided;
   return {
     command,
     demo: argv.includes('--demo'),
@@ -376,6 +380,30 @@ async function commandCompare(args: CliArgs): Promise<void> {
   console.log(`Wrote ${args.output}`);
 }
 
+async function commandProofPack(args: CliArgs): Promise<void> {
+  const records = await loadRecords(args);
+  const rootDir = args.demo ? 'fixtures/project' : process.cwd();
+  const audit = await buildAudit({
+    records,
+    rootDir,
+    minContextScore: args.minContextScore,
+    minCacheScore: args.minCacheScore,
+    minSecurityScore: args.minSecurityScore
+  });
+  const doctor = await runDoctor({
+    rootDir,
+    records,
+    benchmarkDir: args.benchmarkDir,
+    minContextScore: args.minContextScore,
+    minCacheScore: args.minCacheScore,
+    minSecurityScore: args.minSecurityScore
+  });
+  await fs.mkdir(dirname(args.output), { recursive: true });
+  await fs.writeFile(args.output, createProofPack({ doctor, audit }));
+  console.log(`Wrote ${args.output}`);
+  if (doctor.status === 'fail' || audit.status === 'fail') process.exitCode = 1;
+}
+
 async function commandInit(args: CliArgs): Promise<void> {
   if (!args.githubAction && !args.prCommentWorkflow && !args.agentsMd && !args.claudeMd) {
     console.log('Choose what to initialize. Try: contextforge init --all');
@@ -445,6 +473,7 @@ function defaultOutputForCommand(command: string): string {
   if (command === 'examples') return 'examples/demo-output.md';
   if (command === 'launch-kit') return 'docs/launch-post.md';
   if (command === 'compare') return 'docs/comparison.md';
+  if (command === 'proof-pack') return 'contextforge-proof-pack.md';
   return 'contextforge-report.html';
 }
 
@@ -504,7 +533,8 @@ Usage:
   contextforge examples [--output examples/demo-output.md]
   contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
   contextforge compare [--output docs/comparison.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.33.0] [--force]
+  contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.34.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

@@ -45,11 +45,13 @@ For adjacent-tool positioning, see [docs/comparison.md](docs/comparison.md).
 CI can also upload a structured suggestions file and compact status badge:
 `contextforge-suggestions.json` and `contextforge-badge.svg`. First-run
 readiness can be published as Markdown with `contextforge doctor --summary
-contextforge-doctor.md`.
+contextforge-doctor.md`, or bundled into a single proof packet with
+`contextforge proof-pack --output contextforge-proof-pack.md`.
 
 ```bash
 contextforge examples --output examples/demo-output.md
 contextforge doctor --summary contextforge-doctor.md
+contextforge proof-pack --output contextforge-proof-pack.md
 contextforge launch-kit --output docs/launch-post.md
 contextforge compare --output docs/comparison.md
 contextforge audit --demo --comment examples/pr-comment.md --badge contextforge-badge.svg
@@ -57,7 +59,18 @@ contextforge audit --demo --comment examples/pr-comment.md --badge contextforge-
 
 ## 60-Second Proof
 
-Run one command and get a maintainer-readable checklist:
+Run one command and get a shareable proof packet:
+
+```bash
+contextforge proof-pack --output contextforge-proof-pack.md
+```
+
+That file combines doctor checks, audit scores, evidence commands, and a
+Codex/Claude handoff note. It is designed for launch posts, PR descriptions,
+OSS applications, and README updates where people need to verify the project
+without reading the whole repository first.
+
+For the shorter first-run checklist:
 
 ```bash
 contextforge doctor --summary contextforge-doctor.md
@@ -93,6 +106,7 @@ pnpm contextforge scan --demo
 pnpm contextforge usage --demo
 pnpm contextforge report --demo
 pnpm contextforge plan --demo
+pnpm contextforge proof-pack --demo
 pnpm contextforge examples
 pnpm contextforge launch-kit
 pnpm contextforge compare
@@ -113,6 +127,7 @@ For CI or agent workflows:
 ```bash
 contextforge init --all --project-name "My Repo"
 contextforge doctor --json --summary contextforge-doctor.md
+contextforge proof-pack --output contextforge-proof-pack.md
 contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
 contextforge plan --output contextforge-agent-plan.md
 contextforge pack --task "review auth regression" --budget 20000 --sessions
@@ -121,7 +136,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.33.0
+- uses: grnbtqdbyx-create/contextforge@v0.34.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -134,6 +149,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Check public trust surfaces:** verify README, license, contributing, changelog, demo output, and LLM discovery docs from `contextforge doctor`.
 - **Verify launch profile surfaces:** check demo assets, launch kit, and comparison guide from `contextforge doctor`.
 - **Check community health surfaces:** verify Code of Conduct, security policy, issue templates, and PR template files before asking contributors to help.
+- **Share one proof packet:** combine doctor checks, audit scores, evidence commands, and Codex/Claude handoff guidance with `contextforge proof-pack`.
 - **Publish first-run proof:** write `contextforge-doctor.md` from `doctor --summary` for issues, PRs, launch posts, or README updates.
 - **Generate a launch kit:** write a one-liner, proof commands, suggested GitHub topics, launch post draft, and maintainer checklist.
 - **Explain the category:** generate a comparison guide that shows where ContextForge complements Repomix, ccusage, promptfoo, and security scanners.
@@ -182,6 +198,7 @@ and tuned for Codex/Claude repository work.
 | Repo visitors need instant proof. | `--badge contextforge-badge.svg` creates a compact audit status badge. |
 | OSS launch readiness is scattered. | `contextforge doctor` checks public proof surfaces in one report. |
 | README launch assets go stale. | `contextforge doctor` checks demo assets, launch kit, and comparison guide in the first-run report. |
+| Maintainers need to prove readiness outside CI. | `proof-pack` writes one shareable Markdown packet with doctor, audit, commands, and agent handoff. |
 | Contributors do not know how to help safely. | `contextforge doctor` checks community health files in the same first-run report. |
 | First-run proof is trapped in terminal output. | `doctor --summary` writes a Markdown report for README, issues, PRs, or launch posts. |
 | Launch copy drifts from the real CLI. | `launch-kit` generates a public post and topic checklist from the current project framing. |
@@ -205,7 +222,8 @@ contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-
 contextforge examples [--output examples/demo-output.md]
 contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
 contextforge compare [--output docs/comparison.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.33.0] [--force]
+contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.34.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -254,6 +272,7 @@ Codex JSONL parser coverage is documented in
 [docs/codex-session-formats.md](docs/codex-session-formats.md).
 npm publish preparation is documented in [docs/npm-publish.md](docs/npm-publish.md).
 First-run readiness checks are documented in [docs/doctor.md](docs/doctor.md).
+Proof pack generation is documented in [docs/proof-pack.md](docs/proof-pack.md).
 Agent-readable fix plans are documented in [docs/agent-action-plan.md](docs/agent-action-plan.md).
 Minimal agent context scaffolding is documented in [docs/agent-context-init.md](docs/agent-context-init.md).
 
@@ -267,12 +286,13 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.33.0 is a public MVP CLI with:
+ContextForge v0.34.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
 - first-run `contextforge doctor` readiness report with JSON output
 - shareable `contextforge doctor --summary` Markdown reports
+- shareable `contextforge proof-pack` readiness packets for launch, PR, and OSS evidence
 - generated `contextforge launch-kit` build-in-public launch posts
 - generated `contextforge compare` adjacent-tool positioning guides
 - `Public proof surfaces` doctor check for OSS trust/readiness files
@@ -341,6 +361,7 @@ ContextForge v0.33.0 is a public MVP CLI with:
 - **v0.31.0:** generated launch kit with proof commands, topics, launch copy, and maintainer checklist.
 - **v0.32.0:** generated comparison guide for adjacent agent-context tools.
 - **v0.33.0:** launch profile surface checks in `contextforge doctor`.
+- **v0.34.0:** shareable proof packs that combine doctor, audit, commands, and Codex/Claude handoff guidance.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

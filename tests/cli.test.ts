@@ -223,3 +223,36 @@ describe('CLI compare command', () => {
     await rm(rootDir, { recursive: true, force: true });
   });
 });
+
+describe('CLI proof-pack command', () => {
+  it('stays repo-first by default so public proof generation does not depend on local sessions', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-proof-pack-repo-first-'));
+    const outputPath = path.join(rootDir, 'contextforge-proof-pack.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'proof-pack', '--output', outputPath]);
+    const proof = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(proof).toContain('| Sessions | 0 records | 0 total tokens, 0.0% cache hit ratio |');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+
+  it('writes a proof pack that combines doctor and audit evidence for sharing', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-proof-pack-'));
+    const outputPath = path.join(rootDir, 'contextforge-proof-pack.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'proof-pack', '--demo', '--output', outputPath]);
+    const proof = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(proof).toContain('# ContextForge Proof Pack');
+    expect(proof).toContain('## Readiness Snapshot');
+    expect(proof).toContain('| Doctor |');
+    expect(proof).toContain('| Audit |');
+    expect(proof).toContain('## Evidence Commands');
+    expect(proof).toContain('contextforge doctor --summary contextforge-doctor.md');
+    expect(proof).toContain('contextforge audit --summary contextforge-summary.md');
+    expect(proof).toContain('## Codex / Claude Handoff');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});

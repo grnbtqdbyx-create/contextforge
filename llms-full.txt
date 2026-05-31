@@ -57,6 +57,7 @@ contextforge plan [--demo] [--output contextforge-agent-plan.md]
 contextforge examples [--output examples/demo-output.md]
 contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
 contextforge compare [--output docs/comparison.md]
+contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
 contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--force]
 ```
 
@@ -88,6 +89,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-suggestions.json`: machine-readable improvement suggestions for Codex, Claude, bots, and CI scripts
 - `contextforge-badge.svg`: compact audit status badge generated from context, cache, and security scores
 - `contextforge-doctor.md`: shareable first-run readiness checklist from `doctor --summary`
+- `contextforge-proof-pack.md`: shareable doctor, audit, command, and handoff evidence from `proof-pack`
 - `docs/launch-post.md`: generated build-in-public launch kit from `launch-kit`
 - `docs/comparison.md`: generated adjacent-tool positioning guide from `compare`
 - `assets/demo-terminal.svg` and `assets/contextforge-report.png`: launch profile assets checked by `contextforge doctor`

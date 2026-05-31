@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.34.0 - 2026-06-01
+
+- Add `contextforge proof-pack --output contextforge-proof-pack.md` to combine doctor checks, audit scores, evidence commands, and Codex/Claude handoff guidance into one shareable Markdown artifact.
+- Make proof-pack generation available from the CLI and tests so maintainers can attach a deterministic repo-readiness packet to launches, PRs, OSS applications, or README updates.
+- Refresh README, LLM discovery files, GitHub Action refs, and research notes around proof-first onboarding after current adjacent-tool and GitHub discovery research.
+
 ## 0.33.0 - 2026-06-01
 
 - Add a `Launch profile surfaces` check to `contextforge doctor` for README demo assets, generated launch kit, and generated comparison guide.
