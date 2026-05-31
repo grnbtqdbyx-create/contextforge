@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 - Unreleased
+
+- Add context-file security audit for prompt injection, secret exfiltration, unsafe shell instructions, hidden directives, and permission escalation.
+- Add `contextforge security-audit` for focused repo instruction security checks.
+- Include context security score and findings in JSON and HTML audit output.
+- Add malicious context fixtures and fixture-backed tests.
+
 ## 0.2.0 - 2026-05-31
 
 - Add `contextforge audit` for CI-ready JSON and HTML audit output.

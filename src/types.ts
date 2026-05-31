@@ -48,3 +48,7 @@ export interface CacheAudit {
   inputTokens: number;
 }
 
+export interface ContextSecurityAudit {
+  findings: Finding[];
+  score: number;
+}

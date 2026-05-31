@@ -1,5 +1,5 @@
 import { promises as fs } from 'node:fs';
-import type { CacheAudit, ContextFileAudit } from '../types.js';
+import type { CacheAudit, ContextFileAudit, ContextSecurityAudit } from '../types.js';
 import type { UsageSummary } from '../analyzers/usage.js';
 import type { RuleSuggestion } from '../improve/ruleSuggestions.js';
 
@@ -8,6 +8,7 @@ export async function writeHtmlReport(options: {
   usage: UsageSummary;
   context: ContextFileAudit;
   cache: CacheAudit;
+  security?: ContextSecurityAudit;
   suggestions: RuleSuggestion[];
 }): Promise<void> {
   const html = `<!doctype html>
@@ -38,9 +39,12 @@ export async function writeHtmlReport(options: {
       <div class="card"><div>Cached tokens</div><div class="metric">${options.usage.cachedTokens}</div></div>
       <div class="card"><div>Context health</div><div class="metric">${options.context.score}/100</div></div>
       <div class="card"><div>Cache stability</div><div class="metric">${options.cache.score}/100</div></div>
+      <div class="card"><div>Context security</div><div class="metric">${options.security?.score ?? 100}/100</div></div>
     </section>
     <h2>Context Findings</h2>
     ${renderFindings(options.context.findings)}
+    <h2>Security Findings</h2>
+    ${renderFindings(options.security?.findings ?? [])}
     <h2>Cache Findings</h2>
     ${renderFindings(options.cache.findings)}
     <h2>Suggested Improvements</h2>
@@ -61,4 +65,3 @@ function renderFindings(findings: Array<{ type: string; severity: string; messag
 function escapeHtml(value: string): string {
   return value.replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char] ?? char));
 }
-
