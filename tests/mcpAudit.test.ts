@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, symlink, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -111,6 +111,28 @@ describe('MCP exposure audit', () => {
 
     expect(audit.status).toBe('pass');
     expect(audit.findings).toHaveLength(0);
+  });
+
+  it('detects symlinked MCP config files without following the target', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-mcp-symlink-'));
+    await mkdir(path.join(rootDir, '.cursor'), { recursive: true });
+    await writeFile(path.join(rootDir, 'outside-mcp.json'), '{"mcpServers": {}}\n');
+    await symlink('../outside-mcp.json', path.join(rootDir, '.cursor/mcp.json'));
+
+    const audit = await auditMcpExposure({ rootDir });
+
+    expect(audit.status).toBe('fail');
+    expect(audit.files).toEqual(['.cursor/mcp.json']);
+    expect(audit.findings).toEqual([
+      {
+        file: '.cursor/mcp.json',
+        type: 'mcp-config-symlink',
+        severity: 'high',
+        message: '.cursor/mcp.json is a symlinked MCP config, so agents may load a target outside normal review.',
+        suggestion: 'Replace the symlink with a committed JSON file or review the target before enabling MCP tools.'
+      }
+    ]);
+    expect(createMcpExposureSummary(audit)).toContain('| mcp-config-symlink | high |');
   });
 });
 

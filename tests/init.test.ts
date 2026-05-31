@@ -68,7 +68,7 @@ describe('GitHub Action init scaffold', () => {
     const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-init-default-ref-'));
     const result = await scaffoldGithubActionWorkflow({ rootDir });
 
-    expect(await readFile(result.path, 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.46.0');
+    expect(await readFile(result.path, 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.47.0');
   });
 
   it('is available through the init CLI command', async () => {
