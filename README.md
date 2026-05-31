@@ -65,7 +65,7 @@ Input: 8832  Output: 3750  Cached: 3328
 For CI or agent workflows:
 
 ```bash
-contextforge init --github-action --pr-comment-workflow --agents-md --claude-md --project-name "My Repo"
+contextforge init --all --project-name "My Repo"
 contextforge doctor --json
 contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md
 contextforge plan --output contextforge-agent-plan.md
@@ -140,7 +140,7 @@ contextforge audit [--demo] [--output contextforge-audit.json] [--report context
 contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
 contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
 contextforge examples [--output examples/demo-output.md]
-contextforge init [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.22.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.22.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -169,10 +169,11 @@ workflow. ContextForge also runs this audit against itself.
 For repositories that want a sticky PR comment, run:
 
 ```bash
-contextforge init --pr-comment-workflow
+contextforge init --all --project-name "My Repo"
 ```
 
-That scaffold is intentionally separate from the audit workflow because posting
+`--all` writes the audit workflow, optional PR comment workflow, `AGENTS.md`,
+and `CLAUDE.md`. The PR comment workflow remains a separate file because posting
 comments requires `pull-requests: write`.
 
 By default, `audit` is repo-first and does not scan local session history. Add
@@ -221,6 +222,7 @@ ContextForge v0.22.0 is a public MVP CLI with:
 - reusable GitHub Action entrypoint
 - `contextforge init --github-action` scaffolding for one-command CI setup
 - `contextforge init --pr-comment-workflow` scaffolding for opt-in sticky PR comments
+- `contextforge init --all` scaffolding for the full recommended setup
 - `contextforge init --agents-md --claude-md` scaffolding for minimal Codex/Claude context files
 - manual npm publish workflow draft with OIDC/trusted-publishing preparation
 
@@ -248,7 +250,7 @@ ContextForge v0.22.0 is a public MVP CLI with:
 - **v0.19.0:** root README prompt-injection scanning and benchmark coverage.
 - **v0.20.0:** deterministic public demo output for README and repo visitors.
 - **v0.21.0:** PR-ready deterministic audit comment artifact.
-- **v0.22.0:** opt-in sticky PR comment workflow scaffolding.
+- **v0.22.0:** opt-in sticky PR comment workflow scaffolding and `init --all`.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

@@ -58,6 +58,8 @@ ContextForge v0.21.0 adds a PR-ready Markdown comment artifact so maintainers
 can bring the same evidence into review surfaces without running a model.
 ContextForge v0.22.0 follows the sticky-comment adoption pattern by scaffolding
 that posting workflow separately from the read-only audit job.
+It also adds `contextforge init --all` to match the successful one-command
+quickstart pattern used by mature CLI tools.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -122,7 +124,8 @@ With v0.21.0, ContextForge makes the CI result easier to discuss in reviews:
 
 With v0.22.0, ContextForge makes that review loop one command to adopt:
 
-> opt-in sticky PR comment workflow scaffolding with explicit write permissions.
+> opt-in sticky PR comment workflow scaffolding with explicit write permissions,
+> plus `init --all` for the full recommended setup.
 
 That means every repository can ask:
 
@@ -136,6 +139,7 @@ That means every repository can ask:
 - Can a visitor see real token, audit, and handoff output before installing the CLI?
 - Can reviewers see the agent-context gate directly in a PR discussion?
 - Can maintainers add that PR comment without hand-copying a permission-sensitive workflow?
+- Can a new repository adopt the whole ContextForge loop with one command?
 
 ## Next Differentiators
 
@@ -149,7 +153,7 @@ That means every repository can ask:
 8. README prompt-injection coverage for repository entrypoints agents read by default.
 9. Regenerable demo output that turns the README into a verifiable product surface.
 10. PR-ready deterministic comments that make context quality visible during review.
-11. One-command sticky PR comment workflow scaffolding for explicit opt-in adoption.
+11. One-command recommended setup for audit, PR comment, AGENTS.md, and CLAUDE.md.
 
 ## Explainability Direction
 

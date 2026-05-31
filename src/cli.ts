@@ -41,6 +41,7 @@ export interface CliArgs {
   json: boolean;
   write: boolean;
   openPr: boolean;
+  all: boolean;
   githubAction: boolean;
   prCommentWorkflow: boolean;
   agentsMd: boolean;
@@ -129,10 +130,11 @@ function parseArgs(argv: string[]): CliArgs {
     json: argv.includes('--json'),
     write: argv.includes('--write'),
     openPr: argv.includes('--open-pr'),
-    githubAction: argv.includes('--github-action'),
-    prCommentWorkflow: argv.includes('--pr-comment-workflow'),
-    agentsMd: argv.includes('--agents-md'),
-    claudeMd: argv.includes('--claude-md'),
+    all: argv.includes('--all'),
+    githubAction: argv.includes('--all') || argv.includes('--github-action'),
+    prCommentWorkflow: argv.includes('--all') || argv.includes('--pr-comment-workflow'),
+    agentsMd: argv.includes('--all') || argv.includes('--agents-md'),
+    claudeMd: argv.includes('--all') || argv.includes('--claude-md'),
     force: argv.includes('--force'),
     actionRef: valueAfter(argv, '--action-ref'),
     projectName: valueAfter(argv, '--project-name'),
@@ -331,7 +333,7 @@ async function commandExamples(args: CliArgs): Promise<void> {
 
 async function commandInit(args: CliArgs): Promise<void> {
   if (!args.githubAction && !args.prCommentWorkflow && !args.agentsMd && !args.claudeMd) {
-    console.log('Choose what to initialize. Try: contextforge init --github-action --pr-comment-workflow --agents-md --claude-md');
+    console.log('Choose what to initialize. Try: contextforge init --all');
     process.exitCode = 1;
     return;
   }
@@ -453,7 +455,7 @@ Usage:
   contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
   contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
   contextforge examples [--output examples/demo-output.md]
-  contextforge init [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.22.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.22.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

@@ -2,6 +2,7 @@
 
 ## 0.22.0 - 2026-05-31
 
+- Add `contextforge init --all` as the one-command recommended setup for CI, PR comments, `AGENTS.md`, and `CLAUDE.md`.
 - Add `contextforge init --pr-comment-workflow` to scaffold an opt-in sticky PR comment workflow.
 - Keep PR comment posting separate from the audit workflow so repositories must explicitly grant `pull-requests: write`.
 - Update onboarding docs around safe PR comment publishing from the generated `contextforge-pr-comment.md` artifact.
