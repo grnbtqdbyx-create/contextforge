@@ -49,6 +49,9 @@ say pass/fail; it produces a prioritized fix handoff for Codex or Claude.
 ContextForge v0.18.0 adds minimal `AGENTS.md` and `CLAUDE.md` scaffolding so
 new repositories start with short, auditable context instead of copied prompt
 sprawl.
+ContextForge v0.19.0 expands security scanning to root `README.md`, matching
+current incident reports and benchmarks where agents follow malicious
+instructions embedded in repository entrypoints.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -64,6 +67,7 @@ and reusable context distribution:
 | [OpenAI AGENTS.md](https://github.com/openai/agents.md) | AGENTS.md is positioned as a predictable place to give coding agents project context. | Support the convention, but scaffold minimal operational guidance and audit it continuously. |
 | [Claude Code memory docs](https://docs.claude.com/en/docs/claude-code/memory) | Claude project memory lives in `CLAUDE.md` and works best with specific, structured instructions. | Generate concise Claude memory alongside AGENTS.md and keep it inside the same audit loop. |
 | [CSA README injection note](https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/03/CSA_research_note_readme_instruction_injection_ai_coding_agents_20260317-csa-styled.pdf) | Repository files can become an instruction-injection surface for coding agents. | Keep security findings first in the action plan and preserve SARIF/Code Scanning integration. |
+| [CodeIPI](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/ipi_coding_agent/index.html) | Indirect prompt injection benchmark embeds attacks in software engineering artifacts including README files and code comments. | Treat README as a first-class audit target while keeping the default scope deterministic and local-first. |
 
 ## 2026 Security Scanner Snapshot
 
@@ -98,6 +102,10 @@ With v0.18.0, ContextForge also owns the bootstrap moment:
 
 > minimal, test-oriented context files that are immediately auditable.
 
+With v0.19.0, ContextForge treats the README as part of the security boundary:
+
+> repository entrypoints that agents read are scanned before agents trust them.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -106,6 +114,7 @@ That means every repository can ask:
 - Can a maintainer upload an HTML audit artifact on every PR?
 - Can the project improve agent rules through measured feedback rather than prompt folklore?
 - Are repo context files trying to override instructions, exfiltrate secrets, or weaken tool approvals?
+- Is our README carrying instructions that an AI coding agent might mistake for trusted commands?
 
 ## Next Differentiators
 
@@ -116,6 +125,7 @@ That means every repository can ask:
 5. Public malicious-context benchmark fixtures with expected findings and score ranges.
 6. Agent action plans that turn failing audit evidence into the next scoped Codex/Claude task.
 7. Minimal context-file scaffolds that prevent new repositories from starting with bloated instructions.
+8. README prompt-injection coverage for repository entrypoints agents read by default.
 
 ## Explainability Direction
 

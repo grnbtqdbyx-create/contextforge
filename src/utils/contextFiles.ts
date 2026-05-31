@@ -2,7 +2,7 @@ import path from 'node:path';
 import { listFiles } from './files.js';
 
 const CONTEXT_FILE_NAMES = new Set(['AGENTS.md', 'CLAUDE.md', '.cursorrules', '.clinerules']);
-const SECURITY_CONTEXT_FILE_NAMES = new Set([...CONTEXT_FILE_NAMES, 'SKILL.md']);
+const SECURITY_CONTEXT_FILE_NAMES = new Set([...CONTEXT_FILE_NAMES, 'SKILL.md', 'README.md']);
 
 export interface ContextFileRef {
   absolutePath: string;

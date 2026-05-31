@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.0 - 2026-05-31
+
+- Include root `README.md` in context security scans because agents commonly read repository entrypoints.
+- Add a malicious README injection benchmark fixture covering prompt override, secret exfiltration, hidden directives, permission escalation, and unsafe shell execution.
+- Update security docs and research notes around README/repository-entrypoint prompt injection risk.
+
 ## 0.18.0 - 2026-05-31
 
 - Add `contextforge init --agents-md` to scaffold a concise, auditable `AGENTS.md` for Codex and other coding agents.
