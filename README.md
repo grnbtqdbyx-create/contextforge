@@ -64,9 +64,10 @@ contextforge doctor --summary contextforge-doctor.md
 ```
 
 That Markdown file shows context health, cache stability, context security,
-public proof files, community health files, and next actions. It is designed to
-drop into a launch issue, PR description, README update, or build-in-public post
-without asking contributors to trust a screenshot.
+public proof files, launch profile assets, community health files, and next
+actions. It is designed to drop into a launch issue, PR description, README
+update, or build-in-public post without asking contributors to trust a
+screenshot.
 
 For a launch-ready public narrative, generate the repo's shareable post and
 topic checklist:
@@ -120,7 +121,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.32.0
+- uses: grnbtqdbyx-create/contextforge@v0.33.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -131,6 +132,7 @@ Or use the GitHub Action before npm publishing is complete:
 
 - **See token waste:** identify expensive sessions, tool outputs, and context files.
 - **Check public trust surfaces:** verify README, license, contributing, changelog, demo output, and LLM discovery docs from `contextforge doctor`.
+- **Verify launch profile surfaces:** check demo assets, launch kit, and comparison guide from `contextforge doctor`.
 - **Check community health surfaces:** verify Code of Conduct, security policy, issue templates, and PR template files before asking contributors to help.
 - **Publish first-run proof:** write `contextforge-doctor.md` from `doctor --summary` for issues, PRs, launch posts, or README updates.
 - **Generate a launch kit:** write a one-liner, proof commands, suggested GitHub topics, launch post draft, and maintainer checklist.
@@ -179,6 +181,7 @@ and tuned for Codex/Claude repository work.
 | Agents need structured fixes, not copied bullets. | `contextforge improve --json` emits parseable rule suggestions. |
 | Repo visitors need instant proof. | `--badge contextforge-badge.svg` creates a compact audit status badge. |
 | OSS launch readiness is scattered. | `contextforge doctor` checks public proof surfaces in one report. |
+| README launch assets go stale. | `contextforge doctor` checks demo assets, launch kit, and comparison guide in the first-run report. |
 | Contributors do not know how to help safely. | `contextforge doctor` checks community health files in the same first-run report. |
 | First-run proof is trapped in terminal output. | `doctor --summary` writes a Markdown report for README, issues, PRs, or launch posts. |
 | Launch copy drifts from the real CLI. | `launch-kit` generates a public post and topic checklist from the current project framing. |
@@ -202,7 +205,7 @@ contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-
 contextforge examples [--output examples/demo-output.md]
 contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
 contextforge compare [--output docs/comparison.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.32.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.33.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -264,7 +267,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.32.0 is a public MVP CLI with:
+ContextForge v0.33.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -273,6 +276,7 @@ ContextForge v0.32.0 is a public MVP CLI with:
 - generated `contextforge launch-kit` build-in-public launch posts
 - generated `contextforge compare` adjacent-tool positioning guides
 - `Public proof surfaces` doctor check for OSS trust/readiness files
+- `Launch profile surfaces` doctor check for demo assets, launch kit, and comparison guide
 - `Community health surfaces` doctor check for contributor-readiness files
 - token usage summaries
 - machine-readable `contextforge improve --json` repo-rule suggestions
@@ -336,6 +340,7 @@ ContextForge v0.32.0 is a public MVP CLI with:
 - **v0.30.0:** shareable Markdown doctor summaries for issues, PRs, README updates, and launch posts.
 - **v0.31.0:** generated launch kit with proof commands, topics, launch copy, and maintainer checklist.
 - **v0.32.0:** generated comparison guide for adjacent agent-context tools.
+- **v0.33.0:** launch profile surface checks in `contextforge doctor`.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

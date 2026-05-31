@@ -64,6 +64,7 @@ describe('CLI doctor command', () => {
     expect(stdout).toContain('Security benchmark:');
     expect(stdout).toContain('GitHub workflows:');
     expect(stdout).toContain('Public proof surfaces:');
+    expect(stdout).toContain('Launch profile surfaces:');
     expect(stdout).toContain('Community health surfaces:');
     expect(stdout).toContain('Next actions:');
   });
@@ -80,6 +81,7 @@ describe('CLI doctor command', () => {
     expect(result.checks.some((check) => check.name === 'Context health')).toBe(true);
     expect(result.checks.some((check) => check.name === 'GitHub workflows')).toBe(true);
     expect(result.checks.some((check) => check.name === 'Public proof surfaces')).toBe(true);
+    expect(result.checks.some((check) => check.name === 'Launch profile surfaces')).toBe(true);
     expect(result.checks.some((check) => check.name === 'Community health surfaces')).toBe(true);
     expect(result.nextActions.length).toBeGreaterThan(0);
   });

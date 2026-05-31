@@ -19,6 +19,12 @@ describe('doctor readiness report', () => {
     await mkdir(path.join(rootDir, 'examples'), { recursive: true });
     await writeFile(path.join(rootDir, 'examples/demo-output.md'), '# Demo output\n');
     await writeFile(path.join(rootDir, 'examples/pr-comment.md'), '# PR comment\n');
+    await mkdir(path.join(rootDir, 'assets'), { recursive: true });
+    await writeFile(path.join(rootDir, 'assets/demo-terminal.svg'), '<svg />\n');
+    await writeFile(path.join(rootDir, 'assets/contextforge-report.png'), 'png\n');
+    await mkdir(path.join(rootDir, 'docs'), { recursive: true });
+    await writeFile(path.join(rootDir, 'docs/launch-post.md'), '# Launch Kit\n');
+    await writeFile(path.join(rootDir, 'docs/comparison.md'), '# Comparison\n');
     await writeFile(path.join(rootDir, 'CODE_OF_CONDUCT.md'), '# Code of Conduct\n');
     await writeFile(path.join(rootDir, 'SECURITY.md'), '# Security\n');
     await mkdir(path.join(rootDir, '.github/ISSUE_TEMPLATE'), { recursive: true });
@@ -44,6 +50,7 @@ describe('doctor readiness report', () => {
       'Security benchmark',
       'GitHub workflows',
       'Public proof surfaces',
+      'Launch profile surfaces',
       'Community health surfaces'
     ]);
     expect(result.nextActions.length).toBeGreaterThan(0);
@@ -88,5 +95,24 @@ describe('doctor readiness report', () => {
     expect(communityCheck?.status).toBe('warn');
     expect(communityCheck?.detail).toContain('missing CODE_OF_CONDUCT.md');
     expect(result.nextActions).toContain('Add code of conduct, security policy, issue templates, and pull request template so contributors know how to collaborate safely.');
+  });
+
+  it('warns when launch profile surfaces are missing', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-launch-profile-'));
+    await writeFile(path.join(rootDir, 'README.md'), '# Test project\n');
+
+    const result = await runDoctor({
+      rootDir,
+      records: [],
+      minContextScore: 60,
+      minCacheScore: 60,
+      minSecurityScore: 60
+    });
+
+    const launchCheck = result.checks.find((check) => check.name === 'Launch profile surfaces');
+
+    expect(launchCheck?.status).toBe('warn');
+    expect(launchCheck?.detail).toContain('missing demo-terminal.svg');
+    expect(result.nextActions).toContain('Add demo assets, launch kit, and comparison guide so visitors can understand and share the project quickly.');
   });
 });

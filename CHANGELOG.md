@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.33.0 - 2026-06-01
+
+- Add a `Launch profile surfaces` check to `contextforge doctor` for README demo assets, generated launch kit, and generated comparison guide.
+- Include the new doctor check in text, JSON, and Markdown summary output so maintainers can verify star/discovery surfaces from the first command.
+- Refresh README, doctor docs, GitHub Action docs, LLM discovery files, and research notes around launch-profile readiness.
+
 ## 0.32.0 - 2026-06-01
 
 - Add `contextforge compare --output docs/comparison.md` to generate a positioning guide against repo packers, token dashboards, prompt/eval tools, agent security scanners, and project memory conventions.

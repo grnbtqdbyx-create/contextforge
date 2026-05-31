@@ -92,6 +92,10 @@ ContextForge v0.32.0 adds `contextforge compare`, because category leaders make
 their alternatives and complements obvious. ContextForge should explain why it
 exists next to Repomix, ccusage, promptfoo, security scanners, and project
 memory conventions without burying that answer deep in the README.
+ContextForge v0.33.0 adds `Launch profile surfaces` to `contextforge doctor`,
+because stars and external adoption depend on README-visible demo assets,
+generated launch copy, and category positioning staying present after the CLI
+changes.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -211,6 +215,12 @@ With v0.32.0, ContextForge makes the category boundary reproducible:
 > how ContextForge complements repo packers, token dashboards, prompt/eval
 > tools, security scanners, and agent memory conventions.
 
+With v0.33.0, ContextForge makes the launch profile auditable:
+
+> `contextforge doctor` checks the terminal demo asset, report screenshot,
+> launch kit, and comparison guide that repo visitors use to decide whether the
+> project is worth starring, trying, or sharing.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -234,6 +244,7 @@ That means every repository can ask:
 - Can maintainers publish the first-run readiness report without hand-copying terminal output?
 - Can maintainers generate launch copy and topic checklists from the same proof commands the CLI verifies?
 - Can visitors understand why ContextForge exists next to the tools they already know?
+- Can maintainers verify that README launch assets, launch copy, and comparison docs are present before asking for stars?
 
 ## Next Differentiators
 
@@ -258,6 +269,7 @@ That means every repository can ask:
 19. Shareable doctor Markdown reports for launch issues, PRs, README updates, and build-in-public posts.
 20. Generated launch kits that keep public copy aligned with real proof commands.
 21. Generated comparison guides that make adjacent-tool positioning explicit.
+22. Launch profile checks for star-ready repository pages.
 
 ## Explainability Direction
 
