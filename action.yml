@@ -1,5 +1,5 @@
 name: 'ContextForge Audit'
-description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, review kit, and agent action plan audits.'
+description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, review kit, artifact map, and agent action plan audits.'
 author: 'Ogün Keskin'
 
 branding:
@@ -59,6 +59,10 @@ inputs:
     description: 'Codex/Claude review kit Markdown output path in the caller workspace.'
     required: false
     default: 'contextforge-review-kit.md'
+  artifact-map:
+    description: 'Artifact map Markdown output path in the caller workspace.'
+    required: false
+    default: 'contextforge-artifact-map.md'
   review-base-ref:
     description: 'Base ref for changed-file review-kit generation.'
     required: false
@@ -95,6 +99,9 @@ outputs:
   review-kit-md:
     description: 'Path to the generated Codex/Claude review kit.'
     value: ${{ inputs.review-kit }}
+  artifact-map-md:
+    description: 'Path to the generated artifact map.'
+    value: ${{ inputs.artifact-map }}
 
 runs:
   using: 'composite'
@@ -142,3 +149,10 @@ runs:
         node "$GITHUB_ACTION_PATH/dist/cli.js" review-kit \
           --base "${{ inputs.review-base-ref }}" \
           --output "${{ inputs.review-kit }}"
+    - name: Run ContextForge artifact map
+      if: always()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        node "$GITHUB_ACTION_PATH/dist/cli.js" artifact-map \
+          --output "${{ inputs.artifact-map }}"

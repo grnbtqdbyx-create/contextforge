@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.41.0 - 2026-06-01
+
+- Add `contextforge-artifact-map.md` to the reusable GitHub Action, generated audit workflow, and dogfood workflow artifact set.
+- Add `artifact-map` action input plus `artifact-map-md` output so downstream workflows can attach a generated artifact catalog to every run.
+- Refresh README, GitHub Action docs, LLM discovery files, artifact map output, changelog, and research notes around CI-visible artifact navigation.
+
 ## 0.40.0 - 2026-06-01
 
 - Add `contextforge artifact-map --output docs/artifacts.md` to generate a deterministic catalog of every ContextForge JSON, Markdown, SARIF, SVG, and HTML artifact.

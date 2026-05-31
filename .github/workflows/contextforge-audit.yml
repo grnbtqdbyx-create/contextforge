@@ -29,6 +29,8 @@ jobs:
         if: always()
       - run: node dist/cli.js review-kit --base main --output contextforge-review-kit.md
         if: always()
+      - run: node dist/cli.js artifact-map --output contextforge-artifact-map.md
+        if: always()
       - name: Write job summary
         if: always()
         run: cat contextforge-summary.md >> "$GITHUB_STEP_SUMMARY"
@@ -47,6 +49,7 @@ jobs:
             contextforge-badge.svg
             contextforge-proof-pack.md
             contextforge-review-kit.md
+            contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:

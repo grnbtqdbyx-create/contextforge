@@ -19,12 +19,12 @@ contextforge init --pr-comment-workflow
 `--all` is the recommended setup for new repositories. It writes the audit
 workflow, the optional PR comment workflow, `AGENTS.md`, and `CLAUDE.md`.
 The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment,
-suggestions JSON, SVG badge, proof-pack Markdown, review-kit Markdown, and agent action plan
+suggestions JSON, SVG badge, proof-pack Markdown, review-kit Markdown, artifact-map Markdown, and agent action plan
 artifacts. It refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.40.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.41.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -56,7 +56,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.40.0
+      - uses: grnbtqdbyx-create/contextforge@v0.41.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -71,6 +71,7 @@ jobs:
           badge: contextforge-badge.svg
           proof-pack: contextforge-proof-pack.md
           review-kit: contextforge-review-kit.md
+          artifact-map: contextforge-artifact-map.md
           review-base-ref: main
       - uses: actions/upload-artifact@v5
         if: always()
@@ -87,6 +88,7 @@ jobs:
             contextforge-badge.svg
             contextforge-proof-pack.md
             contextforge-review-kit.md
+            contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
@@ -106,6 +108,9 @@ The `contextforge-review-kit.md` artifact gives Codex, Claude, and human
 reviewers the changed files, review focus areas, evidence commands, and a
 copyable review prompt. Use `fetch-depth: 0` on checkout when a repository wants
 the review kit to compare reliably against `review-base-ref`.
+The `contextforge-artifact-map.md` artifact gives CI readers the same catalog as
+`docs/artifacts.md`, so artifact-heavy workflows have a deterministic index
+attached to each run.
 
 ## Sticky PR Comment Workflow
 
@@ -174,6 +179,12 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
+      - run: node dist/cli.js proof-pack --output contextforge-proof-pack.md
+        if: always()
+      - run: node dist/cli.js review-kit --base main --output contextforge-review-kit.md
+        if: always()
+      - run: node dist/cli.js artifact-map --output contextforge-artifact-map.md
+        if: always()
       - name: Write job summary
         if: always()
         run: cat contextforge-summary.md >> "$GITHUB_STEP_SUMMARY"
@@ -190,6 +201,9 @@ jobs:
             contextforge-pr-comment.md
             contextforge-suggestions.json
             contextforge-badge.svg
+            contextforge-proof-pack.md
+            contextforge-review-kit.md
+            contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:

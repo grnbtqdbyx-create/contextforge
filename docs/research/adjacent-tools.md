@@ -118,6 +118,9 @@ and the changed-file Codex/Claude review brief.
 ContextForge v0.40.0 adds `contextforge artifact-map`, because growing proof
 surfaces create their own discovery problem: maintainers, reviewers, Codex, and
 Claude need one deterministic guide that says which artifact to inspect first.
+ContextForge v0.41.0 uploads that map from the reusable GitHub Action and
+dogfood workflow, because GitHub Actions artifacts are the durable review
+surface where maintainers inspect proof after a CI run.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -283,6 +286,12 @@ With v0.40.0, ContextForge makes proof surfaces navigable:
 > catalog of ContextForge outputs plus fast paths for PR review, Codex/Claude
 > fix sessions, and public launch proof.
 
+With v0.41.0, ContextForge makes that navigation CI-visible:
+
+> reusable and generated GitHub workflows upload `contextforge-artifact-map.md`
+> next to proof-pack, review-kit, audit, summary, plan, comment, suggestions,
+> badge, and SARIF artifacts.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -315,6 +324,8 @@ That means every repository can ask:
 - Can sticky PR comments point reviewers at that review brief immediately?
 - Can reviewers and agents choose the right proof artifact without guessing from
   a long artifact list?
+- Can every PR and push upload the artifact map beside the proof packet and
+  review kit?
 
 ## Next Differentiators
 
@@ -347,6 +358,7 @@ That means every repository can ask:
 27. CI-uploaded review-kit artifacts in reusable and generated GitHub workflows.
 28. PR-visible review-kit links in sticky review comments.
 29. Generated artifact maps that route reviewers, agents, and launch visitors to the right proof file.
+30. CI-uploaded artifact maps in reusable and generated GitHub workflows.
 
 ## Explainability Direction
 

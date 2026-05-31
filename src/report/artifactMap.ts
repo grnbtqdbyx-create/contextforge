@@ -79,6 +79,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge artifact-map --output docs/artifacts.md`'
   },
   {
+    artifact: 'contextforge-artifact-map.md',
+    audience: 'CI artifact readers',
+    useWhen: 'you need the same catalog attached to a GitHub Actions run',
+    producedBy: '`contextforge artifact-map --output contextforge-artifact-map.md`'
+  },
+  {
     artifact: 'docs/launch-post.md',
     audience: 'Build-in-public readers',
     useWhen: 'you need launch copy, proof commands, and topic suggestions',
@@ -132,6 +138,7 @@ export function createArtifactMap(): string {
     '',
     '```bash',
     'contextforge artifact-map --output docs/artifacts.md',
+    'contextforge artifact-map --output contextforge-artifact-map.md',
     'contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg',
     'contextforge proof-pack --output contextforge-proof-pack.md',
     'contextforge review-kit --base main --output contextforge-review-kit.md',
