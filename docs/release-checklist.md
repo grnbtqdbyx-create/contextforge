@@ -7,6 +7,7 @@
 - [x] Tests cover scanners, usage, audits, pack generation, and secret redaction.
 - [x] HTML report generation works.
 - [x] Context security findings appear in JSON and HTML audit output.
+- [x] Public security benchmark fixtures run from the CLI.
 - [ ] Publish package to npm.
 
 ## GitHub

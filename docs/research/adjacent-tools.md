@@ -18,6 +18,19 @@ task-specific context packs for Codex and Claude Code users.
 | [Snyk agent-scan](https://github.com/snyk/agent-scan) | security-focused | Scans agent components for prompt injections, toxic flows, and risky data handling. | Bring a lighter, repo-instruction-focused subset into ContextForge audits. |
 | [Cisco skill-scanner](https://github.com/cisco-ai-defense/skill-scanner) | security-focused | Detects prompt injection, data exfiltration, and malicious code patterns in agent skills. | Apply similar checks to `AGENTS.md`, `CLAUDE.md`, and coding-agent context files. |
 
+## 2026 Security Scanner Snapshot
+
+May 31, 2026 GitHub and web research shows a fast-growing cluster around agent
+security, prompt injection, MCP/tool poisoning, and malicious repo context:
+
+| Project | Current signal | What it suggests for ContextForge |
+| --- | ---: | --- |
+| [agent-audit](https://github.com/HeadyZhang/agent-audit) | 170+ stars | Security scanners are moving toward OWASP-style agent rule packs; ContextForge should keep rules transparent and CI-friendly. |
+| [agent-security-scanner-mcp](https://github.com/sinewaveai/agent-security-scanner-mcp) | 100+ stars | MCP-native scanning is emerging; ContextForge can complement that with repo-instruction gates before agents ingest context. |
+| [aguara](https://github.com/garagon/aguara) | 80+ stars | Supply-chain plus prompt-injection scanning is converging; ContextForge should stay narrow but benchmarked. |
+| [Sunglasses](https://sunglasses.dev/) | public OSS scanner | Market language is converging on malicious READMEs, tool poisoning, and credential exfiltration. |
+| [SkillScan](https://skillscan.sh/) | public OSS scanner suite | Skill and MCP security tools emphasize rule counts and CI/SARIF; ContextForge should emphasize reproducible fixtures and low-friction repo audits. |
+
 ## Product Gap
 
 Current projects cluster around three shapes:
@@ -45,7 +58,7 @@ That means every repository can ask:
 2. Real local Codex and Claude Code parser coverage from synthetic fixtures.
 3. Repo instruction security checks for prompt/context poisoning.
 4. Task-specific context pack scoring that explains why each file was included.
-5. A public benchmark fixture set that compares before/after context health.
+5. Public malicious-context benchmark fixtures with expected findings and score ranges.
 
 ## Explainability Direction
 

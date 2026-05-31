@@ -72,6 +72,7 @@ contextforge scan [--demo] [--codex] [--claude]
 contextforge usage [--demo] [--codex] [--claude]
 contextforge cache-audit [--demo]
 contextforge security-audit [--demo] [--min-security-score 60]
+contextforge security-benchmark [--benchmark-dir fixtures/security-benchmark]
 contextforge agents-md-audit [--demo]
 contextforge pack --task "fix auth bug" --budget 20000 [--demo]
 contextforge improve [--demo] [--write] [--open-pr]
@@ -96,6 +97,8 @@ By default, `audit` is repo-first and does not scan local session history. Add
 `--codex`, `--claude`, or `--demo` when you want session usage included.
 
 Security audit details live in [docs/security-audit.md](docs/security-audit.md).
+Public malicious-context benchmark details live in
+[docs/security-benchmark.md](docs/security-benchmark.md).
 
 ## Research-backed Positioning
 
@@ -107,13 +110,14 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.5.0 is a public MVP CLI with:
+ContextForge v0.6.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - local session scanning fallbacks
 - token usage summaries
 - context health audit
 - context security audit
+- public malicious-context benchmark fixtures
 - cache stability audit
 - task-specific Markdown context packs
 - HTML report generation
@@ -128,7 +132,8 @@ ContextForge v0.5.0 is a public MVP CLI with:
 - **v0.3.0:** context-file security audit for malicious repo instructions.
 - **v0.4.0:** explainable context pack scoring with per-file inclusion reasons.
 - **v0.5.0:** real generated HTML report screenshot and packaged README assets.
-- **Next:** public malicious-context benchmark fixtures, broader Codex session format coverage, npm publish workflow draft.
+- **v0.6.0:** public malicious-context benchmark fixtures and `security-benchmark` command.
+- **Next:** broader Codex session format coverage, npm publish workflow draft.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).
 

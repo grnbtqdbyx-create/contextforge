@@ -1,0 +1,40 @@
+{
+  "cases": [
+    {
+      "name": "benign-minimal",
+      "path": "benign-minimal",
+      "expected": {
+        "minScore": 100,
+        "maxScore": 100,
+        "findingTypes": []
+      }
+    },
+    {
+      "name": "suspicious-hidden-approval",
+      "path": "suspicious-hidden-approval",
+      "expected": {
+        "minScore": 70,
+        "maxScore": 80,
+        "findingTypes": [
+          "hidden-directive",
+          "permission-escalation"
+        ]
+      }
+    },
+    {
+      "name": "malicious-exfil-shell",
+      "path": "malicious-exfil-shell",
+      "expected": {
+        "minScore": 0,
+        "maxScore": 40,
+        "findingTypes": [
+          "data-exfiltration",
+          "hidden-directive",
+          "permission-escalation",
+          "prompt-injection",
+          "unsafe-shell"
+        ]
+      }
+    }
+  ]
+}
