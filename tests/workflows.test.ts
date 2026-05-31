@@ -2,6 +2,16 @@ import { readFile } from 'node:fs/promises';
 import { describe, expect, it } from 'vitest';
 
 describe('GitHub workflows', () => {
+  it('opts JavaScript actions into the Node 24 runtime', async () => {
+    const ci = await readFile('.github/workflows/ci.yml', 'utf8');
+    const audit = await readFile('.github/workflows/contextforge-audit.yml', 'utf8');
+    const npmPublish = await readFile('.github/workflows/npm-publish.yml', 'utf8');
+
+    expect(ci).toContain('FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true');
+    expect(audit).toContain('FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true');
+    expect(npmPublish).toContain('FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true');
+  });
+
   it('keeps npm publishing manual, OIDC-based, and dry-run by default', async () => {
     const workflow = await readFile('.github/workflows/npm-publish.yml', 'utf8');
 

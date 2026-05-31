@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.16.1 - 2026-05-31
+
+- Opt GitHub workflows into the Node 24 JavaScript action runtime to keep public checks warning-free.
+- Include the same Node 24 runtime opt-in in `contextforge init --github-action` generated workflows.
+
 ## 0.16.0 - 2026-05-31
 
 - Add `contextforge init --github-action` to scaffold a ready-to-run ContextForge audit workflow.
