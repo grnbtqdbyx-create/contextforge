@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.25.0 - 2026-05-31
+
+- Add `contextforge improve --json` for machine-readable repo-rule suggestions that Codex, Claude, CI jobs, and bots can parse directly.
+- Keep JSON stdout clean so shell scripts can pipe improvement suggestions into `jq`, agent prompts, or PR automation.
+- Refresh README, use cases, LLM discovery docs, and research notes around structured output as an agent-friendly CLI pattern.
+
 ## 0.24.0 - 2026-05-31
 
 - Add `docs/use-cases.md` with concrete maintainer workflows, commands, artifacts, and success signals.

@@ -75,3 +75,21 @@ describe('CLI doctor command', () => {
     expect(result.nextActions.length).toBeGreaterThan(0);
   });
 });
+
+describe('CLI improve command', () => {
+  it('prints machine-readable suggestions JSON when requested', async () => {
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'improve', '--demo', '--json']);
+    const result = JSON.parse(stdout) as {
+      suggestions: Array<{ title: string; text: string; source: string }>;
+    };
+
+    expect(result.suggestions.length).toBeGreaterThan(0);
+    expect(result.suggestions[0]).toEqual(
+      expect.objectContaining({
+        title: expect.any(String),
+        text: expect.any(String),
+        source: expect.any(String)
+      })
+    );
+  });
+});

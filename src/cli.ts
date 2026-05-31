@@ -228,6 +228,10 @@ async function commandImprove(args: CliArgs): Promise<void> {
   const context = await auditContextFiles({ rootDir: args.demo ? 'fixtures/project' : process.cwd() });
   const cache = auditCacheStability(await loadRecords(args));
   const suggestions = suggestRuleImprovements({ contextFindings: context.findings, cacheFindings: cache.findings });
+  if (args.json) {
+    console.log(JSON.stringify({ schemaVersion: 1, suggestions }, null, 2));
+    return;
+  }
   for (const suggestion of suggestions) {
     console.log(`- ${suggestion.title}`);
     console.log(`  ${suggestion.text}`);
@@ -449,7 +453,7 @@ Usage:
   contextforge security-benchmark [--benchmark-dir fixtures/security-benchmark]
   contextforge agents-md-audit [--demo]
   contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
-  contextforge improve [--demo] [--write] [--open-pr]
+  contextforge improve [--demo] [--json] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
   contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--min-security-score 60]
   contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
