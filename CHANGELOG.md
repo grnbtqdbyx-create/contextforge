@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.0 - 2026-05-31
+
+- Add `contextforge doctor` as a first-run readiness report for context health, cache stability, context security, benchmark status, and GitHub workflow presence.
+- Keep `doctor` repo-first by default so it does not scan local agent sessions unless `--demo`, `--codex`, or `--claude` is passed.
+- Add CLI and model coverage for the doctor report.
+
 ## 0.9.1 - 2026-05-31
 
 - Fix CLI bounded session scan options so `--max-session-files` and `--max-session-file-mb` are forwarded into Codex and Claude scanners.

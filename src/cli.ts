@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { promises as fs } from 'node:fs';
+import { promises as fs, realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { scanClaudeSessions } from './scanners/claude.js';
 import { scanCodexSessions } from './scanners/codex.js';
@@ -12,6 +12,7 @@ import { suggestRuleImprovements } from './improve/ruleSuggestions.js';
 import { writeHtmlReport } from './report/htmlReport.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
+import { formatDoctor, runDoctor } from './doctor/doctor.js';
 import type { ScannerOptions, SessionRecord } from './types.js';
 
 export interface CliArgs {
@@ -67,6 +68,9 @@ async function main(): Promise<void> {
     case 'audit':
       await commandAudit(args);
       break;
+    case 'doctor':
+      await commandDoctor(args);
+      break;
     case 'help':
     default:
       printHelp();
@@ -77,7 +81,7 @@ function parseArgs(argv: string[]): CliArgs {
   const command = argv.find((item) => !item.startsWith('-')) ?? 'help';
   const defaultOutput = command === 'audit' ? 'contextforge-audit.json' : 'contextforge-report.html';
   const providerFlagProvided = argv.includes('--codex') || argv.includes('--claude');
-  const repoOnlyAudit = command === 'audit' && !argv.includes('--demo') && !providerFlagProvided;
+  const repoOnlyAudit = ['audit', 'doctor'].includes(command) && !argv.includes('--demo') && !providerFlagProvided;
   return {
     command,
     demo: argv.includes('--demo'),
@@ -244,6 +248,20 @@ async function commandAudit(args: CliArgs): Promise<void> {
   }
 }
 
+async function commandDoctor(args: CliArgs): Promise<void> {
+  const rootDir = args.demo ? 'fixtures/project' : process.cwd();
+  const result = await runDoctor({
+    rootDir,
+    records: await loadRecords(args),
+    benchmarkDir: args.benchmarkDir,
+    minContextScore: args.minContextScore,
+    minCacheScore: args.minCacheScore,
+    minSecurityScore: args.minSecurityScore
+  });
+  console.log(formatDoctor(result));
+  if (result.status === 'fail') process.exitCode = 1;
+}
+
 function printObjectTable(title: string, table: Record<string, { totalTokens: number; records: number }>): void {
   console.log(title);
   for (const [key, value] of Object.entries(table)) {
@@ -282,6 +300,19 @@ function optionalMegabytes(value: string | undefined): number | undefined {
   return parsed === undefined ? undefined : Math.max(1, parsed) * 1024 * 1024;
 }
 
+export function isCliEntrypoint(moduleUrl: string, argvPath: string | undefined = process.argv[1]): boolean {
+  if (!argvPath) return false;
+  return realPath(fileURLToPath(moduleUrl)) === realPath(argvPath);
+}
+
+function realPath(filePath: string): string {
+  try {
+    return realpathSync(filePath);
+  } catch {
+    return filePath;
+  }
+}
+
 function printHelp(): void {
   console.log(`ContextForge
 
@@ -296,6 +327,7 @@ Usage:
   contextforge improve [--demo] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
   contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--min-security-score 60]
+  contextforge doctor [--demo] [--benchmark-dir fixtures/security-benchmark]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
@@ -303,7 +335,7 @@ Session scan safety:
 `);
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+if (isCliEntrypoint(import.meta.url)) {
   main().catch((error) => {
     console.error(error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
