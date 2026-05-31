@@ -1,5 +1,5 @@
 name: 'ContextForge Audit'
-description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, Markdown, and agent action plan audits.'
+description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, Markdown, PR comment, and agent action plan audits.'
 author: 'Ogün Keskin'
 
 branding:
@@ -39,6 +39,10 @@ inputs:
     description: 'Agent-readable action plan output path in the caller workspace.'
     required: false
     default: 'contextforge-agent-plan.md'
+  comment:
+    description: 'PR-ready Markdown comment output path in the caller workspace.'
+    required: false
+    default: 'contextforge-pr-comment.md'
 
 outputs:
   audit-json:
@@ -56,6 +60,9 @@ outputs:
   agent-action-plan:
     description: 'Path to the generated agent-readable action plan.'
     value: ${{ inputs.plan }}
+  pr-comment:
+    description: 'Path to the generated PR-ready Markdown comment.'
+    value: ${{ inputs.comment }}
 
 runs:
   using: 'composite'
@@ -78,7 +85,8 @@ runs:
           --report "${{ inputs.report }}" \
           --sarif "${{ inputs.sarif }}" \
           --summary "${{ inputs.summary }}" \
-          --plan "${{ inputs.plan }}"
+          --plan "${{ inputs.plan }}" \
+          --comment "${{ inputs.comment }}"
         if [[ -n "${GITHUB_STEP_SUMMARY:-}" && -f "${{ inputs.summary }}" ]]; then
           cat "${{ inputs.summary }}" >> "$GITHUB_STEP_SUMMARY"
         fi
