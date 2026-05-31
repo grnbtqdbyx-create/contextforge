@@ -24,6 +24,7 @@ describe('doctor readiness report', () => {
     await writeFile(path.join(rootDir, 'assets/demo-terminal.svg'), '<svg />\n');
     await writeFile(path.join(rootDir, 'assets/contextforge-report.png'), 'png\n');
     await mkdir(path.join(rootDir, 'docs'), { recursive: true });
+    await writeFile(path.join(rootDir, 'docs/artifacts.md'), '# Artifacts\n');
     await writeFile(path.join(rootDir, 'docs/launch-post.md'), '# Launch Kit\n');
     await writeFile(path.join(rootDir, 'docs/comparison.md'), '# Comparison\n');
     await writeFile(path.join(rootDir, 'CODE_OF_CONDUCT.md'), '# Code of Conduct\n');
@@ -56,6 +57,7 @@ describe('doctor readiness report', () => {
     ]);
     expect(result.nextActions.length).toBeGreaterThan(0);
     expect(result.checks.find((check) => check.name === 'Public proof surfaces')?.detail).toContain('examples/review-kit.md present');
+    expect(result.checks.find((check) => check.name === 'Launch profile surfaces')?.detail).toContain('docs/artifacts.md present');
     expect(formatDoctor(result)).toContain('ContextForge doctor: pass');
     expect(createDoctorSummary(result)).toContain('# ContextForge Doctor');
     expect(createDoctorSummary(result)).toContain('| Check | Status | Detail |');

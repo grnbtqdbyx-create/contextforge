@@ -115,6 +115,9 @@ more useful when every CI run uploads them next to audit and proof-pack evidence
 ContextForge v0.39.0 points PR-ready comments at `contextforge-review-kit.md`,
 because GitHub review discussions should link directly to both the proof packet
 and the changed-file Codex/Claude review brief.
+ContextForge v0.40.0 adds `contextforge artifact-map`, because growing proof
+surfaces create their own discovery problem: maintainers, reviewers, Codex, and
+Claude need one deterministic guide that says which artifact to inspect first.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -274,6 +277,12 @@ With v0.39.0, ContextForge makes review handoffs PR-visible:
 > `contextforge-pr-comment.md` points reviewers at `contextforge-review-kit.md`
 > as well as `contextforge-proof-pack.md`.
 
+With v0.40.0, ContextForge makes proof surfaces navigable:
+
+> `contextforge artifact-map --output docs/artifacts.md` writes a generated
+> catalog of ContextForge outputs plus fast paths for PR review, Codex/Claude
+> fix sessions, and public launch proof.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -304,6 +313,8 @@ That means every repository can ask:
 - Can Codex, Claude, and human reviewers start from the same deterministic review brief?
 - Can every PR upload that review brief as a GitHub Actions artifact?
 - Can sticky PR comments point reviewers at that review brief immediately?
+- Can reviewers and agents choose the right proof artifact without guessing from
+  a long artifact list?
 
 ## Next Differentiators
 
@@ -335,6 +346,7 @@ That means every repository can ask:
 26. Review kits that turn changed files into Codex/Claude review prompts and evidence commands.
 27. CI-uploaded review-kit artifacts in reusable and generated GitHub workflows.
 28. PR-visible review-kit links in sticky review comments.
+29. Generated artifact maps that route reviewers, agents, and launch visitors to the right proof file.
 
 ## Explainability Direction
 

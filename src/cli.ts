@@ -23,6 +23,7 @@ import { createPrComment } from './report/prComment.js';
 import { createProofPack } from './report/proofPack.js';
 import { createReviewKit, demoReviewKitFiles } from './report/reviewKit.js';
 import { createBadgeSvg } from './report/badge.js';
+import { createArtifactMap } from './report/artifactMap.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
 import { createDoctorSummary, formatDoctor, runDoctor } from './doctor/doctor.js';
@@ -121,6 +122,9 @@ async function main(): Promise<void> {
       break;
     case 'review-kit':
       await commandReviewKit(args);
+      break;
+    case 'artifact-map':
+      await commandArtifactMap(args);
       break;
     case 'init':
       await commandInit(args);
@@ -428,6 +432,12 @@ async function commandReviewKit(args: CliArgs): Promise<void> {
   console.log(`Wrote ${args.output}`);
 }
 
+async function commandArtifactMap(args: CliArgs): Promise<void> {
+  await fs.mkdir(dirname(args.output), { recursive: true });
+  await fs.writeFile(args.output, createArtifactMap());
+  console.log(`Wrote ${args.output}`);
+}
+
 async function commandInit(args: CliArgs): Promise<void> {
   if (!args.githubAction && !args.prCommentWorkflow && !args.agentsMd && !args.claudeMd) {
     console.log('Choose what to initialize. Try: contextforge init --all');
@@ -499,6 +509,7 @@ function defaultOutputForCommand(command: string): string {
   if (command === 'compare') return 'docs/comparison.md';
   if (command === 'proof-pack') return 'contextforge-proof-pack.md';
   if (command === 'review-kit') return 'contextforge-review-kit.md';
+  if (command === 'artifact-map') return 'docs/artifacts.md';
   return 'contextforge-report.html';
 }
 
@@ -600,7 +611,8 @@ Usage:
   contextforge compare [--output docs/comparison.md]
   contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
   contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.39.0] [--force]
+  contextforge artifact-map [--output docs/artifacts.md]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.40.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

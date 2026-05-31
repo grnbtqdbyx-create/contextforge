@@ -11,5 +11,6 @@ describe('comparison guide', () => {
     expect(guide).toContain('promptfoo');
     expect(guide).toContain('ContextForge is the maintainer readiness layer');
     expect(guide).toContain('## When To Use ContextForge');
+    expect(guide).toContain('contextforge artifact-map --output docs/artifacts.md');
   });
 });
