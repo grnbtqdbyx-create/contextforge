@@ -56,8 +56,9 @@ should include before they spend time on the project.
 
 For agent-tooling safety, the `MCP exposure` check keeps committed MCP configs
 visible before a coding agent loads them. It flags hardcoded secrets, remote
-shell installers, and unpinned package launches so maintainers can review tool
-access as part of the same first-run readiness report.
+shell installers, unpinned package launches, auto-approval, and broad tool
+permissions so maintainers can review tool access as part of the same first-run
+readiness report.
 
 The Markdown summary keeps the first-run proof portable. It uses the same
 doctor result as terminal and JSON output, so maintainers can publish a report

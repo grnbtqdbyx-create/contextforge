@@ -375,6 +375,7 @@ That means every repository can ask:
 32. npm provenance metadata and Node 24 workflow opt-in before the first public package.
 33. README-ready agent readiness scorecards that summarize Codex/Claude readiness in one screen.
 34. MCP exposure audits that make agent tool config risk visible in CLI, doctor, scorecard, and CI artifacts.
+35. MCP permission exposure checks for auto-approved and broadly permitted agent tools.
 
 ## Explainability Direction
 
@@ -437,3 +438,7 @@ contextforge-mcp-audit.md`, because MCP adoption adds a committed configuration
 surface where hardcoded secrets, remote shell installers, and unpinned package
 launches can affect Codex, Claude, and other agent clients before normal code
 review notices them.
+ContextForge v0.46.0 extends that same static MCP gate to auto-approval and
+broad permission grants, because the adjacent MCP security ecosystem is moving
+toward runtime firewalls and gateways while maintainers still need a cheap
+pre-agent PR check for risky committed client configuration.
