@@ -27,8 +27,10 @@ describe('GitHub Action init scaffold', () => {
     expect(workflow).toContain('contextforge-pr-comment.md');
     expect(workflow).toContain('contextforge-proof-pack.md');
     expect(workflow).toContain('contextforge-review-kit.md');
+    expect(workflow).toContain('contextforge-artifact-map.md');
     expect(workflow).toContain('proof-pack: contextforge-proof-pack.md');
     expect(workflow).toContain('review-kit: contextforge-review-kit.md');
+    expect(workflow).toContain('artifact-map: contextforge-artifact-map.md');
     expect(workflow).toContain('review-base-ref: main');
     expect(workflow).toContain('fetch-depth: 0');
     expect(workflow).toContain('github/codeql-action/upload-sarif');

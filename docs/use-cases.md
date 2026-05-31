@@ -143,6 +143,8 @@ Success signal:
   for the deeper doctor/audit proof packet.
 - Visitors and reviewers can open `docs/artifacts.md` to choose the right proof
   artifact before reading the whole repository.
+- CI readers can download `contextforge-artifact-map.md` from the audit artifact
+  set instead of guessing which uploaded file to inspect first.
 - Maintainers have a generated launch post, suggested GitHub topics, and proof
   commands that stay aligned with the CLI.
 - Maintainers can attach one proof pack to README updates, launch posts, and

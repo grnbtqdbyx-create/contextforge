@@ -41,6 +41,7 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('--badge contextforge-badge.svg');
     expect(workflow).toContain('proof-pack --output contextforge-proof-pack.md');
     expect(workflow).toContain('review-kit --base main --output contextforge-review-kit.md');
+    expect(workflow).toContain('artifact-map --output contextforge-artifact-map.md');
     expect(workflow).toContain('if: always()');
     expect(workflow).toContain('fetch-depth: 0');
     expect(workflow).toContain('GITHUB_STEP_SUMMARY');
@@ -52,5 +53,6 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-badge.svg');
     expect(workflow).toContain('contextforge-proof-pack.md');
     expect(workflow).toContain('contextforge-review-kit.md');
+    expect(workflow).toContain('contextforge-artifact-map.md');
   });
 });
