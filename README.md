@@ -51,6 +51,7 @@ Input: 8832  Output: 3750  Cached: 3328
 For CI or agent workflows:
 
 ```bash
+contextforge init --github-action
 contextforge doctor --json
 contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --sarif contextforge.sarif --summary contextforge-summary.md
 contextforge pack --task "review auth regression" --budget 20000 --sessions
@@ -59,7 +60,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.14.0
+- uses: grnbtqdbyx-create/contextforge@v0.16.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -115,6 +116,7 @@ contextforge improve [--demo] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
 contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--min-security-score 60]
 contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
+contextforge init --github-action [--action-ref grnbtqdbyx-create/contextforge@v0.16.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -158,7 +160,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.15.0 is a public MVP CLI with:
+ContextForge v0.16.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -176,6 +178,7 @@ ContextForge v0.15.0 is a public MVP CLI with:
 - DCO-based contribution flow
 - CI-ready `contextforge audit` dogfood workflow
 - reusable GitHub Action entrypoint
+- `contextforge init --github-action` scaffolding for one-command CI setup
 - manual npm publish workflow draft with OIDC/trusted-publishing preparation
 
 ## Roadmap
@@ -196,6 +199,7 @@ ContextForge v0.15.0 is a public MVP CLI with:
 - **v0.13.0:** reusable GitHub Action entrypoint before npm publishing is complete.
 - **v0.14.0:** Markdown audit summaries in GitHub Actions job summaries.
 - **v0.15.0:** recursive monorepo instruction discovery for nested agent files.
+- **v0.16.0:** `contextforge init --github-action` one-command GitHub Action scaffolding.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).
