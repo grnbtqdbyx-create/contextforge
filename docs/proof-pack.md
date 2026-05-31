@@ -21,6 +21,11 @@ The command is deterministic and local-first. It does not call an LLM. The
 generated file is meant to be committed only when a project wants a public proof
 artifact; otherwise keep it as a local or CI artifact.
 
+The reusable GitHub Action and `contextforge init --github-action` workflow
+publish `contextforge-proof-pack.md` as part of the `contextforge-audit`
+artifact set. That makes the same proof packet available from every push or
+pull request without requiring local session history.
+
 The proof pack includes:
 
 - doctor status and every doctor check

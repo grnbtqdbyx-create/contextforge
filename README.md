@@ -136,7 +136,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.34.0
+- uses: grnbtqdbyx-create/contextforge@v0.35.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -223,7 +223,7 @@ contextforge examples [--output examples/demo-output.md]
 contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
 contextforge compare [--output docs/comparison.md]
 contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.34.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.35.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -246,6 +246,7 @@ contextforge audit --min-context-score 60 --min-cache-score 60 --min-security-sc
   --comment contextforge-pr-comment.md \
   --suggestions contextforge-suggestions.json \
   --badge contextforge-badge.svg
+contextforge proof-pack --output contextforge-proof-pack.md
 ```
 
 See [docs/github-action.md](docs/github-action.md) for a complete GitHub Actions
@@ -286,13 +287,14 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.34.0 is a public MVP CLI with:
+ContextForge v0.35.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
 - first-run `contextforge doctor` readiness report with JSON output
 - shareable `contextforge doctor --summary` Markdown reports
 - shareable `contextforge proof-pack` readiness packets for launch, PR, and OSS evidence
+- reusable GitHub Action and dogfood workflow support for `contextforge-proof-pack.md`
 - generated `contextforge launch-kit` build-in-public launch posts
 - generated `contextforge compare` adjacent-tool positioning guides
 - `Public proof surfaces` doctor check for OSS trust/readiness files
@@ -362,6 +364,7 @@ ContextForge v0.34.0 is a public MVP CLI with:
 - **v0.32.0:** generated comparison guide for adjacent agent-context tools.
 - **v0.33.0:** launch profile surface checks in `contextforge doctor`.
 - **v0.34.0:** shareable proof packs that combine doctor, audit, commands, and Codex/Claude handoff guidance.
+- **v0.35.0:** proof-pack artifacts in the reusable GitHub Action, generated workflow, and dogfood workflow.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

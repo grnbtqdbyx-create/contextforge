@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.35.0 - 2026-06-01
+
+- Add `contextforge-proof-pack.md` to the reusable GitHub Action inputs and outputs so downstream repositories can publish a shareable readiness packet from CI.
+- Include proof-pack generation in the dogfood audit workflow and generated `contextforge init --github-action` workflow artifacts.
+- Refresh README, GitHub Action docs, LLM discovery files, and research notes around CI-visible proof packets after current GitHub artifact research.
+
 ## 0.34.0 - 2026-06-01
 
 - Add `contextforge proof-pack --output contextforge-proof-pack.md` to combine doctor checks, audit scores, evidence commands, and Codex/Claude handoff guidance into one shareable Markdown artifact.

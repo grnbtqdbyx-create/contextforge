@@ -1,5 +1,5 @@
 name: 'ContextForge Audit'
-description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, and agent action plan audits.'
+description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, and agent action plan audits.'
 author: 'Ogün Keskin'
 
 branding:
@@ -51,6 +51,10 @@ inputs:
     description: 'SVG status badge output path in the caller workspace.'
     required: false
     default: 'contextforge-badge.svg'
+  proof-pack:
+    description: 'Shareable proof pack Markdown output path in the caller workspace.'
+    required: false
+    default: 'contextforge-proof-pack.md'
 
 outputs:
   audit-json:
@@ -77,6 +81,9 @@ outputs:
   badge-svg:
     description: 'Path to the generated SVG status badge.'
     value: ${{ inputs.badge }}
+  proof-pack-md:
+    description: 'Path to the generated shareable proof pack.'
+    value: ${{ inputs.proof-pack }}
 
 runs:
   using: 'composite'
@@ -106,3 +113,13 @@ runs:
         if [[ -n "${GITHUB_STEP_SUMMARY:-}" && -f "${{ inputs.summary }}" ]]; then
           cat "${{ inputs.summary }}" >> "$GITHUB_STEP_SUMMARY"
         fi
+    - name: Run ContextForge proof pack
+      if: always()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        node "$GITHUB_ACTION_PATH/dist/cli.js" proof-pack \
+          --min-context-score "${{ inputs.min-context-score }}" \
+          --min-cache-score "${{ inputs.min-cache-score }}" \
+          --min-security-score "${{ inputs.min-security-score }}" \
+          --output "${{ inputs.proof-pack }}"

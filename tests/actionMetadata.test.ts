@@ -15,10 +15,12 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('comment:');
     expect(action).toContain('suggestions:');
     expect(action).toContain('badge:');
+    expect(action).toContain('proof-pack:');
     expect(action).toContain('agent-action-plan:');
     expect(action).toContain('pr-comment:');
     expect(action).toContain('suggestions-json:');
     expect(action).toContain('badge-svg:');
+    expect(action).toContain('proof-pack-md:');
     expect(action).toContain('GITHUB_ACTION_PATH');
     expect(action).toContain('GITHUB_WORKSPACE');
     expect(action).toContain('GITHUB_STEP_SUMMARY');
@@ -29,6 +31,8 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('--comment');
     expect(action).toContain('--suggestions');
     expect(action).toContain('--badge');
+    expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" proof-pack');
+    expect(action).toContain('if: always()');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" audit');
   });
 });

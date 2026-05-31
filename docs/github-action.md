@@ -3,8 +3,8 @@
 ContextForge can dogfood itself in CI by generating a JSON audit, an HTML
 report, a SARIF file for GitHub Code Scanning, a Markdown job summary, a
 PR-ready Markdown comment, machine-readable improvement suggestions, a compact
-SVG status badge, and an agent-readable action plan on every push or pull
-request.
+SVG status badge, a shareable proof pack, and an agent-readable action plan on
+every push or pull request.
 
 ## One-command Setup
 
@@ -19,12 +19,12 @@ contextforge init --pr-comment-workflow
 `--all` is the recommended setup for new repositories. It writes the audit
 workflow, the optional PR comment workflow, `AGENTS.md`, and `CLAUDE.md`.
 The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment,
-suggestions JSON, SVG badge, and agent action plan artifacts. It refuses to
-overwrite existing files by default:
+suggestions JSON, SVG badge, proof-pack Markdown, and agent action plan
+artifacts. It refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.34.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.35.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: grnbtqdbyx-create/contextforge@v0.34.0
+      - uses: grnbtqdbyx-create/contextforge@v0.35.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -67,6 +67,7 @@ jobs:
           comment: contextforge-pr-comment.md
           suggestions: contextforge-suggestions.json
           badge: contextforge-badge.svg
+          proof-pack: contextforge-proof-pack.md
       - uses: actions/upload-artifact@v5
         if: always()
         with:
@@ -80,6 +81,7 @@ jobs:
             contextforge-pr-comment.md
             contextforge-suggestions.json
             contextforge-badge.svg
+            contextforge-proof-pack.md
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
@@ -89,9 +91,10 @@ jobs:
 The action builds ContextForge from the action checkout, then runs the built CLI
 against the caller repository workspace. It also appends the generated Markdown
 summary to `$GITHUB_STEP_SUMMARY` when the workflow runner provides it. The
-`contextforge-pr-comment.md` artifact is deterministic and safe to publish with
-a separate sticky-comment workflow if the repository grants pull-request write
-permissions.
+`contextforge-proof-pack.md` artifact is generated as the shareable packet for
+launch posts, PRs, and Codex/Claude handoffs. The `contextforge-pr-comment.md`
+artifact is deterministic and safe to publish with a separate sticky-comment
+workflow if the repository grants pull-request write permissions.
 
 ## Sticky PR Comment Workflow
 
