@@ -1,12 +1,17 @@
 # Changelog
 
-## 0.4.0 - Unreleased
+## 0.5.0 - 2026-05-31
+
+- Add a real generated HTML report screenshot to the README.
+- Include README visual assets in the npm package so package pages can render the demo and report preview.
+
+## 0.4.0 - 2026-05-31
 
 - Add explainable context pack file scoring.
 - Include per-file "Why included" reasons in generated context packs.
 - Surface path matches, task-term matches, instruction files, manifests, and README orientation files as scoring reasons.
 
-## 0.3.0 - Unreleased
+## 0.3.0 - 2026-05-31
 
 - Add context-file security audit for prompt injection, secret exfiltration, unsafe shell instructions, hidden directives, and permission escalation.
 - Add `contextforge security-audit` for focused repo instruction security checks.
