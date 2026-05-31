@@ -1,0 +1,68 @@
+name: npm Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Run all publish checks without publishing to npm"
+        required: true
+        type: boolean
+        default: true
+      npm_tag:
+        description: "npm dist-tag to publish"
+        required: true
+        type: choice
+        default: latest
+        options:
+          - latest
+          - next
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.2.2
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - run: node dist/cli.js security-benchmark
+      - run: node dist/cli.js audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --output contextforge-audit.json --report contextforge-report.html
+      - run: npm pack --dry-run
+
+  publish:
+    if: ${{ inputs.dry_run == false }}
+    needs: preflight
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.2.2
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - run: node dist/cli.js security-benchmark
+      - run: node dist/cli.js audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --output contextforge-audit.json --report contextforge-report.html
+      - run: npm pack --dry-run
+      - name: Publish to npm
+        run: npm publish --access public --tag "${{ inputs.npm_tag }}"
