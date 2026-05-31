@@ -100,6 +100,9 @@ ContextForge v0.34.0 adds `contextforge proof-pack`, because current
 agent-context tools compete on immediate proof. A maintainer should be able to
 hand one Markdown packet to a visitor, reviewer, or coding agent and show the
 doctor status, audit scores, rerun commands, and next handoff step together.
+ContextForge v0.35.0 adds proof-pack artifacts to the reusable GitHub Action,
+generated audit workflow, and dogfood workflow, because proof that stays only on
+a laptop is weaker than proof attached to every CI run.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -231,6 +234,12 @@ With v0.34.0, ContextForge makes the evidence packet portable:
 > Markdown proof packet with doctor checks, audit scores, rerun commands, and
 > Codex/Claude handoff guidance.
 
+With v0.35.0, ContextForge makes that packet CI-visible:
+
+> the reusable GitHub Action, generated audit workflow, and dogfood workflow
+> upload `contextforge-proof-pack.md` as an artifact next to JSON, HTML, SARIF,
+> summary, plan, PR comment, suggestions, and badge outputs.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -256,6 +265,7 @@ That means every repository can ask:
 - Can visitors understand why ContextForge exists next to the tools they already know?
 - Can maintainers verify that README launch assets, launch copy, and comparison docs are present before asking for stars?
 - Can maintainers share one deterministic proof packet instead of asking visitors or agents to inspect many artifacts?
+- Can every PR and push publish that proof packet as a GitHub Actions artifact?
 
 ## Next Differentiators
 
@@ -282,6 +292,7 @@ That means every repository can ask:
 21. Generated comparison guides that make adjacent-tool positioning explicit.
 22. Launch profile checks for star-ready repository pages.
 23. Portable proof packs that combine doctor, audit, command, and agent handoff evidence.
+24. CI-uploaded proof-pack artifacts in reusable and generated GitHub workflows.
 
 ## Explainability Direction
 
