@@ -3,22 +3,27 @@
 **Self-learning token and context optimizer for Codex and Claude Code.**
 
 [![CI](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/ci.yml/badge.svg)](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/ci.yml)
+[![ContextForge Audit](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/contextforge-audit.yml/badge.svg)](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/contextforge-audit.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![Built in public](https://img.shields.io/badge/built%20in-public-0e8a16.svg)](docs/build-in-public.md)
 [![DCO](https://img.shields.io/badge/DCO-required-7057ff.svg)](CONTRIBUTING.md)
 [![npm publish ready](https://img.shields.io/badge/npm-publish%20ready-cb3837.svg)](docs/npm-publish.md)
 
-AI coding agents burn tokens by re-reading noisy context, huge tool outputs,
-unstable cache prefixes, and bloated root or nested `AGENTS.md` / `CLAUDE.md` files.
-ContextForge shows where those tokens go, reduces context bloat, audits cache
-stability, scans repo instructions for prompt/context poisoning, and creates
-task-specific context packs.
+AI coding agents do not fail only because the model is weak. They fail because
+repositories feed them noisy instructions, unstable cache prefixes, giant tool
+outputs, and unsafe Markdown they treat as trusted context.
+
+ContextForge is a local-first CI gate for that layer. It shows where agent
+tokens go, reduces context bloat, audits prompt-cache stability, scans root and
+nested repo instructions for prompt/context poisoning, and creates task-specific
+context packs for Codex and Claude Code.
 
 Run it before a PR, release, or long Codex/Claude session to answer one practical
 question: **is this repository ready for an agent to work efficiently, cheaply,
 and safely?**
 
-> Built in public by Ogün Keskin. Early APIs may change.
+> Built in public by Ogün Keskin. Apache-2.0 code, trademarks reserved, early
+> APIs may change.
 
 ![ContextForge terminal demo](assets/demo-terminal.svg)
 
@@ -36,10 +41,12 @@ preview is generated too: [examples/pr-comment.md](examples/pr-comment.md).
 Coding agents can start from [llms.txt](llms.txt) or the expanded
 [llms-full.txt](llms-full.txt) project map.
 For concrete maintainer workflows, see [docs/use-cases.md](docs/use-cases.md).
+CI can also upload a structured suggestions file and compact status badge:
+`contextforge-suggestions.json` and `contextforge-badge.svg`.
 
 ```bash
 contextforge examples --output examples/demo-output.md
-contextforge audit --demo --comment examples/pr-comment.md
+contextforge audit --demo --comment examples/pr-comment.md --badge contextforge-badge.svg
 ```
 
 ## Quickstart
@@ -70,7 +77,7 @@ For CI or agent workflows:
 ```bash
 contextforge init --all --project-name "My Repo"
 contextforge doctor --json
-contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md
+contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
 contextforge plan --output contextforge-agent-plan.md
 contextforge pack --task "review auth regression" --budget 20000 --sessions
 ```
@@ -78,7 +85,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.26.0
+- uses: grnbtqdbyx-create/contextforge@v0.27.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -95,6 +102,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Generate explainable context packs:** give Codex or Claude only the files needed for a task, with "why included" reasons.
 - **Create agent action plans:** turn audit findings into prioritized Markdown that Codex or Claude can execute from.
 - **Show PR-ready evidence:** emit a compact deterministic Markdown comment that review workflows can publish or archive.
+- **Publish visible proof:** emit `contextforge-badge.svg` so CI can expose a compact agent-context status badge.
 - **Expose LLM-readable docs:** ship `llms.txt` and `llms-full.txt` so coding agents can orient quickly.
 - **Evolve safely:** suggest improved repo-level rules before writing anything.
 
@@ -129,6 +137,7 @@ and tuned for Codex/Claude repository work.
 | CI evidence stays hidden in artifacts. | `--comment contextforge-pr-comment.md` creates a review-surface summary. |
 | Coding agents guess which docs matter. | `llms.txt` points them at the important project surfaces. |
 | Agents need structured fixes, not copied bullets. | `contextforge improve --json` emits parseable rule suggestions. |
+| Repo visitors need instant proof. | `--badge contextforge-badge.svg` creates a compact audit status badge. |
 
 ## Commands
 
@@ -142,11 +151,11 @@ contextforge agents-md-audit [--demo]
 contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
 contextforge improve [--demo] [--json] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
-contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--min-security-score 60]
+contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--badge contextforge-badge.svg] [--min-security-score 60]
 contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
 contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
 contextforge examples [--output examples/demo-output.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.26.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.27.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -167,7 +176,8 @@ contextforge audit --min-context-score 60 --min-cache-score 60 --min-security-sc
   --summary contextforge-summary.md \
   --plan contextforge-agent-plan.md \
   --comment contextforge-pr-comment.md \
-  --suggestions contextforge-suggestions.json
+  --suggestions contextforge-suggestions.json \
+  --badge contextforge-badge.svg
 ```
 
 See [docs/github-action.md](docs/github-action.md) for a complete GitHub Actions
@@ -207,7 +217,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.26.0 is a public MVP CLI with:
+ContextForge v0.27.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -215,6 +225,7 @@ ContextForge v0.26.0 is a public MVP CLI with:
 - token usage summaries
 - machine-readable `contextforge improve --json` repo-rule suggestions
 - CI-ready `contextforge-suggestions.json` improvement artifacts
+- compact `contextforge-badge.svg` audit status badges
 - context health audit with nested monorepo instruction discovery
 - context security audit with nested monorepo instruction discovery and root README injection checks
 - public malicious-context benchmark fixtures
@@ -267,6 +278,7 @@ ContextForge v0.26.0 is a public MVP CLI with:
 - **v0.24.0:** maintainer use-case guide for first PR gates, security defense, cache triage, and context packs.
 - **v0.25.0:** machine-readable `improve --json` suggestions for agent and bot consumption.
 - **v0.26.0:** audit-level `contextforge-suggestions.json` artifact for CI and reusable actions.
+- **v0.27.0:** SVG audit badge artifact for visible repo proof.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).
