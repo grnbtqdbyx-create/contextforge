@@ -16,6 +16,8 @@ The report checks:
 - context security score
 - public security benchmark status
 - GitHub workflow presence for CI and ContextForge audit artifacts
+- public proof surfaces: README, license, contribution guide, changelog,
+  demo output, PR comment preview, and LLM discovery files
 - next actions from repo-rule suggestions
 
 By default, `doctor` is repo-first and does not scan local Codex or Claude Code
@@ -27,3 +29,8 @@ readiness report without parsing terminal prose.
 
 Use it before opening a PR, preparing a public launch post, or evaluating a new
 coding-agent repository.
+
+For public OSS launch work, the `Public proof surfaces` check keeps the repo
+page honest: visitors and coding agents should be able to verify what the tool
+does, how to contribute, what changed, and where generated examples live without
+guessing.

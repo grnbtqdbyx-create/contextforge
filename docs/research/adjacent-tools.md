@@ -74,6 +74,9 @@ artifact-first workflow used by Actions-native maintainer tools.
 ContextForge v0.27.0 adds `contextforge audit --badge contextforge-badge.svg`
 so repositories can surface agent-context readiness as a compact visible proof
 artifact alongside JSON, HTML, SARIF, Markdown, and PR-comment outputs.
+ContextForge v0.28.0 adds `Public proof surfaces` to `contextforge doctor`,
+because public OSS trust depends on README, license, contribution, changelog,
+demo, and LLM-discovery files being present before maintainers ask for adoption.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -166,6 +169,11 @@ With v0.27.0, ContextForge makes the audit visible at a glance:
 > `contextforge-badge.svg` turns context health, cache stability, and security
 > scores into a small status artifact for repository surfaces.
 
+With v0.28.0, ContextForge checks launch trust surfaces up front:
+
+> `contextforge doctor` warns when the repo lacks the README, license,
+> contribution, changelog, demo, or LLM-discovery files visitors and agents need.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -184,6 +192,7 @@ That means every repository can ask:
 - Can a bot or coding agent parse suggested repo-rule fixes without scraping text?
 - Can CI hand those same suggestions to downstream automation as an artifact?
 - Can visitors see agent-context readiness without opening a full report?
+- Are the public proof files present before asking maintainers or agents to trust the repo?
 
 ## Next Differentiators
 
@@ -203,6 +212,7 @@ That means every repository can ask:
 14. Machine-readable improvement suggestions for Codex, Claude, bots, and CI scripts.
 15. CI-uploaded suggestions artifacts for downstream agent automation.
 16. Compact audit status badges for repo surfaces and maintainer dashboards.
+17. Public proof surface checks for OSS launch trust.
 
 ## Explainability Direction
 
