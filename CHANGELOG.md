@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.23.0 - 2026-05-31
+
+- Add root `llms.txt` and `llms-full.txt` files so Codex, Claude, and other coding agents can read a concise project map.
+- Include LLM discovery docs in npm package metadata.
+- Update README and research notes around `llms.txt` as an emerging AI-readable documentation convention.
+
 ## 0.22.0 - 2026-05-31
 
 - Add `contextforge init --all` as the one-command recommended setup for CI, PR comments, `AGENTS.md`, and `CLAUDE.md`.
