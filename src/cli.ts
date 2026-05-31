@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 import { promises as fs, realpathSync } from 'node:fs';
+import { execFile } from 'node:child_process';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 import { scanClaudeSessions } from './scanners/claude.js';
 import { scanCodexSessions } from './scanners/codex.js';
 import { summarizeUsage } from './analyzers/usage.js';
@@ -19,6 +21,7 @@ import { createDemoOutput } from './report/demoOutput.js';
 import { createLaunchKit } from './report/launchKit.js';
 import { createPrComment } from './report/prComment.js';
 import { createProofPack } from './report/proofPack.js';
+import { createReviewKit, demoReviewKitFiles } from './report/reviewKit.js';
 import { createBadgeSvg } from './report/badge.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
@@ -26,6 +29,8 @@ import { createDoctorSummary, formatDoctor, runDoctor } from './doctor/doctor.js
 import { scaffoldGithubActionWorkflow, scaffoldPrCommentWorkflow } from './init/githubAction.js';
 import { scaffoldAgentContextFiles } from './init/agentContext.js';
 import type { ScannerOptions, SessionRecord } from './types.js';
+
+const execFileAsync = promisify(execFile);
 
 export interface CliArgs {
   command: string;
@@ -55,6 +60,7 @@ export interface CliArgs {
   force: boolean;
   actionRef: string | undefined;
   projectName: string | undefined;
+  baseRef: string;
   minContextScore: number;
   minCacheScore: number;
   minSecurityScore: number;
@@ -113,6 +119,9 @@ async function main(): Promise<void> {
     case 'proof-pack':
       await commandProofPack(args);
       break;
+    case 'review-kit':
+      await commandReviewKit(args);
+      break;
     case 'init':
       await commandInit(args);
       break;
@@ -155,6 +164,7 @@ function parseArgs(argv: string[]): CliArgs {
     force: argv.includes('--force'),
     actionRef: valueAfter(argv, '--action-ref'),
     projectName: valueAfter(argv, '--project-name'),
+    baseRef: valueAfter(argv, '--base') ?? 'main',
     minContextScore: Number(valueAfter(argv, '--min-context-score') ?? 60),
     minCacheScore: Number(valueAfter(argv, '--min-cache-score') ?? 60),
     minSecurityScore: Number(valueAfter(argv, '--min-security-score') ?? 60),
@@ -404,6 +414,20 @@ async function commandProofPack(args: CliArgs): Promise<void> {
   if (doctor.status === 'fail' || audit.status === 'fail') process.exitCode = 1;
 }
 
+async function commandReviewKit(args: CliArgs): Promise<void> {
+  const changedFiles = args.demo ? demoReviewKitFiles() : await collectChangedFiles(args.baseRef);
+  await fs.mkdir(dirname(args.output), { recursive: true });
+  await fs.writeFile(
+    args.output,
+    createReviewKit({
+      projectName: args.projectName ?? 'ContextForge',
+      baseRef: args.baseRef,
+      changedFiles
+    })
+  );
+  console.log(`Wrote ${args.output}`);
+}
+
 async function commandInit(args: CliArgs): Promise<void> {
   if (!args.githubAction && !args.prCommentWorkflow && !args.agentsMd && !args.claudeMd) {
     console.log('Choose what to initialize. Try: contextforge init --all');
@@ -474,7 +498,48 @@ function defaultOutputForCommand(command: string): string {
   if (command === 'launch-kit') return 'docs/launch-post.md';
   if (command === 'compare') return 'docs/comparison.md';
   if (command === 'proof-pack') return 'contextforge-proof-pack.md';
+  if (command === 'review-kit') return 'contextforge-review-kit.md';
   return 'contextforge-report.html';
+}
+
+export async function collectChangedFiles(baseRef: string, cwd: string = process.cwd()): Promise<string[]> {
+  const files = new Set<string>();
+  try {
+    const { stdout } = await execFileAsync('git', ['diff', '--name-only', '--diff-filter=ACMRTUXB', `${baseRef}...HEAD`], {
+      cwd
+    });
+    for (const file of stdout
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)) {
+      files.add(file);
+    }
+  } catch {
+    // Keep review-kit usable in shallow clones or repositories without the base ref.
+  }
+  try {
+    const { stdout } = await execFileAsync('git', ['diff', '--name-only', '--diff-filter=ACMRTUXB'], { cwd });
+    for (const file of stdout
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)) {
+      files.add(file);
+    }
+  } catch {
+    // Ignore non-git directories; the generated kit will explain that no files were detected.
+  }
+  try {
+    const { stdout } = await execFileAsync('git', ['ls-files', '--others', '--exclude-standard'], { cwd });
+    for (const file of stdout
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)) {
+      files.add(file);
+    }
+  } catch {
+    // Ignore non-git directories; the generated kit will explain that no files were detected.
+  }
+  return [...files].sort();
 }
 
 function optionalNumber(value: string | undefined): number | undefined {
@@ -534,7 +599,8 @@ Usage:
   contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
   contextforge compare [--output docs/comparison.md]
   contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.36.0] [--force]
+  contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.37.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

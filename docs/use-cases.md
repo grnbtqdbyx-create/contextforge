@@ -101,13 +101,32 @@ Success signal:
   manifests, README orientation, instruction files, recent reads, recent edits,
   or failure mentions.
 
-## 6. Produce Public Proof for Maintainers
+## 6. Prepare a Codex or Claude PR Review
+
+Use this when a PR was written by an agent, changes repo instructions, touches
+GitHub workflows, or needs a compact review prompt before merge.
+
+```bash
+contextforge review-kit --base main --output contextforge-review-kit.md
+```
+
+Success signal:
+
+- Reviewers see the changed files and the risk areas ContextForge inferred.
+- Codex or Claude gets a copyable prompt that asks for findings first and points
+  at `contextforge-pr-comment.md`, `contextforge-agent-plan.md`, and
+  `contextforge-proof-pack.md`.
+- Maintainers can run the same evidence commands locally or in CI before
+  trusting the review.
+
+## 7. Produce Public Proof for Maintainers
 
 Use this when a repository needs visible build-in-public proof that the tool is
 real, deterministic, and useful before npm publishing or broad launch.
 
 ```bash
 contextforge examples --output examples/demo-output.md
+contextforge review-kit --demo --base main --output examples/review-kit.md
 contextforge doctor --summary contextforge-doctor.md
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge launch-kit --output docs/launch-post.md

@@ -106,6 +106,9 @@ a laptop is weaker than proof attached to every CI run.
 ContextForge v0.36.0 adds proof-pack visibility to PR-ready comments, because
 the review discussion is the fastest path from "the gate passed" to "here is
 the deeper doctor/audit packet reviewers can verify."
+ContextForge v0.37.0 adds `contextforge review-kit`, because AI code review is
+becoming a primary agent workflow and reviewers need a deterministic brief that
+connects changed files, risk focus, proof commands, and a Codex/Claude prompt.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -248,6 +251,12 @@ With v0.36.0, ContextForge makes that packet review-visible:
 > `contextforge-pr-comment.md` points reviewers at `contextforge-proof-pack.md`
 > so a sticky PR comment can lead directly to the shareable doctor/audit proof.
 
+With v0.37.0, ContextForge makes review handoffs deterministic:
+
+> `contextforge review-kit --base main --output contextforge-review-kit.md`
+> writes changed files, inferred review focus, proof commands, and a copyable
+> Codex/Claude review prompt.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -275,6 +284,7 @@ That means every repository can ask:
 - Can maintainers share one deterministic proof packet instead of asking visitors or agents to inspect many artifacts?
 - Can every PR and push publish that proof packet as a GitHub Actions artifact?
 - Can PR reviewers discover the proof packet from the sticky comment?
+- Can Codex, Claude, and human reviewers start from the same deterministic review brief?
 
 ## Next Differentiators
 
@@ -303,6 +313,7 @@ That means every repository can ask:
 23. Portable proof packs that combine doctor, audit, command, and agent handoff evidence.
 24. CI-uploaded proof-pack artifacts in reusable and generated GitHub workflows.
 25. PR-visible proof-pack links in sticky review comments.
+26. Review kits that turn changed files into Codex/Claude review prompts and evidence commands.
 
 ## Explainability Direction
 
