@@ -1,0 +1,4 @@
+{"type":"user","message":{"role":"user","content":"Please fix the auth bug in src/auth.ts"},"usage":{"input_tokens":1200,"output_tokens":0}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"tool_use","name":"Read","input":{"file_path":"src/auth.ts"}}]},"usage":{"input_tokens":1400,"output_tokens":120}}
+{"type":"tool_result","tool":"Read","content":"export const API_KEY='sk-demo-secret';\n// many lines omitted","usage":{"input_tokens":0,"output_tokens":900}}
+{"type":"assistant","message":{"role":"assistant","content":"The token prefix was generated at 2026-05-31T18:00:00Z and includes a large tool output."},"usage":{"input_tokens":2500,"output_tokens":300,"cache_creation_input_tokens":1024,"cache_read_input_tokens":2048}}

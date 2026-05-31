@@ -1,0 +1,44 @@
+{
+  "name": "contextforge",
+  "version": "0.1.0",
+  "description": "Self-learning token and context optimizer for Codex and Claude Code.",
+  "type": "module",
+  "bin": {
+    "contextforge": "./dist/src/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "TRADEMARKS.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "contextforge": "tsx src/cli.ts"
+  },
+  "keywords": [
+    "ai",
+    "llm",
+    "codex",
+    "claude-code",
+    "context-engineering",
+    "token-usage",
+    "prompt-caching",
+    "coding-agents",
+    "developer-tools",
+    "cli",
+    "typescript"
+  ],
+  "author": "Ogün Keskin",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}
