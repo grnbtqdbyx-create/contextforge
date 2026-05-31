@@ -10,6 +10,7 @@ import { auditContextSecurity } from './analyzers/contextSecurity.js';
 import { createContextPack } from './pack/contextPack.js';
 import { suggestRuleImprovements } from './improve/ruleSuggestions.js';
 import { writeHtmlReport } from './report/htmlReport.js';
+import { createSarifReport } from './report/sarifReport.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
 import { formatDoctor, runDoctor } from './doctor/doctor.js';
@@ -25,6 +26,7 @@ export interface CliArgs {
   output: string;
   report: string;
   benchmarkDir: string | undefined;
+  sarif: string | undefined;
   sessions: boolean;
   json: boolean;
   write: boolean;
@@ -93,6 +95,7 @@ function parseArgs(argv: string[]): CliArgs {
     output: valueAfter(argv, '--output') ?? defaultOutput,
     report: valueAfter(argv, '--report') ?? 'contextforge-report.html',
     benchmarkDir: valueAfter(argv, '--benchmark-dir'),
+    sarif: valueAfter(argv, '--sarif'),
     sessions: argv.includes('--sessions') || argv.includes('--demo') || providerFlagProvided,
     json: argv.includes('--json'),
     write: argv.includes('--write'),
@@ -240,10 +243,11 @@ async function commandAudit(args: CliArgs): Promise<void> {
     security,
     suggestions
   });
+  if (args.sarif) await fs.writeFile(args.sarif, `${JSON.stringify(createSarifReport(audit), null, 2)}\n`);
 
   console.log(`ContextForge audit: ${audit.status}`);
   console.log(`Context health: ${audit.scores.contextHealth}/100  Cache stability: ${audit.scores.cacheStability}/100  Context security: ${audit.scores.contextSecurity}/100`);
-  console.log(`Wrote ${args.output} and ${args.report}`);
+  console.log(`Wrote ${[args.output, args.report, args.sarif].filter(Boolean).join(' and ')}`);
   if (audit.failures.length > 0) {
     for (const failure of audit.failures) console.log(`FAIL: ${failure}`);
     process.exitCode = 1;
@@ -328,7 +332,7 @@ Usage:
   contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
   contextforge improve [--demo] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
-  contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--min-security-score 60]
+  contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--min-security-score 60]
   contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
 
 Session scan safety:

@@ -52,7 +52,7 @@ For CI or agent workflows:
 
 ```bash
 contextforge doctor --json
-contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70
+contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --sarif contextforge.sarif
 contextforge pack --task "review auth regression" --budget 20000 --sessions
 ```
 
@@ -74,7 +74,7 @@ If this saves you tokens or helps your agent work better, please star the repo.
 | Repository packers | Put many files into one AI-readable prompt. | Build smaller task packs and explain why each file was included. |
 | Token usage dashboards | Show cost after a session happened. | Connect usage, cache stability, and repo context hygiene to next actions. |
 | Agent security scanners | Detect prompt injection or risky agent components. | Audit repo instruction files and ship public malicious-context fixtures. |
-| CI prompt evaluators | Run model or prompt tests in pipelines. | Gate repository context quality with JSON and HTML artifacts. |
+| CI prompt evaluators | Run model or prompt tests in pipelines. | Gate repository context quality with JSON, HTML, and SARIF artifacts. |
 
 The goal is not to replace Repomix, ccusage, promptfoo, or security scanners.
 ContextForge is the missing maintainer layer between them: local-first, CI-ready,
@@ -103,7 +103,7 @@ contextforge agents-md-audit [--demo]
 contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
 contextforge improve [--demo] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
-contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--min-security-score 60]
+contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--min-security-score 60]
 contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
 ```
 
@@ -113,12 +113,14 @@ window.
 
 ## CI / Dogfood Mode
 
-Use `contextforge audit` in CI to produce a JSON gate and an HTML artifact:
+Use `contextforge audit` in CI to produce a JSON gate, HTML artifact, and
+GitHub Code Scanning SARIF file:
 
 ```bash
 contextforge audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 \
   --output contextforge-audit.json \
-  --report contextforge-report.html
+  --report contextforge-report.html \
+  --sarif contextforge.sarif
 ```
 
 See [docs/github-action.md](docs/github-action.md) for a complete GitHub Actions
@@ -145,7 +147,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.11.0 is a public MVP CLI with:
+ContextForge v0.12.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -157,6 +159,7 @@ ContextForge v0.11.0 is a public MVP CLI with:
 - cache stability audit
 - task-specific Markdown context packs with session-derived scoring
 - HTML report generation
+- SARIF output for GitHub Code Scanning
 - real README report screenshot generated from the CLI
 - DCO-based contribution flow
 - CI-ready `contextforge audit` dogfood workflow
@@ -176,6 +179,7 @@ ContextForge v0.11.0 is a public MVP CLI with:
 - **v0.9.1:** bounded session scan CLI option forwarding fix.
 - **v0.10.0:** first-run `doctor` command for repo readiness and launch-friendly onboarding.
 - **v0.11.0:** machine-readable `doctor --json` output and sharper README positioning.
+- **v0.12.0:** SARIF output and GitHub Code Scanning dogfood workflow.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

@@ -15,4 +15,13 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain("if: ${{ inputs.dry_run == false }}");
     expect(workflow).not.toContain('NPM_TOKEN');
   });
+
+  it('uploads ContextForge SARIF to GitHub Code Scanning', async () => {
+    const workflow = await readFile('.github/workflows/contextforge-audit.yml', 'utf8');
+
+    expect(workflow).toContain('security-events: write');
+    expect(workflow).toContain('--sarif contextforge.sarif');
+    expect(workflow).toContain('github/codeql-action/upload-sarif');
+    expect(workflow).toContain('contextforge.sarif');
+  });
 });

@@ -31,6 +31,10 @@ they expose a low-friction first command plus machine-readable output:
 | [ccusage](https://github.com/ryoppippi/ccusage) | Unified local usage reports now span many coding-agent CLIs, including Codex and Claude Code. | Avoid competing as a generic cost dashboard; connect usage signals to repo hygiene and context-pack actions. |
 | [Repomix](https://github.com/yamadashy/repomix) | Mature repository packing category with strong adoption. | ContextForge should explain why it is not just another packer: scoring, security, cache, CI, and next actions. |
 
+ContextForge v0.12.0 follows the SARIF direction by turning file-backed context
+health and context security findings into GitHub Code Scanning alerts while
+keeping broader token/cache/session evidence in JSON and HTML reports.
+
 ## 2026 Security Scanner Snapshot
 
 May 31, 2026 GitHub and web research shows a fast-growing cluster around agent

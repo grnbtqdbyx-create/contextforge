@@ -8,4 +8,6 @@ contextforge-report.html
 contextforge-audit.json
 contextforge-pack.md
 contextforge-suggestions.md
+contextforge.sarif
+contextforge-*.sarif
 contextforge-*.tgz
