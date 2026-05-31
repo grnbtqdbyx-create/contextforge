@@ -26,6 +26,7 @@ const IGNORED_BASENAMES = new Set([
   'contextforge-pack.md',
   'contextforge-report.html',
   'contextforge-suggestions.md',
+  'contextforge-suggestions.json',
   'pnpm-lock.yaml',
   'package-lock.json',
   'yarn.lock'

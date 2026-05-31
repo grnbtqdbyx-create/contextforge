@@ -37,10 +37,12 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('--summary contextforge-summary.md');
     expect(workflow).toContain('--plan contextforge-agent-plan.md');
     expect(workflow).toContain('--comment contextforge-pr-comment.md');
+    expect(workflow).toContain('--suggestions contextforge-suggestions.json');
     expect(workflow).toContain('GITHUB_STEP_SUMMARY');
     expect(workflow).toContain('github/codeql-action/upload-sarif');
     expect(workflow).toContain('contextforge.sarif');
     expect(workflow).toContain('contextforge-agent-plan.md');
     expect(workflow).toContain('contextforge-pr-comment.md');
+    expect(workflow).toContain('contextforge-suggestions.json');
   });
 });

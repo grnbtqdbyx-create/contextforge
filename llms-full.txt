@@ -51,7 +51,7 @@ contextforge agents-md-audit [--demo]
 contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
 contextforge improve [--demo] [--json] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
-contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--min-security-score 60]
+contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--min-security-score 60]
 contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
 contextforge plan [--demo] [--output contextforge-agent-plan.md]
 contextforge examples [--output examples/demo-output.md]
@@ -83,6 +83,7 @@ cases so maintainers can see what the scanner is expected to catch.
 ## Public Proof Surfaces
 
 - `docs/use-cases.md`: maintainer scenarios with commands, artifacts, and success signals
+- `contextforge-suggestions.json`: machine-readable improvement suggestions for Codex, Claude, bots, and CI scripts
 - `examples/demo-output.md`: deterministic token usage, CI audit, and handoff output
 - `examples/pr-comment.md`: deterministic PR-ready comment preview
 - GitHub releases: tagged build-in-public release history

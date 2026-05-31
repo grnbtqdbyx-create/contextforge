@@ -78,7 +78,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.22.0
+- uses: grnbtqdbyx-create/contextforge@v0.26.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -142,11 +142,11 @@ contextforge agents-md-audit [--demo]
 contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
 contextforge improve [--demo] [--json] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
-contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--min-security-score 60]
+contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--min-security-score 60]
 contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
 contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
 contextforge examples [--output examples/demo-output.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.22.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.26.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -166,7 +166,8 @@ contextforge audit --min-context-score 60 --min-cache-score 60 --min-security-sc
   --sarif contextforge.sarif \
   --summary contextforge-summary.md \
   --plan contextforge-agent-plan.md \
-  --comment contextforge-pr-comment.md
+  --comment contextforge-pr-comment.md \
+  --suggestions contextforge-suggestions.json
 ```
 
 See [docs/github-action.md](docs/github-action.md) for a complete GitHub Actions
@@ -206,13 +207,14 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.25.0 is a public MVP CLI with:
+ContextForge v0.26.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
 - first-run `contextforge doctor` readiness report with JSON output
 - token usage summaries
 - machine-readable `contextforge improve --json` repo-rule suggestions
+- CI-ready `contextforge-suggestions.json` improvement artifacts
 - context health audit with nested monorepo instruction discovery
 - context security audit with nested monorepo instruction discovery and root README injection checks
 - public malicious-context benchmark fixtures
@@ -264,6 +266,7 @@ ContextForge v0.25.0 is a public MVP CLI with:
 - **v0.23.0:** LLM-readable `llms.txt` and `llms-full.txt` discovery docs.
 - **v0.24.0:** maintainer use-case guide for first PR gates, security defense, cache triage, and context packs.
 - **v0.25.0:** machine-readable `improve --json` suggestions for agent and bot consumption.
+- **v0.26.0:** audit-level `contextforge-suggestions.json` artifact for CI and reusable actions.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

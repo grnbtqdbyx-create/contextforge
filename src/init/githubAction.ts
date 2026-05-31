@@ -1,7 +1,7 @@
 import { access, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.22.0';
+export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.26.0';
 
 export interface GithubActionScaffoldOptions {
   rootDir: string;
@@ -62,6 +62,7 @@ jobs:
           summary: contextforge-summary.md
           plan: contextforge-agent-plan.md
           comment: contextforge-pr-comment.md
+          suggestions: contextforge-suggestions.json
       - uses: actions/upload-artifact@v5
         if: always()
         with:
@@ -73,6 +74,7 @@ jobs:
             contextforge-summary.md
             contextforge-agent-plan.md
             contextforge-pr-comment.md
+            contextforge-suggestions.json
       - uses: github/codeql-action/upload-sarif@v4
         if: ${sarifGuard}
         with:
