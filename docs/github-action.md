@@ -10,13 +10,15 @@ pull request.
 Run this from a repository that should audit its agent context in CI:
 
 ```bash
+contextforge init --all --project-name "My Repo"
 contextforge init --github-action
 contextforge init --pr-comment-workflow
 ```
 
-The command writes `.github/workflows/contextforge-audit.yml` with JSON, HTML,
-SARIF, Markdown summary, PR comment, and agent action plan artifacts. It refuses to
-overwrite an existing workflow by default:
+`--all` is the recommended setup for new repositories. It writes the audit
+workflow, the optional PR comment workflow, `AGENTS.md`, and `CLAUDE.md`.
+The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment, and
+agent action plan artifacts. It refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force

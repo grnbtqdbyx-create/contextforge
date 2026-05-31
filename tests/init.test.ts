@@ -103,4 +103,29 @@ describe('GitHub Action init scaffold', () => {
     expect(stdout).toContain('Wrote .github/workflows/contextforge-pr-comment.yml');
     expect(workflow).toContain('contextforge-pr-comment.md');
   });
+
+  it('can scaffold the full recommended setup from the init CLI command', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-init-all-cli-'));
+    const tsxPath = path.resolve('node_modules/.bin/tsx');
+    const cliPath = path.resolve('src/cli.ts');
+
+    const { stdout } = await execFileAsync(tsxPath, [
+      cliPath,
+      'init',
+      '--all',
+      '--project-name',
+      'Example Repo',
+      '--action-ref',
+      'grnbtqdbyx-create/contextforge@v0.test'
+    ], { cwd: rootDir });
+
+    expect(stdout).toContain('Wrote .github/workflows/contextforge-audit.yml');
+    expect(stdout).toContain('Wrote .github/workflows/contextforge-pr-comment.yml');
+    expect(stdout).toContain('Wrote AGENTS.md');
+    expect(stdout).toContain('Wrote CLAUDE.md');
+    expect(await readFile(path.join(rootDir, '.github/workflows/contextforge-audit.yml'), 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.test');
+    expect(await readFile(path.join(rootDir, '.github/workflows/contextforge-pr-comment.yml'), 'utf8')).toContain('sticky-pull-request-comment');
+    expect(await readFile(path.join(rootDir, 'AGENTS.md'), 'utf8')).toContain('Example Repo');
+    expect(await readFile(path.join(rootDir, 'CLAUDE.md'), 'utf8')).toContain('Example Repo');
+  });
 });
