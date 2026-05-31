@@ -4,7 +4,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import { describe, expect, it } from 'vitest';
-import { scaffoldGithubActionWorkflow } from '../src/init/githubAction.js';
+import { scaffoldGithubActionWorkflow, scaffoldPrCommentWorkflow } from '../src/init/githubAction.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -68,5 +68,39 @@ describe('GitHub Action init scaffold', () => {
 
     expect(stdout).toContain('Wrote .github/workflows/contextforge-audit.yml');
     expect(workflow).toContain('uses: grnbtqdbyx-create/contextforge@v0.test');
+  });
+
+  it('writes an opt-in sticky PR comment workflow', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-pr-comment-init-'));
+    const result = await scaffoldPrCommentWorkflow({ rootDir });
+
+    const workflow = await readFile(result.path, 'utf8');
+
+    expect(result.created).toBe(true);
+    expect(result.path).toContain('contextforge-pr-comment.yml');
+    expect(workflow).toContain('pull-requests: write');
+    expect(workflow).toContain('actions: read');
+    expect(workflow).toContain('contextforge-pr-comment.md');
+    expect(workflow).toContain('workflow_run.pull_requests[0].number');
+    expect(workflow).toContain('marocchino/sticky-pull-request-comment@v2');
+    expect(workflow).toContain('header: contextforge');
+    expect(workflow).toContain('number: ${{ github.event.workflow_run.pull_requests[0].number }}');
+    expect(workflow).toContain('path: contextforge-pr-comment.md');
+  });
+
+  it('can scaffold the PR comment workflow from the init CLI command', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-pr-comment-cli-'));
+    const tsxPath = path.resolve('node_modules/.bin/tsx');
+    const cliPath = path.resolve('src/cli.ts');
+
+    const { stdout } = await execFileAsync(tsxPath, [
+      cliPath,
+      'init',
+      '--pr-comment-workflow'
+    ], { cwd: rootDir });
+    const workflow = await readFile(path.join(rootDir, '.github/workflows/contextforge-pr-comment.yml'), 'utf8');
+
+    expect(stdout).toContain('Wrote .github/workflows/contextforge-pr-comment.yml');
+    expect(workflow).toContain('contextforge-pr-comment.md');
   });
 });

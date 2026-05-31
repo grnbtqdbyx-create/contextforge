@@ -27,6 +27,7 @@ describe('CLI argument mapping', () => {
         write: false,
         openPr: false,
         githubAction: false,
+        prCommentWorkflow: false,
         agentsMd: false,
         claudeMd: false,
         force: false,

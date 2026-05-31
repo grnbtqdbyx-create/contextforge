@@ -19,7 +19,7 @@ import { createPrComment } from './report/prComment.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
 import { formatDoctor, runDoctor } from './doctor/doctor.js';
-import { scaffoldGithubActionWorkflow } from './init/githubAction.js';
+import { scaffoldGithubActionWorkflow, scaffoldPrCommentWorkflow } from './init/githubAction.js';
 import { scaffoldAgentContextFiles } from './init/agentContext.js';
 import type { ScannerOptions, SessionRecord } from './types.js';
 
@@ -42,6 +42,7 @@ export interface CliArgs {
   write: boolean;
   openPr: boolean;
   githubAction: boolean;
+  prCommentWorkflow: boolean;
   agentsMd: boolean;
   claudeMd: boolean;
   force: boolean;
@@ -129,6 +130,7 @@ function parseArgs(argv: string[]): CliArgs {
     write: argv.includes('--write'),
     openPr: argv.includes('--open-pr'),
     githubAction: argv.includes('--github-action'),
+    prCommentWorkflow: argv.includes('--pr-comment-workflow'),
     agentsMd: argv.includes('--agents-md'),
     claudeMd: argv.includes('--claude-md'),
     force: argv.includes('--force'),
@@ -328,8 +330,8 @@ async function commandExamples(args: CliArgs): Promise<void> {
 }
 
 async function commandInit(args: CliArgs): Promise<void> {
-  if (!args.githubAction && !args.agentsMd && !args.claudeMd) {
-    console.log('Choose what to initialize. Try: contextforge init --github-action --agents-md --claude-md');
+  if (!args.githubAction && !args.prCommentWorkflow && !args.agentsMd && !args.claudeMd) {
+    console.log('Choose what to initialize. Try: contextforge init --github-action --pr-comment-workflow --agents-md --claude-md');
     process.exitCode = 1;
     return;
   }
@@ -338,6 +340,14 @@ async function commandInit(args: CliArgs): Promise<void> {
     const result = await scaffoldGithubActionWorkflow({
       rootDir: process.cwd(),
       actionRef: args.actionRef,
+      force: args.force
+    });
+    printScaffoldResult(result.path, result.created);
+  }
+
+  if (args.prCommentWorkflow) {
+    const result = await scaffoldPrCommentWorkflow({
+      rootDir: process.cwd(),
       force: args.force
     });
     printScaffoldResult(result.path, result.created);
@@ -443,7 +453,7 @@ Usage:
   contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
   contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
   contextforge examples [--output examples/demo-output.md]
-  contextforge init [--github-action] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.21.0] [--force]
+  contextforge init [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.22.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
