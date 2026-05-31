@@ -2,16 +2,17 @@ import os from 'node:os';
 import path from 'node:path';
 import type { ScannerOptions, SessionRecord } from '../types.js';
 import { listFiles, readJsonl } from '../utils/files.js';
-import { normalizeRecord } from './common.js';
+import { normalizeRecord, selectRecentReadableSessionFiles } from './common.js';
 
 export async function scanCodexSessions(options: ScannerOptions = {}): Promise<SessionRecord[]> {
   const rootDir = options.demo
     ? path.resolve('fixtures/codex')
     : options.rootDir ?? path.join(os.homedir(), '.codex');
   const files = await listFiles(rootDir, (filePath) => filePath.endsWith('.jsonl'));
-  const records = await Promise.all(
-    files.map(async (file) => (await readJsonl(file)).map((item) => normalizeRecord('codex', file, item)))
-  );
-  return records.flat();
+  const selectedFiles = await selectRecentReadableSessionFiles(files, options);
+  const records: SessionRecord[] = [];
+  for (const file of selectedFiles) {
+    records.push(...(await readJsonl(file)).map((item) => normalizeRecord('codex', file, item)));
+  }
+  return records;
 }
-

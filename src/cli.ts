@@ -29,6 +29,8 @@ interface CliArgs {
   minContextScore: number;
   minCacheScore: number;
   minSecurityScore: number;
+  maxFiles: number | undefined;
+  maxFileBytes: number | undefined;
 }
 
 async function main(): Promise<void> {
@@ -90,7 +92,9 @@ function parseArgs(argv: string[]): CliArgs {
     openPr: argv.includes('--open-pr'),
     minContextScore: Number(valueAfter(argv, '--min-context-score') ?? 60),
     minCacheScore: Number(valueAfter(argv, '--min-cache-score') ?? 60),
-    minSecurityScore: Number(valueAfter(argv, '--min-security-score') ?? 60)
+    minSecurityScore: Number(valueAfter(argv, '--min-security-score') ?? 60),
+    maxFiles: optionalNumber(valueAfter(argv, '--max-session-files')),
+    maxFileBytes: optionalMegabytes(valueAfter(argv, '--max-session-file-mb'))
   };
 }
 
@@ -257,6 +261,17 @@ function valueAfter(argv: string[], flag: string): string | undefined {
   return index >= 0 ? argv[index + 1] : undefined;
 }
 
+function optionalNumber(value: string | undefined): number | undefined {
+  if (!value) return undefined;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function optionalMegabytes(value: string | undefined): number | undefined {
+  const parsed = optionalNumber(value);
+  return parsed === undefined ? undefined : Math.max(1, parsed) * 1024 * 1024;
+}
+
 function printHelp(): void {
   console.log(`ContextForge
 
@@ -271,6 +286,10 @@ Usage:
   contextforge improve [--demo] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
   contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--min-security-score 60]
+
+Session scan safety:
+  --max-session-files 50       newest JSONL files to scan per provider
+  --max-session-file-mb 5      skip larger session files
 `);
 }
 

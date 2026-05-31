@@ -80,6 +80,10 @@ contextforge report [--demo] [--output contextforge-report.html]
 contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--min-security-score 60]
 ```
 
+Local session scans are bounded by default. Use `--max-session-files` and
+`--max-session-file-mb` when you need a wider or narrower Codex/Claude history
+window.
+
 ## CI / Dogfood Mode
 
 Use `contextforge audit` in CI to produce a JSON gate and an HTML artifact:
@@ -99,6 +103,8 @@ By default, `audit` is repo-first and does not scan local session history. Add
 Security audit details live in [docs/security-audit.md](docs/security-audit.md).
 Public malicious-context benchmark details live in
 [docs/security-benchmark.md](docs/security-benchmark.md).
+Codex JSONL parser coverage is documented in
+[docs/codex-session-formats.md](docs/codex-session-formats.md).
 
 ## Research-backed Positioning
 
@@ -110,10 +116,10 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.7.0 is a public MVP CLI with:
+ContextForge v0.8.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
-- local session scanning fallbacks
+- bounded local session scanning fallbacks
 - token usage summaries
 - context health audit
 - context security audit
@@ -134,7 +140,8 @@ ContextForge v0.7.0 is a public MVP CLI with:
 - **v0.5.0:** real generated HTML report screenshot and packaged README assets.
 - **v0.6.0:** public malicious-context benchmark fixtures and `security-benchmark` command.
 - **v0.7.0:** session-derived context pack scoring from failure/read/edit signals.
-- **Next:** broader Codex session format coverage, npm publish workflow draft.
+- **v0.8.0:** broader modern Codex rollout JSONL parsing and bounded local scans.
+- **Next:** npm publish workflow draft.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).
 

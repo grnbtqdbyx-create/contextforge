@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.0 - 2026-05-31
+
+- Expand Codex session parsing for modern rollout JSONL records such as `session_meta`, `turn_context`, `event_msg`, `response_item`, function calls, function call outputs, and token counts.
+- Add synthetic, secret-free Codex rollout fixtures based on observed local schemas.
+- Bound local Codex and Claude session scans by recent file count and file size to avoid loading huge agent histories into memory.
+- Add `--max-session-files` and `--max-session-file-mb` controls for local scan windows.
+
 ## 0.7.0 - 2026-05-31
 
 - Add session-derived context pack scoring for files mentioned in failures, recent reads, and recent edits.

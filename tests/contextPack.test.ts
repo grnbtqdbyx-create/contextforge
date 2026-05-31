@@ -3,6 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createContextPack } from '../src/pack/contextPack.js';
+import { scanCodexSessions } from '../src/scanners/codex.js';
 import type { SessionRecord } from '../src/types.js';
 
 describe('context pack generator', () => {
@@ -70,6 +71,21 @@ describe('context pack generator', () => {
     });
 
     expect(pack.files.some((file) => file.path === 'contextforge-pack.md')).toBe(false);
+  });
+
+  it('uses modern Codex rollout records as session-derived context signals', async () => {
+    const records = await scanCodexSessions({ rootDir: 'fixtures/codex-rollout' });
+    const pack = await createContextPack({
+      rootDir: 'fixtures/project',
+      task: 'investigate login regression',
+      budget: 300,
+      records
+    });
+    const authFile = pack.files.find((file) => file.path === 'src/auth.ts');
+
+    expect(authFile?.reasons.some((reason) => reason.type === 'session-failure')).toBe(true);
+    expect(authFile?.reasons.some((reason) => reason.type === 'session-read')).toBe(true);
+    expect(pack.content).toContain('session failure mention');
   });
 });
 

@@ -84,3 +84,12 @@ The v0.7.0 scoring model adds three trace-derived signals:
 
 This keeps ContextForge aligned with retrieval/context benchmarks while staying
 small enough for CI and build-in-public maintenance.
+
+## Codex Session Format Direction
+
+Local Codex tooling is converging around JSONL rollout/session files under
+`~/.codex`, but the shape is not only simple `{role, content}` chat records.
+Observed modern sessions include `session_meta`, `turn_context`, `event_msg`,
+and `response_item` rows with nested `payload` data. ContextForge v0.8.0 parses
+these shapes from synthetic fixtures and keeps local scanning bounded so a large
+history folder cannot overwhelm the CLI.
