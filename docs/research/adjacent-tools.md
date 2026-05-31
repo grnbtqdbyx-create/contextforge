@@ -135,6 +135,11 @@ With v0.23.0, ContextForge makes the repository easier for agents to enter:
 > root `llms.txt` and `llms-full.txt` maps that point Codex and Claude at the
 > docs, commands, safety model, and proof surfaces that matter.
 
+With v0.24.0, ContextForge makes the value proposition easier to scan:
+
+> use-case-first onboarding that maps maintainer problems to commands,
+> artifacts, and success signals.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -149,6 +154,7 @@ That means every repository can ask:
 - Can maintainers add that PR comment without hand-copying a permission-sensitive workflow?
 - Can a new repository adopt the whole ContextForge loop with one command?
 - Can an AI coding agent find the right ContextForge docs without guessing from the README alone?
+- Which concrete ContextForge workflow should a maintainer run for this problem?
 
 ## Next Differentiators
 
@@ -164,6 +170,7 @@ That means every repository can ask:
 10. PR-ready deterministic comments that make context quality visible during review.
 11. One-command recommended setup for audit, PR comment, AGENTS.md, and CLAUDE.md.
 12. LLM-readable discovery files that give agents a stable repository map.
+13. Use-case-first onboarding for first PR gates, security defense, cache triage, and context packs.
 
 ## Explainability Direction
 
