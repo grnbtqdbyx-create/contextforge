@@ -26,6 +26,7 @@ describe('CLI argument mapping', () => {
         plan: undefined,
         comment: undefined,
         suggestions: undefined,
+        badge: undefined,
         sessions: true,
         json: false,
         write: false,
@@ -128,6 +129,31 @@ describe('CLI audit command', () => {
         source: expect.any(String)
       })
     );
+    await rm(rootDir, { recursive: true, force: true });
+  });
+
+  it('writes an SVG audit badge when requested', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-badge-'));
+    const auditPath = path.join(rootDir, 'audit.json');
+    const reportPath = path.join(rootDir, 'report.html');
+    const badgePath = path.join(rootDir, 'badge.svg');
+
+    await execFileAsync('pnpm', [
+      'contextforge',
+      'audit',
+      '--demo',
+      '--output',
+      auditPath,
+      '--report',
+      reportPath,
+      '--badge',
+      badgePath
+    ]);
+    const badge = await readFile(badgePath, 'utf8');
+
+    expect(badge).toContain('<svg');
+    expect(badge).toContain('ContextForge');
+    expect(badge).toContain('pass');
     await rm(rootDir, { recursive: true, force: true });
   });
 });

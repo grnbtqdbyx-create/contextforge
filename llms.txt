@@ -12,7 +12,7 @@ packs, and produces CI artifacts that Codex and Claude can act on.
 - `contextforge init --all --project-name "My Repo"`: scaffold the recommended repo setup.
 - `contextforge doctor --demo`: run first-readiness checks on fixture data.
 - `contextforge improve --demo --json`: emit structured repo-rule suggestions for agents and bots.
-- `contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json`: create CI, PR-review, and structured suggestion artifacts.
+- `contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg`: create CI, PR-review, structured suggestion, and status badge artifacts.
 - `contextforge pack --task "review auth regression" --budget 20000 --sessions`: build an explainable task context pack.
 
 ## Key Docs

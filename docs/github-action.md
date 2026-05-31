@@ -2,8 +2,9 @@
 
 ContextForge can dogfood itself in CI by generating a JSON audit, an HTML
 report, a SARIF file for GitHub Code Scanning, a Markdown job summary, a
-PR-ready Markdown comment, machine-readable improvement suggestions, and an
-agent-readable action plan on every push or pull request.
+PR-ready Markdown comment, machine-readable improvement suggestions, a compact
+SVG status badge, and an agent-readable action plan on every push or pull
+request.
 
 ## One-command Setup
 
@@ -18,12 +19,12 @@ contextforge init --pr-comment-workflow
 `--all` is the recommended setup for new repositories. It writes the audit
 workflow, the optional PR comment workflow, `AGENTS.md`, and `CLAUDE.md`.
 The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment,
-suggestions JSON, and agent action plan artifacts. It refuses to overwrite
-existing files by default:
+suggestions JSON, SVG badge, and agent action plan artifacts. It refuses to
+overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.26.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.27.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -53,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: grnbtqdbyx-create/contextforge@v0.26.0
+      - uses: grnbtqdbyx-create/contextforge@v0.27.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -65,6 +66,7 @@ jobs:
           plan: contextforge-agent-plan.md
           comment: contextforge-pr-comment.md
           suggestions: contextforge-suggestions.json
+          badge: contextforge-badge.svg
       - uses: actions/upload-artifact@v5
         if: always()
         with:
@@ -77,6 +79,7 @@ jobs:
             contextforge-agent-plan.md
             contextforge-pr-comment.md
             contextforge-suggestions.json
+            contextforge-badge.svg
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
@@ -156,7 +159,7 @@ jobs:
       - run: corepack prepare pnpm@11.2.2 --activate
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json
+      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
       - name: Write job summary
         if: always()
         run: cat contextforge-summary.md >> "$GITHUB_STEP_SUMMARY"
@@ -172,6 +175,7 @@ jobs:
             contextforge-agent-plan.md
             contextforge-pr-comment.md
             contextforge-suggestions.json
+            contextforge-badge.svg
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:

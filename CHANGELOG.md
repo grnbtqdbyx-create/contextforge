@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.27.0 - 2026-05-31
+
+- Add `contextforge audit --badge contextforge-badge.svg` for a compact SVG status badge generated from audit scores.
+- Include `contextforge-badge.svg` in the reusable GitHub Action, dogfood workflow, and generated audit workflow artifacts.
+- Modernize README positioning around visible proof surfaces for maintainers and coding agents.
+
 ## 0.26.0 - 2026-05-31
 
 - Add `contextforge audit --suggestions contextforge-suggestions.json` so CI can upload machine-readable improvement suggestions as a first-class artifact.

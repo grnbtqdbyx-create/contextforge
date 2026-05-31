@@ -39,7 +39,7 @@ instructions, or stale process notes.
 contextforge agents-md-audit
 contextforge improve --json
 contextforge improve --write
-contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --suggestions contextforge-suggestions.json
+contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
 ```
 
 Success signal:
@@ -48,6 +48,8 @@ Success signal:
 - Codex, Claude, or a bot can parse structured `title`, `text`, and `source`
   fields instead of scraping Markdown bullets.
 - CI uploads the same structured suggestions as `contextforge-suggestions.json`.
+- Maintainers get a compact `contextforge-badge.svg` proof artifact for status
+  dashboards or README workflows.
 - `contextforge-agent-plan.md` tells Codex or Claude what to fix first.
 
 ## 3. Defend Against Malicious Repo Instructions

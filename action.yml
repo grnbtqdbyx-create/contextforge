@@ -1,5 +1,5 @@
 name: 'ContextForge Audit'
-description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, Markdown, PR comment, suggestions, and agent action plan audits.'
+description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, and agent action plan audits.'
 author: 'Ogün Keskin'
 
 branding:
@@ -47,6 +47,10 @@ inputs:
     description: 'Machine-readable improvement suggestions JSON output path in the caller workspace.'
     required: false
     default: 'contextforge-suggestions.json'
+  badge:
+    description: 'SVG status badge output path in the caller workspace.'
+    required: false
+    default: 'contextforge-badge.svg'
 
 outputs:
   audit-json:
@@ -70,6 +74,9 @@ outputs:
   suggestions-json:
     description: 'Path to the generated machine-readable improvement suggestions.'
     value: ${{ inputs.suggestions }}
+  badge-svg:
+    description: 'Path to the generated SVG status badge.'
+    value: ${{ inputs.badge }}
 
 runs:
   using: 'composite'
@@ -94,7 +101,8 @@ runs:
           --summary "${{ inputs.summary }}" \
           --plan "${{ inputs.plan }}" \
           --comment "${{ inputs.comment }}" \
-          --suggestions "${{ inputs.suggestions }}"
+          --suggestions "${{ inputs.suggestions }}" \
+          --badge "${{ inputs.badge }}"
         if [[ -n "${GITHUB_STEP_SUMMARY:-}" && -f "${{ inputs.summary }}" ]]; then
           cat "${{ inputs.summary }}" >> "$GITHUB_STEP_SUMMARY"
         fi
