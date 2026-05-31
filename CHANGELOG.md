@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.18.0 - 2026-05-31
+
+- Add `contextforge init --agents-md` to scaffold a concise, auditable `AGENTS.md` for Codex and other coding agents.
+- Add `contextforge init --claude-md` to scaffold a concise `CLAUDE.md` project memory for Claude Code.
+- Support `--project-name` and `--force` for generated agent context files.
+- Update onboarding docs around minimal context files after current OpenAI, Anthropic, and AGENTS.md research signals.
+
 ## 0.17.0 - 2026-05-31
 
 - Add `contextforge plan` for agent-readable audit action plans that Codex and Claude can execute from.

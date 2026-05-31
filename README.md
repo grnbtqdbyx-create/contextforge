@@ -53,7 +53,7 @@ Input: 8832  Output: 3750  Cached: 3328
 For CI or agent workflows:
 
 ```bash
-contextforge init --github-action
+contextforge init --github-action --agents-md --claude-md --project-name "My Repo"
 contextforge doctor --json
 contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md
 contextforge plan --output contextforge-agent-plan.md
@@ -63,7 +63,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.17.0
+- uses: grnbtqdbyx-create/contextforge@v0.18.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -75,6 +75,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **See token waste:** identify expensive sessions, tool outputs, and context files.
 - **Improve cache stability:** catch volatile prefixes, timestamps, and large tool dumps.
 - **Audit repo instructions:** keep root and nested `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, and `.clinerules` useful instead of bloated.
+- **Bootstrap minimal context files:** scaffold concise `AGENTS.md` and `CLAUDE.md` files without filling the repo with vague prompt folklore.
 - **Catch context poisoning:** flag instruction overrides, secret exfiltration, unsafe shell, hidden directives, and permission escalation.
 - **Generate explainable context packs:** give Codex or Claude only the files needed for a task, with "why included" reasons.
 - **Create agent action plans:** turn audit findings into prioritized Markdown that Codex or Claude can execute from.
@@ -104,6 +105,7 @@ and tuned for Codex/Claude repository work.
 | Token spend is visible only after the session is over. | Token waste is summarized by provider, project, and record kind. |
 | Cache misses are hard to diagnose. | Volatile prefixes and large tool outputs are flagged. |
 | `AGENTS.md` / `CLAUDE.md` grows by guesswork. | Repo instructions get measurable health checks and suggestions. |
+| New repos copy giant agent prompts from the internet. | `contextforge init --agents-md --claude-md` starts from a minimal, test-oriented template. |
 | Malicious repo instructions hide in plain Markdown. | Context security findings fail CI before an agent trusts them. |
 | Context packs are opaque file dumps. | Each selected file includes score reasons such as task term, path, manifest, or instruction file. |
 | A failed audit leaves humans to infer the fix order. | `contextforge plan` produces a prioritized agent-readable fix plan. |
@@ -123,7 +125,7 @@ contextforge report [--demo] [--output contextforge-report.html]
 contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--min-security-score 60]
 contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
 contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
-contextforge init --github-action [--action-ref grnbtqdbyx-create/contextforge@v0.17.0] [--force]
+contextforge init [--github-action] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.18.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -159,6 +161,7 @@ Codex JSONL parser coverage is documented in
 npm publish preparation is documented in [docs/npm-publish.md](docs/npm-publish.md).
 First-run readiness checks are documented in [docs/doctor.md](docs/doctor.md).
 Agent-readable fix plans are documented in [docs/agent-action-plan.md](docs/agent-action-plan.md).
+Minimal agent context scaffolding is documented in [docs/agent-context-init.md](docs/agent-context-init.md).
 
 ## Research-backed Positioning
 
@@ -170,7 +173,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.17.0 is a public MVP CLI with:
+ContextForge v0.18.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -190,6 +193,7 @@ ContextForge v0.17.0 is a public MVP CLI with:
 - CI-ready `contextforge audit` dogfood workflow
 - reusable GitHub Action entrypoint
 - `contextforge init --github-action` scaffolding for one-command CI setup
+- `contextforge init --agents-md --claude-md` scaffolding for minimal Codex/Claude context files
 - manual npm publish workflow draft with OIDC/trusted-publishing preparation
 
 ## Roadmap
@@ -212,6 +216,7 @@ ContextForge v0.17.0 is a public MVP CLI with:
 - **v0.15.0:** recursive monorepo instruction discovery for nested agent files.
 - **v0.16.0:** `contextforge init --github-action` one-command GitHub Action scaffolding.
 - **v0.17.0:** agent-readable action plans from `contextforge plan` and `audit --plan`.
+- **v0.18.0:** minimal `AGENTS.md` and `CLAUDE.md` scaffolding.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

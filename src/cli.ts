@@ -17,6 +17,7 @@ import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
 import { formatDoctor, runDoctor } from './doctor/doctor.js';
 import { scaffoldGithubActionWorkflow } from './init/githubAction.js';
+import { scaffoldAgentContextFiles } from './init/agentContext.js';
 import type { ScannerOptions, SessionRecord } from './types.js';
 
 export interface CliArgs {
@@ -37,8 +38,11 @@ export interface CliArgs {
   write: boolean;
   openPr: boolean;
   githubAction: boolean;
+  agentsMd: boolean;
+  claudeMd: boolean;
   force: boolean;
   actionRef: string | undefined;
+  projectName: string | undefined;
   minContextScore: number;
   minCacheScore: number;
   minSecurityScore: number;
@@ -117,8 +121,11 @@ function parseArgs(argv: string[]): CliArgs {
     write: argv.includes('--write'),
     openPr: argv.includes('--open-pr'),
     githubAction: argv.includes('--github-action'),
+    agentsMd: argv.includes('--agents-md'),
+    claudeMd: argv.includes('--claude-md'),
     force: argv.includes('--force'),
     actionRef: valueAfter(argv, '--action-ref'),
+    projectName: valueAfter(argv, '--project-name'),
     minContextScore: Number(valueAfter(argv, '--min-context-score') ?? 60),
     minCacheScore: Number(valueAfter(argv, '--min-cache-score') ?? 60),
     minSecurityScore: Number(valueAfter(argv, '--min-security-score') ?? 60),
@@ -306,25 +313,31 @@ async function commandPlan(args: CliArgs): Promise<void> {
 }
 
 async function commandInit(args: CliArgs): Promise<void> {
-  if (!args.githubAction) {
-    console.log('Choose what to initialize. Try: contextforge init --github-action');
+  if (!args.githubAction && !args.agentsMd && !args.claudeMd) {
+    console.log('Choose what to initialize. Try: contextforge init --github-action --agents-md --claude-md');
     process.exitCode = 1;
     return;
   }
 
-  const result = await scaffoldGithubActionWorkflow({
-    rootDir: process.cwd(),
-    actionRef: args.actionRef,
-    force: args.force
-  });
-  const relativePath = pathRelativeToCwd(result.path);
-
-  if (result.created) {
-    console.log(`Wrote ${relativePath}`);
-    return;
+  if (args.githubAction) {
+    const result = await scaffoldGithubActionWorkflow({
+      rootDir: process.cwd(),
+      actionRef: args.actionRef,
+      force: args.force
+    });
+    printScaffoldResult(result.path, result.created);
   }
 
-  console.log(`Skipped ${relativePath} because it already exists. Use --force to overwrite.`);
+  if (args.agentsMd || args.claudeMd) {
+    const results = await scaffoldAgentContextFiles({
+      rootDir: process.cwd(),
+      agentsMd: args.agentsMd,
+      claudeMd: args.claudeMd,
+      projectName: args.projectName,
+      force: args.force
+    });
+    for (const result of results) printScaffoldResult(result.path, result.created);
+  }
 }
 
 function printObjectTable(title: string, table: Record<string, { totalTokens: number; records: number }>): void {
@@ -375,6 +388,15 @@ function pathRelativeToCwd(filePath: string): string {
   return filePath.startsWith(process.cwd()) ? filePath.slice(process.cwd().length + 1) : filePath;
 }
 
+function printScaffoldResult(filePath: string, created: boolean): void {
+  const relativePath = pathRelativeToCwd(filePath);
+  if (created) {
+    console.log(`Wrote ${relativePath}`);
+    return;
+  }
+  console.log(`Skipped ${relativePath} because it already exists. Use --force to overwrite.`);
+}
+
 export function isCliEntrypoint(moduleUrl: string, argvPath: string | undefined = process.argv[1]): boolean {
   if (!argvPath) return false;
   return realPath(fileURLToPath(moduleUrl)) === realPath(argvPath);
@@ -404,7 +426,7 @@ Usage:
   contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--min-security-score 60]
   contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
   contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
-  contextforge init --github-action [--action-ref grnbtqdbyx-create/contextforge@v0.17.0] [--force]
+  contextforge init [--github-action] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.18.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
