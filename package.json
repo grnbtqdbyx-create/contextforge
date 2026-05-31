@@ -4,7 +4,7 @@
   "description": "Self-learning token and context optimizer for Codex and Claude Code.",
   "type": "module",
   "bin": {
-    "contextforge": "./dist/src/cli.js"
+    "contextforge": "./dist/cli.js"
   },
   "files": [
     "dist",
@@ -14,7 +14,7 @@
     "TRADEMARKS.md"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
