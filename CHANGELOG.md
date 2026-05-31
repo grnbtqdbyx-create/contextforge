@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.29.0 - 2026-05-31
+
+- Add a `Community health surfaces` check to `contextforge doctor` for Code of Conduct, security policy, issue templates, and PR template files.
+- Include the new doctor check in text and JSON output so CI, dashboards, and coding agents can spot contributor-readiness gaps.
+- Refresh README, doctor docs, GitHub Action docs, and research notes around GitHub community profile and contributor trust surfaces.
+
 ## 0.28.0 - 2026-05-31
 
 - Add a `Public proof surfaces` check to `contextforge doctor` so maintainers can verify README, license, contribution, changelog, demo, and LLM discovery files from the first command.

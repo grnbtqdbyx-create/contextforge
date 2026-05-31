@@ -466,7 +466,7 @@ Usage:
   contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
   contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
   contextforge examples [--output examples/demo-output.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.28.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.29.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
