@@ -8,6 +8,7 @@ import { auditCacheStability } from './analyzers/cacheAudit.js';
 import { createContextPack } from './pack/contextPack.js';
 import { suggestRuleImprovements } from './improve/ruleSuggestions.js';
 import { writeHtmlReport } from './report/htmlReport.js';
+import { buildAudit } from './audit/buildAudit.js';
 import type { SessionRecord } from './types.js';
 
 interface CliArgs {
@@ -18,8 +19,11 @@ interface CliArgs {
   task: string;
   budget: number;
   output: string;
+  report: string;
   write: boolean;
   openPr: boolean;
+  minContextScore: number;
+  minCacheScore: number;
 }
 
 async function main(): Promise<void> {
@@ -46,6 +50,9 @@ async function main(): Promise<void> {
     case 'report':
       await commandReport(args);
       break;
+    case 'audit':
+      await commandAudit(args);
+      break;
     case 'help':
     default:
       printHelp();
@@ -54,16 +61,22 @@ async function main(): Promise<void> {
 
 function parseArgs(argv: string[]): CliArgs {
   const command = argv.find((item) => !item.startsWith('-')) ?? 'help';
+  const defaultOutput = command === 'audit' ? 'contextforge-audit.json' : 'contextforge-report.html';
+  const providerFlagProvided = argv.includes('--codex') || argv.includes('--claude');
+  const repoOnlyAudit = command === 'audit' && !argv.includes('--demo') && !providerFlagProvided;
   return {
     command,
     demo: argv.includes('--demo'),
-    codex: argv.includes('--codex') || !argv.includes('--claude'),
-    claude: argv.includes('--claude') || !argv.includes('--codex'),
+    codex: repoOnlyAudit ? false : argv.includes('--codex') || !argv.includes('--claude'),
+    claude: repoOnlyAudit ? false : argv.includes('--claude') || !argv.includes('--codex'),
     task: valueAfter(argv, '--task') ?? 'understand this repository',
     budget: Number(valueAfter(argv, '--budget') ?? 20000),
-    output: valueAfter(argv, '--output') ?? 'contextforge-report.html',
+    output: valueAfter(argv, '--output') ?? defaultOutput,
+    report: valueAfter(argv, '--report') ?? 'contextforge-report.html',
     write: argv.includes('--write'),
-    openPr: argv.includes('--open-pr')
+    openPr: argv.includes('--open-pr'),
+    minContextScore: Number(valueAfter(argv, '--min-context-score') ?? 60),
+    minCacheScore: Number(valueAfter(argv, '--min-cache-score') ?? 60)
   };
 }
 
@@ -145,6 +158,36 @@ async function commandReport(args: CliArgs): Promise<void> {
   console.log(`Wrote ${args.output}`);
 }
 
+async function commandAudit(args: CliArgs): Promise<void> {
+  const records = await loadRecords(args);
+  const rootDir = args.demo ? 'fixtures/project' : process.cwd();
+  const audit = await buildAudit({
+    records,
+    rootDir,
+    minContextScore: args.minContextScore,
+    minCacheScore: args.minCacheScore
+  });
+  const context = await auditContextFiles({ rootDir });
+  const cache = auditCacheStability(records);
+  const suggestions = suggestRuleImprovements({ contextFindings: context.findings, cacheFindings: cache.findings });
+  await fs.writeFile(args.output, `${JSON.stringify(audit, null, 2)}\n`);
+  await writeHtmlReport({
+    outputPath: args.report,
+    usage: summarizeUsage(records),
+    context,
+    cache,
+    suggestions
+  });
+
+  console.log(`ContextForge audit: ${audit.status}`);
+  console.log(`Context health: ${audit.scores.contextHealth}/100  Cache stability: ${audit.scores.cacheStability}/100`);
+  console.log(`Wrote ${args.output} and ${args.report}`);
+  if (audit.failures.length > 0) {
+    for (const failure of audit.failures) console.log(`FAIL: ${failure}`);
+    process.exitCode = 1;
+  }
+}
+
 function printObjectTable(title: string, table: Record<string, { totalTokens: number; records: number }>): void {
   console.log(title);
   for (const [key, value] of Object.entries(table)) {
@@ -179,6 +222,7 @@ Usage:
   contextforge pack --task "fix auth bug" --budget 20000 [--demo]
   contextforge improve [--demo] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
+  contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html]
 `);
 }
 
@@ -186,4 +230,3 @@ main().catch((error) => {
   console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 });
-

@@ -65,7 +65,32 @@ contextforge agents-md-audit [--demo]
 contextforge pack --task "fix auth bug" --budget 20000 [--demo]
 contextforge improve [--demo] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
+contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html]
 ```
+
+## CI / Dogfood Mode
+
+Use `contextforge audit` in CI to produce a JSON gate and an HTML artifact:
+
+```bash
+contextforge audit --min-context-score 60 --min-cache-score 60 \
+  --output contextforge-audit.json \
+  --report contextforge-report.html
+```
+
+See [docs/github-action.md](docs/github-action.md) for a complete GitHub Actions
+workflow. ContextForge also runs this audit against itself.
+
+By default, `audit` is repo-first and does not scan local session history. Add
+`--codex`, `--claude`, or `--demo` when you want session usage included.
+
+## Research-backed Positioning
+
+ContextForge learns from popular tools like Repomix, ccusage, AGENTS.md,
+context-mode, Claude Context, and LLMLingua, but focuses on a narrower gap:
+**CI-ready context quality audits for coding-agent repositories.**
+
+See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
@@ -79,6 +104,7 @@ ContextForge v0.1.0 is an MVP CLI with:
 - task-specific Markdown context packs
 - HTML report generation
 - DCO-based contribution flow
+- CI-ready `contextforge audit` dogfood workflow
 
 ## Roadmap
 
