@@ -55,6 +55,7 @@ contextforge audit [--demo] [--output contextforge-audit.json] [--report context
 contextforge doctor [--demo] [--json] [--summary contextforge-doctor.md] [--benchmark-dir fixtures/security-benchmark]
 contextforge plan [--demo] [--output contextforge-agent-plan.md]
 contextforge examples [--output examples/demo-output.md]
+contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
 contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--force]
 ```
 
@@ -86,6 +87,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-suggestions.json`: machine-readable improvement suggestions for Codex, Claude, bots, and CI scripts
 - `contextforge-badge.svg`: compact audit status badge generated from context, cache, and security scores
 - `contextforge-doctor.md`: shareable first-run readiness checklist from `doctor --summary`
+- `docs/launch-post.md`: generated build-in-public launch kit from `launch-kit`
 - `examples/demo-output.md`: deterministic token usage, CI audit, and handoff output
 - `examples/pr-comment.md`: deterministic PR-ready comment preview
 - GitHub releases: tagged build-in-public release history

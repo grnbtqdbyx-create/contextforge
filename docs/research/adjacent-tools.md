@@ -84,6 +84,10 @@ ContextForge v0.30.0 adds `contextforge doctor --summary`, because current
 context-engineering and token-dashboard tools compete on fast visible proof;
 ContextForge should let maintainers publish first-run readiness evidence as
 Markdown, not only terminal text or JSON.
+ContextForge v0.31.0 adds `contextforge launch-kit`, because fast-growing
+GitHub projects make discovery, topics, proof commands, launch copy, and
+contributor checklists visible instead of leaving maintainers to hand-compose
+them after the tool already works.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -191,6 +195,12 @@ With v0.30.0, ContextForge makes first-run proof portable:
 > `contextforge doctor --summary contextforge-doctor.md` writes a Markdown
 > checklist for README updates, issues, PRs, and build-in-public launch posts.
 
+With v0.31.0, ContextForge makes the launch narrative reproducible:
+
+> `contextforge launch-kit --output docs/launch-post.md` writes a one-liner,
+> proof commands, suggested GitHub topics, launch post draft, and maintainer
+> checklist from the same product positioning.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -212,6 +222,7 @@ That means every repository can ask:
 - Are the public proof files present before asking maintainers or agents to trust the repo?
 - Can contributors find safe collaboration and security-reporting paths before opening issues or PRs?
 - Can maintainers publish the first-run readiness report without hand-copying terminal output?
+- Can maintainers generate launch copy and topic checklists from the same proof commands the CLI verifies?
 
 ## Next Differentiators
 
@@ -234,6 +245,7 @@ That means every repository can ask:
 17. Public proof surface checks for OSS launch trust.
 18. Community health surface checks for contributor-ready agent repositories.
 19. Shareable doctor Markdown reports for launch issues, PRs, README updates, and build-in-public posts.
+20. Generated launch kits that keep public copy aligned with real proof commands.
 
 ## Explainability Direction
 

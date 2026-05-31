@@ -188,3 +188,19 @@ describe('CLI audit command', () => {
     await rm(rootDir, { recursive: true, force: true });
   });
 });
+
+describe('CLI launch-kit command', () => {
+  it('writes a launch kit Markdown file for build-in-public posts', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-launch-kit-'));
+    const outputPath = path.join(rootDir, 'launch-kit.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'launch-kit', '--output', outputPath, '--project-name', 'ContextForge']);
+    const kit = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(kit).toContain('# ContextForge Launch Kit');
+    expect(kit).toContain('## Launch Post Draft');
+    expect(kit).toContain('contextforge doctor --summary contextforge-doctor.md');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
