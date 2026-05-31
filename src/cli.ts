@@ -19,7 +19,7 @@ import { createPrComment } from './report/prComment.js';
 import { createBadgeSvg } from './report/badge.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
-import { formatDoctor, runDoctor } from './doctor/doctor.js';
+import { createDoctorSummary, formatDoctor, runDoctor } from './doctor/doctor.js';
 import { scaffoldGithubActionWorkflow, scaffoldPrCommentWorkflow } from './init/githubAction.js';
 import { scaffoldAgentContextFiles } from './init/agentContext.js';
 import type { ScannerOptions, SessionRecord } from './types.js';
@@ -316,7 +316,15 @@ async function commandDoctor(args: CliArgs): Promise<void> {
     minCacheScore: args.minCacheScore,
     minSecurityScore: args.minSecurityScore
   });
+  if (args.summary) {
+    await fs.writeFile(args.summary, createDoctorSummary(result));
+  }
   console.log(args.json ? JSON.stringify(result, null, 2) : formatDoctor(result));
+  if (args.summary) {
+    const message = `Wrote ${args.summary}`;
+    if (args.json) console.error(message);
+    else console.log(message);
+  }
   if (result.status === 'fail') process.exitCode = 1;
 }
 
@@ -463,10 +471,10 @@ Usage:
   contextforge improve [--demo] [--json] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
   contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--badge contextforge-badge.svg] [--min-security-score 60]
-  contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
+  contextforge doctor [--demo] [--json] [--summary contextforge-doctor.md] [--benchmark-dir fixtures/security-benchmark]
   contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
   contextforge examples [--output examples/demo-output.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.29.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.30.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
