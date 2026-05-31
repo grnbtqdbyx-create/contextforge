@@ -108,6 +108,8 @@ real, deterministic, and useful before npm publishing or broad launch.
 
 ```bash
 contextforge examples --output examples/demo-output.md
+contextforge doctor --summary contextforge-doctor.md
+contextforge launch-kit --output docs/launch-post.md
 contextforge audit --demo --comment examples/pr-comment.md
 ```
 
@@ -115,6 +117,8 @@ Success signal:
 
 - Visitors can inspect generated token usage, CI audit, and PR comment previews
   without installing anything.
+- Maintainers have a generated launch post, suggested GitHub topics, and proof
+  commands that stay aligned with the CLI.
 - Coding agents can start from `llms.txt` and `llms-full.txt` instead of
   guessing the documentation path.
 

@@ -1,29 +1,44 @@
-# Launch Post Draft
+# ContextForge Launch Kit
+
+## One-Liner
+
+ContextForge is a local-first context readiness gate for Codex and Claude Code repositories.
+
+## Proof Commands
+
+```bash
+contextforge doctor --summary contextforge-doctor.md
+contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
+contextforge pack --task "review auth regression" --budget 20000 --sessions
+```
+
+## Suggested GitHub Topics
+
+`codex` `claude-code` `coding-agents` `context-engineering` `token-usage` `prompt-caching` `ai-security` `github-actions`
+
+## Launch Post Draft
 
 I am building ContextForge in public.
 
-ContextForge is a local-first token and context optimizer for Codex and Claude
-Code. It helps developers see where agent tokens go, reduce context bloat, audit
-prompt-cache stability, and generate task-specific context packs.
+AI coding agents are powerful, but repositories still waste their context with noisy instructions, unstable cache prefixes, huge tool outputs, and unsafe Markdown.
 
-Why this matters:
+ContextForge turns that layer into a deterministic readiness check for Codex and Claude Code: context health, cache stability, prompt-injection safety, public proof files, community health files, CI artifacts, and task-specific context packs.
 
-- AI coding agents often reread noisy repo context.
-- Large tool outputs quietly consume useful context window.
-- Bloated `AGENTS.md` and `CLAUDE.md` files can cost tokens without improving task success.
-- Prompt caching works best when stable context stays stable.
-
-Try the demo:
+Try the proof path:
 
 ```bash
-pnpm install
-pnpm contextforge scan --demo
-pnpm contextforge usage --demo
-pnpm contextforge report --demo
+contextforge doctor --summary contextforge-doctor.md
 ```
 
 Repo: https://github.com/grnbtqdbyx-create/contextforge
 
-If this saves you tokens or helps your coding agent work better, a star would
-help the project reach more maintainers.
+If this helps your agent work with less waste and better handoffs, a star helps more maintainers find it.
+
+## Maintainer Checklist
+
+- README explains the problem in the first screen.
+- `contextforge doctor --summary` produces a shareable readiness report.
+- GitHub topics match the target audience.
+- Release notes include validation commands.
+- Open issues show what contributors can help with next.
 
