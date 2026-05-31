@@ -26,9 +26,11 @@ describe('GitHub Action init scaffold', () => {
     expect(workflow).toContain('contextforge-summary.md');
     expect(workflow).toContain('contextforge-pr-comment.md');
     expect(workflow).toContain('contextforge-proof-pack.md');
+    expect(workflow).toContain('contextforge-scorecard.md');
     expect(workflow).toContain('contextforge-review-kit.md');
     expect(workflow).toContain('contextforge-artifact-map.md');
     expect(workflow).toContain('proof-pack: contextforge-proof-pack.md');
+    expect(workflow).toContain('scorecard: contextforge-scorecard.md');
     expect(workflow).toContain('review-kit: contextforge-review-kit.md');
     expect(workflow).toContain('artifact-map: contextforge-artifact-map.md');
     expect(workflow).toContain('review-base-ref: main');
@@ -64,7 +66,7 @@ describe('GitHub Action init scaffold', () => {
     const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-init-default-ref-'));
     const result = await scaffoldGithubActionWorkflow({ rootDir });
 
-    expect(await readFile(result.path, 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.43.0');
+    expect(await readFile(result.path, 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.44.0');
   });
 
   it('is available through the init CLI command', async () => {

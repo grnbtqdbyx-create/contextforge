@@ -30,6 +30,8 @@ jobs:
       - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
       - run: node dist/cli.js proof-pack --output contextforge-proof-pack.md
         if: always()
+      - run: node dist/cli.js scorecard --output contextforge-scorecard.md
+        if: always()
       - run: node dist/cli.js review-kit --base main --output contextforge-review-kit.md
         if: always()
       - run: node dist/cli.js artifact-map --output contextforge-artifact-map.md
@@ -51,6 +53,7 @@ jobs:
             contextforge-suggestions.json
             contextforge-badge.svg
             contextforge-proof-pack.md
+            contextforge-scorecard.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4

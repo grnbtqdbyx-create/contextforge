@@ -1,7 +1,7 @@
 import { access, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.43.0';
+export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.44.0';
 
 export interface GithubActionScaffoldOptions {
   rootDir: string;
@@ -70,6 +70,7 @@ jobs:
           suggestions: contextforge-suggestions.json
           badge: contextforge-badge.svg
           proof-pack: contextforge-proof-pack.md
+          scorecard: contextforge-scorecard.md
           review-kit: contextforge-review-kit.md
           artifact-map: contextforge-artifact-map.md
           review-base-ref: main
@@ -87,6 +88,7 @@ jobs:
             contextforge-suggestions.json
             contextforge-badge.svg
             contextforge-proof-pack.md
+            contextforge-scorecard.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4

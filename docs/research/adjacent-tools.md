@@ -129,6 +129,10 @@ ContextForge v0.43.0 adds npm provenance metadata checks and Node 24 workflow
 opt-in, because package trust includes both registry-readable repository links
 and CI workflows that are ready for GitHub's JavaScript action runtime
 migration.
+ContextForge v0.44.0 adds `contextforge scorecard`, because adjacent tools are
+strong at deep packing or token dashboards, while repo visitors and coding
+agents still need a short answer to whether a repository is ready for
+Codex/Claude before opening a long proof artifact.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -369,6 +373,7 @@ That means every repository can ask:
 30. CI-uploaded artifact maps in reusable and generated GitHub workflows.
 31. npm publish-readiness checks that separate repo-verifiable supply-chain setup from account-level maintainer steps.
 32. npm provenance metadata and Node 24 workflow opt-in before the first public package.
+33. README-ready agent readiness scorecards that summarize Codex/Claude readiness in one screen.
 
 ## Explainability Direction
 
@@ -421,3 +426,8 @@ ContextForge v0.43.0 extends that report with package provenance metadata:
 `repository.url`, `homepage`, and `bugs.url` must point back to the public
 GitHub repo, and generated workflows opt into Node 24 JavaScript actions before
 the GitHub Actions Node 20 runtime migration.
+ContextForge v0.44.0 adds a shorter public proof layer:
+`contextforge scorecard --output contextforge-scorecard.md` gives README
+visitors, PR reviewers, Codex, and Claude the readiness score, key checks, next
+actions, and links to deeper artifacts without requiring them to read the full
+proof pack first.
