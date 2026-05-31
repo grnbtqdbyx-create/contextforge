@@ -2,14 +2,17 @@ import { readFile } from 'node:fs/promises';
 import { describe, expect, it } from 'vitest';
 
 describe('GitHub workflows', () => {
-  it('opts JavaScript actions into the Node 24 runtime', async () => {
+  it('uses Corepack instead of deprecated Node 20 pnpm setup actions', async () => {
     const ci = await readFile('.github/workflows/ci.yml', 'utf8');
     const audit = await readFile('.github/workflows/contextforge-audit.yml', 'utf8');
     const npmPublish = await readFile('.github/workflows/npm-publish.yml', 'utf8');
 
-    expect(ci).toContain('FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true');
-    expect(audit).toContain('FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true');
-    expect(npmPublish).toContain('FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true');
+    for (const workflow of [ci, audit, npmPublish]) {
+      expect(workflow).not.toContain('pnpm/action-setup');
+      expect(workflow).toContain('package-manager-cache: false');
+      expect(workflow).toContain('corepack enable');
+      expect(workflow).toContain('corepack prepare pnpm@11.2.2 --activate');
+    }
   });
 
   it('keeps npm publishing manual, OIDC-based, and dry-run by default', async () => {

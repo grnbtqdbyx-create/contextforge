@@ -2,8 +2,8 @@
 
 ## 0.16.1 - 2026-05-31
 
-- Opt GitHub workflows into the Node 24 JavaScript action runtime to keep public checks warning-free.
-- Include the same Node 24 runtime opt-in in `contextforge init --github-action` generated workflows.
+- Replace deprecated `pnpm/action-setup` usage with Corepack-based pnpm setup in GitHub workflows.
+- Add `packageManager` metadata so pnpm versioning is explicit in local and CI environments.
 
 ## 0.16.0 - 2026-05-31
 

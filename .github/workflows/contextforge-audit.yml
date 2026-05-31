@@ -9,21 +9,17 @@ permissions:
   contents: read
   security-events: write
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   contextforge-audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 11.2.2
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-          cache: pnpm
+          package-manager-cache: false
+      - run: corepack enable
+      - run: corepack prepare pnpm@11.2.2 --activate
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md

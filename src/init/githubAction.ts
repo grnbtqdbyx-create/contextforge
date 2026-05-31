@@ -37,9 +37,6 @@ permissions:
   contents: read
   security-events: write
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   contextforge-audit:
     runs-on: ubuntu-latest

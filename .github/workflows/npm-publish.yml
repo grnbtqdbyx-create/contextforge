@@ -21,22 +21,18 @@ permissions:
   contents: read
   id-token: write
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   preflight:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 11.2.2
       - uses: actions/setup-node@v5
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
-          cache: pnpm
+          package-manager-cache: false
+      - run: corepack enable
+      - run: corepack prepare pnpm@11.2.2 --activate
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test
@@ -52,14 +48,13 @@ jobs:
     environment: npm-publish
     steps:
       - uses: actions/checkout@v5
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 11.2.2
       - uses: actions/setup-node@v5
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
-          cache: pnpm
+          package-manager-cache: false
+      - run: corepack enable
+      - run: corepack prepare pnpm@11.2.2 --activate
       - run: pnpm install --frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test
