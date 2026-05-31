@@ -41,6 +41,7 @@ preview is generated too: [examples/pr-comment.md](examples/pr-comment.md).
 Coding agents can start from [llms.txt](llms.txt) or the expanded
 [llms-full.txt](llms-full.txt) project map.
 For concrete maintainer workflows, see [docs/use-cases.md](docs/use-cases.md).
+For adjacent-tool positioning, see [docs/comparison.md](docs/comparison.md).
 CI can also upload a structured suggestions file and compact status badge:
 `contextforge-suggestions.json` and `contextforge-badge.svg`. First-run
 readiness can be published as Markdown with `contextforge doctor --summary
@@ -50,6 +51,7 @@ contextforge-doctor.md`.
 contextforge examples --output examples/demo-output.md
 contextforge doctor --summary contextforge-doctor.md
 contextforge launch-kit --output docs/launch-post.md
+contextforge compare --output docs/comparison.md
 contextforge audit --demo --comment examples/pr-comment.md --badge contextforge-badge.svg
 ```
 
@@ -73,6 +75,13 @@ topic checklist:
 contextforge launch-kit --output docs/launch-post.md
 ```
 
+To explain where ContextForge fits next to Repomix, ccusage, promptfoo, and
+agent security scanners:
+
+```bash
+contextforge compare --output docs/comparison.md
+```
+
 ## Quickstart
 
 ```bash
@@ -85,6 +94,7 @@ pnpm contextforge report --demo
 pnpm contextforge plan --demo
 pnpm contextforge examples
 pnpm contextforge launch-kit
+pnpm contextforge compare
 ```
 
 Example output:
@@ -110,7 +120,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.31.0
+- uses: grnbtqdbyx-create/contextforge@v0.32.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -124,6 +134,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Check community health surfaces:** verify Code of Conduct, security policy, issue templates, and PR template files before asking contributors to help.
 - **Publish first-run proof:** write `contextforge-doctor.md` from `doctor --summary` for issues, PRs, launch posts, or README updates.
 - **Generate a launch kit:** write a one-liner, proof commands, suggested GitHub topics, launch post draft, and maintainer checklist.
+- **Explain the category:** generate a comparison guide that shows where ContextForge complements Repomix, ccusage, promptfoo, and security scanners.
 - **Improve cache stability:** catch volatile prefixes, timestamps, and large tool dumps.
 - **Audit repo instructions:** keep root `README.md`, nested `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, and `.clinerules` useful instead of bloated or unsafe.
 - **Bootstrap minimal context files:** scaffold concise `AGENTS.md` and `CLAUDE.md` files without filling the repo with vague prompt folklore.
@@ -171,6 +182,7 @@ and tuned for Codex/Claude repository work.
 | Contributors do not know how to help safely. | `contextforge doctor` checks community health files in the same first-run report. |
 | First-run proof is trapped in terminal output. | `doctor --summary` writes a Markdown report for README, issues, PRs, or launch posts. |
 | Launch copy drifts from the real CLI. | `launch-kit` generates a public post and topic checklist from the current project framing. |
+| Visitors cannot tell why another tool exists. | `compare` generates a positioning guide against adjacent agent-context tools. |
 
 ## Commands
 
@@ -189,7 +201,8 @@ contextforge doctor [--demo] [--json] [--summary contextforge-doctor.md] [--benc
 contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
 contextforge examples [--output examples/demo-output.md]
 contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.31.0] [--force]
+contextforge compare [--output docs/comparison.md]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.32.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -251,13 +264,14 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.31.0 is a public MVP CLI with:
+ContextForge v0.32.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
 - first-run `contextforge doctor` readiness report with JSON output
 - shareable `contextforge doctor --summary` Markdown reports
 - generated `contextforge launch-kit` build-in-public launch posts
+- generated `contextforge compare` adjacent-tool positioning guides
 - `Public proof surfaces` doctor check for OSS trust/readiness files
 - `Community health surfaces` doctor check for contributor-readiness files
 - token usage summaries
@@ -321,6 +335,7 @@ ContextForge v0.31.0 is a public MVP CLI with:
 - **v0.29.0:** community health surface checks in `contextforge doctor`.
 - **v0.30.0:** shareable Markdown doctor summaries for issues, PRs, README updates, and launch posts.
 - **v0.31.0:** generated launch kit with proof commands, topics, launch copy, and maintainer checklist.
+- **v0.32.0:** generated comparison guide for adjacent agent-context tools.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

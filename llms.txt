@@ -12,6 +12,7 @@ packs, and produces CI artifacts that Codex and Claude can act on.
 - `contextforge init --all --project-name "My Repo"`: scaffold the recommended repo setup.
 - `contextforge doctor --demo --summary contextforge-doctor.md`: run first-readiness checks and write a shareable Markdown report.
 - `contextforge launch-kit --output docs/launch-post.md`: generate launch copy, proof commands, suggested topics, and a maintainer checklist.
+- `contextforge compare --output docs/comparison.md`: generate adjacent-tool positioning for README and launch use.
 - `contextforge improve --demo --json`: emit structured repo-rule suggestions for agents and bots.
 - `contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg`: create CI, PR-review, structured suggestion, and status badge artifacts.
 - `contextforge pack --task "review auth regression" --budget 20000 --sessions`: build an explainable task context pack.
@@ -21,6 +22,7 @@ packs, and produces CI artifacts that Codex and Claude can act on.
 - [README](README.md): Human-facing overview, quickstart, commands, roadmap, and current status.
 - [GitHub Action](docs/github-action.md): Reusable action, generated workflows, artifacts, and PR comment publishing.
 - [Use Cases](docs/use-cases.md): Concrete maintainer workflows, commands, artifacts, and success signals.
+- [Comparison](docs/comparison.md): How ContextForge complements repo packers, token dashboards, prompt/eval tools, security scanners, and agent memory files.
 - [Agent Context Init](docs/agent-context-init.md): Minimal `AGENTS.md` and `CLAUDE.md` scaffolding.
 - [Agent Action Plan](docs/agent-action-plan.md): `contextforge plan` and audit handoff artifacts for Codex/Claude.
 - [Security Audit](docs/security-audit.md): Prompt/context poisoning checks for repo instruction files.

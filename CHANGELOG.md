@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.32.0 - 2026-06-01
+
+- Add `contextforge compare --output docs/comparison.md` to generate a positioning guide against repo packers, token dashboards, prompt/eval tools, agent security scanners, and project memory conventions.
+- Generate `docs/comparison.md` from the CLI so README positioning stays aligned with real proof commands.
+- Refresh README, use cases, LLM discovery files, and research notes around comparison-first open source positioning for Codex and Claude maintainers.
+
 ## 0.31.0 - 2026-06-01
 
 - Add `contextforge launch-kit --output docs/launch-post.md` to generate a build-in-public launch kit with one-liner, proof commands, suggested GitHub topics, launch post draft, and maintainer checklist.

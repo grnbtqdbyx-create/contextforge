@@ -204,3 +204,20 @@ describe('CLI launch-kit command', () => {
     await rm(rootDir, { recursive: true, force: true });
   });
 });
+
+describe('CLI compare command', () => {
+  it('writes a comparison guide for README and launch positioning', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-compare-'));
+    const outputPath = path.join(rootDir, 'comparison.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'compare', '--output', outputPath]);
+    const guide = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(guide).toContain('# ContextForge Comparison Guide');
+    expect(guide).toContain('Repomix');
+    expect(guide).toContain('ccusage');
+    expect(guide).toContain('ContextForge is the maintainer readiness layer');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
