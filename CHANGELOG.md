@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.1 - 2026-05-31
+
+- Fix CLI bounded session scan options so `--max-session-files` and `--max-session-file-mb` are forwarded into Codex and Claude scanners.
+- Allow `src/cli.ts` helpers to be imported in tests without executing the CLI entrypoint.
+- Add regression coverage for scanner option forwarding.
+
 ## 0.9.0 - 2026-05-31
 
 - Add a manual npm publish workflow draft with dry-run default, Trusted Publishing/OIDC permissions, and package checks.
