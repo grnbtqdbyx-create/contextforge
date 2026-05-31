@@ -10,10 +10,17 @@ export interface ContextPackOptions {
   budget: number;
 }
 
+export interface PackReason {
+  type: 'task-term-match' | 'path-match' | 'instruction-file' | 'manifest' | 'readme';
+  label: string;
+  points: number;
+}
+
 export interface PackedFile {
   path: string;
   estimatedTokens: number;
   score: number;
+  reasons: PackReason[];
 }
 
 export interface ContextPack {
@@ -37,8 +44,9 @@ export async function createContextPack(options: ContextPackOptions): Promise<Co
     const relative = path.relative(rootDir, file);
     const body = redactSecrets(buffer.toString('utf8'));
     const haystack = `${relative}\n${body}`.toLowerCase();
-    const score = terms.reduce((sum, term) => sum + (haystack.includes(term) ? 4 : 0), 0) + (relative.includes('README') ? 1 : 0);
-    candidates.push({ path: relative, estimatedTokens: estimateTokens(body), score, body });
+    const reasons = scoreReasons(relative, haystack, terms);
+    const score = reasons.reduce((sum, reason) => sum + reason.points, 0);
+    candidates.push({ path: relative, estimatedTokens: estimateTokens(body), score, reasons, body });
   }
 
   candidates.sort((a, b) => b.score - a.score || a.estimatedTokens - b.estimatedTokens);
@@ -62,6 +70,8 @@ export async function createContextPack(options: ContextPackOptions): Promise<Co
     ...selected.flatMap((file) => [
       `## ${file.path}`,
       '',
+      `Why included: ${formatReasons(file.reasons)}`,
+      '',
       '```',
       trimToBudget(file.body, Math.max(50, budget - estimateTokens(selected.map((item) => item.path).join('\n')))),
       '```',
@@ -82,3 +92,50 @@ function trimToBudget(content: string, budget: number): string {
   return `${content.slice(0, approxChars)}\n[ContextForge truncated this file to fit the token budget]`;
 }
 
+function scoreReasons(relative: string, haystack: string, terms: string[]): PackReason[] {
+  const reasons: PackReason[] = [];
+  const lowerPath = relative.toLowerCase();
+  const matchedTerms = terms.filter((term) => haystack.includes(term));
+  if (matchedTerms.length > 0) {
+    reasons.push({
+      type: 'task-term-match',
+      label: `task term match: ${matchedTerms.slice(0, 5).join(', ')}`,
+      points: matchedTerms.length * 4
+    });
+  }
+  const pathMatches = terms.filter((term) => lowerPath.includes(term));
+  if (pathMatches.length > 0) {
+    reasons.push({
+      type: 'path-match',
+      label: `path match: ${pathMatches.slice(0, 5).join(', ')}`,
+      points: pathMatches.length * 3
+    });
+  }
+  if (/^(AGENTS|CLAUDE)\.md$|(\.cursorrules|\.clinerules)$/i.test(relative)) {
+    reasons.push({
+      type: 'instruction-file',
+      label: 'repo-level agent instruction file',
+      points: 3
+    });
+  }
+  if (/^(package\.json|pnpm-lock\.yaml|package-lock\.json|yarn\.lock|tsconfig.*\.json)$/i.test(relative)) {
+    reasons.push({
+      type: 'manifest',
+      label: 'project manifest/config file',
+      points: 2
+    });
+  }
+  if (/README\.md$/i.test(relative)) {
+    reasons.push({
+      type: 'readme',
+      label: 'project README/orientation file',
+      points: 1
+    });
+  }
+  return reasons;
+}
+
+function formatReasons(reasons: PackReason[]): string {
+  if (reasons.length === 0) return 'fallback inclusion to preserve minimal context';
+  return reasons.map((reason) => `${reason.label} (+${reason.points})`).join('; ');
+}

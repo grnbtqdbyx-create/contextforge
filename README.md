@@ -43,7 +43,7 @@ Input: 8112  Output: 3370  Cached: 3328
 - **Improve cache stability:** catch volatile prefixes, timestamps, and large tool dumps.
 - **Audit repo instructions:** keep `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, and `.clinerules` useful instead of bloated.
 - **Catch context poisoning:** flag instruction overrides, secret exfiltration, unsafe shell, hidden directives, and permission escalation.
-- **Generate context packs:** give Codex or Claude only the files needed for a task.
+- **Generate explainable context packs:** give Codex or Claude only the files needed for a task, with "why included" reasons.
 - **Evolve safely:** suggest improved repo-level rules before writing anything.
 
 If this saves you tokens or helps your agent work better, please star the repo.
@@ -57,6 +57,7 @@ If this saves you tokens or helps your agent work better, please star the repo.
 | Cache misses are hard to diagnose. | Volatile prefixes and large tool outputs are flagged. |
 | `AGENTS.md` / `CLAUDE.md` grows by guesswork. | Repo instructions get measurable health checks and suggestions. |
 | Malicious repo instructions hide in plain Markdown. | Context security findings fail CI before an agent trusts them. |
+| Context packs are opaque file dumps. | Each selected file includes score reasons such as task term, path, manifest, or instruction file. |
 
 ## Commands
 

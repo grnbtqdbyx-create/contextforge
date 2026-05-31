@@ -46,3 +46,11 @@ That means every repository can ask:
 3. Repo instruction security checks for prompt/context poisoning.
 4. Task-specific context pack scoring that explains why each file was included.
 5. A public benchmark fixture set that compares before/after context health.
+
+## Explainability Direction
+
+Recent context tools increasingly emphasize retrieval or indexing. ContextForge
+should keep a maintainer-oriented explanation layer: every context pack should
+show why a file was selected, how many points it received, and which signal
+caused inclusion. This keeps the tool useful in PR review and CI artifacts, not
+only during local prompting.
