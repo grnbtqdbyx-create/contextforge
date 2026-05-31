@@ -18,7 +18,7 @@ overwrite an existing workflow by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.19.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.20.0
 ```
 
 ## Reusable Action
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: grnbtqdbyx-create/contextforge@v0.19.0
+      - uses: grnbtqdbyx-create/contextforge@v0.20.0
         with:
           min-context-score: 60
           min-cache-score: 60

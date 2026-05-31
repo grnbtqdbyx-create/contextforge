@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.20.0 - 2026-05-31
+
+- Add `contextforge examples` to generate deterministic public demo output from fixture data.
+- Refresh `examples/demo-output.md` as a star-friendly README proof surface for token usage, CI audit, and agent handoff output.
+- Update docs and action references for the next build-in-public release.
+
 ## 0.19.0 - 2026-05-31
 
 - Include root `README.md` in context security scans because agents commonly read repository entrypoints.

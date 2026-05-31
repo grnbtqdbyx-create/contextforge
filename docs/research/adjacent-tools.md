@@ -52,6 +52,8 @@ sprawl.
 ContextForge v0.19.0 expands security scanning to root `README.md`, matching
 current incident reports and benchmarks where agents follow malicious
 instructions embedded in repository entrypoints.
+ContextForge v0.20.0 adds deterministic public demo output so new visitors can
+inspect token usage, CI audit, and handoff artifacts in the first 30 seconds.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -106,6 +108,10 @@ With v0.19.0, ContextForge treats the README as part of the security boundary:
 
 > repository entrypoints that agents read are scanned before agents trust them.
 
+With v0.20.0, ContextForge also makes its value inspectable without setup:
+
+> deterministic demo output that can be regenerated and reviewed in public.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -115,6 +121,7 @@ That means every repository can ask:
 - Can the project improve agent rules through measured feedback rather than prompt folklore?
 - Are repo context files trying to override instructions, exfiltrate secrets, or weaken tool approvals?
 - Is our README carrying instructions that an AI coding agent might mistake for trusted commands?
+- Can a visitor see real token, audit, and handoff output before installing the CLI?
 
 ## Next Differentiators
 
@@ -126,6 +133,7 @@ That means every repository can ask:
 6. Agent action plans that turn failing audit evidence into the next scoped Codex/Claude task.
 7. Minimal context-file scaffolds that prevent new repositories from starting with bloated instructions.
 8. README prompt-injection coverage for repository entrypoints agents read by default.
+9. Regenerable demo output that turns the README into a verifiable product surface.
 
 ## Explainability Direction
 

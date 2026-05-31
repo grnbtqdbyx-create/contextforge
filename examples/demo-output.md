@@ -1,14 +1,46 @@
-# Demo Output
+# ContextForge Demo Output
+
+This file is generated from deterministic fixture data so visitors can inspect the public output before installing the CLI.
+
+## Token Usage
 
 ```bash
-pnpm contextforge usage --demo
+contextforge usage --demo
 ```
 
 ```text
-Total tokens: 11482
-Input: 8112  Output: 3370  Cached: 3328
+Total tokens: 12582
+Input: 8832  Output: 3750  Cached: 3328
 By kind
   user           2000 tokens (2 records)
-  assistant      6670 tokens (3 records)
-  tool           2812 tokens (2 records)
+  assistant      7390 tokens (4 records)
+  tool           3192 tokens (3 records)
 ```
+
+## CI Audit
+
+```bash
+contextforge audit --demo --min-context-score 70 --min-cache-score 70 --min-security-score 70 --summary contextforge-summary.md --plan contextforge-agent-plan.md
+```
+
+```text
+ContextForge audit: pass
+Context health: 76/100  Cache stability: 75/100  Context security: 100/100
+Cache hit ratio: 37.7%
+```
+
+## Agent Handoff
+
+```bash
+contextforge plan --demo --output contextforge-agent-plan.md
+```
+
+```text
+Read contextforge-agent-plan.md, fix the highest-priority finding first, keep the change scoped, run the suggested verification commands, and update the plan if the audit result changes.
+```
+
+## Why This Matters
+
+- Gives Codex and Claude a stable context budget before a coding session starts.
+- Turns token usage, prompt-cache stability, and context-file risk into CI gates.
+- Produces a compact handoff plan that another agent can follow without rereading the whole repository.
