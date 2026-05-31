@@ -3,6 +3,55 @@
 ContextForge can dogfood itself in CI by generating a JSON audit, an HTML
 report, and a SARIF file for GitHub Code Scanning on every push or pull request.
 
+## Reusable Action
+
+The root `action.yml` lets another repository run ContextForge directly from
+GitHub, even before the npm package is published:
+
+```yaml
+name: ContextForge Audit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  contextforge-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: grnbtqdbyx-create/contextforge@v0.13.0
+        with:
+          min-context-score: 60
+          min-cache-score: 60
+          min-security-score: 60
+          output: contextforge-audit.json
+          report: contextforge-report.html
+          sarif: contextforge.sarif
+      - uses: actions/upload-artifact@v5
+        if: always()
+        with:
+          name: contextforge-audit
+          path: |
+            contextforge-audit.json
+            contextforge-report.html
+            contextforge.sarif
+      - uses: github/codeql-action/upload-sarif@v4
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        with:
+          sarif_file: contextforge.sarif
+```
+
+The action builds ContextForge from the action checkout, then runs the built CLI
+against the caller repository workspace.
+
+## Dogfood Workflow
+
 ```yaml
 name: ContextForge Audit
 
