@@ -6,6 +6,7 @@ whether a repository is ready for agent-assisted work.
 ```bash
 contextforge doctor
 contextforge doctor --demo
+contextforge doctor --json
 ```
 
 The report checks:
@@ -20,6 +21,9 @@ The report checks:
 By default, `doctor` is repo-first and does not scan local Codex or Claude Code
 session history. Add `--codex`, `--claude`, or `--demo` when session-derived
 cache signals are useful.
+
+Use `--json` when another agent, CI job, or dashboard needs to consume the
+readiness report without parsing terminal prose.
 
 Use it before opening a PR, preparing a public launch post, or evaluating a new
 coding-agent repository.

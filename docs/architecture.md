@@ -14,4 +14,5 @@ The CLI composes these modules without network calls by default.
 Local session scans read recent JSONL files sequentially and skip oversized
 files to avoid accidentally loading huge agent histories into memory.
 `doctor` is also repo-first by default and only scans local agent sessions when
-the user passes `--demo`, `--codex`, or `--claude`.
+the user passes `--demo`, `--codex`, or `--claude`. Its `--json` output exposes
+the same readiness model without terminal prose for CI and agent workflows.

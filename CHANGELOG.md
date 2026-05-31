@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.0 - 2026-05-31
+
+- Add `contextforge doctor --json` for machine-readable readiness reports that CI jobs and coding agents can consume.
+- Refresh README positioning around the first five-minute value, differentiation, and public launch workflow.
+- Update adjacent-tool research notes with current signals from context packers, token usage tools, agent security scanners, and orchestration CLIs.
+
 ## 0.10.0 - 2026-05-31
 
 - Add `contextforge doctor` as a first-run readiness report for context health, cache stability, context security, benchmark status, and GitHub workflow presence.

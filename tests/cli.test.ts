@@ -19,6 +19,7 @@ describe('CLI argument mapping', () => {
         report: 'report',
         benchmarkDir: undefined,
         sessions: true,
+        json: false,
         write: false,
         openPr: false,
         minContextScore: 60,
@@ -46,5 +47,19 @@ describe('CLI doctor command', () => {
     expect(stdout).toContain('Security benchmark:');
     expect(stdout).toContain('GitHub workflows:');
     expect(stdout).toContain('Next actions:');
+  });
+
+  it('prints machine-readable doctor JSON when requested', async () => {
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'doctor', '--demo', '--json']);
+    const result = JSON.parse(stdout) as {
+      status: string;
+      checks: Array<{ name: string; status: string; detail: string }>;
+      nextActions: string[];
+    };
+
+    expect(result.status).toBe('warn');
+    expect(result.checks.some((check) => check.name === 'Context health')).toBe(true);
+    expect(result.checks.some((check) => check.name === 'GitHub workflows')).toBe(true);
+    expect(result.nextActions.length).toBeGreaterThan(0);
   });
 });
