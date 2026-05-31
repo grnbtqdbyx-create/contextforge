@@ -21,6 +21,7 @@ import { createDemoOutput } from './report/demoOutput.js';
 import { createLaunchKit } from './report/launchKit.js';
 import { createPrComment } from './report/prComment.js';
 import { createProofPack } from './report/proofPack.js';
+import { createAgentReadinessScorecard, createAgentReadinessScorecardData } from './report/scorecard.js';
 import { createReviewKit, demoReviewKitFiles } from './report/reviewKit.js';
 import { createBadgeSvg } from './report/badge.js';
 import { createArtifactMap } from './report/artifactMap.js';
@@ -121,6 +122,9 @@ async function main(): Promise<void> {
     case 'proof-pack':
       await commandProofPack(args);
       break;
+    case 'scorecard':
+      await commandScorecard(args);
+      break;
     case 'review-kit':
       await commandReviewKit(args);
       break;
@@ -143,7 +147,7 @@ function parseArgs(argv: string[]): CliArgs {
   const command = argv.find((item) => !item.startsWith('-')) ?? 'help';
   const defaultOutput = defaultOutputForCommand(command);
   const providerFlagProvided = argv.includes('--codex') || argv.includes('--claude');
-  const repoOnlyAudit = ['audit', 'doctor', 'proof-pack'].includes(command) && !argv.includes('--demo') && !providerFlagProvided;
+  const repoOnlyAudit = ['audit', 'doctor', 'proof-pack', 'scorecard'].includes(command) && !argv.includes('--demo') && !providerFlagProvided;
   return {
     command,
     demo: argv.includes('--demo'),
@@ -422,6 +426,35 @@ async function commandProofPack(args: CliArgs): Promise<void> {
   if (doctor.status === 'fail' || audit.status === 'fail') process.exitCode = 1;
 }
 
+async function commandScorecard(args: CliArgs): Promise<void> {
+  const records = await loadRecords(args);
+  const rootDir = args.demo ? 'fixtures/project' : process.cwd();
+  const audit = await buildAudit({
+    records,
+    rootDir,
+    minContextScore: args.minContextScore,
+    minCacheScore: args.minCacheScore,
+    minSecurityScore: args.minSecurityScore
+  });
+  const doctor = await runDoctor({
+    rootDir,
+    records,
+    benchmarkDir: args.benchmarkDir,
+    minContextScore: args.minContextScore,
+    minCacheScore: args.minCacheScore,
+    minSecurityScore: args.minSecurityScore
+  });
+  const scorecard = createAgentReadinessScorecardData({ doctor, audit });
+  if (args.json) {
+    console.log(JSON.stringify(scorecard, null, 2));
+    return;
+  }
+  await fs.mkdir(dirname(args.output), { recursive: true });
+  await fs.writeFile(args.output, createAgentReadinessScorecard(scorecard));
+  console.log(`Wrote ${args.output}`);
+  if (scorecard.status === 'fail') process.exitCode = 1;
+}
+
 async function commandReviewKit(args: CliArgs): Promise<void> {
   const changedFiles = args.demo ? demoReviewKitFiles() : await collectChangedFiles(args.baseRef);
   await fs.mkdir(dirname(args.output), { recursive: true });
@@ -525,6 +558,7 @@ function defaultOutputForCommand(command: string): string {
   if (command === 'launch-kit') return 'docs/launch-post.md';
   if (command === 'compare') return 'docs/comparison.md';
   if (command === 'proof-pack') return 'contextforge-proof-pack.md';
+  if (command === 'scorecard') return 'contextforge-scorecard.md';
   if (command === 'review-kit') return 'contextforge-review-kit.md';
   if (command === 'artifact-map') return 'docs/artifacts.md';
   if (command === 'publish-readiness') return 'contextforge-publish-readiness.md';
@@ -628,10 +662,11 @@ Usage:
   contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
   contextforge compare [--output docs/comparison.md]
   contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
+  contextforge scorecard [--demo] [--json] [--output contextforge-scorecard.md]
   contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
   contextforge artifact-map [--output docs/artifacts.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.43.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.44.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

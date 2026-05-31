@@ -129,6 +129,7 @@ contextforge examples --output examples/demo-output.md
 contextforge review-kit --demo --base main --output examples/review-kit.md
 contextforge doctor --summary contextforge-doctor.md
 contextforge artifact-map --output docs/artifacts.md
+contextforge scorecard --output contextforge-scorecard.md
 contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge launch-kit --output docs/launch-post.md
@@ -140,6 +141,8 @@ Success signal:
 
 - Visitors can inspect generated token usage, CI audit, and PR comment previews
   without installing anything.
+- Visitors can open `contextforge-scorecard.md` first for a one-screen
+  Codex/Claude readiness answer.
 - Reviewers can jump from the generated PR comment to `contextforge-proof-pack.md`
   for the deeper doctor/audit proof packet.
 - Visitors and reviewers can open `docs/artifacts.md` to choose the right proof

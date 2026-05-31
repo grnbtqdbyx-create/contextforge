@@ -1,5 +1,5 @@
 name: 'ContextForge Audit'
-description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, review kit, artifact map, and agent action plan audits.'
+description: 'Run ContextForge context health, cache stability, security, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, scorecard, review kit, artifact map, and agent action plan audits.'
 author: 'Ogün Keskin'
 
 branding:
@@ -55,6 +55,10 @@ inputs:
     description: 'Shareable proof pack Markdown output path in the caller workspace.'
     required: false
     default: 'contextforge-proof-pack.md'
+  scorecard:
+    description: 'One-screen agent readiness scorecard Markdown output path in the caller workspace.'
+    required: false
+    default: 'contextforge-scorecard.md'
   review-kit:
     description: 'Codex/Claude review kit Markdown output path in the caller workspace.'
     required: false
@@ -96,6 +100,9 @@ outputs:
   proof-pack-md:
     description: 'Path to the generated shareable proof pack.'
     value: ${{ inputs.proof-pack }}
+  scorecard-md:
+    description: 'Path to the generated agent readiness scorecard.'
+    value: ${{ inputs.scorecard }}
   review-kit-md:
     description: 'Path to the generated Codex/Claude review kit.'
     value: ${{ inputs.review-kit }}
@@ -141,6 +148,16 @@ runs:
           --min-cache-score "${{ inputs.min-cache-score }}" \
           --min-security-score "${{ inputs.min-security-score }}" \
           --output "${{ inputs.proof-pack }}"
+    - name: Run ContextForge scorecard
+      if: always()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        node "$GITHUB_ACTION_PATH/dist/cli.js" scorecard \
+          --min-context-score "${{ inputs.min-context-score }}" \
+          --min-cache-score "${{ inputs.min-cache-score }}" \
+          --min-security-score "${{ inputs.min-security-score }}" \
+          --output "${{ inputs.scorecard }}"
     - name: Run ContextForge review kit
       if: always()
       shell: bash

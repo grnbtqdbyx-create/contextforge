@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.44.0 - 2026-06-01
+
+- Add `contextforge scorecard --output contextforge-scorecard.md` for a one-screen Codex/Claude readiness snapshot that README visitors, reviewers, and agents can scan quickly.
+- Add scorecard artifacts to the reusable GitHub Action, generated audit workflow, and dogfood workflow.
+- Refresh README, GitHub Action docs, artifact map, LLM discovery files, publish readiness output, and package metadata around README-ready proof.
+
 ## 0.43.0 - 2026-06-01
 
 - Add npm provenance metadata (`repository`, `homepage`, and `bugs`) so Trusted Publishing readers can verify the package points back to the public GitHub repo.

@@ -61,6 +61,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge proof-pack`'
   },
   {
+    artifact: 'contextforge-scorecard.md',
+    audience: 'README visitors, reviewers, and coding agents',
+    useWhen: 'you need a one-screen Codex and Claude readiness snapshot',
+    producedBy: '`contextforge scorecard --output contextforge-scorecard.md`'
+  },
+  {
     artifact: 'contextforge-review-kit.md',
     audience: 'PR reviewers, Codex, and Claude',
     useWhen: 'you need changed-file review focus for agent-assisted PRs',
@@ -148,6 +154,7 @@ export function createArtifactMap(): string {
     'contextforge publish-readiness --summary contextforge-publish-readiness.md',
     'contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg',
     'contextforge proof-pack --output contextforge-proof-pack.md',
+    'contextforge scorecard --output contextforge-scorecard.md',
     'contextforge review-kit --base main --output contextforge-review-kit.md',
     '```',
     ''

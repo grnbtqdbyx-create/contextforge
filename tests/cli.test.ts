@@ -58,7 +58,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.43.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.44.0');
   });
 });
 
@@ -275,6 +275,30 @@ describe('CLI publish-readiness command', () => {
     expect(result.checks.some((check) => check.name === 'Trusted publishing workflow')).toBe(true);
     expect(stderr).toContain(`Wrote ${outputPath}`);
     await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
+describe('CLI scorecard command', () => {
+  it('writes a one-screen agent readiness scorecard for README and CI artifacts', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-scorecard-'));
+    const outputPath = path.join(rootDir, 'contextforge-scorecard.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'scorecard', '--demo', '--output', outputPath]);
+    const scorecard = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(scorecard).toContain('# ContextForge Agent Readiness Scorecard');
+    expect(scorecard).toContain('| Agent readiness score |');
+    expect(scorecard).toContain('## Why Codex And Claude Should Care');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+
+  it('prints machine-readable scorecard JSON when requested', async () => {
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'scorecard', '--demo', '--json']);
+    const result = JSON.parse(stdout) as { agentReadinessScore: number; artifacts: string[] };
+
+    expect(result.agentReadinessScore).toBeGreaterThan(0);
+    expect(result.artifacts).toContain('contextforge-proof-pack.md');
   });
 });
 

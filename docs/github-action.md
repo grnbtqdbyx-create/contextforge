@@ -3,8 +3,9 @@
 ContextForge can dogfood itself in CI by generating a JSON audit, an HTML
 report, a SARIF file for GitHub Code Scanning, a Markdown job summary, a
 PR-ready Markdown comment, machine-readable improvement suggestions, a compact
-SVG status badge, a shareable proof pack, a Codex/Claude review kit, and an
-agent-readable action plan on every push or pull request.
+SVG status badge, a shareable proof pack, a one-screen readiness scorecard, a
+Codex/Claude review kit, and an agent-readable action plan on every push or
+pull request.
 
 ## One-command Setup
 
@@ -19,12 +20,13 @@ contextforge init --pr-comment-workflow
 `--all` is the recommended setup for new repositories. It writes the audit
 workflow, the optional PR comment workflow, `AGENTS.md`, and `CLAUDE.md`.
 The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment,
-suggestions JSON, SVG badge, proof-pack Markdown, review-kit Markdown, artifact-map Markdown, and agent action plan
+suggestions JSON, SVG badge, proof-pack Markdown, scorecard Markdown,
+review-kit Markdown, artifact-map Markdown, and agent action plan
 artifacts. It refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.43.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.44.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -59,7 +61,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.43.0
+      - uses: grnbtqdbyx-create/contextforge@v0.44.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -73,6 +75,7 @@ jobs:
           suggestions: contextforge-suggestions.json
           badge: contextforge-badge.svg
           proof-pack: contextforge-proof-pack.md
+          scorecard: contextforge-scorecard.md
           review-kit: contextforge-review-kit.md
           artifact-map: contextforge-artifact-map.md
           review-base-ref: main
@@ -90,6 +93,7 @@ jobs:
             contextforge-suggestions.json
             contextforge-badge.svg
             contextforge-proof-pack.md
+            contextforge-scorecard.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
@@ -107,6 +111,9 @@ artifact is deterministic, points reviewers at `contextforge-proof-pack.md`
 and `contextforge-review-kit.md`, and is safe to publish with a separate
 sticky-comment workflow if the repository grants pull-request write
 permissions.
+The `contextforge-scorecard.md` artifact is the first file to open when a
+reader needs a short agent-readiness answer before inspecting the deeper proof
+packet.
 The `contextforge-review-kit.md` artifact gives Codex, Claude, and human
 reviewers the changed files, review focus areas, evidence commands, and a
 copyable review prompt. Use `fetch-depth: 0` on checkout when a repository wants
@@ -187,6 +194,8 @@ jobs:
       - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
       - run: node dist/cli.js proof-pack --output contextforge-proof-pack.md
         if: always()
+      - run: node dist/cli.js scorecard --output contextforge-scorecard.md
+        if: always()
       - run: node dist/cli.js review-kit --base main --output contextforge-review-kit.md
         if: always()
       - run: node dist/cli.js artifact-map --output contextforge-artifact-map.md
@@ -208,6 +217,7 @@ jobs:
             contextforge-suggestions.json
             contextforge-badge.svg
             contextforge-proof-pack.md
+            contextforge-scorecard.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
