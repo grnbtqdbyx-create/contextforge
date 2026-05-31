@@ -13,6 +13,12 @@ export interface McpExposureAudit {
   nextActions: string[];
 }
 
+interface McpConfigFile {
+  path: string;
+  relativePath: string;
+  isSymlink: boolean;
+}
+
 interface McpServerConfig {
   command?: unknown;
   args?: unknown;
@@ -37,11 +43,22 @@ export async function auditMcpExposure(options: { rootDir?: string } = {}): Prom
   const files = await listMcpConfigFiles(rootDir);
   const findings: Finding[] = [];
 
-  for (const filePath of files) {
-    const relativePath = path.relative(rootDir, filePath);
+  for (const file of files) {
+    const { relativePath } = file;
+    if (file.isSymlink) {
+      findings.push({
+        file: relativePath,
+        type: 'mcp-config-symlink',
+        severity: 'high',
+        message: `${relativePath} is a symlinked MCP config, so agents may load a target outside normal review.`,
+        suggestion: 'Replace the symlink with a committed JSON file or review the target before enabling MCP tools.'
+      });
+      continue;
+    }
+
     let parsed: unknown;
     try {
-      parsed = JSON.parse(await fs.readFile(filePath, 'utf8')) as unknown;
+      parsed = JSON.parse(await fs.readFile(file.path, 'utf8')) as unknown;
     } catch {
       findings.push({
         file: relativePath,
@@ -64,7 +81,7 @@ export async function auditMcpExposure(options: { rootDir?: string } = {}): Prom
   return {
     status: statusForFindings(uniqueFindings),
     score,
-    files: files.map((filePath) => path.relative(rootDir, filePath)),
+    files: files.map((file) => file.relativePath),
     findings: uniqueFindings,
     nextActions: nextActions(uniqueFindings)
   };
@@ -112,12 +129,52 @@ export function createMcpExposureSummary(audit: McpExposureAudit): string {
   return `${lines.join('\n')}\n`;
 }
 
-async function listMcpConfigFiles(rootDir: string): Promise<string[]> {
-  return listFiles(rootDir, (filePath) => {
+async function listMcpConfigFiles(rootDir: string): Promise<McpConfigFile[]> {
+  const regularFiles = await listFiles(rootDir, (filePath) => {
     const relativePath = path.relative(rootDir, filePath).split(path.sep).join('/');
     if (relativePath.startsWith('fixtures/')) return false;
     return MCP_CONFIG_NAMES.has(path.basename(filePath)) || MCP_CONFIG_SUFFIXES.some((suffix) => relativePath.endsWith(suffix));
   });
+  const symlinkFiles = await listMcpConfigSymlinks(rootDir);
+  const byPath = new Map<string, McpConfigFile>();
+  for (const filePath of regularFiles) {
+    const relativePath = path.relative(rootDir, filePath).split(path.sep).join('/');
+    byPath.set(relativePath, { path: filePath, relativePath, isSymlink: false });
+  }
+  for (const file of symlinkFiles) byPath.set(file.relativePath, file);
+  return [...byPath.values()].sort((left, right) => left.relativePath.localeCompare(right.relativePath));
+}
+
+async function listMcpConfigSymlinks(rootDir: string): Promise<McpConfigFile[]> {
+  const results: McpConfigFile[] = [];
+
+  async function walk(current: string): Promise<void> {
+    const entries = await fs.readdir(current, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(current, entry.name);
+      const relativePath = path.relative(rootDir, fullPath).split(path.sep).join('/');
+      if (relativePath.startsWith('fixtures/') || ['.git', 'node_modules', 'dist', 'build', 'coverage'].some((segment) => relativePath.split('/').includes(segment))) {
+        continue;
+      }
+      if (entry.isSymbolicLink() && isMcpConfigPath(fullPath, rootDir)) {
+        results.push({ path: fullPath, relativePath, isSymlink: true });
+      } else if (entry.isDirectory()) {
+        await walk(fullPath);
+      }
+    }
+  }
+
+  try {
+    await walk(rootDir);
+  } catch {
+    return results;
+  }
+  return results;
+}
+
+function isMcpConfigPath(filePath: string, rootDir: string): boolean {
+  const relativePath = path.relative(rootDir, filePath).split(path.sep).join('/');
+  return MCP_CONFIG_NAMES.has(path.basename(filePath)) || MCP_CONFIG_SUFFIXES.some((suffix) => relativePath.endsWith(suffix));
 }
 
 function readServers(parsed: unknown): Record<string, McpServerConfig> {
@@ -260,6 +317,9 @@ function nextActions(findings: Finding[]): string[] {
   }
   if (findings.some((finding) => finding.type === 'broad-tool-permission')) {
     actions.push('Reduce MCP tool permissions to explicit read-only capabilities before sharing the repo with coding agents.');
+  }
+  if (findings.some((finding) => finding.type === 'mcp-config-symlink')) {
+    actions.push('Replace symlinked MCP configs with committed JSON files so reviewers and agents inspect the same tool definition.');
   }
   if (actions.length === 0) actions.push('Review new MCP servers before committing config changes.');
   return actions;

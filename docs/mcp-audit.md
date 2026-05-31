@@ -21,6 +21,7 @@ The audit flags:
 - unpinned remote package launches through `npx`, `uvx`, or `pipx`
 - automatic MCP tool approval or always-allow settings
 - wildcard, write, delete, shell, or execute tool permission grants
+- symlinked MCP config files, without following the symlink target
 - invalid MCP JSON files that cannot be inspected safely
 
 Use the Markdown summary in README updates, PRs, launch issues, and GitHub

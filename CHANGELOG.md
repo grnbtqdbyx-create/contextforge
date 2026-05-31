@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.47.0 - 2026-06-01
+
+- Extend `contextforge mcp-audit` to detect symlinked MCP config files without following the symlink target.
+- Report symlinked MCP configs as high-severity `mcp-config-symlink` findings so reviewers and agents inspect the same committed tool definition.
+- Refresh MCP audit docs, README, research notes, generated artifacts, package metadata, and release readiness output around symlinked agent configuration risk.
+
 ## 0.46.0 - 2026-06-01
 
 - Extend `contextforge mcp-audit` to flag automatic MCP tool approval and broad write/delete/execute permission grants.

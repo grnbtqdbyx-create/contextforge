@@ -376,6 +376,7 @@ That means every repository can ask:
 33. README-ready agent readiness scorecards that summarize Codex/Claude readiness in one screen.
 34. MCP exposure audits that make agent tool config risk visible in CLI, doctor, scorecard, and CI artifacts.
 35. MCP permission exposure checks for auto-approved and broadly permitted agent tools.
+36. Symlinked MCP config detection so repo review and agent loading see the same committed file.
 
 ## Explainability Direction
 
@@ -442,3 +443,6 @@ ContextForge v0.46.0 extends that same static MCP gate to auto-approval and
 broad permission grants, because the adjacent MCP security ecosystem is moving
 toward runtime firewalls and gateways while maintainers still need a cheap
 pre-agent PR check for risky committed client configuration.
+ContextForge v0.47.0 adds symlinked MCP config detection, keeping the repo-first
+gate focused on files that can alter what an agent loads before normal review
+or CI has enough context to reason about the tool definition.

@@ -146,7 +146,7 @@ Success signal:
   Codex/Claude readiness answer.
 - Visitors can open `contextforge-mcp-audit.md` to see whether committed MCP
   configs expose secrets, unsafe shell installers, unpinned packages,
-  auto-approval, or broad tool permissions.
+  auto-approval, broad tool permissions, or symlinked config files.
 - Reviewers can jump from the generated PR comment to `contextforge-proof-pack.md`
   for the deeper doctor/audit proof packet.
 - Visitors and reviewers can open `docs/artifacts.md` to choose the right proof

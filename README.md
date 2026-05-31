@@ -209,7 +209,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.46.0
+- uses: grnbtqdbyx-create/contextforge@v0.47.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -225,7 +225,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Share one proof packet:** combine doctor checks, audit scores, evidence commands, and Codex/Claude handoff guidance with `contextforge proof-pack`.
 - **Map generated artifacts:** write a maintainer-friendly guide for every JSON, Markdown, SARIF, SVG, and HTML output with `contextforge artifact-map`.
 - **Show a one-screen readiness scorecard:** publish `contextforge-scorecard.md` so README visitors, reviewers, Codex, and Claude can see the repo's agent readiness quickly.
-- **Audit MCP exposure:** publish `contextforge-mcp-audit.md` so committed MCP configs cannot quietly ship hardcoded secrets, remote shell installers, unpinned package launches, auto-approval, or broad tool permissions.
+- **Audit MCP exposure:** publish `contextforge-mcp-audit.md` so committed MCP configs cannot quietly ship hardcoded secrets, remote shell installers, unpinned package launches, auto-approval, broad tool permissions, or symlinked config files.
 - **Publish the artifact map from CI:** attach `contextforge-artifact-map.md` beside proof-pack and review-kit outputs in reusable and generated GitHub workflows.
 - **Prove npm readiness before publishing:** generate `contextforge-publish-readiness.md` so package metadata, provenance links, Trusted Publishing workflow safety, and human setup are visible separately.
 - **Prepare GitHub Actions for Node 24:** dogfood and generated workflows opt into `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` before GitHub's JavaScript action runtime migration.
@@ -279,7 +279,7 @@ and tuned for Codex/Claude repository work.
 | Reviewers do not know which artifact to open first. | `artifact-map` catalogs every generated output and gives fast paths for PR review, agent fixes, and public launch proof. |
 | CI runs upload many files with no index. | Reusable and generated workflows publish `contextforge-artifact-map.md` beside the proof pack and review kit. |
 | README visitors need a fast answer before reading docs. | `scorecard` writes a one-screen Codex/Claude readiness snapshot. |
-| Agent tool configs can hide supply-chain risk. | `mcp-audit` checks committed MCP configs for hardcoded secrets, remote shell installers, unpinned package launches, auto-approval, and broad tool permissions. |
+| Agent tool configs can hide supply-chain risk. | `mcp-audit` checks committed MCP configs for hardcoded secrets, remote shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files. |
 | First npm publish is a vague manual checklist. | `publish-readiness` separates verified repo setup, provenance metadata, npm account state, and environment steps that require the maintainer. |
 | Coding agents guess which docs matter. | `llms.txt` points them at the important project surfaces. |
 | Agents need structured fixes, not copied bullets. | `contextforge improve --json` emits parseable rule suggestions. |
@@ -316,7 +316,7 @@ contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md]
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.46.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.47.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -390,7 +390,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.46.0 is a public MVP CLI with:
+ContextForge v0.47.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -398,7 +398,7 @@ ContextForge v0.46.0 is a public MVP CLI with:
 - shareable `contextforge doctor --summary` Markdown reports
 - shareable `contextforge proof-pack` readiness packets for launch, PR, and OSS evidence
 - one-screen `contextforge scorecard` readiness snapshots for README, PR, and CI artifact readers
-- committed MCP config exposure audits for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, and broad tool permissions
+- committed MCP config exposure audits for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files
 - deterministic `contextforge review-kit` briefs for Codex, Claude, and human PR review
 - reusable GitHub Action and dogfood workflow support for `contextforge-proof-pack.md`
 - reusable GitHub Action and dogfood workflow support for `contextforge-scorecard.md`
@@ -491,6 +491,7 @@ ContextForge v0.46.0 is a public MVP CLI with:
 - **v0.44.0:** README-ready agent readiness scorecards in CLI and CI artifacts.
 - **v0.45.0:** MCP exposure audits in CLI, doctor, scorecard, reusable action, generated workflow, and dogfood artifacts.
 - **v0.46.0:** MCP permission exposure checks for auto-approved and broadly permitted agent tools.
+- **v0.47.0:** Symlinked MCP config detection before agents load tool definitions.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

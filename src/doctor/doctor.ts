@@ -250,7 +250,7 @@ function nextActions(checks: DoctorCheck[], auditActions: string[]): string[] {
     actions.push('Add the ContextForge GitHub Action so every PR uploads JSON and HTML audit artifacts.');
   }
   if (checks.some((check) => check.name === 'MCP exposure' && check.status !== 'pass')) {
-    actions.push('Review MCP configs for hardcoded secrets, unsafe shell installers, unpinned packages, auto-approval, and broad tool permissions before enabling agents.');
+    actions.push('Review MCP configs for hardcoded secrets, unsafe shell installers, unpinned packages, auto-approval, broad tool permissions, and symlinked config files before enabling agents.');
   }
   if (checks.some((check) => check.name === 'Public proof surfaces' && check.status === 'warn')) {
     actions.push('Add README, license, contribution, changelog, demo, and LLM discovery surfaces so visitors and agents can verify the project quickly.');
