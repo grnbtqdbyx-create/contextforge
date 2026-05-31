@@ -96,6 +96,10 @@ ContextForge v0.33.0 adds `Launch profile surfaces` to `contextforge doctor`,
 because stars and external adoption depend on README-visible demo assets,
 generated launch copy, and category positioning staying present after the CLI
 changes.
+ContextForge v0.34.0 adds `contextforge proof-pack`, because current
+agent-context tools compete on immediate proof. A maintainer should be able to
+hand one Markdown packet to a visitor, reviewer, or coding agent and show the
+doctor status, audit scores, rerun commands, and next handoff step together.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -221,6 +225,12 @@ With v0.33.0, ContextForge makes the launch profile auditable:
 > launch kit, and comparison guide that repo visitors use to decide whether the
 > project is worth starring, trying, or sharing.
 
+With v0.34.0, ContextForge makes the evidence packet portable:
+
+> `contextforge proof-pack --output contextforge-proof-pack.md` writes a single
+> Markdown proof packet with doctor checks, audit scores, rerun commands, and
+> Codex/Claude handoff guidance.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -245,6 +255,7 @@ That means every repository can ask:
 - Can maintainers generate launch copy and topic checklists from the same proof commands the CLI verifies?
 - Can visitors understand why ContextForge exists next to the tools they already know?
 - Can maintainers verify that README launch assets, launch copy, and comparison docs are present before asking for stars?
+- Can maintainers share one deterministic proof packet instead of asking visitors or agents to inspect many artifacts?
 
 ## Next Differentiators
 
@@ -270,6 +281,7 @@ That means every repository can ask:
 20. Generated launch kits that keep public copy aligned with real proof commands.
 21. Generated comparison guides that make adjacent-tool positioning explicit.
 22. Launch profile checks for star-ready repository pages.
+23. Portable proof packs that combine doctor, audit, command, and agent handoff evidence.
 
 ## Explainability Direction
 
