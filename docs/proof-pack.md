@@ -26,6 +26,10 @@ publish `contextforge-proof-pack.md` as part of the `contextforge-audit`
 artifact set. That makes the same proof packet available from every push or
 pull request without requiring local session history.
 
+When `contextforge audit --comment contextforge-pr-comment.md` is enabled, the
+PR-ready comment also lists `contextforge-proof-pack.md` so reviewers can jump
+from the sticky PR discussion to the deeper doctor/audit packet.
+
 The proof pack includes:
 
 - doctor status and every doctor check

@@ -24,7 +24,7 @@ artifacts. It refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.35.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.36.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: grnbtqdbyx-create/contextforge@v0.35.0
+      - uses: grnbtqdbyx-create/contextforge@v0.36.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -93,8 +93,9 @@ against the caller repository workspace. It also appends the generated Markdown
 summary to `$GITHUB_STEP_SUMMARY` when the workflow runner provides it. The
 `contextforge-proof-pack.md` artifact is generated as the shareable packet for
 launch posts, PRs, and Codex/Claude handoffs. The `contextforge-pr-comment.md`
-artifact is deterministic and safe to publish with a separate sticky-comment
-workflow if the repository grants pull-request write permissions.
+artifact is deterministic, points reviewers at `contextforge-proof-pack.md`,
+and is safe to publish with a separate sticky-comment workflow if the
+repository grants pull-request write permissions.
 
 ## Sticky PR Comment Workflow
 
