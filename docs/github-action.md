@@ -25,7 +25,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --output contextforge-audit.json --report contextforge-report.html
+      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html
       - uses: actions/upload-artifact@v5
         if: always()
         with:
@@ -41,3 +41,7 @@ instruction files and session hygiene improve.
 `contextforge audit` is repo-first by default so CI jobs do not accidentally scan
 developer-local session history. Add `--codex` or `--claude` only in environments
 where those session files are intentionally available.
+
+The audit also scans repo-level context files for prompt/context poisoning,
+including instruction overrides, secret exfiltration requests, unsafe shell
+execution, hidden directives, and permission escalation.

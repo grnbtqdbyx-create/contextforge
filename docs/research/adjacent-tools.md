@@ -15,6 +15,8 @@ task-specific context packs for Codex and Claude Code users.
 | [LLMLingua](https://github.com/microsoft/LLMLingua) | 6k+ stars | Prompt and KV-cache compression research. | Use compression as an optional future backend, but keep the MVP deterministic and auditable. |
 | [claude-crusts](https://github.com/Abinesh-L/claude-crusts) | early niche | Finds wasted Claude Code context and gives fix commands. | Support both Codex and Claude Code, plus GitHub Action audit artifacts. |
 | [prompt-caching](https://github.com/flightlesstux/prompt-caching) | early niche | Optimizes repeated Claude Code reads via prompt caching. | Detect cache instability and surface it as a reportable score in CI. |
+| [Snyk agent-scan](https://github.com/snyk/agent-scan) | security-focused | Scans agent components for prompt injections, toxic flows, and risky data handling. | Bring a lighter, repo-instruction-focused subset into ContextForge audits. |
+| [Cisco skill-scanner](https://github.com/cisco-ai-defense/skill-scanner) | security-focused | Detects prompt injection, data exfiltration, and malicious code patterns in agent skills. | Apply similar checks to `AGENTS.md`, `CLAUDE.md`, and coding-agent context files. |
 
 ## Product Gap
 
@@ -35,6 +37,7 @@ That means every repository can ask:
 - Which session/tool records burn the most tokens?
 - Can a maintainer upload an HTML audit artifact on every PR?
 - Can the project improve agent rules through measured feedback rather than prompt folklore?
+- Are repo context files trying to override instructions, exfiltrate secrets, or weaken tool approvals?
 
 ## Next Differentiators
 

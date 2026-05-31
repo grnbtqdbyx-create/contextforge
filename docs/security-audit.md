@@ -1,0 +1,56 @@
+# Context Security Audit
+
+ContextForge scans repository-level instruction files as a security surface.
+
+Covered files:
+
+- `AGENTS.md`
+- `CLAUDE.md`
+- `.cursorrules`
+- `.clinerules`
+- `SKILL.md`
+
+Current checks:
+
+| Finding | What it catches |
+| --- | --- |
+| `prompt-injection` | instruction overrides such as "ignore previous instructions" or system prompt leaks |
+| `data-exfiltration` | requests to upload, send, post, or leak secrets, tokens, `.env`, SSH keys, or credentials |
+| `unsafe-shell` | dangerous shell patterns such as `curl ... | bash`, `wget ... | sh`, or destructive `rm -rf` |
+| `hidden-directive` | instructions to hide behavior from the user or act secretly |
+| `permission-escalation` | attempts to disable safety, approval, sandbox, or guardrail controls |
+
+Run the focused scanner:
+
+```bash
+contextforge security-audit --min-security-score 80
+```
+
+Run the full CI audit:
+
+```bash
+contextforge audit \
+  --min-context-score 70 \
+  --min-cache-score 70 \
+  --min-security-score 80 \
+  --output contextforge-audit.json \
+  --report contextforge-report.html
+```
+
+The scanner is deterministic and local-first. It does not make network calls and
+does not send repository content to an external model.
+
+## Threat Model
+
+Coding agents read repository files as context. A malicious pull request can add
+or modify Markdown instructions that look like ordinary project guidance but try
+to:
+
+- override higher-priority instructions
+- weaken approval and sandbox behavior
+- exfiltrate credentials through comments, artifacts, or network calls
+- hide malicious behavior from the user
+- trick an agent into executing unreviewed shell commands
+
+ContextForge is not a complete security product, but it gives maintainers an
+early CI signal before an agent treats suspicious repo context as trusted input.

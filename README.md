@@ -10,7 +10,8 @@
 AI coding agents burn tokens by re-reading noisy context, huge tool outputs,
 unstable cache prefixes, and bloated `AGENTS.md` / `CLAUDE.md` files.
 ContextForge shows where those tokens go, reduces context bloat, audits cache
-stability, and creates task-specific context packs.
+stability, scans repo instructions for prompt/context poisoning, and creates
+task-specific context packs.
 
 > Built in public by Ogün Keskin. Early APIs may change.
 
@@ -41,6 +42,7 @@ Input: 8112  Output: 3370  Cached: 3328
 - **See token waste:** identify expensive sessions, tool outputs, and context files.
 - **Improve cache stability:** catch volatile prefixes, timestamps, and large tool dumps.
 - **Audit repo instructions:** keep `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, and `.clinerules` useful instead of bloated.
+- **Catch context poisoning:** flag instruction overrides, secret exfiltration, unsafe shell, hidden directives, and permission escalation.
 - **Generate context packs:** give Codex or Claude only the files needed for a task.
 - **Evolve safely:** suggest improved repo-level rules before writing anything.
 
@@ -54,6 +56,7 @@ If this saves you tokens or helps your agent work better, please star the repo.
 | Token spend is visible only after the session is over. | Token waste is summarized by provider, project, and record kind. |
 | Cache misses are hard to diagnose. | Volatile prefixes and large tool outputs are flagged. |
 | `AGENTS.md` / `CLAUDE.md` grows by guesswork. | Repo instructions get measurable health checks and suggestions. |
+| Malicious repo instructions hide in plain Markdown. | Context security findings fail CI before an agent trusts them. |
 
 ## Commands
 
@@ -61,11 +64,12 @@ If this saves you tokens or helps your agent work better, please star the repo.
 contextforge scan [--demo] [--codex] [--claude]
 contextforge usage [--demo] [--codex] [--claude]
 contextforge cache-audit [--demo]
+contextforge security-audit [--demo] [--min-security-score 60]
 contextforge agents-md-audit [--demo]
 contextforge pack --task "fix auth bug" --budget 20000 [--demo]
 contextforge improve [--demo] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
-contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html]
+contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--min-security-score 60]
 ```
 
 ## CI / Dogfood Mode
@@ -73,7 +77,7 @@ contextforge audit [--demo] [--output contextforge-audit.json] [--report context
 Use `contextforge audit` in CI to produce a JSON gate and an HTML artifact:
 
 ```bash
-contextforge audit --min-context-score 60 --min-cache-score 60 \
+contextforge audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 \
   --output contextforge-audit.json \
   --report contextforge-report.html
 ```
@@ -83,6 +87,8 @@ workflow. ContextForge also runs this audit against itself.
 
 By default, `audit` is repo-first and does not scan local session history. Add
 `--codex`, `--claude`, or `--demo` when you want session usage included.
+
+Security audit details live in [docs/security-audit.md](docs/security-audit.md).
 
 ## Research-backed Positioning
 
@@ -100,6 +106,7 @@ ContextForge v0.1.0 is an MVP CLI with:
 - local session scanning fallbacks
 - token usage summaries
 - context health audit
+- context security audit
 - cache stability audit
 - task-specific Markdown context packs
 - HTML report generation

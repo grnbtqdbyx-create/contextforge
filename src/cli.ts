@@ -5,6 +5,7 @@ import { scanCodexSessions } from './scanners/codex.js';
 import { summarizeUsage } from './analyzers/usage.js';
 import { auditContextFiles } from './analyzers/contextHealth.js';
 import { auditCacheStability } from './analyzers/cacheAudit.js';
+import { auditContextSecurity } from './analyzers/contextSecurity.js';
 import { createContextPack } from './pack/contextPack.js';
 import { suggestRuleImprovements } from './improve/ruleSuggestions.js';
 import { writeHtmlReport } from './report/htmlReport.js';
@@ -24,6 +25,7 @@ interface CliArgs {
   openPr: boolean;
   minContextScore: number;
   minCacheScore: number;
+  minSecurityScore: number;
 }
 
 async function main(): Promise<void> {
@@ -37,6 +39,9 @@ async function main(): Promise<void> {
       break;
     case 'cache-audit':
       await commandCacheAudit(args);
+      break;
+    case 'security-audit':
+      await commandSecurityAudit(args);
       break;
     case 'agents-md-audit':
       await commandContextAudit(args);
@@ -76,7 +81,8 @@ function parseArgs(argv: string[]): CliArgs {
     write: argv.includes('--write'),
     openPr: argv.includes('--open-pr'),
     minContextScore: Number(valueAfter(argv, '--min-context-score') ?? 60),
-    minCacheScore: Number(valueAfter(argv, '--min-cache-score') ?? 60)
+    minCacheScore: Number(valueAfter(argv, '--min-cache-score') ?? 60),
+    minSecurityScore: Number(valueAfter(argv, '--min-security-score') ?? 60)
   };
 }
 
@@ -115,6 +121,13 @@ async function commandContextAudit(args: CliArgs): Promise<void> {
   printFindings(audit.findings);
 }
 
+async function commandSecurityAudit(args: CliArgs): Promise<void> {
+  const audit = await auditContextSecurity({ rootDir: args.demo ? 'fixtures/security-project' : process.cwd() });
+  console.log(`Context Security Score: ${audit.score}/100`);
+  printFindings(audit.findings);
+  if (audit.score < args.minSecurityScore) process.exitCode = 1;
+}
+
 async function commandPack(args: CliArgs): Promise<void> {
   const pack = await createContextPack({
     rootDir: args.demo ? 'fixtures/project' : process.cwd(),
@@ -147,12 +160,14 @@ async function commandReport(args: CliArgs): Promise<void> {
   const records = await loadRecords(args);
   const context = await auditContextFiles({ rootDir: args.demo ? 'fixtures/project' : process.cwd() });
   const cache = auditCacheStability(records);
-  const suggestions = suggestRuleImprovements({ contextFindings: context.findings, cacheFindings: cache.findings });
+  const security = await auditContextSecurity({ rootDir: args.demo ? 'fixtures/project' : process.cwd() });
+  const suggestions = suggestRuleImprovements({ contextFindings: [...context.findings, ...security.findings], cacheFindings: cache.findings });
   await writeHtmlReport({
     outputPath: args.output,
     usage: summarizeUsage(records),
     context,
     cache,
+    security,
     suggestions
   });
   console.log(`Wrote ${args.output}`);
@@ -165,22 +180,25 @@ async function commandAudit(args: CliArgs): Promise<void> {
     records,
     rootDir,
     minContextScore: args.minContextScore,
-    minCacheScore: args.minCacheScore
+    minCacheScore: args.minCacheScore,
+    minSecurityScore: args.minSecurityScore
   });
   const context = await auditContextFiles({ rootDir });
   const cache = auditCacheStability(records);
-  const suggestions = suggestRuleImprovements({ contextFindings: context.findings, cacheFindings: cache.findings });
+  const security = await auditContextSecurity({ rootDir });
+  const suggestions = suggestRuleImprovements({ contextFindings: [...context.findings, ...security.findings], cacheFindings: cache.findings });
   await fs.writeFile(args.output, `${JSON.stringify(audit, null, 2)}\n`);
   await writeHtmlReport({
     outputPath: args.report,
     usage: summarizeUsage(records),
     context,
     cache,
+    security,
     suggestions
   });
 
   console.log(`ContextForge audit: ${audit.status}`);
-  console.log(`Context health: ${audit.scores.contextHealth}/100  Cache stability: ${audit.scores.cacheStability}/100`);
+  console.log(`Context health: ${audit.scores.contextHealth}/100  Cache stability: ${audit.scores.cacheStability}/100  Context security: ${audit.scores.contextSecurity}/100`);
   console.log(`Wrote ${args.output} and ${args.report}`);
   if (audit.failures.length > 0) {
     for (const failure of audit.failures) console.log(`FAIL: ${failure}`);
@@ -218,11 +236,12 @@ Usage:
   contextforge scan [--demo] [--codex] [--claude]
   contextforge usage [--demo] [--codex] [--claude]
   contextforge cache-audit [--demo]
+  contextforge security-audit [--demo] [--min-security-score 60]
   contextforge agents-md-audit [--demo]
   contextforge pack --task "fix auth bug" --budget 20000 [--demo]
   contextforge improve [--demo] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
-  contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html]
+  contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--min-security-score 60]
 `);
 }
 

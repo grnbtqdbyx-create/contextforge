@@ -6,6 +6,7 @@
 - [x] Demo mode works without local Codex or Claude Code history.
 - [x] Tests cover scanners, usage, audits, pack generation, and secret redaction.
 - [x] HTML report generation works.
+- [x] Context security findings appear in JSON and HTML audit output.
 - [ ] Publish package to npm.
 
 ## GitHub
@@ -24,4 +25,3 @@
 - [x] Demo terminal SVG.
 - [ ] Record short GIF or terminal session.
 - [ ] Share first public post.
-
