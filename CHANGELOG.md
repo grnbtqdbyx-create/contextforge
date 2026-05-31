@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 - Unreleased
+## 0.2.0 - 2026-05-31
 
 - Add `contextforge audit` for CI-ready JSON and HTML audit output.
 - Add ContextForge dogfood GitHub Actions workflow.
