@@ -19,6 +19,12 @@ describe('doctor readiness report', () => {
     await mkdir(path.join(rootDir, 'examples'), { recursive: true });
     await writeFile(path.join(rootDir, 'examples/demo-output.md'), '# Demo output\n');
     await writeFile(path.join(rootDir, 'examples/pr-comment.md'), '# PR comment\n');
+    await writeFile(path.join(rootDir, 'CODE_OF_CONDUCT.md'), '# Code of Conduct\n');
+    await writeFile(path.join(rootDir, 'SECURITY.md'), '# Security\n');
+    await mkdir(path.join(rootDir, '.github/ISSUE_TEMPLATE'), { recursive: true });
+    await writeFile(path.join(rootDir, '.github/ISSUE_TEMPLATE/bug_report.md'), '---\nname: Bug report\nabout: Report something broken\n---\n');
+    await writeFile(path.join(rootDir, '.github/ISSUE_TEMPLATE/feature_request.md'), '---\nname: Feature request\nabout: Suggest an improvement\n---\n');
+    await writeFile(path.join(rootDir, '.github/PULL_REQUEST_TEMPLATE.md'), '## What changed\n');
     await writeFile(path.join(rootDir, '.github/workflows/ci.yml'), 'name: CI\n');
     await writeFile(path.join(rootDir, '.github/workflows/contextforge-audit.yml'), 'name: ContextForge Audit\n');
 
@@ -37,7 +43,8 @@ describe('doctor readiness report', () => {
       'Context security',
       'Security benchmark',
       'GitHub workflows',
-      'Public proof surfaces'
+      'Public proof surfaces',
+      'Community health surfaces'
     ]);
     expect(result.nextActions.length).toBeGreaterThan(0);
     expect(formatDoctor(result)).toContain('ContextForge doctor: pass');
@@ -60,5 +67,24 @@ describe('doctor readiness report', () => {
     expect(proofCheck?.status).toBe('warn');
     expect(proofCheck?.detail).toContain('missing README.md');
     expect(result.nextActions).toContain('Add README, license, contribution, changelog, demo, and LLM discovery surfaces so visitors and agents can verify the project quickly.');
+  });
+
+  it('warns when community health surfaces are missing', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-community-health-'));
+    await writeFile(path.join(rootDir, 'README.md'), '# Test project\n');
+
+    const result = await runDoctor({
+      rootDir,
+      records: [],
+      minContextScore: 60,
+      minCacheScore: 60,
+      minSecurityScore: 60
+    });
+
+    const communityCheck = result.checks.find((check) => check.name === 'Community health surfaces');
+
+    expect(communityCheck?.status).toBe('warn');
+    expect(communityCheck?.detail).toContain('missing CODE_OF_CONDUCT.md');
+    expect(result.nextActions).toContain('Add code of conduct, security policy, issue templates, and pull request template so contributors know how to collaborate safely.');
   });
 });
