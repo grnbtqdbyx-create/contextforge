@@ -14,6 +14,7 @@ import { writeHtmlReport } from './report/htmlReport.js';
 import { createSarifReport } from './report/sarifReport.js';
 import { createMarkdownSummary } from './report/markdownSummary.js';
 import { createActionPlan } from './report/actionPlan.js';
+import { createComparisonGuide } from './report/comparison.js';
 import { createDemoOutput } from './report/demoOutput.js';
 import { createLaunchKit } from './report/launchKit.js';
 import { createPrComment } from './report/prComment.js';
@@ -104,6 +105,9 @@ async function main(): Promise<void> {
       break;
     case 'launch-kit':
       await commandLaunchKit(args);
+      break;
+    case 'compare':
+      await commandCompare(args);
       break;
     case 'init':
       await commandInit(args);
@@ -366,6 +370,12 @@ async function commandLaunchKit(args: CliArgs): Promise<void> {
   console.log(`Wrote ${args.output}`);
 }
 
+async function commandCompare(args: CliArgs): Promise<void> {
+  await fs.mkdir(dirname(args.output), { recursive: true });
+  await fs.writeFile(args.output, createComparisonGuide());
+  console.log(`Wrote ${args.output}`);
+}
+
 async function commandInit(args: CliArgs): Promise<void> {
   if (!args.githubAction && !args.prCommentWorkflow && !args.agentsMd && !args.claudeMd) {
     console.log('Choose what to initialize. Try: contextforge init --all');
@@ -434,6 +444,7 @@ function defaultOutputForCommand(command: string): string {
   if (command === 'plan') return 'contextforge-agent-plan.md';
   if (command === 'examples') return 'examples/demo-output.md';
   if (command === 'launch-kit') return 'docs/launch-post.md';
+  if (command === 'compare') return 'docs/comparison.md';
   return 'contextforge-report.html';
 }
 
@@ -492,7 +503,8 @@ Usage:
   contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
   contextforge examples [--output examples/demo-output.md]
   contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.31.0] [--force]
+  contextforge compare [--output docs/comparison.md]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.32.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

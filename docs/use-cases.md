@@ -110,6 +110,7 @@ real, deterministic, and useful before npm publishing or broad launch.
 contextforge examples --output examples/demo-output.md
 contextforge doctor --summary contextforge-doctor.md
 contextforge launch-kit --output docs/launch-post.md
+contextforge compare --output docs/comparison.md
 contextforge audit --demo --comment examples/pr-comment.md
 ```
 
@@ -119,6 +120,8 @@ Success signal:
   without installing anything.
 - Maintainers have a generated launch post, suggested GitHub topics, and proof
   commands that stay aligned with the CLI.
+- Visitors can understand how ContextForge complements Repomix, ccusage,
+  promptfoo, security scanners, and agent memory conventions.
 - Coding agents can start from `llms.txt` and `llms-full.txt` instead of
   guessing the documentation path.
 
