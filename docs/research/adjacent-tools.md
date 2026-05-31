@@ -44,6 +44,21 @@ assuming that only root-level context exists.
 ContextForge v0.16.0 turns that adoption path into a one-command scaffold with
 `contextforge init --github-action`, so maintainers can add the reusable action
 without hand-copying YAML.
+ContextForge v0.17.0 adds an agent-readable action plan so CI does not only
+say pass/fail; it produces a prioritized fix handoff for Codex or Claude.
+
+## 2026 Token Dashboard and Context Registry Snapshot
+
+May 31, 2026 research shows heavy movement around local-first token visibility
+and reusable context distribution:
+
+| Project | Current signal | What it suggests for ContextForge |
+| --- | --- | --- |
+| [Token Use](https://tokenuse.app/) | Local dashboard for Claude Code, Codex, Cursor, GitHub Copilot, and Gemini history. | Do not compete as a general dashboard; focus on repo readiness and CI artifacts that dashboards do not own. |
+| [Token Tracker](https://www.tokentracker.cc/) | Local-first usage tracker across many AI coding CLIs with one-command install and privacy-first positioning. | Keep ContextForge local-first, but make the first useful artifact a repo gate and action plan instead of another trend chart. |
+| [TarsHub](https://tarshub.com/) | Registry for AGENTS.md, Cursor rules, and task prompts. | ContextForge should validate and score context packages before maintainers trust them. |
+| [AGENTS.md evaluation](https://arxiv.org/abs/2602.11988) | Research reports that context files can reduce task success and raise inference cost when they contain unnecessary requirements. | Keep pushing minimal, measured repo instructions and make `contextforge plan` prioritize removal of noisy or unsafe guidance. |
+| [CSA README injection note](https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/03/CSA_research_note_readme_instruction_injection_ai_coding_agents_20260317-csa-styled.pdf) | Repository files can become an instruction-injection surface for coding agents. | Keep security findings first in the action plan and preserve SARIF/Code Scanning integration. |
 
 ## 2026 Security Scanner Snapshot
 
@@ -70,6 +85,10 @@ ContextForge should own a fourth shape:
 
 > CI-ready context quality audits for coding-agent repositories.
 
+With v0.17.0, it should also own the follow-through:
+
+> agent-readable fix plans generated from those audits.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -86,6 +105,7 @@ That means every repository can ask:
 3. Repo instruction security checks for prompt/context poisoning.
 4. Task-specific context pack scoring that explains why each file was included.
 5. Public malicious-context benchmark fixtures with expected findings and score ranges.
+6. Agent action plans that turn failing audit evidence into the next scoped Codex/Claude task.
 
 ## Explainability Direction
 
