@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.0 - 2026-05-31
+
+- Add `contextforge audit --sarif contextforge.sarif` for GitHub Code Scanning compatible SARIF 2.1.0 output.
+- Convert file-backed context health and context security findings into SARIF rules, results, severity levels, and repository-relative locations.
+- Dogfood SARIF upload in the ContextForge Audit workflow with GitHub Code Scanning.
+
 ## 0.11.1 - 2026-05-31
 
 - Normalize npm `bin.contextforge` metadata to avoid publish-time package correction warnings.

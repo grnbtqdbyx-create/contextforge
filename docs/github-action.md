@@ -1,7 +1,7 @@
 # GitHub Action Mode
 
-ContextForge can dogfood itself in CI by generating a JSON audit and an HTML
-report on every push or pull request.
+ContextForge can dogfood itself in CI by generating a JSON audit, an HTML
+report, and a SARIF file for GitHub Code Scanning on every push or pull request.
 
 ```yaml
 name: ContextForge Audit
@@ -10,6 +10,10 @@ on:
   pull_request:
   push:
     branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
 
 jobs:
   contextforge-audit:
@@ -25,7 +29,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html
+      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif
       - uses: actions/upload-artifact@v5
         if: always()
         with:
@@ -33,6 +37,11 @@ jobs:
           path: |
             contextforge-audit.json
             contextforge-report.html
+            contextforge.sarif
+      - uses: github/codeql-action/upload-sarif@v4
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        with:
+          sarif_file: contextforge.sarif
 ```
 
 For early projects, start with permissive thresholds and raise them as the repo
@@ -45,3 +54,11 @@ where those session files are intentionally available.
 The audit also scans repo-level context files for prompt/context poisoning,
 including instruction overrides, secret exfiltration requests, unsafe shell
 execution, hidden directives, and permission escalation.
+
+The SARIF output currently includes file-backed context health and context
+security findings so GitHub can attach alerts to repository instruction files.
+Cache/session findings remain in the JSON and HTML reports because they are not
+always tied to a repository file location.
+
+The upload step is guarded so forked pull requests still get JSON/HTML/SARIF
+artifacts without requiring `security-events: write` from an untrusted fork.
