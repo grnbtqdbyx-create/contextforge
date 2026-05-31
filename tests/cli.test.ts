@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { scannerOptionsFromArgs } from '../src/cli.js';
+
+const execFileAsync = promisify(execFile);
 
 describe('CLI argument mapping', () => {
   it('forwards bounded session scan options to scanners', () => {
@@ -28,5 +32,19 @@ describe('CLI argument mapping', () => {
       maxFiles: 7,
       maxFileBytes: 1024
     });
+  });
+});
+
+describe('CLI doctor command', () => {
+  it('prints a first-run readiness report in demo mode', async () => {
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'doctor', '--demo']);
+
+    expect(stdout).toContain('ContextForge doctor');
+    expect(stdout).toContain('Context health:');
+    expect(stdout).toContain('Cache stability:');
+    expect(stdout).toContain('Context security:');
+    expect(stdout).toContain('Security benchmark:');
+    expect(stdout).toContain('GitHub workflows:');
+    expect(stdout).toContain('Next actions:');
   });
 });

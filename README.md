@@ -29,6 +29,7 @@ Generated from the built CLI with `contextforge report --demo`:
 ```bash
 pnpm install
 pnpm build
+pnpm contextforge doctor --demo
 pnpm contextforge scan --demo
 pnpm contextforge usage --demo
 pnpm contextforge report --demo
@@ -79,6 +80,7 @@ contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--
 contextforge improve [--demo] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
 contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--min-security-score 60]
+contextforge doctor [--demo] [--benchmark-dir fixtures/security-benchmark]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -107,6 +109,7 @@ Public malicious-context benchmark details live in
 Codex JSONL parser coverage is documented in
 [docs/codex-session-formats.md](docs/codex-session-formats.md).
 npm publish preparation is documented in [docs/npm-publish.md](docs/npm-publish.md).
+First-run readiness checks are documented in [docs/doctor.md](docs/doctor.md).
 
 ## Research-backed Positioning
 
@@ -118,10 +121,11 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.9.1 is a public MVP CLI with:
+ContextForge v0.10.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
+- first-run `contextforge doctor` readiness report
 - token usage summaries
 - context health audit
 - context security audit
@@ -146,6 +150,7 @@ ContextForge v0.9.1 is a public MVP CLI with:
 - **v0.8.0:** broader modern Codex rollout JSONL parsing and bounded local scans.
 - **v0.9.0:** manual npm publish workflow draft with dry-run default and OIDC preparation.
 - **v0.9.1:** bounded session scan CLI option forwarding fix.
+- **v0.10.0:** first-run `doctor` command for repo readiness and launch-friendly onboarding.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).
