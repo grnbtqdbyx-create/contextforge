@@ -16,6 +16,7 @@ Use this to decide which ContextForge artifact a maintainer, reviewer, CI bot, C
 | `contextforge-badge.svg` | README and dashboards | you need a compact readiness badge for a public surface | `contextforge audit --badge contextforge-badge.svg` |
 | `contextforge-proof-pack.md` | Launch, review, and handoff readers | you need one shareable proof file that combines doctor and audit evidence | `contextforge proof-pack` |
 | `contextforge-scorecard.md` | README visitors, reviewers, and coding agents | you need a one-screen Codex and Claude readiness snapshot | `contextforge scorecard --output contextforge-scorecard.md` |
+| `contextforge-mcp-audit.md` | Security reviewers and agent operators | you need to review MCP configs for hardcoded secrets, unsafe shell, or unpinned packages | `contextforge mcp-audit --summary contextforge-mcp-audit.md` |
 | `contextforge-review-kit.md` | PR reviewers, Codex, and Claude | you need changed-file review focus for agent-assisted PRs | `contextforge review-kit --base main --output contextforge-review-kit.md` |
 | `contextforge-doctor.md` | First-run and launch readers | you need a first-run checklist for public readiness surfaces | `contextforge doctor --summary contextforge-doctor.md` |
 | `docs/artifacts.md` | Visitors, maintainers, and contributors | you need a catalog that explains which generated artifact to inspect first | `contextforge artifact-map --output docs/artifacts.md` |
@@ -42,6 +43,7 @@ contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge scorecard --output contextforge-scorecard.md
+contextforge mcp-audit --summary contextforge-mcp-audit.md
 contextforge review-kit --base main --output contextforge-review-kit.md
 ```
 

@@ -17,6 +17,7 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('badge:');
     expect(action).toContain('proof-pack:');
     expect(action).toContain('scorecard:');
+    expect(action).toContain('mcp-audit:');
     expect(action).toContain('review-kit:');
     expect(action).toContain('artifact-map:');
     expect(action).toContain('review-base-ref:');
@@ -26,6 +27,7 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('badge-svg:');
     expect(action).toContain('proof-pack-md:');
     expect(action).toContain('scorecard-md:');
+    expect(action).toContain('mcp-audit-md:');
     expect(action).toContain('review-kit-md:');
     expect(action).toContain('artifact-map-md:');
     expect(action).toContain('GITHUB_ACTION_PATH');
@@ -40,6 +42,7 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('--badge');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" proof-pack');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" scorecard');
+    expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" mcp-audit');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" review-kit');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" artifact-map');
     expect(action).toContain('--base \"${{ inputs.review-base-ref }}\"');

@@ -374,6 +374,7 @@ That means every repository can ask:
 31. npm publish-readiness checks that separate repo-verifiable supply-chain setup from account-level maintainer steps.
 32. npm provenance metadata and Node 24 workflow opt-in before the first public package.
 33. README-ready agent readiness scorecards that summarize Codex/Claude readiness in one screen.
+34. MCP exposure audits that make agent tool config risk visible in CLI, doctor, scorecard, and CI artifacts.
 
 ## Explainability Direction
 
@@ -431,3 +432,8 @@ ContextForge v0.44.0 adds a shorter public proof layer:
 visitors, PR reviewers, Codex, and Claude the readiness score, key checks, next
 actions, and links to deeper artifacts without requiring them to read the full
 proof pack first.
+ContextForge v0.45.0 adds `contextforge mcp-audit --summary
+contextforge-mcp-audit.md`, because MCP adoption adds a committed configuration
+surface where hardcoded secrets, remote shell installers, and unpinned package
+launches can affect Codex, Claude, and other agent clients before normal code
+review notices them.

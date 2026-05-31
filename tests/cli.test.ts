@@ -58,7 +58,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.44.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.45.0');
   });
 });
 
@@ -299,6 +299,29 @@ describe('CLI scorecard command', () => {
 
     expect(result.agentReadinessScore).toBeGreaterThan(0);
     expect(result.artifacts).toContain('contextforge-proof-pack.md');
+  });
+});
+
+describe('CLI mcp-audit command', () => {
+  it('prints machine-readable MCP exposure JSON when requested', async () => {
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'mcp-audit', '--json']);
+    const result = JSON.parse(stdout) as { status: string; files: string[]; findings: unknown[] };
+
+    expect(result.status).toMatch(/pass|warn|fail/);
+    expect(Array.isArray(result.files)).toBe(true);
+    expect(Array.isArray(result.findings)).toBe(true);
+  });
+
+  it('writes an MCP exposure summary when requested', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-mcp-summary-'));
+    const outputPath = path.join(rootDir, 'contextforge-mcp-audit.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'mcp-audit', '--summary', outputPath]);
+    const summary = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(summary).toContain('# ContextForge MCP Exposure Audit');
+    await rm(rootDir, { recursive: true, force: true });
   });
 });
 

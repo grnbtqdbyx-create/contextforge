@@ -23,6 +23,7 @@ A one-screen snapshot for maintainers, reviewers, and coding agents deciding whe
 | Public proof surfaces | pass | README.md, LICENSE, CONTRIBUTING.md, CHANGELOG.md, llms.txt, llms-full.txt, examples/demo-output.md, examples/pr-comment.md, examples/review-kit.md present |
 | Launch profile surfaces | pass | demo-terminal.svg, contextforge-report.png, docs/launch-post.md, docs/comparison.md, docs/artifacts.md present |
 | Community health surfaces | pass | CODE_OF_CONDUCT.md, SECURITY.md, bug_report.md, feature_request.md, PULL_REQUEST_TEMPLATE.md present |
+| MCP exposure | pass | 100/100 with no repo MCP configs found |
 
 ## Why Codex And Claude Should Care
 
@@ -40,6 +41,7 @@ A one-screen snapshot for maintainers, reviewers, and coding agents deciding whe
 contextforge scorecard --output contextforge-scorecard.md
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge review-kit --base main --output contextforge-review-kit.md
+contextforge mcp-audit --summary contextforge-mcp-audit.md
 contextforge artifact-map --output contextforge-artifact-map.md
 ```
 

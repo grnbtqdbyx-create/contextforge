@@ -14,6 +14,7 @@
 - [x] Manual npm publish workflow draft.
 - [x] npm publish-readiness report separates repo checks from account-level setup.
 - [x] Agent readiness scorecard gives README visitors a one-screen Codex/Claude proof surface.
+- [x] MCP exposure audit catches committed MCP config secrets, unsafe shell installers, and unpinned package launches.
 - [ ] First approved npm publish.
 
 ## GitHub

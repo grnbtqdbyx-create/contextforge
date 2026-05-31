@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.45.0 - 2026-06-01
+
+- Add `contextforge mcp-audit --summary contextforge-mcp-audit.md` to scan committed MCP configs for hardcoded secrets, unsafe remote shell installers, and unpinned package launches.
+- Add MCP exposure as a `contextforge doctor` and scorecard check so Codex/Claude readiness includes agent tool configuration risk.
+- Add MCP audit artifacts to the reusable GitHub Action, generated audit workflow, dogfood workflow, package metadata, README, and LLM discovery docs.
+
 ## 0.44.0 - 2026-06-01
 
 - Add `contextforge scorecard --output contextforge-scorecard.md` for a one-screen Codex/Claude readiness snapshot that README visitors, reviewers, and agents can scan quickly.

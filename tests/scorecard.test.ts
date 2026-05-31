@@ -29,6 +29,7 @@ describe('agent readiness scorecard', () => {
     expect(markdown).toContain('| Context health |');
     expect(markdown).toContain('| Cache stability |');
     expect(markdown).toContain('| Context security |');
+    expect(markdown).toContain('MCP exposure');
     expect(markdown).toContain('## Why Codex And Claude Should Care');
     expect(markdown).toContain('contextforge proof-pack --output contextforge-proof-pack.md');
     expect(markdown).toContain('contextforge review-kit --base main --output contextforge-review-kit.md');

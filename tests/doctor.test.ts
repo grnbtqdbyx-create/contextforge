@@ -53,7 +53,8 @@ describe('doctor readiness report', () => {
       'GitHub workflows',
       'Public proof surfaces',
       'Launch profile surfaces',
-      'Community health surfaces'
+      'Community health surfaces',
+      'MCP exposure'
     ]);
     expect(result.nextActions.length).toBeGreaterThan(0);
     expect(result.checks.find((check) => check.name === 'Public proof surfaces')?.detail).toContain('examples/review-kit.md present');
