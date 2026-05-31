@@ -152,7 +152,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.38.0
+- uses: grnbtqdbyx-create/contextforge@v0.39.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -176,7 +176,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Catch context poisoning:** flag instruction overrides, secret exfiltration, unsafe shell, hidden directives, and permission escalation.
 - **Generate explainable context packs:** give Codex or Claude only the files needed for a task, with "why included" reasons.
 - **Create agent action plans:** turn audit findings into prioritized Markdown that Codex or Claude can execute from.
-- **Show PR-ready evidence:** emit a compact deterministic Markdown comment that review workflows can publish or archive, including a pointer to `contextforge-proof-pack.md`.
+- **Show PR-ready evidence:** emit a compact deterministic Markdown comment that review workflows can publish or archive, including pointers to `contextforge-proof-pack.md` and `contextforge-review-kit.md`.
 - **Publish visible proof:** emit `contextforge-badge.svg` so CI can expose a compact agent-context status badge.
 - **Expose LLM-readable docs:** ship `llms.txt` and `llms-full.txt` so coding agents can orient quickly.
 - **Evolve safely:** suggest improved repo-level rules before writing anything.
@@ -211,6 +211,7 @@ and tuned for Codex/Claude repository work.
 | A failed audit leaves humans to infer the fix order. | `contextforge plan` produces a prioritized agent-readable fix plan. |
 | CI evidence stays hidden in artifacts. | `--comment contextforge-pr-comment.md` creates a review-surface summary. |
 | Reviewers miss deeper proof hidden in artifact lists. | PR comments point at `contextforge-proof-pack.md` for shareable doctor/audit evidence. |
+| Reviewers miss the agent review brief. | PR comments point at `contextforge-review-kit.md` for Codex/Claude review focus. |
 | Agent-written PRs get shallow review prompts. | `review-kit` gives Codex, Claude, and humans the changed files, risk focus, proof commands, and review prompt. |
 | Coding agents guess which docs matter. | `llms.txt` points them at the important project surfaces. |
 | Agents need structured fixes, not copied bullets. | `contextforge improve --json` emits parseable rule suggestions. |
@@ -243,7 +244,7 @@ contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
 contextforge compare [--output docs/comparison.md]
 contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.38.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.39.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -309,7 +310,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.38.0 is a public MVP CLI with:
+ContextForge v0.39.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -319,7 +320,7 @@ ContextForge v0.38.0 is a public MVP CLI with:
 - deterministic `contextforge review-kit` briefs for Codex, Claude, and human PR review
 - reusable GitHub Action and dogfood workflow support for `contextforge-proof-pack.md`
 - reusable GitHub Action and dogfood workflow support for `contextforge-review-kit.md`
-- PR-ready comments that point reviewers at `contextforge-proof-pack.md`
+- PR-ready comments that point reviewers at `contextforge-proof-pack.md` and `contextforge-review-kit.md`
 - generated `contextforge launch-kit` build-in-public launch posts
 - generated `contextforge compare` adjacent-tool positioning guides
 - `Public proof surfaces` doctor check for OSS trust/readiness files
@@ -393,6 +394,7 @@ ContextForge v0.38.0 is a public MVP CLI with:
 - **v0.36.0:** proof-pack visibility in PR-ready comments for reviewer handoff.
 - **v0.37.0:** review kits with changed files, risk focus, proof commands, and Codex/Claude prompts.
 - **v0.38.0:** review-kit artifacts in the reusable GitHub Action, generated workflow, and dogfood workflow.
+- **v0.39.0:** PR-ready comments point reviewers at both proof-pack and review-kit artifacts.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

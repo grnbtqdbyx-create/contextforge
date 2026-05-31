@@ -24,7 +24,7 @@ artifacts. It refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.38.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.39.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -56,7 +56,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.38.0
+      - uses: grnbtqdbyx-create/contextforge@v0.39.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -98,9 +98,10 @@ against the caller repository workspace. It also appends the generated Markdown
 summary to `$GITHUB_STEP_SUMMARY` when the workflow runner provides it. The
 `contextforge-proof-pack.md` artifact is generated as the shareable packet for
 launch posts, PRs, and Codex/Claude handoffs. The `contextforge-pr-comment.md`
-artifact is deterministic, points reviewers at `contextforge-proof-pack.md`,
-and is safe to publish with a separate sticky-comment workflow if the
-repository grants pull-request write permissions.
+artifact is deterministic, points reviewers at `contextforge-proof-pack.md`
+and `contextforge-review-kit.md`, and is safe to publish with a separate
+sticky-comment workflow if the repository grants pull-request write
+permissions.
 The `contextforge-review-kit.md` artifact gives Codex, Claude, and human
 reviewers the changed files, review focus areas, evidence commands, and a
 copyable review prompt. Use `fetch-depth: 0` on checkout when a repository wants
