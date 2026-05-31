@@ -19,6 +19,8 @@ The report checks:
 - GitHub workflow presence for CI and ContextForge audit artifacts
 - public proof surfaces: README, license, contribution guide, changelog,
   demo output, PR comment preview, and LLM discovery files
+- launch profile surfaces: terminal demo asset, report screenshot, launch kit,
+  and comparison guide
 - community health surfaces: Code of Conduct, security policy, issue
   templates, and pull request template
 - next actions from repo-rule suggestions
@@ -39,6 +41,11 @@ For public OSS launch work, the `Public proof surfaces` check keeps the repo
 page honest: visitors and coding agents should be able to verify what the tool
 does, how to contribute, what changed, and where generated examples live without
 guessing.
+
+For star/discovery work, the `Launch profile surfaces` check keeps the README
+and launch narrative aligned with generated proof: visitors should see the
+terminal demo, report screenshot, launch kit, and adjacent-tool comparison
+before they decide whether the project is worth installing, starring, or sharing.
 
 For contributor-readiness work, the `Community health surfaces` check keeps the
 collaboration path explicit: contributors should know the conduct rules, where

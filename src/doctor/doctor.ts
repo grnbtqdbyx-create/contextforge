@@ -38,6 +38,7 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
   const benchmark = await runSecurityBenchmark({ benchmarkDir: options.benchmarkDir });
   const workflows = await workflowChecks(options.rootDir);
   const publicProof = await publicProofChecks(options.rootDir);
+  const launchProfile = await launchProfileChecks(options.rootDir);
   const communityHealth = await communityHealthChecks(options.rootDir);
 
   const checks: DoctorCheck[] = [
@@ -79,6 +80,14 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
         publicProof.present.length > 0
           ? `${publicProof.present.join(', ')} present${publicProof.missing.length > 0 ? `; missing ${publicProof.missing.join(', ')}` : ''}`
           : `missing ${publicProof.missing.join(', ')}`
+    },
+    {
+      name: 'Launch profile surfaces',
+      status: launchProfile.missing.length === 0 ? 'pass' : 'warn',
+      detail:
+        launchProfile.present.length > 0
+          ? `${launchProfile.present.join(', ')} present${launchProfile.missing.length > 0 ? `; missing ${launchProfile.missing.join(', ')}` : ''}`
+          : `missing ${launchProfile.missing.join(', ')}`
     },
     {
       name: 'Community health surfaces',
@@ -169,6 +178,25 @@ async function publicProofChecks(rootDir: string): Promise<{ present: string[]; 
   };
 }
 
+async function launchProfileChecks(rootDir: string): Promise<{ present: string[]; missing: string[] }> {
+  const expected = [
+    { label: 'demo-terminal.svg', file: 'assets/demo-terminal.svg' },
+    { label: 'contextforge-report.png', file: 'assets/contextforge-report.png' },
+    { label: 'docs/launch-post.md', file: 'docs/launch-post.md' },
+    { label: 'docs/comparison.md', file: 'docs/comparison.md' }
+  ];
+  const results = await Promise.all(
+    expected.map(async (surface) => ({
+      label: surface.label,
+      exists: await exists(path.join(rootDir, surface.file))
+    }))
+  );
+  return {
+    present: results.filter((result) => result.exists).map((result) => result.label),
+    missing: results.filter((result) => !result.exists).map((result) => result.label)
+  };
+}
+
 async function communityHealthChecks(rootDir: string): Promise<{ present: string[]; missing: string[] }> {
   const expected = [
     { label: 'CODE_OF_CONDUCT.md', file: 'CODE_OF_CONDUCT.md' },
@@ -211,6 +239,9 @@ function nextActions(checks: DoctorCheck[], auditActions: string[]): string[] {
   }
   if (checks.some((check) => check.name === 'Public proof surfaces' && check.status === 'warn')) {
     actions.push('Add README, license, contribution, changelog, demo, and LLM discovery surfaces so visitors and agents can verify the project quickly.');
+  }
+  if (checks.some((check) => check.name === 'Launch profile surfaces' && check.status === 'warn')) {
+    actions.push('Add demo assets, launch kit, and comparison guide so visitors can understand and share the project quickly.');
   }
   if (checks.some((check) => check.name === 'Community health surfaces' && check.status === 'warn')) {
     actions.push('Add code of conduct, security policy, issue templates, and pull request template so contributors know how to collaborate safely.');
