@@ -24,7 +24,7 @@ overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.29.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.30.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: grnbtqdbyx-create/contextforge@v0.29.0
+      - uses: grnbtqdbyx-create/contextforge@v0.30.0
         with:
           min-context-score: 60
           min-cache-score: 60

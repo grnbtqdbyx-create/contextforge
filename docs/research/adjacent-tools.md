@@ -80,6 +80,10 @@ demo, and LLM-discovery files being present before maintainers ask for adoption.
 ContextForge v0.29.0 adds `Community health surfaces` to `contextforge doctor`,
 because contributor trust also depends on Code of Conduct, security policy,
 issue templates, and pull request template files being visible from day one.
+ContextForge v0.30.0 adds `contextforge doctor --summary`, because current
+context-engineering and token-dashboard tools compete on fast visible proof;
+ContextForge should let maintainers publish first-run readiness evidence as
+Markdown, not only terminal text or JSON.
 
 ## 2026 Token Dashboard and Context Registry Snapshot
 
@@ -182,6 +186,11 @@ With v0.29.0, ContextForge checks collaboration trust surfaces up front:
 > `contextforge doctor` warns when the repo lacks Code of Conduct, security
 > policy, issue templates, or pull request template files contributors need.
 
+With v0.30.0, ContextForge makes first-run proof portable:
+
+> `contextforge doctor --summary contextforge-doctor.md` writes a Markdown
+> checklist for README updates, issues, PRs, and build-in-public launch posts.
+
 That means every repository can ask:
 
 - Are our `AGENTS.md` / `CLAUDE.md` files helping or wasting context?
@@ -202,6 +211,7 @@ That means every repository can ask:
 - Can visitors see agent-context readiness without opening a full report?
 - Are the public proof files present before asking maintainers or agents to trust the repo?
 - Can contributors find safe collaboration and security-reporting paths before opening issues or PRs?
+- Can maintainers publish the first-run readiness report without hand-copying terminal output?
 
 ## Next Differentiators
 
@@ -223,6 +233,7 @@ That means every repository can ask:
 16. Compact audit status badges for repo surfaces and maintainer dashboards.
 17. Public proof surface checks for OSS launch trust.
 18. Community health surface checks for contributor-ready agent repositories.
+19. Shareable doctor Markdown reports for launch issues, PRs, README updates, and build-in-public posts.
 
 ## Explainability Direction
 

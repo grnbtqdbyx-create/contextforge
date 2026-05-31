@@ -2,7 +2,7 @@ import { mkdtemp, mkdir, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { formatDoctor, runDoctor } from '../src/doctor/doctor.js';
+import { createDoctorSummary, formatDoctor, runDoctor } from '../src/doctor/doctor.js';
 
 describe('doctor readiness report', () => {
   it('summarizes audit, benchmark, workflow, and next-action readiness', async () => {
@@ -48,6 +48,8 @@ describe('doctor readiness report', () => {
     ]);
     expect(result.nextActions.length).toBeGreaterThan(0);
     expect(formatDoctor(result)).toContain('ContextForge doctor: pass');
+    expect(createDoctorSummary(result)).toContain('# ContextForge Doctor');
+    expect(createDoctorSummary(result)).toContain('| Check | Status | Detail |');
   });
 
   it('warns when public proof surfaces are missing', async () => {

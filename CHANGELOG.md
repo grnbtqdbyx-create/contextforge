@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.30.0 - 2026-05-31
+
+- Add `contextforge doctor --summary contextforge-doctor.md` for shareable Markdown readiness reports.
+- Keep doctor text, JSON, and Markdown outputs aligned so maintainers can reuse the same first-run evidence in README updates, issues, PRs, and build-in-public posts.
+- Refresh README, doctor docs, LLM discovery files, and research notes around shareable proof artifacts after current context-engineering and token-dashboard research.
+
 ## 0.29.0 - 2026-05-31
 
 - Add a `Community health surfaces` check to `contextforge doctor` for Code of Conduct, security policy, issue templates, and PR template files.

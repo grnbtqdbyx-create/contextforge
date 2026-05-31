@@ -83,6 +83,33 @@ describe('CLI doctor command', () => {
     expect(result.checks.some((check) => check.name === 'Community health surfaces')).toBe(true);
     expect(result.nextActions.length).toBeGreaterThan(0);
   });
+
+  it('writes a shareable Markdown doctor summary when requested', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-doctor-summary-'));
+    const summaryPath = path.join(rootDir, 'doctor-summary.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'doctor', '--demo', '--summary', summaryPath]);
+    const summary = await readFile(summaryPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${summaryPath}`);
+    expect(summary).toContain('# ContextForge Doctor');
+    expect(summary).toContain('| Check | Status | Detail |');
+    expect(summary).toContain('Community health surfaces');
+    expect(summary).toContain('## Next Actions');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+
+  it('keeps doctor JSON stdout parseable when also writing a summary', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-doctor-json-summary-'));
+    const summaryPath = path.join(rootDir, 'doctor-summary.md');
+
+    const { stdout, stderr } = await execFileAsync('pnpm', ['contextforge', 'doctor', '--demo', '--json', '--summary', summaryPath]);
+    const result = JSON.parse(stdout) as { checks: Array<{ name: string }> };
+
+    expect(result.checks.some((check) => check.name === 'Community health surfaces')).toBe(true);
+    expect(stderr).toContain(`Wrote ${summaryPath}`);
+    await rm(rootDir, { recursive: true, force: true });
+  });
 });
 
 describe('CLI improve command', () => {

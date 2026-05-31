@@ -42,12 +42,28 @@ Coding agents can start from [llms.txt](llms.txt) or the expanded
 [llms-full.txt](llms-full.txt) project map.
 For concrete maintainer workflows, see [docs/use-cases.md](docs/use-cases.md).
 CI can also upload a structured suggestions file and compact status badge:
-`contextforge-suggestions.json` and `contextforge-badge.svg`.
+`contextforge-suggestions.json` and `contextforge-badge.svg`. First-run
+readiness can be published as Markdown with `contextforge doctor --summary
+contextforge-doctor.md`.
 
 ```bash
 contextforge examples --output examples/demo-output.md
+contextforge doctor --summary contextforge-doctor.md
 contextforge audit --demo --comment examples/pr-comment.md --badge contextforge-badge.svg
 ```
+
+## 60-Second Proof
+
+Run one command and get a maintainer-readable checklist:
+
+```bash
+contextforge doctor --summary contextforge-doctor.md
+```
+
+That Markdown file shows context health, cache stability, context security,
+public proof files, community health files, and next actions. It is designed to
+drop into a launch issue, PR description, README update, or build-in-public post
+without asking contributors to trust a screenshot.
 
 ## Quickstart
 
@@ -76,7 +92,7 @@ For CI or agent workflows:
 
 ```bash
 contextforge init --all --project-name "My Repo"
-contextforge doctor --json
+contextforge doctor --json --summary contextforge-doctor.md
 contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
 contextforge plan --output contextforge-agent-plan.md
 contextforge pack --task "review auth regression" --budget 20000 --sessions
@@ -85,7 +101,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.29.0
+- uses: grnbtqdbyx-create/contextforge@v0.30.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -97,6 +113,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **See token waste:** identify expensive sessions, tool outputs, and context files.
 - **Check public trust surfaces:** verify README, license, contributing, changelog, demo output, and LLM discovery docs from `contextforge doctor`.
 - **Check community health surfaces:** verify Code of Conduct, security policy, issue templates, and PR template files before asking contributors to help.
+- **Publish first-run proof:** write `contextforge-doctor.md` from `doctor --summary` for issues, PRs, launch posts, or README updates.
 - **Improve cache stability:** catch volatile prefixes, timestamps, and large tool dumps.
 - **Audit repo instructions:** keep root `README.md`, nested `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, and `.clinerules` useful instead of bloated or unsafe.
 - **Bootstrap minimal context files:** scaffold concise `AGENTS.md` and `CLAUDE.md` files without filling the repo with vague prompt folklore.
@@ -142,6 +159,7 @@ and tuned for Codex/Claude repository work.
 | Repo visitors need instant proof. | `--badge contextforge-badge.svg` creates a compact audit status badge. |
 | OSS launch readiness is scattered. | `contextforge doctor` checks public proof surfaces in one report. |
 | Contributors do not know how to help safely. | `contextforge doctor` checks community health files in the same first-run report. |
+| First-run proof is trapped in terminal output. | `doctor --summary` writes a Markdown report for README, issues, PRs, or launch posts. |
 
 ## Commands
 
@@ -156,10 +174,10 @@ contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--
 contextforge improve [--demo] [--json] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
 contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--badge contextforge-badge.svg] [--min-security-score 60]
-contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
+contextforge doctor [--demo] [--json] [--summary contextforge-doctor.md] [--benchmark-dir fixtures/security-benchmark]
 contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
 contextforge examples [--output examples/demo-output.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.29.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.30.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -221,11 +239,12 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.29.0 is a public MVP CLI with:
+ContextForge v0.30.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
 - first-run `contextforge doctor` readiness report with JSON output
+- shareable `contextforge doctor --summary` Markdown reports
 - `Public proof surfaces` doctor check for OSS trust/readiness files
 - `Community health surfaces` doctor check for contributor-readiness files
 - token usage summaries
@@ -287,6 +306,7 @@ ContextForge v0.29.0 is a public MVP CLI with:
 - **v0.27.0:** SVG audit badge artifact for visible repo proof.
 - **v0.28.0:** public proof surface checks in `contextforge doctor`.
 - **v0.29.0:** community health surface checks in `contextforge doctor`.
+- **v0.30.0:** shareable Markdown doctor summaries for issues, PRs, README updates, and launch posts.
 - **Next:** first approved npm publish and public launch post.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

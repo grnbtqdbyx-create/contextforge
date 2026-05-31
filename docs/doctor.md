@@ -7,6 +7,7 @@ whether a repository is ready for agent-assisted work.
 contextforge doctor
 contextforge doctor --demo
 contextforge doctor --json
+contextforge doctor --summary contextforge-doctor.md
 ```
 
 The report checks:
@@ -27,7 +28,9 @@ session history. Add `--codex`, `--claude`, or `--demo` when session-derived
 cache signals are useful.
 
 Use `--json` when another agent, CI job, or dashboard needs to consume the
-readiness report without parsing terminal prose.
+readiness report without parsing terminal prose. Use `--summary` when humans
+need a shareable Markdown checklist for a README update, issue, pull request,
+launch post, or weekly build-in-public note.
 
 Use it before opening a PR, preparing a public launch post, or evaluating a new
 coding-agent repository.
@@ -41,3 +44,7 @@ For contributor-readiness work, the `Community health surfaces` check keeps the
 collaboration path explicit: contributors should know the conduct rules, where
 to report security issues, how to open useful issues, and what a pull request
 should include before they spend time on the project.
+
+The Markdown summary keeps the first-run proof portable. It uses the same
+doctor result as terminal and JSON output, so maintainers can publish a report
+without hand-copying or reinterpreting the readiness checks.

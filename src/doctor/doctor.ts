@@ -107,6 +107,28 @@ export function formatDoctor(result: DoctorResult): string {
   return `${lines.join('\n')}\n`;
 }
 
+export function createDoctorSummary(result: DoctorResult): string {
+  const lines = [
+    '# ContextForge Doctor',
+    '',
+    `Status: **${result.status}**`,
+    '',
+    '| Check | Status | Detail |',
+    '| --- | --- | --- |',
+    ...result.checks.map((check) => `| ${escapeTableCell(check.name)} | ${check.status} | ${escapeTableCell(check.detail)} |`),
+    '',
+    '## Next Actions',
+    '',
+    ...result.nextActions.map((action) => `- ${action}`),
+    ''
+  ];
+  return `${lines.join('\n')}\n`;
+}
+
+function escapeTableCell(value: string): string {
+  return value.replaceAll('|', '\\|').replaceAll('\n', ' ');
+}
+
 async function workflowChecks(rootDir: string): Promise<{ present: string[]; missing: string[] }> {
   const expected = [
     { label: 'ci.yml', file: '.github/workflows/ci.yml' },
