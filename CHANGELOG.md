@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.46.0 - 2026-06-01
+
+- Extend `contextforge mcp-audit` to flag automatic MCP tool approval and broad write/delete/execute permission grants.
+- Add permission-risk fixtures and tests so read-only MCP configs pass while auto-approved or wildcard tool configs fail.
+- Refresh README, MCP audit docs, research notes, generated artifacts, package metadata, and release readiness output around MCP permission exposure.
+
 ## 0.45.0 - 2026-06-01
 
 - Add `contextforge mcp-audit --summary contextforge-mcp-audit.md` to scan committed MCP configs for hardcoded secrets, unsafe remote shell installers, and unpinned package launches.

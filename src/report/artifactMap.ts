@@ -69,7 +69,7 @@ const artifactRows: ArtifactMapRow[] = [
   {
     artifact: 'contextforge-mcp-audit.md',
     audience: 'Security reviewers and agent operators',
-    useWhen: 'you need to review MCP configs for hardcoded secrets, unsafe shell, or unpinned packages',
+    useWhen: 'you need to review MCP configs for hardcoded secrets, unsafe shell, unpinned packages, auto-approval, or broad permissions',
     producedBy: '`contextforge mcp-audit --summary contextforge-mcp-audit.md`'
   },
   {

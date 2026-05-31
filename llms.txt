@@ -15,7 +15,7 @@ Claude can act on.
 - `contextforge doctor`: verifies public proof files, launch profile assets, community health files, and next actions.
 - `contextforge proof-pack --output contextforge-proof-pack.md`: combine doctor, audit, evidence commands, and Codex/Claude handoff guidance into one Markdown proof packet.
 - `contextforge scorecard --output contextforge-scorecard.md`: write a one-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
-- `contextforge mcp-audit --summary contextforge-mcp-audit.md`: scan committed MCP configs for hardcoded secrets, unsafe shell installers, and unpinned package launches.
+- `contextforge mcp-audit --summary contextforge-mcp-audit.md`: scan committed MCP configs for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, and broad tool permissions.
 - `contextforge review-kit --base main --output contextforge-review-kit.md`: generate a changed-file review brief and copyable Codex/Claude review prompt.
 - `contextforge artifact-map --output docs/artifacts.md`: generate a catalog that tells reviewers, agents, and launch visitors which proof artifact to inspect first.
 - `contextforge publish-readiness --summary contextforge-publish-readiness.md`: verify npm metadata, package provenance links, Trusted Publishing workflow safety, publish preflight, and human account setup before first publish.

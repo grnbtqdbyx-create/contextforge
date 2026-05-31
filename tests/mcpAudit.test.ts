@@ -47,6 +47,71 @@ describe('MCP exposure audit', () => {
     expect(audit.status).toBe('pass');
     expect(audit.findings).toHaveLength(0);
   });
+
+  it('detects auto-approved MCP servers and broad tool permission grants', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-mcp-permissions-'));
+    await writeFile(
+      path.join(rootDir, '.mcp.json'),
+      JSON.stringify(
+        {
+          mcpServers: {
+            filesystem: {
+              command: 'npx',
+              args: ['-y', '@modelcontextprotocol/server-filesystem@1.2.3'],
+              autoApprove: true,
+              allowedTools: ['read_file', 'write_file', 'delete_file'],
+              permissions: ['filesystem:write', 'shell:execute']
+            },
+            wildcard: {
+              command: 'npx',
+              args: ['-y', '@modelcontextprotocol/server-github@1.2.3'],
+              alwaysAllow: ['*']
+            }
+          }
+        },
+        null,
+        2
+      )
+    );
+
+    const audit = await auditMcpExposure({ rootDir });
+    const findingTypes = audit.findings.map((finding) => finding.type);
+
+    expect(audit.status).toBe('fail');
+    expect(audit.files).toEqual(['.mcp.json']);
+    expect(findingTypes).toContain('mcp-auto-approval');
+    expect(findingTypes).toContain('broad-tool-permission');
+    expect(findingTypes.filter((type) => type === 'mcp-auto-approval')).toHaveLength(2);
+    expect(findingTypes.filter((type) => type === 'broad-tool-permission')).toHaveLength(2);
+    expect(createMcpExposureSummary(audit)).toContain('| mcp-auto-approval | high |');
+    expect(createMcpExposureSummary(audit)).toContain('| broad-tool-permission | medium |');
+  });
+
+  it('allows explicit read-only MCP tool permissions', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-mcp-readonly-'));
+    await writeFile(
+      path.join(rootDir, 'mcp.json'),
+      JSON.stringify(
+        {
+          mcpServers: {
+            docs: {
+              command: 'npx',
+              args: ['-y', '@modelcontextprotocol/server-fetch@1.2.3'],
+              allowedTools: ['fetch_readonly'],
+              permissions: ['read']
+            }
+          }
+        },
+        null,
+        2
+      )
+    );
+
+    const audit = await auditMcpExposure({ rootDir });
+
+    expect(audit.status).toBe('pass');
+    expect(audit.findings).toHaveLength(0);
+  });
 });
 
 async function writeRiskyMcpConfig(rootDir: string): Promise<void> {
@@ -60,8 +125,8 @@ async function writeRiskyMcpConfig(rootDir: string): Promise<void> {
             command: 'npx',
             args: ['-y', 'untrusted-mcp-server'],
             env: {
-              GITHUB_TOKEN: 'ghp_1234567890abcdef',
-              OPENAI_API_KEY: 'sk-live-example'
+              GITHUB_TOKEN: 'example_secret_value_1234567890',
+              OPENAI_API_KEY: 'example_openai_secret_value_123456'
             }
           },
           shell: {

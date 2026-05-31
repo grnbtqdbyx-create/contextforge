@@ -17,7 +17,8 @@ separate tools:
 - context security checks for prompt injection, secret exfiltration, unsafe
   shell instructions, hidden directives, and permission escalation
 - MCP exposure checks for committed tool configs with hardcoded secrets, unsafe
-  shell installers, or unpinned package launches
+  shell installers, unpinned package launches, auto-approval, or broad tool
+  permissions
 - task-specific context packs with explainable file inclusion reasons
 - CI artifacts: JSON audit, HTML report, SARIF, Markdown summary, PR-ready
   comment, MCP audit, review kit, artifact map, proof pack, and agent action plan

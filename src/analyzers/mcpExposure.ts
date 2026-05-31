@@ -22,6 +22,9 @@ interface McpServerConfig {
 const MCP_CONFIG_NAMES = new Set(['mcp.json', '.mcp.json']);
 const MCP_CONFIG_SUFFIXES = ['.cursor/mcp.json', '.vscode/mcp.json', '.roo/mcp.json', '.kiro/mcp.json'];
 const SECRET_KEY_PATTERN = /(token|secret|api[_-]?key|password|credential|private[_-]?key)/i;
+const AUTO_APPROVAL_KEY_PATTERN = /(auto.?approve|always.?allow|skip.?confirm|skip.?approval|allow.?without.?ask|dangerously.?allow)/i;
+const PERMISSION_KEY_PATTERN = /(allow|allowed|permission|tool|capabilit|scope)/i;
+const BROAD_PERMISSION_VALUE_PATTERN = /(^\*$|write|delete|remove|exec|execute|shell|bash|terminal|filesystem:write|repo:write|pull_request:write|contents:write)/i;
 const SECRET_VALUE_PATTERNS = [
   /^gh[pousr]_[A-Za-z0-9_]{10,}$/,
   /^sk-[A-Za-z0-9_-]{8,}/,
@@ -162,12 +165,68 @@ function findServerExposure(file: string, serverName: string, server: McpServerC
     });
   }
 
+  findings.push(...findPermissionExposure(file, serverName, server));
+
   return findings;
+}
+
+function findPermissionExposure(file: string, serverName: string, server: McpServerConfig): Finding[] {
+  const findings: Finding[] = [];
+  let reportedAutoApproval = false;
+  let reportedBroadPermission = false;
+  for (const [key, value] of walkConfigValues(server)) {
+    if (!reportedAutoApproval && AUTO_APPROVAL_KEY_PATTERN.test(key) && isAutoApprovalValue(value)) {
+      findings.push({
+        file,
+        type: 'mcp-auto-approval',
+        severity: 'high',
+        message: `${file} server "${serverName}" enables automatic MCP tool approval through ${key}.`,
+        suggestion: 'Require explicit review for MCP tool calls before enabling this server for coding agents.'
+      });
+      reportedAutoApproval = true;
+    }
+    if (!reportedBroadPermission && PERMISSION_KEY_PATTERN.test(key) && hasBroadPermissionValue(value)) {
+      findings.push({
+        file,
+        type: 'broad-tool-permission',
+        severity: 'medium',
+        message: `${file} server "${serverName}" grants broad MCP tool permissions through ${key}.`,
+        suggestion: 'Limit MCP permissions to the smallest read-only tool set needed for the repository.'
+      });
+      reportedBroadPermission = true;
+    }
+  }
+  return findings;
+}
+
+function walkConfigValues(value: unknown, key = ''): Array<[string, unknown]> {
+  if (Array.isArray(value)) {
+    return [[key, value], ...value.flatMap((item, index) => walkConfigValues(item, `${key}[${index}]`))];
+  }
+  if (!isObject(value)) return [[key, value]];
+  return Object.entries(value).flatMap(([childKey, childValue]) => {
+    const fullKey = key ? `${key}.${childKey}` : childKey;
+    return [[fullKey, childValue] as [string, unknown], ...walkConfigValues(childValue, fullKey)];
+  });
 }
 
 function isHardcodedSecretValue(value: string): boolean {
   if (/^\$\{?[A-Z0-9_]+\}?$/.test(value)) return false;
   return SECRET_VALUE_PATTERNS.some((pattern) => pattern.test(value));
+}
+
+function isAutoApprovalValue(value: unknown): boolean {
+  if (value === true) return true;
+  if (typeof value === 'string') return /^(true|yes|always|all|\*)$/i.test(value.trim());
+  if (Array.isArray(value)) return value.length > 0;
+  return false;
+}
+
+function hasBroadPermissionValue(value: unknown): boolean {
+  if (typeof value === 'string') return BROAD_PERMISSION_VALUE_PATTERN.test(value);
+  if (Array.isArray(value)) return value.some((item) => hasBroadPermissionValue(item));
+  if (isObject(value)) return Object.values(value).some((item) => hasBroadPermissionValue(item));
+  return false;
 }
 
 function isUnpinnedPackageArg(arg: string): boolean {
@@ -195,6 +254,12 @@ function nextActions(findings: Finding[]): string[] {
   }
   if (findings.some((finding) => finding.type === 'unpinned-package')) {
     actions.push('Pin MCP server package versions before enabling them for Codex, Claude, or other coding agents.');
+  }
+  if (findings.some((finding) => finding.type === 'mcp-auto-approval')) {
+    actions.push('Disable automatic MCP tool approval unless the server is pinned, reviewed, and least-privileged.');
+  }
+  if (findings.some((finding) => finding.type === 'broad-tool-permission')) {
+    actions.push('Reduce MCP tool permissions to explicit read-only capabilities before sharing the repo with coding agents.');
   }
   if (actions.length === 0) actions.push('Review new MCP servers before committing config changes.');
   return actions;
