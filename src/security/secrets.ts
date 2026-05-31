@@ -2,7 +2,7 @@ import path from 'node:path';
 
 const SECRET_PATTERNS: Array<[RegExp, string]> = [
   [/(OPENAI_API_KEY|ANTHROPIC_API_KEY|GITHUB_TOKEN|API_KEY|SECRET|TOKEN)=([^\s"'`]+)/gi, '$1=[REDACTED_SECRET]'],
-  [/sk-[A-Za-z0-9_-]{8,}/g, '[REDACTED_OPENAI_KEY]'],
+  [/\bsk-[A-Za-z0-9_-]{20,}\b/g, '[REDACTED_OPENAI_KEY]'],
   [/-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----/g, '[REDACTED_PRIVATE_KEY]']
 ];
 
@@ -22,6 +22,10 @@ const IGNORED_BASENAMES = new Set([
   '.env.local',
   '.env.production',
   '.env.development',
+  'contextforge-audit.json',
+  'contextforge-pack.md',
+  'contextforge-report.html',
+  'contextforge-suggestions.md',
   'pnpm-lock.yaml',
   'package-lock.json',
   'yarn.lock'
@@ -35,10 +39,10 @@ export function shouldIgnorePath(filePath: string): boolean {
   const normalized = filePath.split(path.sep).join('/');
   const segments = normalized.split('/');
   if (segments.some((segment) => IGNORED_SEGMENTS.has(segment))) return true;
+  if (/contextforge-.*\.tgz$/i.test(path.basename(filePath))) return true;
   return IGNORED_BASENAMES.has(path.basename(filePath));
 }
 
 export function isLikelyBinary(buffer: Buffer): boolean {
   return buffer.includes(0);
 }
-

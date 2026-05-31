@@ -1,5 +1,9 @@
+import { promises as fs } from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createContextPack } from '../src/pack/contextPack.js';
+import type { SessionRecord } from '../src/types.js';
 
 describe('context pack generator', () => {
   it('creates a budgeted pack and excludes secrets', async () => {
@@ -26,4 +30,58 @@ describe('context pack generator', () => {
     expect(pack.content).toContain('Why included');
     expect(pack.content).toContain('task term');
   });
+
+  it('uses session-derived failure, read, and edit signals as visible scoring reasons', async () => {
+    const records: SessionRecord[] = [
+      record('tool', 'Read tool opened file_path src/auth.ts before debugging'),
+      record('assistant', 'Tests failed in src/auth.ts after the login regression.'),
+      record('tool', 'Edit tool touched src/auth.ts to update the login check')
+    ];
+
+    const pack = await createContextPack({
+      rootDir: 'fixtures/project',
+      task: 'investigate regression',
+      budget: 300,
+      records
+    });
+    const authFile = pack.files.find((file) => file.path === 'src/auth.ts');
+
+    expect(authFile?.reasons.map((reason) => reason.type)).toEqual(
+      expect.arrayContaining(['session-failure', 'session-read', 'session-edit'])
+    );
+    expect(pack.content).toContain('session failure mention');
+    expect(pack.content).toContain('recent session read');
+    expect(pack.content).toContain('recent session edit');
+  });
+
+  it('excludes generated ContextForge artifacts from packs', async () => {
+    const rootDir = await fs.mkdtemp(path.join(os.tmpdir(), 'contextforge-pack-test-'));
+    await fs.mkdir(path.join(rootDir, 'src'), { recursive: true });
+    await fs.writeFile(path.join(rootDir, 'src', 'auth.ts'), 'export function login() { return true; }\n');
+    await fs.writeFile(
+      path.join(rootDir, 'contextforge-pack.md'),
+      'Generated contextforge-pack.md mentions auth but should not be repacked.\n'
+    );
+
+    const pack = await createContextPack({
+      rootDir,
+      task: 'fix auth bug',
+      budget: 600
+    });
+
+    expect(pack.files.some((file) => file.path === 'contextforge-pack.md')).toBe(false);
+  });
 });
+
+function record(kind: SessionRecord['kind'], content: string): SessionRecord {
+  return {
+    provider: 'codex',
+    source: 'fixtures/codex/session.jsonl',
+    project: 'demo',
+    kind,
+    content,
+    inputTokens: 100,
+    outputTokens: 10,
+    cachedTokens: 0
+  };
+}
