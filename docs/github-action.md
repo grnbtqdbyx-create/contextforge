@@ -17,7 +17,7 @@ workflow by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.16.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.16.1
 ```
 
 ## Reusable Action
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: grnbtqdbyx-create/contextforge@v0.16.0
+      - uses: grnbtqdbyx-create/contextforge@v0.16.1
         with:
           min-context-score: 60
           min-cache-score: 60

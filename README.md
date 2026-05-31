@@ -60,7 +60,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.16.0
+- uses: grnbtqdbyx-create/contextforge@v0.16.1
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -116,7 +116,7 @@ contextforge improve [--demo] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
 contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--min-security-score 60]
 contextforge doctor [--demo] [--json] [--benchmark-dir fixtures/security-benchmark]
-contextforge init --github-action [--action-ref grnbtqdbyx-create/contextforge@v0.16.0] [--force]
+contextforge init --github-action [--action-ref grnbtqdbyx-create/contextforge@v0.16.1] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -160,7 +160,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.16.0 is a public MVP CLI with:
+ContextForge v0.16.1 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
