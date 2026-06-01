@@ -59,6 +59,8 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-mcp.sarif');
     expect(workflow).toContain('claude-audit --summary contextforge-claude-audit.md');
     expect(workflow).toContain('contextforge-claude.sarif');
+    expect(workflow).toContain('workflow-audit --summary contextforge-workflow-audit.md');
+    expect(workflow).toContain('contextforge-workflow.sarif');
     expect(workflow).toContain('trace-audit --summary contextforge-trace-audit.md');
     expect(workflow).toContain('review-kit --base main --output contextforge-review-kit.md');
     expect(workflow).toContain('artifact-map --output contextforge-artifact-map.md');
@@ -70,6 +72,8 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-mcp.sarif');
     expect(workflow).toContain('contextforge-claude-audit.md');
     expect(workflow).toContain('contextforge-claude.sarif');
+    expect(workflow).toContain('contextforge-workflow-audit.md');
+    expect(workflow).toContain('contextforge-workflow.sarif');
     expect(workflow).toContain('contextforge-agent-plan.md');
     expect(workflow).toContain('contextforge-pr-comment.md');
     expect(workflow).toContain('contextforge-suggestions.json');
@@ -81,6 +85,7 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-agent-surface-diff.md');
     expect(workflow).toContain('contextforge-mcp-audit.md');
     expect(workflow).toContain('contextforge-claude-audit.md');
+    expect(workflow).toContain('contextforge-workflow-audit.md');
     expect(workflow).toContain('contextforge-review-kit.md');
     expect(workflow).toContain('contextforge-artifact-map.md');
     expect(workflow).toContain('contextforge-trace-audit.md');

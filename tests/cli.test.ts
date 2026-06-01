@@ -62,7 +62,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.66.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.67.0');
   });
 });
 
@@ -295,6 +295,44 @@ describe('CLI claude-audit command', () => {
     expect(sarif.version).toBe('2.1.0');
     expect(sarif.runs[0].tool.driver.name).toBe('ContextForge Claude Settings');
     expect(sarif.runs[0].results.some((result) => result.ruleId === 'claude-settings/claude-bypass-mode')).toBe(true);
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
+describe('CLI workflow-audit command', () => {
+  it('writes an agentic workflow summary and SARIF when requested', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-workflow-audit-'));
+    const summaryPath = path.join(rootDir, 'workflow-audit.md');
+    const sarifPath = path.join(rootDir, 'workflow-audit.sarif');
+
+    const { stdout } = await execFileAsync('pnpm', [
+      'contextforge',
+      'workflow-audit',
+      '--summary',
+      summaryPath,
+      '--sarif',
+      sarifPath
+    ]);
+    const summary = await readFile(summaryPath, 'utf8');
+    const sarif = JSON.parse(await readFile(sarifPath, 'utf8')) as { runs: Array<{ tool: { driver: { name: string } } }> };
+
+    expect(stdout).toContain('ContextForge agentic workflow audit:');
+    expect(stdout).toContain(`Wrote ${summaryPath} and ${sarifPath}`);
+    expect(summary).toContain('# ContextForge Agentic Workflow Audit');
+    expect(sarif.runs[0].tool.driver.name).toBe('ContextForge Agentic Workflows');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+
+  it('uses the bundled risky fixture for workflow-audit demo mode', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-workflow-audit-demo-'));
+    const summaryPath = path.join(rootDir, 'workflow-audit.md');
+
+    await expect(execFileAsync('pnpm', ['contextforge', 'workflow-audit', '--demo', '--summary', summaryPath])).rejects.toMatchObject({
+      stdout: expect.stringContaining('ContextForge agentic workflow audit: fail')
+    });
+    const summary = await readFile(summaryPath, 'utf8');
+
+    expect(summary).toContain('agentic-secret-exposure');
     await rm(rootDir, { recursive: true, force: true });
   });
 });

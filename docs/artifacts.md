@@ -25,6 +25,8 @@ Use this to decide which ContextForge artifact a maintainer, reviewer, CI bot, C
 | `contextforge-mcp.sarif` | GitHub Code Scanning | you want MCP config exposure findings to appear beside code scanning alerts | `contextforge mcp-audit --sarif contextforge-mcp.sarif` |
 | `contextforge-claude-audit.md` | Claude Code maintainers | you need to review committed Claude Code project settings, hooks, permissions, and sensitive-file denies | `contextforge claude-audit --summary contextforge-claude-audit.md` |
 | `contextforge-claude.sarif` | GitHub Code Scanning | you want Claude Code settings findings to appear beside code scanning alerts | `contextforge claude-audit --sarif contextforge-claude.sarif` |
+| `contextforge-workflow-audit.md` | Security reviewers and agent workflow maintainers | you need to see whether GitHub issue, PR, review, comment, or workflow input text flows into privileged AI workflows | `contextforge workflow-audit --summary contextforge-workflow-audit.md` |
+| `contextforge-workflow.sarif` | GitHub Code Scanning | you want agentic workflow injection findings to appear beside code scanning alerts | `contextforge workflow-audit --sarif contextforge-workflow.sarif` |
 | `contextforge-trace-audit.md` | Codex and Claude operators | you need to review repeated tool calls, bulky tool output, and cache reuse before another long agent session | `contextforge trace-audit --summary contextforge-trace-audit.md` |
 | `contextforge-cost-estimate.md` | Maintainers and budget reviewers | you need a shareable cost estimate from observed session tokens without hardcoded provider pricing | `contextforge cost-estimate --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10` |
 | `contextforge-pack.md` | Codex, Claude, and human reviewers | you need a task-specific context bundle with a visible token budget ledger | `contextforge pack --task "review auth regression" --budget 20000 --sessions --output contextforge-pack.md` |
@@ -61,6 +63,7 @@ contextforge surface-inventory --output contextforge-agent-surface-inventory.md
 contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
+contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
 contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10
 contextforge pack --demo --task "review auth regression" --budget 600 --output contextforge-pack.md

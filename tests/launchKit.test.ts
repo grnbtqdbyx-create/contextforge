@@ -16,6 +16,7 @@ describe('launch kit report', () => {
     expect(kit).toContain('contextforge artifact-map --output docs/artifacts.md');
     expect(kit).toContain('contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif');
     expect(kit).toContain('contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif');
+    expect(kit).toContain('contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif');
     expect(kit).toContain('contextforge trace-audit --demo --summary contextforge-trace-audit.md');
     expect(kit).toContain('contextforge cost-estimate --demo --summary contextforge-cost-estimate.md');
     expect(kit).toContain('## Suggested GitHub Topics');

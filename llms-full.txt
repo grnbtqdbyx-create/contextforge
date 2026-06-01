@@ -33,6 +33,9 @@ separate tools:
 - MCP exposure checks for committed tool configs with hardcoded secrets, unsafe
   shell installers, unpinned package launches, auto-approval, broad tool
   permissions, or symlinked config files
+- agentic GitHub workflow checks for untrusted issue, pull request, review,
+  comment, discussion, or workflow input text reaching model-backed jobs that
+  can use repository write permissions or secrets
 - trace efficiency checks for repeated tool calls, bulky tool output,
   tool-output-heavy sessions, and low cache reuse
 - configurable cost estimates using caller-provided input, cached-input, and
@@ -43,7 +46,8 @@ separate tools:
 - a PR-specific surface diff showing changed agent-readable files, affected
   ecosystems, and follow-up checks before reviewers trust new branch context
 - CI artifacts: JSON audit, HTML report, SARIF, Markdown summary, PR-ready
-  comment, MCP audit, review kit, surface map, surface diff, artifact map, proof pack, and agent action plan
+  comment, MCP audit, Claude settings audit, agentic workflow audit, review kit,
+  surface map, surface diff, artifact map, proof pack, and agent action plan
 
 ## Quick Adoption Path
 
@@ -90,6 +94,7 @@ contextforge surface-inventory [--json] [--output contextforge-agent-surface-inv
 contextforge surface-diff [--base main] [--json] [--output contextforge-agent-surface-diff.md]
 contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md] [--sarif contextforge-mcp.sarif]
 contextforge claude-audit [--demo] [--json] [--summary contextforge-claude-audit.md] [--sarif contextforge-claude.sarif]
+contextforge workflow-audit [--demo] [--json] [--summary contextforge-workflow-audit.md] [--sarif contextforge-workflow.sarif]
 contextforge trace-audit [--demo] [--json] [--summary contextforge-trace-audit.md]
 contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estimate.md] [--input-price-per-mtok 0] [--cached-input-price-per-mtok 0] [--output-price-per-mtok 0]
 contextforge adoption-brief [--output docs/adoption.md] [--project-name "My App"]
@@ -136,6 +141,8 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-mcp.sarif`: GitHub Code Scanning SARIF for committed MCP config exposure findings
 - `contextforge-claude-audit.md`: committed Claude Code settings exposure summary from `claude-audit`
 - `contextforge-claude.sarif`: GitHub Code Scanning SARIF for committed Claude Code settings findings
+- `contextforge-workflow-audit.md`: agentic GitHub workflow injection summary from `workflow-audit`
+- `contextforge-workflow.sarif`: GitHub Code Scanning SARIF for agentic workflow findings
 - `contextforge-trace-audit.md`: Codex/Claude trace efficiency summary from `trace-audit`
 - `contextforge-cost-estimate.md`: configurable session cost estimate from `cost-estimate`
 - `docs/adoption.md`: first-time evaluator page from `adoption-brief`, including the 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands
@@ -143,7 +150,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `docs/artifacts.md`: generated artifact catalog and fast paths from `artifact-map`
 - `contextforge-artifact-map.md`: CI-uploaded artifact catalog from reusable and generated workflows
 - `contextforge-publish-readiness.md`: npm Trusted Publishing and package provenance readiness summary from `publish-readiness`
-- Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-agent-surface-map.md`, `contextforge-agent-surface-inventory.md`, `contextforge-agent-surface-diff.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts. Dogfood and generated workflows opt JavaScript actions into Node 24.
+- Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-agent-surface-map.md`, `contextforge-agent-surface-inventory.md`, `contextforge-agent-surface-diff.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-workflow-audit.md`, `contextforge-workflow.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts. Dogfood and generated workflows opt JavaScript actions into Node 24.
 - PR-ready comments embed a compact changed agent-surface summary and point reviewers at `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-agent-surface-diff.md` so sticky review discussions can lead to the deeper doctor/audit proof packet, the changed-file review brief, and the changed agent-surface report.
 - `docs/launch-post.md`: generated build-in-public launch kit from `launch-kit`
 - `docs/comparison.md`: generated adjacent-tool positioning guide from `compare`
@@ -154,6 +161,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - GitHub releases: tagged build-in-public release history
 - GitHub Actions: CI and ContextForge Audit dogfood workflows
 - `docs/research/adjacent-tools.md`: research notes and differentiation
+- `docs/workflow-audit.md`: agentic GitHub workflow risk model, commands, and SARIF usage
 
 ## License and Ownership
 

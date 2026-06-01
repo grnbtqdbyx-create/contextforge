@@ -21,6 +21,7 @@ describe('launch snapshot', () => {
     expect(snapshot).toContain('## What To Open First');
     expect(snapshot).toContain('contextforge-scorecard.md');
     expect(snapshot).toContain('contextforge-agent-surface-diff.md');
+    expect(snapshot).toContain('contextforge-workflow-audit.md');
     expect(snapshot).toContain('contextforge-publish-readiness.md');
     expect(snapshot).toContain('## Share Copy');
     expect(snapshot).toContain('https://github.com/grnbtqdbyx-create/contextforge');
