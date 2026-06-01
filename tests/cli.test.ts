@@ -44,7 +44,10 @@ describe('CLI argument mapping', () => {
         minCacheScore: 60,
         minSecurityScore: 60,
         maxFiles: 7,
-        maxFileBytes: 1024
+        maxFileBytes: 1024,
+        inputPricePerMTok: undefined,
+        cachedInputPricePerMTok: undefined,
+        outputPricePerMTok: undefined
       })
     ).toEqual({
       demo: false,
@@ -58,7 +61,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.51.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.52.0');
   });
 });
 
@@ -290,6 +293,33 @@ describe('CLI trace-audit command', () => {
     expect(stdout).toContain('ContextForge trace efficiency audit: warn');
     expect(summary).toContain('# ContextForge Trace Efficiency Audit');
     expect(summary).toContain('redundant-tool-call');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
+describe('CLI cost-estimate command', () => {
+  it('writes a configurable session cost estimate summary', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-cost-estimate-'));
+    const summaryPath = path.join(rootDir, 'contextforge-cost-estimate.md');
+
+    const { stdout } = await execFileAsync('pnpm', [
+      'contextforge',
+      'cost-estimate',
+      '--demo',
+      '--input-price-per-mtok',
+      '2',
+      '--cached-input-price-per-mtok',
+      '0.2',
+      '--output-price-per-mtok',
+      '10',
+      '--summary',
+      summaryPath
+    ]);
+    const summary = await readFile(summaryPath, 'utf8');
+
+    expect(stdout).toContain('ContextForge cost estimate: priced');
+    expect(summary).toContain('# ContextForge Cost Estimate');
+    expect(summary).toContain('Total estimated cost');
     await rm(rootDir, { recursive: true, force: true });
   });
 });
