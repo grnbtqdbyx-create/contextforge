@@ -18,12 +18,12 @@ A fast evaluator page for maintainers deciding whether this repository is worth 
 
 ```bash
 contextforge scorecard --output contextforge-scorecard.md
-contextforge mcp-audit --summary contextforge-mcp-audit.md
+contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge artifact-map --output docs/artifacts.md
 ```
 
 - Open `contextforge-scorecard.md` first for the one-screen Codex/Claude readiness snapshot.
-- Open `contextforge-mcp-audit.md` when the repo has MCP config files or agent tool setup.
+- Open `contextforge-mcp-audit.md` when the repo has MCP config files or agent tool setup; upload `contextforge-mcp.sarif` when GitHub Code Scanning should track those findings.
 - Open `docs/artifacts.md` when CI uploaded many files and you need the right next proof artifact.
 
 ## How It Fits
@@ -44,7 +44,7 @@ pnpm install
 pnpm build
 node dist/cli.js doctor --summary contextforge-doctor.md
 node dist/cli.js scorecard --output contextforge-scorecard.md
-node dist/cli.js mcp-audit --summary contextforge-mcp-audit.md
+node dist/cli.js mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 ```
 
 After npm publish, the same proof path should work with `npx contextforge ...`.
@@ -52,7 +52,7 @@ After npm publish, the same proof path should work with `npx contextforge ...`.
 ## Star-Worthy Proof
 
 - The CLI is deterministic and local-first; it does not call an LLM to create audit results.
-- The repository dogfoods its own GitHub Action and uploads scorecard, MCP audit, proof-pack, review-kit, artifact-map, SARIF, JSON, HTML, and Markdown artifacts.
+- The repository dogfoods its own GitHub Action and uploads scorecard, MCP audit, MCP SARIF, proof-pack, review-kit, artifact-map, SARIF, JSON, HTML, and Markdown artifacts.
 - Release notes include validation commands and GitHub Actions run evidence.
 - The project is Apache-2.0 licensed with DCO contribution flow and trademark policy.
 

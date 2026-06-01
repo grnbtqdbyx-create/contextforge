@@ -58,7 +58,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.48.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.49.0');
   });
 });
 
@@ -228,6 +228,28 @@ describe('CLI adoption-brief command', () => {
     expect(brief).toContain('# ContextForge Adoption Brief');
     expect(brief).toContain('## 30-Second Evaluation Path');
     expect(brief).toContain('contextforge mcp-audit --summary contextforge-mcp-audit.md');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
+describe('CLI mcp-audit command', () => {
+  it('writes SARIF for MCP exposure findings when requested', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-mcp-sarif-'));
+    const sarifPath = path.join(rootDir, 'contextforge-mcp.sarif');
+
+    await expect(
+      execFileAsync('pnpm', ['contextforge', 'mcp-audit', '--demo', '--sarif', sarifPath])
+    ).rejects.toMatchObject({
+      stdout: expect.stringContaining('ContextForge MCP exposure audit: fail')
+    });
+    const sarif = JSON.parse(await readFile(sarifPath, 'utf8')) as {
+      version: string;
+      runs: Array<{ tool: { driver: { name: string } }; results: Array<{ ruleId: string }> }>;
+    };
+
+    expect(sarif.version).toBe('2.1.0');
+    expect(sarif.runs[0].tool.driver.name).toBe('ContextForge MCP Exposure');
+    expect(sarif.runs[0].results.some((result) => result.ruleId === 'mcp-exposure/hardcoded-secret')).toBe(true);
     await rm(rootDir, { recursive: true, force: true });
   });
 });

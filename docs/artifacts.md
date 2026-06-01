@@ -18,6 +18,7 @@ Use this to decide which ContextForge artifact a maintainer, reviewer, CI bot, C
 | `contextforge-scorecard.md` | README visitors, reviewers, and coding agents | you need a one-screen Codex and Claude readiness snapshot | `contextforge scorecard --output contextforge-scorecard.md` |
 | `docs/adoption.md` | First-time maintainers and OSS reviewers | you need a decision path for trying, starring, or wiring ContextForge into CI | `contextforge adoption-brief --output docs/adoption.md` |
 | `contextforge-mcp-audit.md` | Security reviewers and agent operators | you need to review MCP configs for hardcoded secrets, unsafe shell, unpinned packages, auto-approval, broad permissions, or symlinked files | `contextforge mcp-audit --summary contextforge-mcp-audit.md` |
+| `contextforge-mcp.sarif` | GitHub Code Scanning | you want MCP config exposure findings to appear beside code scanning alerts | `contextforge mcp-audit --sarif contextforge-mcp.sarif` |
 | `contextforge-review-kit.md` | PR reviewers, Codex, and Claude | you need changed-file review focus for agent-assisted PRs | `contextforge review-kit --base main --output contextforge-review-kit.md` |
 | `contextforge-doctor.md` | First-run and launch readers | you need a first-run checklist for public readiness surfaces | `contextforge doctor --summary contextforge-doctor.md` |
 | `docs/artifacts.md` | Visitors, maintainers, and contributors | you need a catalog that explains which generated artifact to inspect first | `contextforge artifact-map --output docs/artifacts.md` |
@@ -45,7 +46,7 @@ contextforge audit --summary contextforge-summary.md --plan contextforge-agent-p
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge adoption-brief --output docs/adoption.md
 contextforge scorecard --output contextforge-scorecard.md
-contextforge mcp-audit --summary contextforge-mcp-audit.md
+contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge review-kit --base main --output contextforge-review-kit.md
 ```
 

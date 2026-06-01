@@ -79,6 +79,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge mcp-audit --summary contextforge-mcp-audit.md`'
   },
   {
+    artifact: 'contextforge-mcp.sarif',
+    audience: 'GitHub Code Scanning',
+    useWhen: 'you want MCP config exposure findings to appear beside code scanning alerts',
+    producedBy: '`contextforge mcp-audit --sarif contextforge-mcp.sarif`'
+  },
+  {
     artifact: 'contextforge-review-kit.md',
     audience: 'PR reviewers, Codex, and Claude',
     useWhen: 'you need changed-file review focus for agent-assisted PRs',
@@ -168,7 +174,7 @@ export function createArtifactMap(): string {
     'contextforge proof-pack --output contextforge-proof-pack.md',
     'contextforge adoption-brief --output docs/adoption.md',
     'contextforge scorecard --output contextforge-scorecard.md',
-    'contextforge mcp-audit --summary contextforge-mcp-audit.md',
+    'contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif',
     'contextforge review-kit --base main --output contextforge-review-kit.md',
     '```',
     ''

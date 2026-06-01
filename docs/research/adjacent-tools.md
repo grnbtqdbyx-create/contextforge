@@ -378,6 +378,7 @@ That means every repository can ask:
 35. MCP permission exposure checks for auto-approved and broadly permitted agent tools.
 36. Symlinked MCP config detection so repo review and agent loading see the same committed file.
 37. First-time evaluator adoption briefs that turn proof artifacts into a star-ready decision path.
+38. MCP exposure SARIF output so repo-first agent tool risks can reach GitHub Code Scanning.
 
 ## Explainability Direction
 
@@ -452,3 +453,8 @@ docs/adoption.md`, because first-time maintainers and OSS reviewers need a fast
 decision path that connects the scorecard, MCP audit, artifact map, adjacent
 tool positioning, and pre-npm try-it commands before they decide to star,
 evaluate, or wire the project into CI.
+ContextForge v0.49.0 adds `contextforge mcp-audit --sarif
+contextforge-mcp.sarif`, because adjacent MCP security scanners increasingly
+surface findings through SARIF or security dashboards while maintainers still
+need a cheap repo-first check that flags committed agent tool config risk before
+Codex, Claude, or another coding agent loads it.

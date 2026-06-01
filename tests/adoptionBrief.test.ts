@@ -13,7 +13,7 @@ describe('adoption brief', () => {
     expect(brief).toContain('## Who Should Try It');
     expect(brief).toContain('## 30-Second Evaluation Path');
     expect(brief).toContain('contextforge scorecard --output contextforge-scorecard.md');
-    expect(brief).toContain('contextforge mcp-audit --summary contextforge-mcp-audit.md');
+    expect(brief).toContain('contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif');
     expect(brief).toContain('## How It Fits');
     expect(brief).toContain('Repomix');
     expect(brief).toContain('ccusage');

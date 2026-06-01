@@ -15,6 +15,7 @@
 - [x] npm publish-readiness report separates repo checks from account-level setup.
 - [x] Agent readiness scorecard gives README visitors a one-screen Codex/Claude proof surface.
 - [x] MCP exposure audit catches committed MCP config secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files.
+- [x] MCP exposure findings can be exported as SARIF for GitHub Code Scanning.
 - [x] First-time evaluator adoption brief gives visitors a 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands.
 - [ ] First approved npm publish.
 

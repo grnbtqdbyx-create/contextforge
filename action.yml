@@ -63,6 +63,10 @@ inputs:
     description: 'MCP exposure audit Markdown output path in the caller workspace.'
     required: false
     default: 'contextforge-mcp-audit.md'
+  mcp-sarif:
+    description: 'MCP exposure SARIF output path in the caller workspace.'
+    required: false
+    default: 'contextforge-mcp.sarif'
   review-kit:
     description: 'Codex/Claude review kit Markdown output path in the caller workspace.'
     required: false
@@ -110,6 +114,9 @@ outputs:
   mcp-audit-md:
     description: 'Path to the generated MCP exposure audit.'
     value: ${{ inputs.mcp-audit }}
+  mcp-sarif:
+    description: 'Path to the generated MCP exposure SARIF report.'
+    value: ${{ inputs.mcp-sarif }}
   review-kit-md:
     description: 'Path to the generated Codex/Claude review kit.'
     value: ${{ inputs.review-kit }}
@@ -171,7 +178,8 @@ runs:
       run: |
         cd "$GITHUB_WORKSPACE"
         node "$GITHUB_ACTION_PATH/dist/cli.js" mcp-audit \
-          --summary "${{ inputs.mcp-audit }}"
+          --summary "${{ inputs.mcp-audit }}" \
+          --sarif "${{ inputs.mcp-sarif }}"
     - name: Run ContextForge review kit
       if: always()
       shell: bash

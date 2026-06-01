@@ -32,7 +32,7 @@ jobs:
         if: always()
       - run: node dist/cli.js scorecard --output contextforge-scorecard.md
         if: always()
-      - run: node dist/cli.js mcp-audit --summary contextforge-mcp-audit.md
+      - run: node dist/cli.js mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
         if: always()
       - run: node dist/cli.js review-kit --base main --output contextforge-review-kit.md
         if: always()
@@ -57,9 +57,14 @@ jobs:
             contextforge-proof-pack.md
             contextforge-scorecard.md
             contextforge-mcp-audit.md
+            contextforge-mcp.sarif
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
           sarif_file: contextforge.sarif
+      - uses: github/codeql-action/upload-sarif@v4
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        with:
+          sarif_file: contextforge-mcp.sarif

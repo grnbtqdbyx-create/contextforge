@@ -13,6 +13,7 @@ describe('launch kit report', () => {
     expect(kit).toContain('contextforge adoption-brief --output docs/adoption.md');
     expect(kit).toContain('contextforge doctor --summary contextforge-doctor.md');
     expect(kit).toContain('contextforge artifact-map --output docs/artifacts.md');
+    expect(kit).toContain('contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif');
     expect(kit).toContain('## Suggested GitHub Topics');
     expect(kit).toContain('codex');
     expect(kit).toContain('claude-code');
