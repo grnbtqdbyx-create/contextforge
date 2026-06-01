@@ -135,7 +135,7 @@ const artifactRows: ArtifactMapRow[] = [
   {
     artifact: 'contextforge-actions-audit.md',
     audience: 'Security reviewers and release maintainers',
-    useWhen: 'you need to review GitHub Actions SHA pins, token permissions, pull_request_target risk, and direct script interpolation',
+    useWhen: 'you need to review GitHub Actions SHA pins, token permissions, Node 24 runtime opt-in, pull_request_target risk, and direct script interpolation',
     producedBy: '`contextforge actions-audit --summary contextforge-actions-audit.md`'
   },
   {

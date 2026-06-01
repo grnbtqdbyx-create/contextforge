@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.71.0 - 2026-06-01
+
+- Add `actions-missing-node24-opt-in` to `contextforge actions-audit` so repositories using JavaScript actions can prepare for GitHub's Node 24 hosted-runner default.
+- Keep ContextForge dogfood workflows passing by recognizing their existing `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true` opt-in.
+- Document the known GitHub runner annotation behavior where Node 20 action metadata can still produce an informational warning even when the Node 24 runtime override is active.
+
 ## 0.70.0 - 2026-06-01
 
 - Add Claude Code settings, agentic workflow, and GitHub Actions hardening checks to `contextforge doctor`.

@@ -174,7 +174,7 @@ Success signal:
   title, workflow input, or branch/ref text flowing into privileged AI workflows.
 - Release reviewers can open `contextforge-actions-audit.md` or upload
   `contextforge-actions.sarif` to catch mutable action refs, missing
-  permissions, pwn-request checkout, and direct script interpolation before
+  permissions, Node 24 runtime opt-in, pwn-request checkout, and direct script interpolation before
   agent-authored workflow changes reach `main`.
 - Agent operators can open `contextforge-trace-audit.md` to see whether the demo
   trace wasted turns on repeated tools or bulky output before they try local
