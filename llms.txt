@@ -19,6 +19,7 @@ Claude can act on.
 - `contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif`: scan committed MCP configs for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files, with optional GitHub Code Scanning output.
 - `contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif`: scan committed Claude Code settings for risky default modes, broad Bash permissions, remote shell hooks, wildcard HTTP hooks, and missing sensitive-file denies.
 - `contextforge trace-audit --demo --summary contextforge-trace-audit.md`: summarize repeated tool calls, bulky tool output, tool-output dominance, and cache reuse from Codex/Claude traces.
+- `contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10`: estimate session spend with caller-provided prices.
 - `contextforge adoption-brief --output docs/adoption.md`: generate a first-time evaluator page with the 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands.
 - `contextforge review-kit --base main --output contextforge-review-kit.md`: generate a changed-file review brief and copyable Codex/Claude review prompt.
 - `contextforge artifact-map --output docs/artifacts.md`: generate a catalog that tells reviewers, agents, and launch visitors which proof artifact to inspect first.
@@ -41,6 +42,7 @@ Claude can act on.
 - [MCP Audit](docs/mcp-audit.md): Committed MCP config exposure checks and SARIF output for agent tool safety.
 - [Claude Audit](docs/claude-audit.md): Committed Claude Code settings checks and SARIF output for shared permissions and hooks.
 - [Trace Audit](docs/trace-audit.md): Codex/Claude session efficiency checks for repeated tools, bulky outputs, and cache reuse.
+- [Cost Estimate](docs/cost-estimate.md): Configurable session cost estimates for input, cached input, and output tokens.
 - [Adoption Brief](docs/adoption.md): First-time evaluator page for maintainers deciding whether to try, star, or wire ContextForge into CI.
 - [Review Kit](docs/review-kit.md): Deterministic review brief for Codex, Claude, human reviewers, and AI review workflows.
 - [Artifact Map](docs/artifacts.md): Generated catalog of ContextForge artifacts and fast paths.

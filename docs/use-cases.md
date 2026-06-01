@@ -78,6 +78,7 @@ usage dashboard does not explain why.
 contextforge usage --codex --claude
 contextforge cache-audit --codex --claude
 contextforge trace-audit --codex --claude --summary contextforge-trace-audit.md
+contextforge cost-estimate --codex --claude --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10
 contextforge doctor --json
 ```
 
@@ -88,6 +89,8 @@ Success signal:
   the next long agent session.
 - Repeated tool calls, tool-output-heavy traces, and cache reuse are visible in
   `contextforge-trace-audit.md`.
+- Configurable spend estimates are visible in `contextforge-cost-estimate.md`
+  without baking provider prices into the repository.
 
 ## 5. Build a Task-Specific Context Pack
 
@@ -136,6 +139,7 @@ contextforge scorecard --output contextforge-scorecard.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
+contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10
 contextforge adoption-brief --output docs/adoption.md
 contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge proof-pack --output contextforge-proof-pack.md
@@ -161,6 +165,8 @@ Success signal:
 - Agent operators can open `contextforge-trace-audit.md` to see whether the demo
   trace wasted turns on repeated tools or bulky output before they try local
   Codex/Claude history.
+- Budget reviewers can open `contextforge-cost-estimate.md` to see how price
+  assumptions affect observed demo token spend.
 - First-time maintainers can open `docs/adoption.md` for the 30-second proof
   path, adjacent-tool positioning, pre-npm try-it commands, and star-worthy
   proof checklist before reading the full repository.

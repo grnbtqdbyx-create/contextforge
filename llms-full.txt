@@ -21,6 +21,8 @@ separate tools:
   permissions, or symlinked config files
 - trace efficiency checks for repeated tool calls, bulky tool output,
   tool-output-heavy sessions, and low cache reuse
+- configurable cost estimates using caller-provided input, cached-input, and
+  output prices per 1M tokens
 - task-specific context packs with explainable file inclusion reasons
 - CI artifacts: JSON audit, HTML report, SARIF, Markdown summary, PR-ready
   comment, MCP audit, review kit, artifact map, proof pack, and agent action plan
@@ -67,6 +69,7 @@ contextforge scorecard [--demo] [--json] [--output contextforge-scorecard.md]
 contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md] [--sarif contextforge-mcp.sarif]
 contextforge claude-audit [--demo] [--json] [--summary contextforge-claude-audit.md] [--sarif contextforge-claude.sarif]
 contextforge trace-audit [--demo] [--json] [--summary contextforge-trace-audit.md]
+contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estimate.md] [--input-price-per-mtok 0] [--cached-input-price-per-mtok 0] [--output-price-per-mtok 0]
 contextforge adoption-brief [--output docs/adoption.md] [--project-name "My App"]
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
@@ -109,6 +112,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-claude-audit.md`: committed Claude Code settings exposure summary from `claude-audit`
 - `contextforge-claude.sarif`: GitHub Code Scanning SARIF for committed Claude Code settings findings
 - `contextforge-trace-audit.md`: Codex/Claude trace efficiency summary from `trace-audit`
+- `contextforge-cost-estimate.md`: configurable session cost estimate from `cost-estimate`
 - `docs/adoption.md`: first-time evaluator page from `adoption-brief`, including the 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands
 - `contextforge-review-kit.md`: changed-file review brief and Codex/Claude review prompt from `review-kit`
 - `docs/artifacts.md`: generated artifact catalog and fast paths from `artifact-map`

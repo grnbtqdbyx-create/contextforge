@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.52.0 - 2026-06-01
+
+- Add `contextforge cost-estimate --summary contextforge-cost-estimate.md` for configurable Codex and Claude session cost estimates.
+- Keep provider pricing out of source code; users pass input, cached-input, and output USD-per-1M-token rates at runtime.
+- Refresh README, cost-estimate docs, adoption brief, artifact map, launch kit, LLM discovery files, package metadata, and research notes around cost proof.
+
 ## 0.51.0 - 2026-06-01
 
 - Add `contextforge trace-audit --summary contextforge-trace-audit.md` for Codex and Claude session execution efficiency.

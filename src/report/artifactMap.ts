@@ -103,6 +103,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge trace-audit --summary contextforge-trace-audit.md`'
   },
   {
+    artifact: 'contextforge-cost-estimate.md',
+    audience: 'Maintainers and budget reviewers',
+    useWhen: 'you need a shareable cost estimate from observed session tokens without hardcoded provider pricing',
+    producedBy: '`contextforge cost-estimate --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10`'
+  },
+  {
     artifact: 'contextforge-review-kit.md',
     audience: 'PR reviewers, Codex, and Claude',
     useWhen: 'you need changed-file review focus for agent-assisted PRs',
@@ -195,6 +201,7 @@ export function createArtifactMap(): string {
     'contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif',
     'contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif',
     'contextforge trace-audit --demo --summary contextforge-trace-audit.md',
+    'contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10',
     'contextforge review-kit --base main --output contextforge-review-kit.md',
     '```',
     ''

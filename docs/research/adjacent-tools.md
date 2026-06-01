@@ -471,3 +471,8 @@ ContextForge v0.51.0 adds `contextforge trace-audit --summary
 contextforge-trace-audit.md`, turning parsed Codex and Claude session records
 into a deterministic report for redundant tools, bulky outputs, tool-output
 dominance, and low cache reuse.
+ContextForge v0.52.0 adds `contextforge cost-estimate --summary
+contextforge-cost-estimate.md`, because official pricing and prompt-cache
+details change over time. Instead of hardcoding provider prices, the command
+accepts caller-provided input, cached-input, and output prices per 1M tokens and
+turns observed session records into a shareable cost proof.
