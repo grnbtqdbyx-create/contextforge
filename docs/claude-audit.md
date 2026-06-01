@@ -33,6 +33,12 @@ should appear in GitHub Code Scanning beside repository-instruction and MCP
 exposure alerts. Use `--json` when another agent or CI job needs parseable
 output.
 
+This command is focused on JSON settings. Pair it with
+`contextforge security-audit` for Claude Code project subagents and custom
+slash-command files under `.claude/agents/**/*.md` and
+`.claude/commands/**/*.md`; those Markdown prompts are part of the same
+repo-trust surface when teams commit project-specific Claude workers.
+
 This is intentionally a repo exposure check, not a replacement for Claude Code's
 runtime permission prompts, sandboxing, trust verification, and command
 injection detection. Pair it with normal code review, least-privilege

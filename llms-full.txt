@@ -16,10 +16,14 @@ separate tools:
   `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`,
   `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`,
   `.github/agents/**/*.agent.md`, project skill files under `.github/skills`,
-  `.claude/skills`, and `.agents/skills`, `.cursorrules`, `.clinerules`,
-  `SKILL.md`, and root README files
+  `.claude/skills`, and `.agents/skills`, Claude Code project subagents under
+  `.claude/agents/**/*.md`, custom slash commands under
+  `.claude/commands/**/*.md`, `.cursorrules`, `.clinerules`, `SKILL.md`, and
+  root README files
 - context security checks for prompt injection, secret exfiltration, unsafe
   shell instructions, hidden directives, and permission escalation
+- Claude Code project subagent and custom command checks for committed
+  `.claude/agents/**/*.md` and `.claude/commands/**/*.md` prompts
 - Copilot hook security checks for `.github/hooks/*.json` and committed
   `.github/copilot/settings*.json` hook configuration
 - VS Code Copilot workspace settings checks for `.vscode/settings.json` and

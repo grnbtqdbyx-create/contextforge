@@ -24,6 +24,7 @@
 - [x] GitHub Copilot prompt files, custom agents, and project skills are discovered and audited when present.
 - [x] GitHub Copilot hook configs are scanned for unsafe shell commands and context-security risk when present.
 - [x] VS Code Copilot workspace settings are scanned for risky committed instruction text when present.
+- [x] Claude Code project subagents and custom slash commands are discovered, security-audited, and scored as instruction context when present.
 - [x] First-time evaluator adoption brief gives visitors a 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands.
 - [ ] First approved npm publish.
 

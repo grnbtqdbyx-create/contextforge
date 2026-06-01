@@ -14,6 +14,8 @@ Covered files:
 - `.github/prompts/**/*.prompt.md`
 - `.github/agents/**/*.md`
 - `.github/agents/**/*.agent.md`
+- `.claude/agents/**/*.md`
+- `.claude/commands/**/*.md`
 - `.github/skills/<skill-name>/SKILL.md`
 - `.claude/skills/<skill-name>/SKILL.md`
 - `.agents/skills/<skill-name>/SKILL.md`
@@ -73,8 +75,9 @@ does not send repository content to an external model.
 Coding agents read repository files as context. A malicious pull request can add
 or modify Markdown instructions in `README.md`, `AGENTS.md`, `CLAUDE.md`,
 `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`,
-`.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, project
-`SKILL.md` files, `.github/hooks/*.json`, `.github/copilot/settings.json`,
+`.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`,
+`.claude/agents/**/*.md`, `.claude/commands/**/*.md`, project `SKILL.md`
+files, `.github/hooks/*.json`, `.github/copilot/settings.json`,
 `.vscode/settings.json`, committed `*.code-workspace` files, or other
 agent-facing files that look like ordinary project guidance or workflow
 automation but try to:

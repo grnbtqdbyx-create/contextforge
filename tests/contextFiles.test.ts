@@ -94,4 +94,21 @@ describe('context file discovery', () => {
       'app.code-workspace'
     ]);
   });
+
+  it('discovers Claude Code subagents and custom slash commands', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-claude-artifacts-'));
+    await mkdir(path.join(rootDir, '.claude/agents/review'), { recursive: true });
+    await mkdir(path.join(rootDir, '.claude/commands/release'), { recursive: true });
+    await writeFile(path.join(rootDir, '.claude/agents/review/security.md'), 'You are a security reviewer.\n');
+    await writeFile(path.join(rootDir, '.claude/commands/release/check.md'), 'Run release checks.\n');
+
+    const contextFiles = await listContextFiles(rootDir);
+    const securityFiles = await listSecurityContextFiles(rootDir);
+
+    expect(contextFiles.map((file) => file.relativePath)).toEqual([
+      '.claude/agents/review/security.md',
+      '.claude/commands/release/check.md'
+    ]);
+    expect(securityFiles.map((file) => file.relativePath)).toEqual(contextFiles.map((file) => file.relativePath));
+  });
 });

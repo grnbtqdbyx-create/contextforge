@@ -43,7 +43,9 @@ export function isCopilotArtifactPath(relativePath: string): boolean {
   return (
     /^\.github\/prompts\/.+\.prompt\.md$/i.test(normalized) ||
     /^\.github\/agents\/.+(\.agent)?\.md$/i.test(normalized) ||
-    /^(\.github|\.claude|\.agents)\/skills\/[^/]+\/SKILL\.md$/i.test(normalized)
+    /^(\.github|\.claude|\.agents)\/skills\/[^/]+\/SKILL\.md$/i.test(normalized) ||
+    /^\.claude\/agents\/.+\.md$/i.test(normalized) ||
+    /^\.claude\/commands\/.+\.md$/i.test(normalized)
   );
 }
 

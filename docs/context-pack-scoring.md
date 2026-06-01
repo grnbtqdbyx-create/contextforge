@@ -11,7 +11,7 @@ Current scoring reasons:
 | --- | --- |
 | `task-term-match` | a task term appears in the file path or file content |
 | `path-match` | a task term appears directly in the relative file path |
-| `instruction-file` | file is a repo-level agent instruction file such as `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/agents/**/*.agent.md`, or project `SKILL.md` files |
+| `instruction-file` | file is a repo-level agent instruction file such as `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/agents/**/*.agent.md`, `.claude/agents/**/*.md`, `.claude/commands/**/*.md`, or project `SKILL.md` files |
 | `manifest` | file is a project manifest or config that helps orient the agent |
 | `readme` | file is a README/orientation document |
 | `session-failure` | a recent Codex or Claude session mentioned the file near a failure, error, exception, or regression |

@@ -503,3 +503,10 @@ review, commit message generation, and pull-request descriptions via
 `.vscode/settings.json` or committed `.code-workspace` files, so those files
 are now scanned for instruction-injection and exfiltration language before
 contributors trust workspace-provided Copilot behavior.
+ContextForge v0.58.0 adds the Claude Code project customization side:
+official Claude Code docs describe project subagents in `.claude/agents/` and
+legacy custom slash command files in `.claude/commands/` that still create
+slash commands through the skills surface. Those committed Markdown prompts can
+carry system-like instructions, tool permissions, and workflow automation, so
+ContextForge now includes them in health checks, context security, and context
+pack instruction scoring.

@@ -793,7 +793,7 @@ Usage:
   contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
   contextforge artifact-map [--output docs/artifacts.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.57.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.58.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
