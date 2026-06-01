@@ -19,7 +19,7 @@ It complements token dashboards, repository packers, prompt evaluators, and secu
 - Before asking an agent to trust a new repository, fork, benchmark, or external contribution.
 - Before a public launch where visitors need proof that the tool is real and deterministic.
 - When token dashboards show spend but not which repo surfaces caused waste.
-- When `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, or README instructions have grown by copying prompt folklore.
+- When `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, project `SKILL.md` files, or README instructions have grown by copying prompt folklore.
 
 ## Best Together
 
@@ -37,4 +37,3 @@ contextforge review-kit --base main --output contextforge-review-kit.md
 contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
 contextforge pack --task "review auth regression" --budget 20000 --sessions --output contextforge-pack.md
 ```
-

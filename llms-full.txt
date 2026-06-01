@@ -14,7 +14,10 @@ separate tools:
 - prompt-cache stability checks for volatile prefixes and large tool outputs
 - repo context health checks for `AGENTS.md`, `CLAUDE.md`,
   `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`,
-  `.cursorrules`, `.clinerules`, `SKILL.md`, and root README files
+  `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`,
+  `.github/agents/**/*.agent.md`, project skill files under `.github/skills`,
+  `.claude/skills`, and `.agents/skills`, `.cursorrules`, `.clinerules`,
+  `SKILL.md`, and root README files
 - context security checks for prompt injection, secret exfiltration, unsafe
   shell instructions, hidden directives, and permission escalation
 - MCP exposure checks for committed tool configs with hardcoded secrets, unsafe

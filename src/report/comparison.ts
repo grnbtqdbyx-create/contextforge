@@ -21,7 +21,7 @@ export function createComparisonGuide(): string {
     '- Before asking an agent to trust a new repository, fork, benchmark, or external contribution.',
     '- Before a public launch where visitors need proof that the tool is real and deterministic.',
     '- When token dashboards show spend but not which repo surfaces caused waste.',
-    '- When `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, or README instructions have grown by copying prompt folklore.',
+    '- When `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, project `SKILL.md` files, or README instructions have grown by copying prompt folklore.',
     '',
     '## Best Together',
     '',

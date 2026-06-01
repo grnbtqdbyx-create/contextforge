@@ -121,6 +121,31 @@ describe('context pack generator', () => {
     expect(copilotFile?.reasons.some((reason) => reason.type === 'instruction-file')).toBe(true);
     expect(pack.content).toContain('repo-level agent instruction file');
   });
+
+  it('scores Copilot prompts, custom agents, and project skills as instruction context', async () => {
+    const rootDir = await fs.mkdtemp(path.join(os.tmpdir(), 'contextforge-copilot-artifact-pack-'));
+    await fs.mkdir(path.join(rootDir, '.github/prompts'), { recursive: true });
+    await fs.mkdir(path.join(rootDir, '.github/agents'), { recursive: true });
+    await fs.mkdir(path.join(rootDir, '.github/skills/security'), { recursive: true });
+    await fs.writeFile(path.join(rootDir, '.github/prompts/security.prompt.md'), 'Review auth code for security regressions.\n');
+    await fs.writeFile(path.join(rootDir, '.github/agents/security.agent.md'), 'Act as the security reviewer for auth changes.\n');
+    await fs.writeFile(path.join(rootDir, '.github/skills/security/SKILL.md'), 'Use the security checklist for auth changes.\n');
+
+    const pack = await createContextPack({
+      rootDir,
+      task: 'security review auth',
+      budget: 600
+    });
+
+    for (const filePath of [
+      '.github/agents/security.agent.md',
+      '.github/prompts/security.prompt.md',
+      '.github/skills/security/SKILL.md'
+    ]) {
+      const file = pack.files.find((item) => item.path === filePath);
+      expect(file?.reasons.some((reason) => reason.type === 'instruction-file')).toBe(true);
+    }
+  });
 });
 
 function record(kind: SessionRecord['kind'], content: string): SessionRecord {
