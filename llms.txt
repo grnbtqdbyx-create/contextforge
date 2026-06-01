@@ -16,6 +16,7 @@ Claude can act on.
 - `contextforge proof-pack --output contextforge-proof-pack.md`: combine doctor, audit, evidence commands, and Codex/Claude handoff guidance into one Markdown proof packet.
 - `contextforge scorecard --output contextforge-scorecard.md`: write a one-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
 - `contextforge mcp-audit --summary contextforge-mcp-audit.md`: scan committed MCP configs for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files.
+- `contextforge adoption-brief --output docs/adoption.md`: generate a first-time evaluator page with the 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands.
 - `contextforge review-kit --base main --output contextforge-review-kit.md`: generate a changed-file review brief and copyable Codex/Claude review prompt.
 - `contextforge artifact-map --output docs/artifacts.md`: generate a catalog that tells reviewers, agents, and launch visitors which proof artifact to inspect first.
 - `contextforge publish-readiness --summary contextforge-publish-readiness.md`: verify npm metadata, package provenance links, Trusted Publishing workflow safety, publish preflight, and human account setup before first publish.
@@ -35,6 +36,7 @@ Claude can act on.
 - [Proof Pack](docs/proof-pack.md): Shareable readiness packet for launches, PRs, OSS applications, and agent handoffs.
 - [Scorecard](docs/scorecard.md): One-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
 - [MCP Audit](docs/mcp-audit.md): Committed MCP config exposure checks for agent tool safety.
+- [Adoption Brief](docs/adoption.md): First-time evaluator page for maintainers deciding whether to try, star, or wire ContextForge into CI.
 - [Review Kit](docs/review-kit.md): Deterministic review brief for Codex, Claude, human reviewers, and AI review workflows.
 - [Artifact Map](docs/artifacts.md): Generated catalog of ContextForge artifacts and fast paths.
 - [npm Publish](docs/npm-publish.md): Trusted Publishing workflow, provenance metadata, and publish-readiness checks.

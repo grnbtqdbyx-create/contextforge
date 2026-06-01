@@ -7,6 +7,7 @@ ContextForge is a local-first context readiness gate for Codex and Claude Code r
 ## Proof Commands
 
 ```bash
+contextforge adoption-brief --output docs/adoption.md
 contextforge doctor --summary contextforge-doctor.md
 contextforge artifact-map --output docs/artifacts.md
 contextforge review-kit --base main --output contextforge-review-kit.md
@@ -40,6 +41,7 @@ If this helps your agent work with less waste and better handoffs, a star helps 
 ## Maintainer Checklist
 
 - README explains the problem in the first screen.
+- `contextforge adoption-brief --output docs/adoption.md` gives evaluators the first 30-second decision path.
 - `contextforge doctor --summary` produces a shareable readiness report.
 - `contextforge artifact-map --output docs/artifacts.md` tells visitors which proof artifact to inspect first.
 - GitHub topics match the target audience.

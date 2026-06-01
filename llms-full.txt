@@ -63,6 +63,7 @@ contextforge compare [--output docs/comparison.md]
 contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
 contextforge scorecard [--demo] [--json] [--output contextforge-scorecard.md]
 contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md]
+contextforge adoption-brief [--output docs/adoption.md] [--project-name "My App"]
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
@@ -100,6 +101,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-proof-pack.md`: shareable doctor, audit, command, and handoff evidence from `proof-pack`
 - `contextforge-scorecard.md`: one-screen Codex/Claude readiness snapshot from `scorecard`
 - `contextforge-mcp-audit.md`: committed MCP config exposure summary from `mcp-audit`
+- `docs/adoption.md`: first-time evaluator page from `adoption-brief`, including the 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands
 - `contextforge-review-kit.md`: changed-file review brief and Codex/Claude review prompt from `review-kit`
 - `docs/artifacts.md`: generated artifact catalog and fast paths from `artifact-map`
 - `contextforge-artifact-map.md`: CI-uploaded artifact catalog from reusable and generated workflows

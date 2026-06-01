@@ -58,7 +58,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.47.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.48.0');
   });
 });
 
@@ -212,6 +212,22 @@ describe('CLI launch-kit command', () => {
     expect(kit).toContain('# ContextForge Launch Kit');
     expect(kit).toContain('## Launch Post Draft');
     expect(kit).toContain('contextforge doctor --summary contextforge-doctor.md');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
+describe('CLI adoption-brief command', () => {
+  it('writes an evaluator adoption brief for first-time maintainers', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-adoption-brief-'));
+    const outputPath = path.join(rootDir, 'adoption.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'adoption-brief', '--output', outputPath]);
+    const brief = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(brief).toContain('# ContextForge Adoption Brief');
+    expect(brief).toContain('## 30-Second Evaluation Path');
+    expect(brief).toContain('contextforge mcp-audit --summary contextforge-mcp-audit.md');
     await rm(rootDir, { recursive: true, force: true });
   });
 });

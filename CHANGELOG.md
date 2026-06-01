@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.48.0 - 2026-06-01
+
+- Add `contextforge adoption-brief --output docs/adoption.md` for first-time maintainers evaluating whether ContextForge is worth trying, starring, or wiring into CI.
+- Include a 30-second proof path, adjacent-tool positioning, pre-npm try-it commands, and star-worthy proof checklist in the generated adoption brief.
+- Refresh README, artifact map, LLM discovery docs, launch kit, research notes, package metadata, and release readiness output around evaluator-focused onboarding.
+
 ## 0.47.0 - 2026-06-01
 
 - Extend `contextforge mcp-audit` to detect symlinked MCP config files without following the symlink target.

@@ -2,11 +2,11 @@
 
 Status: **warn**
 
-Package: `contextforge@0.47.0`
+Package: `contextforge@0.48.0`
 
 | Check | Status | Detail |
 | --- | --- | --- |
-| Package metadata | pass | contextforge@0.47.0 is public-package ready with bin dist/cli.js |
+| Package metadata | pass | contextforge@0.48.0 is public-package ready with bin dist/cli.js |
 | Package provenance metadata | pass | repository, homepage, and issue tracker point at grnbtqdbyx-create/contextforge for npm provenance readers |
 | Trusted publishing workflow | pass | npm Trusted Publishing uses GitHub OIDC, manual dispatch, dry-run default, and environment approval |
 | Publish preflight | pass | typecheck, tests, build, security benchmark, audit, and npm pack dry-run run before publish |
