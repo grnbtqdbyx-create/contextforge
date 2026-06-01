@@ -16,6 +16,16 @@ export async function auditContextFiles(options: { rootDir?: string } = {}): Pro
     const lines = content.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
     files.push({ path: name, estimatedTokens: estimateTokens(content), bytes: Buffer.byteLength(content) });
 
+    if (isCopilotPathScopedInstruction(name) && !hasApplyToFrontmatter(content)) {
+      findings.push({
+        file: name,
+        type: 'copilot-missing-applyto',
+        severity: 'medium',
+        message: `${name} is a path-scoped Copilot instruction file without an applyTo frontmatter scope.`,
+        suggestion: `Add YAML frontmatter with applyTo, for example applyTo: "src/**/*.ts", so Copilot can apply ${name} intentionally.`
+      });
+    }
+
     const seen = new Map<string, number>();
     for (const line of lines) {
       const count = (seen.get(line.toLowerCase()) ?? 0) + 1;
@@ -67,6 +77,17 @@ export async function auditContextFiles(options: { rootDir?: string } = {}): Pro
   const uniqueFindings = dedupeFindings(findings);
   const penalty = uniqueFindings.reduce((total, finding) => total + (finding.severity === 'high' ? 25 : finding.severity === 'medium' ? 12 : 6), 0);
   return { files, findings: uniqueFindings, score: Math.max(0, 100 - penalty) };
+}
+
+function isCopilotPathScopedInstruction(relativePath: string): boolean {
+  return /^\.github\/instructions\/.+\.instructions\.md$/i.test(relativePath);
+}
+
+function hasApplyToFrontmatter(content: string): boolean {
+  const normalized = content.replace(/^\uFEFF/, '');
+  const match = normalized.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!match) return false;
+  return match[1].split(/\r?\n/).some((line) => /^applyTo\s*:\s*.+/i.test(line.trim()));
 }
 
 function dedupeFindings(findings: Finding[]): Finding[] {

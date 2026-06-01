@@ -582,3 +582,10 @@ agent-edited repositories now see noisy runtime annotations. The audit keeps the
 fix deterministic: set `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true` at workflow
 level, then treat any remaining "target Node.js 20 but forced to Node.js 24"
 message as a runner metadata annotation rather than a failed hardening state.
+ContextForge v0.72.0 tightens Copilot instruction applicability checks:
+VS Code applies `*.instructions.md` files automatically from the configured
+instruction locations through `applyTo` glob patterns, while files without that
+scope may require manual attachment or other selection behavior. Missing scopes
+are easy to miss in agent-authored repos, so `contextforge agents-md-audit` now
+reports `copilot-missing-applyto` before maintainers assume path-scoped guidance
+is deterministically active.
