@@ -377,6 +377,7 @@ That means every repository can ask:
 34. MCP exposure audits that make agent tool config risk visible in CLI, doctor, scorecard, and CI artifacts.
 35. MCP permission exposure checks for auto-approved and broadly permitted agent tools.
 36. Symlinked MCP config detection so repo review and agent loading see the same committed file.
+37. First-time evaluator adoption briefs that turn proof artifacts into a star-ready decision path.
 
 ## Explainability Direction
 
@@ -446,3 +447,8 @@ pre-agent PR check for risky committed client configuration.
 ContextForge v0.47.0 adds symlinked MCP config detection, keeping the repo-first
 gate focused on files that can alter what an agent loads before normal review
 or CI has enough context to reason about the tool definition.
+ContextForge v0.48.0 adds `contextforge adoption-brief --output
+docs/adoption.md`, because first-time maintainers and OSS reviewers need a fast
+decision path that connects the scorecard, MCP audit, artifact map, adjacent
+tool positioning, and pre-npm try-it commands before they decide to star,
+evaluate, or wire the project into CI.

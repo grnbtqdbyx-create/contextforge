@@ -10,6 +10,7 @@ describe('launch kit report', () => {
 
     expect(kit).toContain('# ContextForge Launch Kit');
     expect(kit).toContain('## One-Liner');
+    expect(kit).toContain('contextforge adoption-brief --output docs/adoption.md');
     expect(kit).toContain('contextforge doctor --summary contextforge-doctor.md');
     expect(kit).toContain('contextforge artifact-map --output docs/artifacts.md');
     expect(kit).toContain('## Suggested GitHub Topics');
