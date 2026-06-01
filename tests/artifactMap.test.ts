@@ -25,6 +25,8 @@ describe('artifact map report', () => {
     expect(map).toContain('contextforge-cost-estimate.md');
     expect(map).toContain('npm metadata, provenance links, Trusted Publishing');
     expect(map).toContain('contextforge-agent-plan.md');
+    expect(map).toContain('docs/launch-snapshot.md');
+    expect(map).toContain('contextforge launch-snapshot --output docs/launch-snapshot.md');
     expect(map).toContain('For a PR reviewer');
     expect(map).toContain('For Codex/Claude fixing failures');
     expect(map).toContain('contextforge artifact-map --output docs/artifacts.md');

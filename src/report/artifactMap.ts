@@ -91,6 +91,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge adoption-brief --output docs/adoption.md`'
   },
   {
+    artifact: 'docs/launch-snapshot.md',
+    audience: 'README visitors, launch readers, and OSS evaluators',
+    useWhen: 'you need a concise research-backed snapshot of why the project matters now, where it fits, and what proof to open first',
+    producedBy: '`contextforge launch-snapshot --output docs/launch-snapshot.md`'
+  },
+  {
     artifact: 'contextforge-mcp-audit.md',
     audience: 'Security reviewers and agent operators',
     useWhen: 'you need to review MCP configs for hardcoded secrets, unsafe shell, unpinned packages, auto-approval, broad permissions, or symlinked files',
@@ -220,6 +226,7 @@ export function createArtifactMap(): string {
     'contextforge publish-readiness --summary contextforge-publish-readiness.md',
     'contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg --base main',
     'contextforge proof-pack --output contextforge-proof-pack.md',
+    'contextforge launch-snapshot --output docs/launch-snapshot.md',
     'contextforge adoption-brief --output docs/adoption.md',
     'contextforge scorecard --output contextforge-scorecard.md',
     'contextforge surface-map --output contextforge-agent-surface-map.md',

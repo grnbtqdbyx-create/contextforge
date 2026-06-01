@@ -20,6 +20,7 @@ Use this to decide which ContextForge artifact a maintainer, reviewer, CI bot, C
 | `contextforge-agent-surface-inventory.md` | Agent operators, OSS evaluators, and repo maintainers | you need the actual agent-readable files present in this repository and the command that audits each one | `contextforge surface-inventory --output contextforge-agent-surface-inventory.md` |
 | `contextforge-agent-surface-diff.md` | PR reviewers, Codex, Claude, and Copilot agents | you need to know which agent-readable files changed in a branch and which checks should rerun | `contextforge surface-diff --base main --output contextforge-agent-surface-diff.md` |
 | `docs/adoption.md` | First-time maintainers and OSS reviewers | you need a decision path for trying, starring, or wiring ContextForge into CI | `contextforge adoption-brief --output docs/adoption.md` |
+| `docs/launch-snapshot.md` | README visitors, launch readers, and OSS evaluators | you need a concise research-backed snapshot of why the project matters now, where it fits, and what proof to open first | `contextforge launch-snapshot --output docs/launch-snapshot.md` |
 | `contextforge-mcp-audit.md` | Security reviewers and agent operators | you need to review MCP configs for hardcoded secrets, unsafe shell, unpinned packages, auto-approval, broad permissions, or symlinked files | `contextforge mcp-audit --summary contextforge-mcp-audit.md` |
 | `contextforge-mcp.sarif` | GitHub Code Scanning | you want MCP config exposure findings to appear beside code scanning alerts | `contextforge mcp-audit --sarif contextforge-mcp.sarif` |
 | `contextforge-claude-audit.md` | Claude Code maintainers | you need to review committed Claude Code project settings, hooks, permissions, and sensitive-file denies | `contextforge claude-audit --summary contextforge-claude-audit.md` |
@@ -52,6 +53,7 @@ contextforge artifact-map --output contextforge-artifact-map.md
 contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg --base main
 contextforge proof-pack --output contextforge-proof-pack.md
+contextforge launch-snapshot --output docs/launch-snapshot.md
 contextforge adoption-brief --output docs/adoption.md
 contextforge scorecard --output contextforge-scorecard.md
 contextforge surface-map --output contextforge-agent-surface-map.md

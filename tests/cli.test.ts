@@ -62,7 +62,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.65.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.66.0');
   });
 });
 
@@ -216,6 +216,22 @@ describe('CLI launch-kit command', () => {
     expect(kit).toContain('# ContextForge Launch Kit');
     expect(kit).toContain('## Launch Post Draft');
     expect(kit).toContain('contextforge doctor --summary contextforge-doctor.md');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
+describe('CLI launch-snapshot command', () => {
+  it('writes a shareable launch snapshot for README visitors', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-launch-snapshot-'));
+    const outputPath = path.join(rootDir, 'launch-snapshot.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'launch-snapshot', '--output', outputPath, '--project-name', 'ContextForge']);
+    const snapshot = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(snapshot).toContain('# ContextForge Launch Snapshot');
+    expect(snapshot).toContain('## What To Open First');
+    expect(snapshot).toContain('contextforge-scorecard.md');
     await rm(rootDir, { recursive: true, force: true });
   });
 });

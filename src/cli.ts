@@ -24,6 +24,7 @@ import { createAdoptionBrief } from './report/adoptionBrief.js';
 import { createComparisonGuide } from './report/comparison.js';
 import { createDemoOutput } from './report/demoOutput.js';
 import { createLaunchKit } from './report/launchKit.js';
+import { createLaunchSnapshot } from './report/launchSnapshot.js';
 import { createClaudeSettingsSarif } from './report/claudeSettingsSarif.js';
 import { createMcpExposureSarif } from './report/mcpSarif.js';
 import { createPrComment } from './report/prComment.js';
@@ -141,6 +142,9 @@ async function main(): Promise<void> {
       break;
     case 'launch-kit':
       await commandLaunchKit(args);
+      break;
+    case 'launch-snapshot':
+      await commandLaunchSnapshot(args);
       break;
     case 'adoption-brief':
       await commandAdoptionBrief(args);
@@ -519,6 +523,18 @@ async function commandLaunchKit(args: CliArgs): Promise<void> {
   console.log(`Wrote ${args.output}`);
 }
 
+async function commandLaunchSnapshot(args: CliArgs): Promise<void> {
+  await fs.mkdir(dirname(args.output), { recursive: true });
+  await fs.writeFile(
+    args.output,
+    createLaunchSnapshot({
+      projectName: args.projectName ?? 'ContextForge',
+      repoUrl: 'https://github.com/grnbtqdbyx-create/contextforge'
+    })
+  );
+  console.log(`Wrote ${args.output}`);
+}
+
 async function commandAdoptionBrief(args: CliArgs): Promise<void> {
   await fs.mkdir(dirname(args.output), { recursive: true });
   await fs.writeFile(
@@ -723,6 +739,7 @@ function defaultOutputForCommand(command: string): string {
   if (command === 'plan') return 'contextforge-agent-plan.md';
   if (command === 'examples') return 'examples/demo-output.md';
   if (command === 'launch-kit') return 'docs/launch-post.md';
+  if (command === 'launch-snapshot') return 'docs/launch-snapshot.md';
   if (command === 'adoption-brief') return 'docs/adoption.md';
   if (command === 'compare') return 'docs/comparison.md';
   if (command === 'mcp-audit') return 'contextforge-mcp-audit.md';
@@ -838,6 +855,7 @@ Usage:
   contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
   contextforge examples [--output examples/demo-output.md]
   contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
+  contextforge launch-snapshot [--output docs/launch-snapshot.md] [--project-name "My App"]
   contextforge adoption-brief [--output docs/adoption.md] [--project-name "My App"]
   contextforge compare [--output docs/comparison.md]
   contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
@@ -848,7 +866,7 @@ Usage:
   contextforge surface-inventory [--json] [--output contextforge-agent-surface-inventory.md]
   contextforge surface-diff [--base main] [--json] [--output contextforge-agent-surface-diff.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.65.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.66.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

@@ -136,6 +136,7 @@ contextforge examples --output examples/demo-output.md
 contextforge review-kit --demo --base main --output examples/review-kit.md
 contextforge doctor --summary contextforge-doctor.md
 contextforge artifact-map --output docs/artifacts.md
+contextforge launch-snapshot --output docs/launch-snapshot.md
 contextforge scorecard --output contextforge-scorecard.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
@@ -156,6 +157,8 @@ Success signal:
   without installing anything.
 - Visitors can open `contextforge-scorecard.md` first for a one-screen
   Codex/Claude readiness answer.
+- Visitors can open `docs/launch-snapshot.md` for the why-now story, adjacent
+  category map, first proof artifacts, and share copy.
 - Visitors can open `contextforge-mcp-audit.md` to see whether committed MCP
   configs expose secrets, unsafe shell installers, unpinned packages,
   auto-approval, broad tool permissions, or symlinked config files.
