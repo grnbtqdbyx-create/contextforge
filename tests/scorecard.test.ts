@@ -33,5 +33,8 @@ describe('agent readiness scorecard', () => {
     expect(markdown).toContain('## Why Codex And Claude Should Care');
     expect(markdown).toContain('contextforge proof-pack --output contextforge-proof-pack.md');
     expect(markdown).toContain('contextforge review-kit --base main --output contextforge-review-kit.md');
+    expect(markdown).toContain('contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif');
+    expect(markdown).toContain('contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif');
+    expect(markdown).toContain('contextforge actions-audit --summary contextforge-actions-audit.md --sarif contextforge-actions.sarif');
   });
 });

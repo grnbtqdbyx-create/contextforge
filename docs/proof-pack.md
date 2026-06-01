@@ -35,5 +35,7 @@ The proof pack includes:
 - doctor status and every doctor check
 - audit status, context health, cache stability, context security, and cache hit ratio
 - top next actions from doctor and audit evidence
-- commands to rerun doctor, audit, security benchmark, and context pack creation
+- commands to rerun doctor, audit, security benchmark, Claude settings audit,
+  agentic workflow audit, GitHub Actions hardening audit, and context pack
+  creation
 - a short Codex/Claude handoff paragraph for the next agent session

@@ -17,6 +17,12 @@ The report checks:
 - context security score
 - public security benchmark status
 - MCP exposure status for committed MCP server configs
+- Claude Code settings status for shared permissions, hooks, HTTP allowlists,
+  and sensitive-file deny rules
+- agentic workflow status for untrusted GitHub event text reaching model-backed
+  jobs
+- GitHub Actions hardening status for SHA pins, token permissions,
+  `pull_request_target`, pwn-request checkout, and direct script interpolation
 - GitHub workflow presence for CI and ContextForge audit artifacts
 - public proof surfaces: README, license, contribution guide, changelog,
   demo output, PR comment preview, review-kit preview, and LLM discovery files
@@ -59,6 +65,12 @@ visible before a coding agent loads them. It flags hardcoded secrets, remote
 shell installers, unpinned package launches, auto-approval, broad tool
 permissions, and symlinked config files so maintainers can review tool access as
 part of the same first-run readiness report.
+
+For Codex/Claude handoffs, the Claude settings, agentic workflow, and GitHub
+Actions hardening checks keep the first-run answer honest: a repo can have
+great README proof and still be unsafe if shared agent settings weaken
+permissions or CI lets untrusted PR text reach privileged model or release
+steps.
 
 The Markdown summary keeps the first-run proof portable. It uses the same
 doctor result as terminal and JSON output, so maintainers can publish a report

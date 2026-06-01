@@ -31,6 +31,9 @@ describe('proof pack report', () => {
     expect(markdown).toContain('## Evidence Commands');
     expect(markdown).toContain('contextforge doctor --summary contextforge-doctor.md');
     expect(markdown).toContain('contextforge audit --summary contextforge-summary.md');
+    expect(markdown).toContain('contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif');
+    expect(markdown).toContain('contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif');
+    expect(markdown).toContain('contextforge actions-audit --summary contextforge-actions-audit.md --sarif contextforge-actions.sarif');
     expect(markdown).toContain('## Codex / Claude Handoff');
   });
 });

@@ -18,15 +18,20 @@ reader needs a fast answer to one question:
 It combines:
 
 - agent readiness score from context health, cache stability, and context security
-- doctor checks for public proof, launch profile, community health, MCP exposure, and workflows
+- doctor checks for public proof, launch profile, community health, MCP
+  exposure, Claude settings, agentic workflows, GitHub Actions hardening, and
+  workflow presence
 - next best actions
-- links to the deeper proof pack, review kit, surface diff, artifact map, and action plan
+- links to the deeper proof pack, review kit, hardening audits, surface diff,
+  artifact map, and action plan
 
 ## CI Artifact
 
 The reusable GitHub Action, generated audit workflow, and ContextForge dogfood
-workflow upload `contextforge-scorecard.md` next to the MCP audit, proof pack,
-review kit, surface diff, artifact map, SARIF, summary, badge, and JSON report.
+workflow upload `contextforge-scorecard.md` next to the MCP audit, Claude
+settings audit, agentic workflow audit, GitHub Actions hardening audit, proof
+pack, review kit, surface diff, artifact map, SARIF, summary, badge, and JSON
+report.
 
 Use `contextforge-scorecard.md` as the first artifact to open. If it is clean,
 open `contextforge-proof-pack.md` for evidence and `contextforge-review-kit.md`

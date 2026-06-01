@@ -5,17 +5,18 @@
 ContextForge is a local-first TypeScript CLI for maintainers who use AI coding
 agents. It measures token usage, audits repo context files, checks prompt-cache
 stability, scans for malicious repo instructions, audits committed MCP configs,
-reviews Claude Code subagents and custom slash commands, checks Codex/Claude
-trace efficiency, builds task-specific context packs, and produces CI artifacts
-that Codex and Claude can act on.
+reviews Claude Code settings, subagents, and custom slash commands, checks
+agentic GitHub workflows and GitHub Actions hardening, checks Codex/Claude trace
+efficiency, builds task-specific context packs, and produces CI artifacts that
+Codex and Claude can act on.
 
 ## Quick Start
 
 - `contextforge init --all --project-name "My Repo"`: scaffold the recommended repo setup, including `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md`.
 - `contextforge doctor --demo --summary contextforge-doctor.md`: run first-readiness checks and write a shareable Markdown report.
-- `contextforge doctor`: verifies public proof files, launch profile assets, community health files, and next actions.
-- `contextforge proof-pack --output contextforge-proof-pack.md`: combine doctor, audit, evidence commands, and Codex/Claude handoff guidance into one Markdown proof packet.
-- `contextforge scorecard --output contextforge-scorecard.md`: write a one-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
+- `contextforge doctor`: verifies public proof files, launch profile assets, community health files, MCP exposure, Claude settings, agentic workflow, GitHub Actions hardening, and next actions.
+- `contextforge proof-pack --output contextforge-proof-pack.md`: combine doctor, audit, hardening evidence commands, and Codex/Claude handoff guidance into one Markdown proof packet.
+- `contextforge scorecard --output contextforge-scorecard.md`: write a one-screen Codex/Claude readiness snapshot with hardening checks for README, PR, and CI artifact readers.
 - `contextforge surface-map --output contextforge-agent-surface-map.md`: write a support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces.
 - `contextforge surface-inventory --output contextforge-agent-surface-inventory.md`: write the actual agent-readable files present in this repo and the commands that audit them.
 - `contextforge surface-diff --base main --output contextforge-agent-surface-diff.md`: write the changed agent-readable files in a PR, affected ecosystems, and follow-up checks.

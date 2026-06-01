@@ -1,5 +1,8 @@
 import { access } from 'node:fs/promises';
 import path from 'node:path';
+import { auditAgenticWorkflows } from '../analyzers/agenticWorkflow.js';
+import { auditClaudeSettings } from '../analyzers/claudeSettings.js';
+import { auditGithubActions } from '../analyzers/githubActions.js';
 import { auditMcpExposure } from '../analyzers/mcpExposure.js';
 import { buildAudit } from '../audit/buildAudit.js';
 import { runSecurityBenchmark } from '../benchmark/securityBenchmark.js';
@@ -37,6 +40,9 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
     minSecurityScore: options.minSecurityScore ?? 60
   });
   const benchmark = await runSecurityBenchmark({ benchmarkDir: options.benchmarkDir });
+  const claudeSettings = await auditClaudeSettings({ rootDir: options.rootDir });
+  const agenticWorkflows = await auditAgenticWorkflows({ rootDir: options.rootDir });
+  const githubActions = await auditGithubActions({ rootDir: options.rootDir });
   const mcpExposure = await auditMcpExposure({ rootDir: options.rootDir });
   const workflows = await workflowChecks(options.rootDir);
   const publicProof = await publicProofChecks(options.rootDir);
@@ -66,6 +72,30 @@ export async function runDoctor(options: DoctorOptions): Promise<DoctorResult> {
       name: 'Security benchmark',
       status: benchmark.passed ? 'pass' : 'fail',
       detail: `${benchmark.totalCases - benchmark.failedCases}/${benchmark.totalCases} benchmark cases passing`
+    },
+    {
+      name: 'Claude Code settings',
+      status: claudeSettings.status,
+      detail:
+        claudeSettings.files.length > 0
+          ? `${claudeSettings.score}/100 across ${claudeSettings.files.join(', ')}${claudeSettings.findings.length > 0 ? `; ${claudeSettings.findings.length} findings` : ''}`
+          : `${claudeSettings.score}/100 with no Claude Code settings found`
+    },
+    {
+      name: 'Agentic workflows',
+      status: agenticWorkflows.status,
+      detail:
+        agenticWorkflows.files.length > 0
+          ? `${agenticWorkflows.score}/100 across ${agenticWorkflows.files.join(', ')}${agenticWorkflows.findings.length > 0 ? `; ${agenticWorkflows.findings.length} findings` : ''}`
+          : `${agenticWorkflows.score}/100 with no GitHub workflows found`
+    },
+    {
+      name: 'GitHub Actions hardening',
+      status: githubActions.status,
+      detail:
+        githubActions.files.length > 0
+          ? `${githubActions.score}/100 across ${githubActions.files.join(', ')}${githubActions.findings.length > 0 ? `; ${githubActions.findings.length} findings` : ''}`
+          : `${githubActions.score}/100 with no GitHub workflows found`
     },
     {
       name: 'GitHub workflows',
@@ -248,6 +278,15 @@ function nextActions(checks: DoctorCheck[], auditActions: string[]): string[] {
   const actions: string[] = [];
   if (checks.some((check) => check.name === 'GitHub workflows' && check.status === 'warn')) {
     actions.push('Add the ContextForge GitHub Action so every PR uploads JSON and HTML audit artifacts.');
+  }
+  if (checks.some((check) => check.name === 'Claude Code settings' && check.status !== 'pass')) {
+    actions.push('Fix Claude Code settings findings before sharing project-level permissions, hooks, or sensitive-file rules.');
+  }
+  if (checks.some((check) => check.name === 'Agentic workflows' && check.status !== 'pass')) {
+    actions.push('Fix agentic workflow findings before letting untrusted GitHub event text reach Codex, Claude, Copilot, or other agents.');
+  }
+  if (checks.some((check) => check.name === 'GitHub Actions hardening' && check.status !== 'pass')) {
+    actions.push('Fix GitHub Actions hardening findings before trusting release or agent-review workflows.');
   }
   if (checks.some((check) => check.name === 'MCP exposure' && check.status !== 'pass')) {
     actions.push('Review MCP configs for hardcoded secrets, unsafe shell installers, unpinned packages, auto-approval, broad tool permissions, and symlinked config files before enabling agents.');

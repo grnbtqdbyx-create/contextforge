@@ -570,3 +570,9 @@ permissions, `pull_request_target`, pwn-request checkout, and direct shell
 interpolation of untrusted GitHub contexts. ContextForge dogfoods the feature by
 pinning its own workflows to full action SHAs and uploading the new Actions
 SARIF beside MCP, Claude settings, and agentic workflow alerts.
+ContextForge v0.70.0 folds Claude settings, agentic workflow, and GitHub
+Actions hardening checks into `contextforge doctor`, then points proof-pack and
+scorecard readers at the matching Markdown/SARIF rerun commands. The product
+reason is simple: a first-time maintainer, Codex session, or Claude session
+should not need to remember every specialized audit command before it can tell
+whether the repository is safe enough for agent-assisted work.

@@ -920,7 +920,7 @@ Usage:
   contextforge surface-inventory [--json] [--output contextforge-agent-surface-inventory.md]
   contextforge surface-diff [--base main] [--json] [--output contextforge-agent-surface-diff.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.69.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.70.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider
