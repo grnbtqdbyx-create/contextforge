@@ -42,6 +42,7 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('--summary contextforge-summary.md');
     expect(workflow).toContain('--plan contextforge-agent-plan.md');
     expect(workflow).toContain('--comment contextforge-pr-comment.md');
+    expect(workflow).toContain('--badge contextforge-badge.svg --base main');
     expect(workflow).toContain('--suggestions contextforge-suggestions.json');
     expect(workflow).toContain('--badge contextforge-badge.svg');
     expect(workflow).toContain('proof-pack --output contextforge-proof-pack.md');

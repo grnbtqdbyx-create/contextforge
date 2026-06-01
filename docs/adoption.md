@@ -66,6 +66,7 @@ After npm publish, the same proof path should work with `npx contextforge ...`.
 
 - The CLI is deterministic and local-first; it does not call an LLM to create audit results.
 - The repository dogfoods its own GitHub Action and uploads scorecard, surface diff, MCP audit, MCP SARIF, Claude settings audit, trace audit, proof-pack, review-kit, artifact-map, SARIF, JSON, HTML, and Markdown artifacts.
+- PR comments embed changed agent-surface summaries so reviewers see context drift before opening artifacts.
 - Release notes include validation commands and GitHub Actions run evidence.
 - The project is Apache-2.0 licensed with DCO contribution flow and trademark policy.
 

@@ -20,6 +20,11 @@ Status: **pass**
 - **medium vague** in `AGENTS.md`: Replace vague guidance in AGENTS.md with concrete repository-specific rules.
 - **high volatile-prefix**: Move timestamps and changing request metadata after stable cached context blocks.
 
+### Changed Agent Surfaces
+
+- 1 changed surface across Repository entrypoints.
+- **modified** `README.md` (Repository entrypoints)
+
 ### Artifacts
 
 - `contextforge-audit.json` for machine-readable gates

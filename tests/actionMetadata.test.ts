@@ -52,6 +52,7 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('--summary');
     expect(action).toContain('--plan');
     expect(action).toContain('--comment');
+    expect(action).toContain('--badge \"${{ inputs.badge }}\" \\\n          --base \"${{ inputs.review-base-ref }}\"');
     expect(action).toContain('--suggestions');
     expect(action).toContain('--badge');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" proof-pack');

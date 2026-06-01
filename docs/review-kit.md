@@ -41,4 +41,6 @@ When `contextforge audit --comment contextforge-pr-comment.md` is enabled, the
 PR-ready comment lists `contextforge-review-kit.md` so reviewers can jump from
 the sticky PR discussion to the changed-file review brief, and
 `contextforge-agent-surface-diff.md` so reviewers can see changed agent-readable
-surfaces before trusting branch context.
+surfaces before trusting branch context. The comment also embeds a compact
+changed-surface summary directly, using the same `--base` ref as the generated
+surface-diff artifact.

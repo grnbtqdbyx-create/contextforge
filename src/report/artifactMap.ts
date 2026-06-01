@@ -39,7 +39,7 @@ const artifactRows: ArtifactMapRow[] = [
   {
     artifact: 'contextforge-pr-comment.md',
     audience: 'PR reviewers',
-    useWhen: 'you need a sticky PR summary that points at proof and review artifacts',
+    useWhen: 'you need a sticky PR summary with changed agent-surface drift plus proof and review artifact pointers',
     producedBy: '`contextforge audit --comment contextforge-pr-comment.md`'
   },
   {
@@ -218,7 +218,7 @@ export function createArtifactMap(): string {
     'contextforge artifact-map --output docs/artifacts.md',
     'contextforge artifact-map --output contextforge-artifact-map.md',
     'contextforge publish-readiness --summary contextforge-publish-readiness.md',
-    'contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg',
+    'contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg --base main',
     'contextforge proof-pack --output contextforge-proof-pack.md',
     'contextforge adoption-brief --output docs/adoption.md',
     'contextforge scorecard --output contextforge-scorecard.md',

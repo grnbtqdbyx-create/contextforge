@@ -532,3 +532,8 @@ lists the changed agent-readable files in a branch, affected ecosystems, and
 follow-up checks. This targets the fast-growing AGENTS.md, Copilot
 customization, MCP config, Cursor, Cline, Gemini, and Windsurf rule sprawl
 where small documentation-looking changes can alter agent behavior.
+ContextForge v0.64.0 moves that signal into the review discussion itself:
+`contextforge audit --comment contextforge-pr-comment.md --base main` embeds a
+compact changed-surface summary in the deterministic PR comment, so reviewers
+do not have to open a separate artifact before noticing that branch context for
+Codex, Claude, Copilot, Cursor, Cline, Gemini, Windsurf, or MCP changed.

@@ -57,3 +57,7 @@ contextforge claude-audit --summary contextforge-claude-audit.md --sarif context
 The reusable GitHub Action and dogfood workflow publish
 `contextforge-agent-surface-diff.md` beside the scorecard, inventory, review
 kit, proof pack, and artifact map.
+
+When `contextforge audit --comment contextforge-pr-comment.md` is enabled, the
+PR comment embeds a compact changed-surface summary from the same base ref, so
+reviewers can spot agent-context drift before opening the full artifact.

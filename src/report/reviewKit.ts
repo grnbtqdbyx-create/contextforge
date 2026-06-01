@@ -70,7 +70,7 @@ export function createReviewKit(options: ReviewKitOptions): string {
     `contextforge review-kit --base ${baseRef} --output contextforge-review-kit.md`,
     `contextforge surface-diff --base ${baseRef} --output contextforge-agent-surface-diff.md`,
     'contextforge doctor --summary contextforge-doctor.md',
-    'contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg',
+    `contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg --base ${baseRef}`,
     'contextforge proof-pack --output contextforge-proof-pack.md',
     'pnpm test',
     'pnpm typecheck',
