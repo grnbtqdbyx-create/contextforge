@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.58.0 - 2026-06-01
+
+- Add Claude Code project subagent and custom command discovery for `.claude/agents/**/*.md` and `.claude/commands/**/*.md`.
+- Include those files in context health, context security, and context pack scoring so project-specific Claude workers and slash-command prompts cannot drift outside the audit loop.
+- Flag subagent frontmatter such as `permissionMode: bypassPermissions` as permission escalation alongside hidden directives, unsafe shell guidance, and exfiltration language.
+- Refresh README, Claude/security docs, context-pack docs, LLM discovery files, and research notes around the broader Claude Code project customization surface.
+
 ## 0.57.0 - 2026-06-01
 
 - Add VS Code Copilot workspace settings security discovery for `.vscode/settings.json` and committed `*.code-workspace` files.

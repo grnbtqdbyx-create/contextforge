@@ -57,4 +57,21 @@ describe('context health audit', () => {
     expect(audit.findings.some((finding) => finding.file === '.github/agents/reviewer.agent.md' && finding.type === 'vague')).toBe(true);
     expect(audit.findings.some((finding) => finding.file === '.github/skills/release/SKILL.md' && finding.type === 'vague')).toBe(true);
   });
+
+  it('audits Claude Code subagents and custom slash commands as repo context', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-claude-artifact-health-'));
+    await mkdir(path.join(rootDir, '.claude/agents'), { recursive: true });
+    await mkdir(path.join(rootDir, '.claude/commands'), { recursive: true });
+    await writeFile(path.join(rootDir, '.claude/agents/reviewer.md'), 'Use best practices perfectly.\n');
+    await writeFile(path.join(rootDir, '.claude/commands/release.md'), 'Always be careful. Always be careful.\n');
+
+    const audit = await auditContextFiles({ rootDir });
+
+    expect(audit.files.map((file) => file.path)).toEqual([
+      '.claude/agents/reviewer.md',
+      '.claude/commands/release.md'
+    ]);
+    expect(audit.findings.some((finding) => finding.file === '.claude/agents/reviewer.md' && finding.type === 'vague')).toBe(true);
+    expect(audit.findings.some((finding) => finding.file === '.claude/commands/release.md' && finding.type === 'repetition')).toBe(true);
+  });
 });

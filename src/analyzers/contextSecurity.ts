@@ -61,6 +61,8 @@ const RULES: Rule[] = [
     patterns: [
       /\bdisable (safety|security|approval|sandbox|guardrail)s?\b/i,
       /\bbypass (safety|security|approval|sandbox|guardrail)s?\b/i,
+      /\bpermissionMode\s*:\s*bypassPermissions\b/i,
+      /\bbypassPermissions\b/i,
       /\brun with (admin|root|sudo)\b/i
     ],
     message: 'asks the agent to weaken safety or permission controls.',

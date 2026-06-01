@@ -146,6 +146,25 @@ describe('context pack generator', () => {
       expect(file?.reasons.some((reason) => reason.type === 'instruction-file')).toBe(true);
     }
   });
+
+  it('scores Claude Code subagents and custom slash commands as instruction context', async () => {
+    const rootDir = await fs.mkdtemp(path.join(os.tmpdir(), 'contextforge-claude-artifact-pack-'));
+    await fs.mkdir(path.join(rootDir, '.claude/agents'), { recursive: true });
+    await fs.mkdir(path.join(rootDir, '.claude/commands'), { recursive: true });
+    await fs.writeFile(path.join(rootDir, '.claude/agents/security.md'), 'Act as the security reviewer for auth changes.\n');
+    await fs.writeFile(path.join(rootDir, '.claude/commands/review.md'), 'Review auth code for regressions.\n');
+
+    const pack = await createContextPack({
+      rootDir,
+      task: 'security review auth',
+      budget: 600
+    });
+
+    for (const filePath of ['.claude/agents/security.md', '.claude/commands/review.md']) {
+      const file = pack.files.find((item) => item.path === filePath);
+      expect(file?.reasons.some((reason) => reason.type === 'instruction-file')).toBe(true);
+    }
+  });
 });
 
 function record(kind: SessionRecord['kind'], content: string): SessionRecord {
