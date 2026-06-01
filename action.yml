@@ -1,5 +1,5 @@
 name: 'ContextForge Audit'
-description: 'Run ContextForge context health, cache stability, trace efficiency, security, MCP exposure, Claude settings, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, scorecard, surface map, review kit, artifact map, and agent action plan audits.'
+description: 'Run ContextForge context health, cache stability, trace efficiency, security, MCP exposure, Claude settings, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, scorecard, surface map, surface inventory, review kit, artifact map, and agent action plan audits.'
 author: 'Ogün Keskin'
 
 branding:
@@ -63,6 +63,10 @@ inputs:
     description: 'Agent surface support matrix Markdown output path in the caller workspace.'
     required: false
     default: 'contextforge-agent-surface-map.md'
+  surface-inventory:
+    description: 'Repo-specific agent-readable surface inventory Markdown output path in the caller workspace.'
+    required: false
+    default: 'contextforge-agent-surface-inventory.md'
   mcp-audit:
     description: 'MCP exposure audit Markdown output path in the caller workspace.'
     required: false
@@ -130,6 +134,9 @@ outputs:
   surface-map-md:
     description: 'Path to the generated agent surface support matrix.'
     value: ${{ inputs.surface-map }}
+  surface-inventory-md:
+    description: 'Path to the generated repo-specific agent surface inventory.'
+    value: ${{ inputs.surface-inventory }}
   mcp-audit-md:
     description: 'Path to the generated MCP exposure audit.'
     value: ${{ inputs.mcp-audit }}
@@ -207,6 +214,13 @@ runs:
         cd "$GITHUB_WORKSPACE"
         node "$GITHUB_ACTION_PATH/dist/cli.js" surface-map \
           --output "${{ inputs.surface-map }}"
+    - name: Run ContextForge agent surface inventory
+      if: always()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        node "$GITHUB_ACTION_PATH/dist/cli.js" surface-inventory \
+          --output "${{ inputs.surface-inventory }}"
     - name: Run ContextForge MCP exposure audit
       if: always()
       shell: bash
