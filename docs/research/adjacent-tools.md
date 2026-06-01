@@ -537,3 +537,7 @@ ContextForge v0.64.0 moves that signal into the review discussion itself:
 compact changed-surface summary in the deterministic PR comment, so reviewers
 do not have to open a separate artifact before noticing that branch context for
 Codex, Claude, Copilot, Cursor, Cline, Gemini, Windsurf, or MCP changed.
+ContextForge v0.65.0 extends the same proof mindset to release artifacts:
+the npm publish workflow packs `contextforge-*.tgz`, generates a GitHub
+artifact attestation for that tarball, uploads `npm-pack.json`, and publishes
+the same tarball during the approved Trusted Publishing job.

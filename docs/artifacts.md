@@ -31,7 +31,7 @@ Use this to decide which ContextForge artifact a maintainer, reviewer, CI bot, C
 | `contextforge-doctor.md` | First-run and launch readers | you need a first-run checklist for public readiness surfaces | `contextforge doctor --summary contextforge-doctor.md` |
 | `docs/artifacts.md` | Visitors, maintainers, and contributors | you need a catalog that explains which generated artifact to inspect first | `contextforge artifact-map --output docs/artifacts.md` |
 | `contextforge-artifact-map.md` | CI artifact readers | you need the same catalog attached to a GitHub Actions run | `contextforge artifact-map --output contextforge-artifact-map.md` |
-| `contextforge-publish-readiness.md` | Release maintainers | you need npm metadata, provenance links, Trusted Publishing, and human approval readiness in one file | `contextforge publish-readiness --summary contextforge-publish-readiness.md` |
+| `contextforge-publish-readiness.md` | Release maintainers | you need npm metadata, provenance links, Trusted Publishing, GitHub tarball attestation, and human approval readiness in one file | `contextforge publish-readiness --summary contextforge-publish-readiness.md` |
 | `docs/launch-post.md` | Build-in-public readers | you need launch copy, proof commands, and topic suggestions | `contextforge launch-kit` |
 | `docs/comparison.md` | Tool evaluators | you need to position ContextForge beside packers, token dashboards, evals, and scanners | `contextforge compare` |
 | `examples/demo-output.md` | First-time visitors | you need deterministic demo output without local Codex or Claude logs | `contextforge examples` |

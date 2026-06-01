@@ -2,13 +2,14 @@
 
 Status: **warn**
 
-Package: `contextforge@0.52.0`
+Package: `contextforge@0.65.0`
 
 | Check | Status | Detail |
 | --- | --- | --- |
-| Package metadata | pass | contextforge@0.52.0 is public-package ready with bin dist/cli.js |
+| Package metadata | pass | contextforge@0.65.0 is public-package ready with bin dist/cli.js |
 | Package provenance metadata | pass | repository, homepage, and issue tracker point at grnbtqdbyx-create/contextforge for npm provenance readers |
 | Trusted publishing workflow | pass | npm Trusted Publishing uses GitHub OIDC, manual dispatch, dry-run default, and environment approval |
+| Release artifact attestation | pass | GitHub artifact attestation covers the packed npm tarball before the same tarball is published |
 | Publish preflight | pass | typecheck, tests, build, security benchmark, audit, and npm pack dry-run run before publish |
 | Publish documentation | pass | docs explain npm package creation, trusted publisher setup, environment approval, and package-name verification |
 | Human npm account setup | warn | npm package ownership, Trusted Publisher settings, and GitHub environment approval must be completed by Ogün Keskin before first publish |

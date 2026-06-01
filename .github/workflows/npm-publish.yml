@@ -20,6 +20,7 @@ on:
 permissions:
   contents: read
   id-token: write
+  attestations: write
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -44,11 +45,19 @@ jobs:
       - run: node dist/cli.js audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --output contextforge-audit.json --report contextforge-report.html
       - run: node dist/cli.js publish-readiness --summary contextforge-publish-readiness.md
       - run: npm pack --dry-run
+      - run: npm pack --json > npm-pack.json
+      - name: Generate npm tarball attestation
+        uses: actions/attest@v4
+        with:
+          subject-path: 'contextforge-*.tgz'
       - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: contextforge-npm-publish-readiness
-          path: contextforge-publish-readiness.md
+          path: |
+            contextforge-publish-readiness.md
+            npm-pack.json
+            contextforge-*.tgz
 
   publish:
     if: ${{ inputs.dry_run == false }}
@@ -72,5 +81,10 @@ jobs:
       - run: node dist/cli.js audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --output contextforge-audit.json --report contextforge-report.html
       - run: node dist/cli.js publish-readiness --summary contextforge-publish-readiness.md
       - run: npm pack --dry-run
+      - run: npm pack --json > npm-pack.json
+      - name: Generate npm tarball attestation
+        uses: actions/attest@v4
+        with:
+          subject-path: 'contextforge-*.tgz'
       - name: Publish to npm
-        run: npm publish --access public --tag "${{ inputs.npm_tag }}"
+        run: npm publish contextforge-*.tgz --access public --tag "${{ inputs.npm_tag }}"

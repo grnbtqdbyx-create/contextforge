@@ -21,13 +21,18 @@ describe('GitHub workflows', () => {
 
     expect(workflow).toContain('workflow_dispatch:');
     expect(workflow).toContain('id-token: write');
+    expect(workflow).toContain('attestations: write');
     expect(workflow).toContain('dry_run');
     expect(workflow).toContain('default: true');
     expect(workflow).toContain('needs: preflight');
     expect(workflow).toContain('environment: npm-publish');
-    expect(workflow).toContain('npm publish --access public');
+    expect(workflow).toContain('npm pack --json > npm-pack.json');
+    expect(workflow).toContain('actions/attest@v4');
+    expect(workflow).toContain("subject-path: 'contextforge-*.tgz'");
+    expect(workflow).toContain('npm publish contextforge-*.tgz --access public');
     expect(workflow).toContain('publish-readiness --summary contextforge-publish-readiness.md');
     expect(workflow).toContain('contextforge-publish-readiness.md');
+    expect(workflow).toContain('npm-pack.json');
     expect(workflow).toContain("if: ${{ inputs.dry_run == false }}");
     expect(workflow).not.toContain('NPM_TOKEN');
   });

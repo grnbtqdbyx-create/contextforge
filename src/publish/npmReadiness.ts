@@ -41,6 +41,7 @@ export async function createNpmPublishReadiness(options: NpmPublishReadinessOpti
     packageMetadataCheck(packageJson),
     packageProvenanceMetadataCheck(packageJson),
     trustedPublishingWorkflowCheck(workflow),
+    releaseArtifactAttestationCheck(workflow),
     preflightCheck(workflow),
     docsCheck(docs),
     humanSetupCheck()
@@ -143,7 +144,7 @@ function trustedPublishingWorkflowCheck(workflow: string): NpmPublishReadinessCh
     'dry_run',
     'default: true',
     'environment: npm-publish',
-    'npm publish --access public',
+    'npm publish contextforge-*.tgz --access public',
     'if: ${{ inputs.dry_run == false }}'
   ]);
   if (workflow.includes('NPM_TOKEN')) missing.push('remove NPM_TOKEN');
@@ -158,6 +159,25 @@ function trustedPublishingWorkflowCheck(workflow: string): NpmPublishReadinessCh
   };
 }
 
+function releaseArtifactAttestationCheck(workflow: string): NpmPublishReadinessCheck {
+  const missing = requiredFragments(workflow, [
+    'attestations: write',
+    'npm pack --json > npm-pack.json',
+    'actions/attest@v4',
+    "subject-path: 'contextforge-*.tgz'",
+    'npm publish contextforge-*.tgz --access public'
+  ]);
+
+  return {
+    name: 'Release artifact attestation',
+    status: missing.length === 0 ? 'pass' : 'fail',
+    detail:
+      missing.length === 0
+        ? 'GitHub artifact attestation covers the packed npm tarball before the same tarball is published'
+        : `missing ${missing.join(', ')}`
+  };
+}
+
 function preflightCheck(workflow: string): NpmPublishReadinessCheck {
   const missing = requiredFragments(workflow, [
     'pnpm typecheck',
@@ -165,7 +185,8 @@ function preflightCheck(workflow: string): NpmPublishReadinessCheck {
     'pnpm build',
     'node dist/cli.js security-benchmark',
     'node dist/cli.js audit --min-context-score 70 --min-cache-score 70 --min-security-score 70',
-    'npm pack --dry-run'
+    'npm pack --dry-run',
+    'npm pack --json > npm-pack.json'
   ]);
 
   return {

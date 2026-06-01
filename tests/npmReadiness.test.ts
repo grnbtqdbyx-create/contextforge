@@ -37,6 +37,7 @@ describe('npm publish readiness', () => {
         'permissions:',
         '  contents: read',
         '  id-token: write',
+        '  attestations: write',
         'jobs:',
         '  preflight:',
         '    runs-on: ubuntu-latest',
@@ -47,11 +48,15 @@ describe('npm publish readiness', () => {
         '      - run: node dist/cli.js security-benchmark',
         '      - run: node dist/cli.js audit --min-context-score 70 --min-cache-score 70 --min-security-score 70',
         '      - run: npm pack --dry-run',
+        '      - run: npm pack --json > npm-pack.json',
+        '      - uses: actions/attest@v4',
+        '        with:',
+        "          subject-path: 'contextforge-*.tgz'",
         '  publish:',
         '    if: ${{ inputs.dry_run == false }}',
         '    environment: npm-publish',
         '    steps:',
-        '      - run: npm publish --access public --tag "${{ inputs.npm_tag }}"'
+        '      - run: npm publish contextforge-*.tgz --access public --tag "${{ inputs.npm_tag }}"'
       ].join('\n')
     );
     await writeFile(
@@ -66,8 +71,10 @@ describe('npm publish readiness', () => {
     expect(result.checks.find((check) => check.name === 'Package metadata')?.status).toBe('pass');
     expect(result.checks.find((check) => check.name === 'Package provenance metadata')?.status).toBe('pass');
     expect(result.checks.find((check) => check.name === 'Trusted publishing workflow')?.status).toBe('pass');
+    expect(result.checks.find((check) => check.name === 'Release artifact attestation')?.status).toBe('pass');
     expect(result.checks.find((check) => check.name === 'Human npm account setup')?.status).toBe('warn');
     expect(text).toContain('ContextForge npm publish readiness: warn');
     expect(text).toContain('npm Trusted Publishing');
+    expect(text).toContain('GitHub artifact attestation');
   });
 });

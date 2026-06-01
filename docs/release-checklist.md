@@ -18,6 +18,7 @@
 - [x] Agent surface inventory gives README visitors a repo-specific list of actual agent-readable files and audit commands.
 - [x] Agent surface diff gives PR reviewers a branch-specific list of changed agent-readable files, affected ecosystems, and follow-up checks.
 - [x] PR comments embed a compact changed agent-surface summary using the same base ref as the surface-diff artifact.
+- [x] npm publish workflow packs, attests, uploads, and publishes the same release tarball.
 - [x] MCP exposure audit catches committed MCP config secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files.
 - [x] MCP exposure findings can be exported as SARIF for GitHub Code Scanning.
 - [x] Claude Code project settings can be audited as Markdown and SARIF artifacts.
