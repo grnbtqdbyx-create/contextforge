@@ -123,7 +123,7 @@ const artifactRows: ArtifactMapRow[] = [
   {
     artifact: 'contextforge-workflow-audit.md',
     audience: 'Security reviewers and agent workflow maintainers',
-    useWhen: 'you need to see whether GitHub issue, PR, review, comment, or workflow input text flows into privileged AI workflows',
+    useWhen: 'you need to see whether GitHub issue, PR, review, comment, title, workflow input, or branch/ref text flows into privileged AI workflows',
     producedBy: '`contextforge workflow-audit --summary contextforge-workflow-audit.md`'
   },
   {

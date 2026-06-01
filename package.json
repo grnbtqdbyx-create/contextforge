@@ -1,6 +1,6 @@
 {
   "name": "contextforge",
-  "version": "0.67.0",
+  "version": "0.68.0",
   "description": "Agent context gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini, and Windsurf repos.",
   "type": "module",
   "packageManager": "pnpm@11.2.2",

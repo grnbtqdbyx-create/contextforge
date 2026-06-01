@@ -33,7 +33,7 @@ refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.67.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.68.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -68,7 +68,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.67.0
+      - uses: grnbtqdbyx-create/contextforge@v0.68.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -177,8 +177,8 @@ show whether committed Claude Code project settings contain risky permission
 modes, broad Bash allow rules, remote shell hooks, wildcard HTTP hooks, or
 missing sensitive-file deny rules.
 The `contextforge-workflow-audit.md` and `contextforge-workflow.sarif`
-artifacts show whether GitHub issue, PR, review, comment, or workflow input
-text flows into agentic jobs with write permissions or secrets.
+artifacts show whether GitHub issue, PR, review, comment, title, workflow input,
+or branch/ref text flows into agentic jobs with write permissions or secrets.
 The `contextforge-trace-audit.md` artifact summarizes repeated tool calls,
 bulky tool output, tool-output-heavy traces, and cache reuse from available
 Codex or Claude session records.

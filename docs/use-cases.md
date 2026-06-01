@@ -169,8 +169,8 @@ Success signal:
   `contextforge-claude.sarif` to catch risky shared project settings before
   users trust repo-provided permissions and hooks.
 - Security reviewers can open `contextforge-workflow-audit.md` or upload
-  `contextforge-workflow.sarif` to catch GitHub issue, PR, review, comment, or
-  workflow input text flowing into privileged AI workflows.
+  `contextforge-workflow.sarif` to catch GitHub issue, PR, review, comment,
+  title, workflow input, or branch/ref text flowing into privileged AI workflows.
 - Agent operators can open `contextforge-trace-audit.md` to see whether the demo
   trace wasted turns on repeated tools or bulky output before they try local
   Codex/Claude history.

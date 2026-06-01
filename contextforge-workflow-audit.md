@@ -8,7 +8,7 @@ Workflow files: `.github/workflows/ci.yml`, `.github/workflows/contextforge-audi
 
 | Type | Severity | File | Message | Suggestion |
 | --- | --- | --- | --- | --- |
-| none | low |  | No agentic workflow findings. | Keep untrusted issue, PR, review, and comment text out of privileged agent prompts. |
+| none | low |  | No agentic workflow findings. | Keep untrusted issue, PR, review, comment, discussion, input, title, and branch text out of privileged agent prompts. |
 
 ## Next Actions
 

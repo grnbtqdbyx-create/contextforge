@@ -34,8 +34,8 @@ separate tools:
   shell installers, unpinned package launches, auto-approval, broad tool
   permissions, or symlinked config files
 - agentic GitHub workflow checks for untrusted issue, pull request, review,
-  comment, discussion, or workflow input text reaching model-backed jobs that
-  can use repository write permissions or secrets
+  comment, discussion, workflow input, title, or branch/ref text reaching
+  model-backed jobs that can use repository write permissions or secrets
 - trace efficiency checks for repeated tool calls, bulky tool output,
   tool-output-heavy sessions, and low cache reuse
 - configurable cost estimates using caller-provided input, cached-input, and
