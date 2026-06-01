@@ -1,6 +1,6 @@
 # ContextForge
 
-**Self-learning token and context optimizer for Codex, Claude Code, and GitHub Copilot.**
+**Agent Context Gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repos.**
 
 [![CI](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/ci.yml/badge.svg)](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/ci.yml)
 [![ContextForge Audit](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/contextforge-audit.yml/badge.svg)](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/contextforge-audit.yml)
@@ -11,17 +11,31 @@
 
 AI coding agents do not fail only because the model is weak. They fail because
 repositories feed them noisy instructions, unstable cache prefixes, giant tool
-outputs, and unsafe Markdown they treat as trusted context.
+outputs, over-broad tool configs, and unsafe Markdown they treat as trusted
+context.
 
-ContextForge is a local-first CI gate for that layer. It shows where agent
-tokens go, reduces context bloat, audits prompt-cache stability, scans root
-instructions, Copilot prompt files, custom agents, project skills, and
-Claude Code subagents, custom slash commands, repo-local hooks, and workspace settings for prompt/context poisoning, and
-creates task-specific context packs for Codex, Claude Code, and GitHub Copilot.
+ContextForge is a local-first CI gate for that layer. Run it before a PR,
+release, or long agent session to answer one practical question:
+**is this repository ready for an agent to work efficiently, cheaply, and
+safely?**
 
-Run it before a PR, release, or long agent session to answer one practical
-question: **is this repository ready for an agent to work efficiently, cheaply,
-and safely?**
+## 30-second proof
+
+```bash
+contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 80
+contextforge surface-map --output contextforge-agent-surface-map.md
+```
+
+The audit gates context health, cache stability, and prompt/context poisoning.
+The surface map shows exactly which agent-facing files are covered before a
+maintainer has to read every doc.
+
+| Agent stack | Surfaces ContextForge checks |
+| --- | --- |
+| Codex | `AGENTS.md`, root instructions, MCP configs, context packs, session traces |
+| Claude Code | `CLAUDE.md`, `.claude/settings*.json`, skills, subagents, slash commands, traces |
+| GitHub Copilot | custom instructions, prompt files, custom agents, hooks, workspace settings |
+| MCP / Cursor / Cline | tool configs, `.cursorrules`, `.clinerules`, repo-local guidance |
 
 | If you are... | ContextForge gives you... |
 | --- | --- |
@@ -283,7 +297,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions --ou
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.59.0
+- uses: grnbtqdbyx-create/contextforge@v0.60.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -407,7 +421,7 @@ contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estima
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.59.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.60.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -487,7 +501,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.59.0 is a public MVP CLI with:
+ContextForge v0.60.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -612,6 +626,7 @@ ContextForge v0.59.0 is a public MVP CLI with:
 - **v0.57.0:** VS Code Copilot workspace settings security scanning.
 - **v0.58.0:** Claude Code project subagent and custom slash-command auditing.
 - **v0.59.0:** Cross-agent surface map artifact for Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline coverage.
+- **v0.60.0:** README first-viewport positioning with a 30-second proof path and cross-agent coverage table.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

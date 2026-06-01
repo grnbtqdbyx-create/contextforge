@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.60.0 - 2026-06-01
+
+- Sharpen the README first viewport around ContextForge as an agent context gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repositories.
+- Add a visible 30-second proof path and cross-agent coverage table before the deeper artifact catalog.
+- Add a README positioning test so the launch-facing value proposition does not drift as the artifact list grows.
+
 ## 0.59.0 - 2026-06-01
 
 - Add `contextforge surface-map --output contextforge-agent-surface-map.md` to publish a support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repo surfaces.
