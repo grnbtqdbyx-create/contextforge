@@ -510,3 +510,8 @@ slash commands through the skills surface. Those committed Markdown prompts can
 carry system-like instructions, tool permissions, and workflow automation, so
 ContextForge now includes them in health checks, context security, and context
 pack instruction scoring.
+ContextForge v0.59.0 turns the growing coverage list into a public support
+matrix: `contextforge surface-map --output contextforge-agent-surface-map.md`
+shows which Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style
+repo surfaces are audited, which command covers each one, and why the surface
+matters for token cost, context safety, and maintainer trust.

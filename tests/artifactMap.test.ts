@@ -10,6 +10,8 @@ describe('artifact map report', () => {
     expect(map).toContain('contextforge-artifact-map.md');
     expect(map).toContain('contextforge-proof-pack.md');
     expect(map).toContain('contextforge-scorecard.md');
+    expect(map).toContain('contextforge-agent-surface-map.md');
+    expect(map).toContain('contextforge surface-map --output contextforge-agent-surface-map.md');
     expect(map).toContain('docs/adoption.md');
     expect(map).toContain('contextforge-mcp-audit.md');
     expect(map).toContain('contextforge-mcp.sarif');

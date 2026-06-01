@@ -36,8 +36,10 @@ separate tools:
 - configurable cost estimates using caller-provided input, cached-input, and
   output prices per 1M tokens
 - task-specific context packs with explainable file inclusion reasons
+- a cross-agent surface map showing audited Codex, Claude Code, GitHub
+  Copilot, MCP, Cursor, and Cline-style repo surfaces
 - CI artifacts: JSON audit, HTML report, SARIF, Markdown summary, PR-ready
-  comment, MCP audit, review kit, artifact map, proof pack, and agent action plan
+  comment, MCP audit, review kit, surface map, artifact map, proof pack, and agent action plan
 
 ## Quick Adoption Path
 
@@ -79,6 +81,7 @@ contextforge launch-kit [--output docs/launch-post.md] [--project-name "My App"]
 contextforge compare [--output docs/comparison.md]
 contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
 contextforge scorecard [--demo] [--json] [--output contextforge-scorecard.md]
+contextforge surface-map [--output contextforge-agent-surface-map.md]
 contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md] [--sarif contextforge-mcp.sarif]
 contextforge claude-audit [--demo] [--json] [--summary contextforge-claude-audit.md] [--sarif contextforge-claude.sarif]
 contextforge trace-audit [--demo] [--json] [--summary contextforge-trace-audit.md]
@@ -120,6 +123,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-doctor.md`: shareable first-run readiness checklist from `doctor --summary`
 - `contextforge-proof-pack.md`: shareable doctor, audit, command, and handoff evidence from `proof-pack`
 - `contextforge-scorecard.md`: one-screen Codex/Claude readiness snapshot from `scorecard`
+- `contextforge-agent-surface-map.md`: cross-agent support matrix from `surface-map`
 - `contextforge-mcp-audit.md`: committed MCP config exposure summary from `mcp-audit`
 - `contextforge-mcp.sarif`: GitHub Code Scanning SARIF for committed MCP config exposure findings
 - `contextforge-claude-audit.md`: committed Claude Code settings exposure summary from `claude-audit`
@@ -131,7 +135,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `docs/artifacts.md`: generated artifact catalog and fast paths from `artifact-map`
 - `contextforge-artifact-map.md`: CI-uploaded artifact catalog from reusable and generated workflows
 - `contextforge-publish-readiness.md`: npm Trusted Publishing and package provenance readiness summary from `publish-readiness`
-- Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts. Dogfood and generated workflows opt JavaScript actions into Node 24.
+- Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-agent-surface-map.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts. Dogfood and generated workflows opt JavaScript actions into Node 24.
 - PR-ready comments point reviewers at `contextforge-proof-pack.md` and `contextforge-review-kit.md` so sticky review discussions can lead to both the deeper doctor/audit proof packet and the changed-file review brief.
 - `docs/launch-post.md`: generated build-in-public launch kit from `launch-kit`
 - `docs/comparison.md`: generated adjacent-tool positioning guide from `compare`

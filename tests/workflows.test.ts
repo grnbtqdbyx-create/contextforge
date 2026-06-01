@@ -46,6 +46,7 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('--badge contextforge-badge.svg');
     expect(workflow).toContain('proof-pack --output contextforge-proof-pack.md');
     expect(workflow).toContain('scorecard --output contextforge-scorecard.md');
+    expect(workflow).toContain('surface-map --output contextforge-agent-surface-map.md');
     expect(workflow).toContain('mcp-audit --summary contextforge-mcp-audit.md');
     expect(workflow).toContain('contextforge-mcp.sarif');
     expect(workflow).toContain('claude-audit --summary contextforge-claude-audit.md');
@@ -67,6 +68,7 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-badge.svg');
     expect(workflow).toContain('contextforge-proof-pack.md');
     expect(workflow).toContain('contextforge-scorecard.md');
+    expect(workflow).toContain('contextforge-agent-surface-map.md');
     expect(workflow).toContain('contextforge-mcp-audit.md');
     expect(workflow).toContain('contextforge-claude-audit.md');
     expect(workflow).toContain('contextforge-review-kit.md');

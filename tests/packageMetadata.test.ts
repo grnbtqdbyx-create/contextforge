@@ -16,6 +16,7 @@ describe('package metadata', () => {
     expect(pkg.packageManager).toBe('pnpm@11.2.2');
     expect(pkg.files).toContain('contextforge-publish-readiness.md');
     expect(pkg.files).toContain('contextforge-scorecard.md');
+    expect(pkg.files).toContain('contextforge-agent-surface-map.md');
     expect(pkg.files).toContain('contextforge-mcp-audit.md');
     expect(pkg.files).toContain('contextforge-claude-audit.md');
     expect(pkg.files).toContain('contextforge-trace-audit.md');
