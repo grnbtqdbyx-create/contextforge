@@ -67,6 +67,7 @@ export interface CliArgs {
   prCommentWorkflow: boolean;
   agentsMd: boolean;
   claudeMd: boolean;
+  copilotInstructions: boolean;
   force: boolean;
   actionRef: string | undefined;
   projectName: string | undefined;
@@ -198,6 +199,7 @@ function parseArgs(argv: string[]): CliArgs {
     prCommentWorkflow: argv.includes('--all') || argv.includes('--pr-comment-workflow'),
     agentsMd: argv.includes('--all') || argv.includes('--agents-md'),
     claudeMd: argv.includes('--all') || argv.includes('--claude-md'),
+    copilotInstructions: argv.includes('--all') || argv.includes('--copilot-instructions'),
     force: argv.includes('--force'),
     actionRef: valueAfter(argv, '--action-ref'),
     projectName: valueAfter(argv, '--project-name'),
@@ -604,7 +606,7 @@ async function commandPublishReadiness(args: CliArgs): Promise<void> {
 }
 
 async function commandInit(args: CliArgs): Promise<void> {
-  if (!args.githubAction && !args.prCommentWorkflow && !args.agentsMd && !args.claudeMd) {
+  if (!args.githubAction && !args.prCommentWorkflow && !args.agentsMd && !args.claudeMd && !args.copilotInstructions) {
     console.log('Choose what to initialize. Try: contextforge init --all');
     process.exitCode = 1;
     return;
@@ -627,11 +629,12 @@ async function commandInit(args: CliArgs): Promise<void> {
     printScaffoldResult(result.path, result.created);
   }
 
-  if (args.agentsMd || args.claudeMd) {
+  if (args.agentsMd || args.claudeMd || args.copilotInstructions) {
     const results = await scaffoldAgentContextFiles({
       rootDir: process.cwd(),
       agentsMd: args.agentsMd,
       claudeMd: args.claudeMd,
+      copilotInstructions: args.copilotInstructions,
       projectName: args.projectName,
       force: args.force
     });
@@ -790,7 +793,7 @@ Usage:
   contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
   contextforge artifact-map [--output docs/artifacts.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.53.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.54.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

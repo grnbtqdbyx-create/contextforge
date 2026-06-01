@@ -36,6 +36,7 @@ describe('CLI argument mapping', () => {
         prCommentWorkflow: false,
         agentsMd: false,
         claudeMd: false,
+        copilotInstructions: false,
         force: false,
         actionRef: undefined,
         projectName: undefined,
@@ -61,7 +62,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.53.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.54.0');
   });
 });
 

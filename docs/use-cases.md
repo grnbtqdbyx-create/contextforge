@@ -1,7 +1,7 @@
 # ContextForge Use Cases
 
 ContextForge is most useful when a repository already uses Codex, Claude Code,
-or another coding agent for review, debugging, release preparation, or
+GitHub Copilot, or another coding agent for review, debugging, release preparation, or
 maintenance. These scenarios show what to run, what artifact to inspect, and
 what success looks like.
 
@@ -21,6 +21,7 @@ What it creates:
 - `.github/workflows/contextforge-pr-comment.yml`
 - `AGENTS.md`
 - `CLAUDE.md`
+- `.github/copilot-instructions.md`
 
 Success signal:
 
@@ -30,7 +31,7 @@ Success signal:
 - The PR comment summarizes context health, cache stability, context security,
   failing gates, and top agent fixes.
 
-## 2. Clean Up Noisy AGENTS.md or CLAUDE.md Files
+## 2. Clean Up Noisy Agent Instruction Files
 
 Use this when project memory has grown by copying generic prompts, repeated
 instructions, or stale process notes.

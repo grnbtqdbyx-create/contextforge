@@ -103,6 +103,24 @@ describe('context pack generator', () => {
     expect(authFile?.reasons.some((reason) => reason.type === 'session-read')).toBe(true);
     expect(pack.content).toContain('session failure mention');
   });
+
+  it('scores GitHub Copilot instruction files as instruction context', async () => {
+    const rootDir = await fs.mkdtemp(path.join(os.tmpdir(), 'contextforge-copilot-pack-'));
+    await fs.mkdir(path.join(rootDir, '.github'), { recursive: true });
+    await fs.mkdir(path.join(rootDir, 'src'), { recursive: true });
+    await fs.writeFile(path.join(rootDir, '.github/copilot-instructions.md'), 'Run pnpm test before changing auth code.\n');
+    await fs.writeFile(path.join(rootDir, 'src/auth.ts'), 'export function login() { return true; }\n');
+
+    const pack = await createContextPack({
+      rootDir,
+      task: 'review auth tests',
+      budget: 400
+    });
+    const copilotFile = pack.files.find((file) => file.path === '.github/copilot-instructions.md');
+
+    expect(copilotFile?.reasons.some((reason) => reason.type === 'instruction-file')).toBe(true);
+    expect(pack.content).toContain('repo-level agent instruction file');
+  });
 });
 
 function record(kind: SessionRecord['kind'], content: string): SessionRecord {

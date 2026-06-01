@@ -1,17 +1,18 @@
-import { access, writeFile } from 'node:fs/promises';
+import { access, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 export interface AgentContextScaffoldOptions {
   rootDir: string;
   agentsMd?: boolean;
   claudeMd?: boolean;
+  copilotInstructions?: boolean;
   projectName?: string;
   force?: boolean;
 }
 
 export interface AgentContextScaffoldResult {
   path: string;
-  kind: 'agents-md' | 'claude-md';
+  kind: 'agents-md' | 'claude-md' | 'copilot-instructions';
   created: boolean;
 }
 
@@ -20,6 +21,13 @@ export async function scaffoldAgentContextFiles(options: AgentContextScaffoldOpt
   const targets: Array<{ kind: AgentContextScaffoldResult['kind']; fileName: string; content: string }> = [];
   if (options.agentsMd) targets.push({ kind: 'agents-md', fileName: 'AGENTS.md', content: agentsMd(projectName) });
   if (options.claudeMd) targets.push({ kind: 'claude-md', fileName: 'CLAUDE.md', content: claudeMd(projectName) });
+  if (options.copilotInstructions) {
+    targets.push({
+      kind: 'copilot-instructions',
+      fileName: path.join('.github', 'copilot-instructions.md'),
+      content: copilotInstructions(projectName)
+    });
+  }
 
   const results: AgentContextScaffoldResult[] = [];
   for (const target of targets) {
@@ -29,6 +37,7 @@ export async function scaffoldAgentContextFiles(options: AgentContextScaffoldOpt
       continue;
     }
 
+    await mkdir(path.dirname(filePath), { recursive: true });
     await writeFile(filePath, target.content);
     results.push({ path: filePath, kind: target.kind, created: true });
   }
@@ -82,6 +91,34 @@ contextforge plan --output contextforge-agent-plan.md
 - Prefer file paths, commands, and concrete invariants over general advice.
 - Do not add broad rules, secrets, credentials, or personal preferences.
 - Review this file periodically with ContextForge and delete stale guidance.
+`;
+}
+
+function copilotInstructions(projectName: string): string {
+  return `# ${projectName} Copilot Instructions
+
+Keep this file short, concrete, and repository-specific. GitHub Copilot reads this as shared project guidance, so remove generic advice that does not change real work in this repo.
+
+## Project Map
+
+- Describe the main app, package, or service entry points here.
+- Link to the smallest useful docs before broad exploration.
+
+## Build and test
+
+\`\`\`bash
+pnpm install
+pnpm test
+pnpm build
+contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md
+\`\`\`
+
+## Working Rules
+
+- Read relevant source and tests before editing.
+- Keep generated code, docs, and CI artifacts aligned when behavior changes.
+- Prefer precise file paths, commands, and invariants over broad style advice.
+- Do not include secrets, credentials, personal preferences, or stale project history.
 `;
 }
 

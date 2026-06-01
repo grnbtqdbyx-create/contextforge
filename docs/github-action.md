@@ -19,7 +19,8 @@ contextforge init --pr-comment-workflow
 ```
 
 `--all` is the recommended setup for new repositories. It writes the audit
-workflow, the optional PR comment workflow, `AGENTS.md`, and `CLAUDE.md`.
+workflow, the optional PR comment workflow, `AGENTS.md`, `CLAUDE.md`, and
+`.github/copilot-instructions.md`.
 The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment,
 suggestions JSON, SVG badge, proof-pack Markdown, scorecard Markdown,
 MCP audit Markdown, MCP SARIF, Claude settings Markdown, Claude settings SARIF,
@@ -28,7 +29,7 @@ refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.53.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.54.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -63,7 +64,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.53.0
+      - uses: grnbtqdbyx-create/contextforge@v0.54.0
         with:
           min-context-score: 60
           min-cache-score: 60

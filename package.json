@@ -1,7 +1,7 @@
 {
   "name": "contextforge",
-  "version": "0.53.0",
-  "description": "Self-learning token and context optimizer for Codex and Claude Code.",
+  "version": "0.54.0",
+  "description": "Self-learning token and context optimizer for Codex, Claude Code, and GitHub Copilot.",
   "type": "module",
   "packageManager": "pnpm@11.2.2",
   "repository": {

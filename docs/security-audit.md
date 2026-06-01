@@ -9,6 +9,8 @@ Covered files:
 - root `README.md`
 - `AGENTS.md`
 - `CLAUDE.md`
+- `.github/copilot-instructions.md`
+- `.github/instructions/**/*.instructions.md`
 - `.cursorrules`
 - `.clinerules`
 - `SKILL.md`
@@ -58,8 +60,9 @@ does not send repository content to an external model.
 ## Threat Model
 
 Coding agents read repository files as context. A malicious pull request can add
-or modify Markdown instructions in `README.md`, `AGENTS.md`, `CLAUDE.md`, or
-other agent-facing files that look like ordinary project guidance but try to:
+or modify Markdown instructions in `README.md`, `AGENTS.md`, `CLAUDE.md`,
+`.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`,
+or other agent-facing files that look like ordinary project guidance but try to:
 
 - override higher-priority instructions
 - weaken approval and sandbox behavior

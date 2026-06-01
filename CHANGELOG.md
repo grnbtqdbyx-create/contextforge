@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.54.0 - 2026-06-01
+
+- Add GitHub Copilot instruction discovery for `.github/copilot-instructions.md` and `.github/instructions/**/*.instructions.md`.
+- Include Copilot instruction files in context health, context security, and context pack scoring.
+- Add `contextforge init --copilot-instructions` and include it in `contextforge init --all`.
+- Refresh README, Copilot docs, security docs, LLM discovery files, and research notes around multi-agent instruction hygiene.
+
 ## 0.53.0 - 2026-06-01
 
 - Add a visible budget ledger to generated `contextforge pack` Markdown output.

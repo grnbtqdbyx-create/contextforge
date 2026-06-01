@@ -6,7 +6,7 @@ describe('LLM discovery docs', () => {
     const llms = await readFile('llms.txt', 'utf8');
 
     expect(llms).toContain('# ContextForge');
-    expect(llms).toContain('> Self-learning token and context optimizer for Codex and Claude Code.');
+    expect(llms).toContain('> Self-learning token and context optimizer for Codex, Claude Code, and GitHub Copilot.');
     expect(llms).toContain('## Quick Start');
     expect(llms).toContain('contextforge init --all');
     expect(llms).toContain('[Full Context](llms-full.txt)');

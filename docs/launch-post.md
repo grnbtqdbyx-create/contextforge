@@ -2,7 +2,7 @@
 
 ## One-Liner
 
-ContextForge is a local-first context readiness gate for Codex and Claude Code repositories.
+ContextForge is a local-first context readiness gate for Codex, Claude Code, and GitHub Copilot repositories.
 
 ## Proof Commands
 
@@ -29,7 +29,7 @@ I am building ContextForge in public.
 
 AI coding agents are powerful, but repositories still waste their context with noisy instructions, unstable cache prefixes, huge tool outputs, and unsafe Markdown.
 
-ContextForge turns that layer into a deterministic readiness check for Codex and Claude Code: context health, cache stability, trace efficiency, prompt-injection safety, review kits, public proof files, community health files, CI artifacts, and task-specific context packs.
+ContextForge turns that layer into a deterministic readiness check for Codex, Claude Code, and GitHub Copilot: context health, cache stability, trace efficiency, prompt-injection safety, review kits, public proof files, community health files, CI artifacts, and task-specific context packs.
 
 Try the proof path:
 

@@ -76,7 +76,7 @@ describe('GitHub Action init scaffold', () => {
     const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-init-default-ref-'));
     const result = await scaffoldGithubActionWorkflow({ rootDir });
 
-    expect(await readFile(result.path, 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.53.0');
+    expect(await readFile(result.path, 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.54.0');
   });
 
   it('is available through the init CLI command', async () => {
@@ -150,9 +150,11 @@ describe('GitHub Action init scaffold', () => {
     expect(stdout).toContain('Wrote .github/workflows/contextforge-pr-comment.yml');
     expect(stdout).toContain('Wrote AGENTS.md');
     expect(stdout).toContain('Wrote CLAUDE.md');
+    expect(stdout).toContain('Wrote .github/copilot-instructions.md');
     expect(await readFile(path.join(rootDir, '.github/workflows/contextforge-audit.yml'), 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.test');
     expect(await readFile(path.join(rootDir, '.github/workflows/contextforge-pr-comment.yml'), 'utf8')).toContain('sticky-pull-request-comment');
     expect(await readFile(path.join(rootDir, 'AGENTS.md'), 'utf8')).toContain('Example Repo');
     expect(await readFile(path.join(rootDir, 'CLAUDE.md'), 'utf8')).toContain('Example Repo');
+    expect(await readFile(path.join(rootDir, '.github/copilot-instructions.md'), 'utf8')).toContain('Example Repo');
   });
 });
