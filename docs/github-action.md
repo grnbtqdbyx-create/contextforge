@@ -5,7 +5,8 @@ report, a SARIF file for GitHub Code Scanning, a Markdown job summary, a
 PR-ready Markdown comment, machine-readable improvement suggestions, a compact
 SVG status badge, a shareable proof pack, a one-screen readiness scorecard, a
 committed MCP exposure audit, a dedicated MCP SARIF file, a Codex/Claude review
-kit, and an agent-readable action plan on every push or pull request.
+kit, a Claude Code settings audit, a dedicated Claude settings SARIF file, and
+an agent-readable action plan on every push or pull request.
 
 ## One-command Setup
 
@@ -21,12 +22,13 @@ contextforge init --pr-comment-workflow
 workflow, the optional PR comment workflow, `AGENTS.md`, and `CLAUDE.md`.
 The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment,
 suggestions JSON, SVG badge, proof-pack Markdown, scorecard Markdown,
-MCP audit Markdown, MCP SARIF, review-kit Markdown, artifact-map Markdown, and
-agent action plan artifacts. It refuses to overwrite existing files by default:
+MCP audit Markdown, MCP SARIF, Claude settings Markdown, Claude settings SARIF,
+review-kit Markdown, artifact-map Markdown, and agent action plan artifacts. It
+refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.49.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.50.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -61,7 +63,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.49.0
+      - uses: grnbtqdbyx-create/contextforge@v0.50.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -78,6 +80,8 @@ jobs:
           scorecard: contextforge-scorecard.md
           mcp-audit: contextforge-mcp-audit.md
           mcp-sarif: contextforge-mcp.sarif
+          claude-audit: contextforge-claude-audit.md
+          claude-sarif: contextforge-claude.sarif
           review-kit: contextforge-review-kit.md
           artifact-map: contextforge-artifact-map.md
           review-base-ref: main
@@ -98,6 +102,8 @@ jobs:
             contextforge-scorecard.md
             contextforge-mcp-audit.md
             contextforge-mcp.sarif
+            contextforge-claude-audit.md
+            contextforge-claude.sarif
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
@@ -108,6 +114,10 @@ jobs:
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
           sarif_file: contextforge-mcp.sarif
+      - uses: github/codeql-action/upload-sarif@v4
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        with:
+          sarif_file: contextforge-claude.sarif
 ```
 
 The action builds ContextForge from the action checkout, then runs the built CLI
@@ -128,6 +138,10 @@ launches, auto-approval, broad tool permissions, or symlinked config files
 before coding agents load those tool definitions.
 The `contextforge-mcp.sarif` artifact carries the same MCP exposure findings to
 GitHub Code Scanning with `mcp-exposure/*` rule ids.
+The `contextforge-claude-audit.md` and `contextforge-claude.sarif` artifacts
+show whether committed Claude Code project settings contain risky permission
+modes, broad Bash allow rules, remote shell hooks, wildcard HTTP hooks, or
+missing sensitive-file deny rules.
 The `contextforge-review-kit.md` artifact gives Codex, Claude, and human
 reviewers the changed files, review focus areas, evidence commands, and a
 copyable review prompt. Use `fetch-depth: 0` on checkout when a repository wants
@@ -212,6 +226,8 @@ jobs:
         if: always()
       - run: node dist/cli.js mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
         if: always()
+      - run: node dist/cli.js claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
+        if: always()
       - run: node dist/cli.js review-kit --base main --output contextforge-review-kit.md
         if: always()
       - run: node dist/cli.js artifact-map --output contextforge-artifact-map.md
@@ -236,6 +252,8 @@ jobs:
             contextforge-scorecard.md
             contextforge-mcp-audit.md
             contextforge-mcp.sarif
+            contextforge-claude-audit.md
+            contextforge-claude.sarif
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
@@ -246,6 +264,10 @@ jobs:
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
           sarif_file: contextforge-mcp.sarif
+      - uses: github/codeql-action/upload-sarif@v4
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        with:
+          sarif_file: contextforge-claude.sarif
 ```
 
 For early projects, start with permissive thresholds and raise them as the repo
@@ -262,9 +284,10 @@ execution, hidden directives, and permission escalation.
 The main SARIF output includes file-backed context health and context security
 findings so GitHub can attach alerts to repository instruction files. The MCP
 SARIF output separately attaches committed agent tool configuration findings to
-MCP config files. Cache/session findings remain in the JSON, HTML, Markdown,
-and suggestions artifacts because they are not always tied to a repository file
-location.
+MCP config files. The Claude settings SARIF output separately attaches shared
+permission and hook findings to `.claude/settings.json`. Cache/session findings
+remain in the JSON, HTML, Markdown, and suggestions artifacts because they are
+not always tied to a repository file location.
 
 The upload step is guarded so forked pull requests still get JSON/HTML/SARIF
 artifacts without requiring `security-events: write` from an untrusted fork.

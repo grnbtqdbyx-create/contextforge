@@ -16,6 +16,7 @@ Claude can act on.
 - `contextforge proof-pack --output contextforge-proof-pack.md`: combine doctor, audit, evidence commands, and Codex/Claude handoff guidance into one Markdown proof packet.
 - `contextforge scorecard --output contextforge-scorecard.md`: write a one-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
 - `contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif`: scan committed MCP configs for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files, with optional GitHub Code Scanning output.
+- `contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif`: scan committed Claude Code settings for risky default modes, broad Bash permissions, remote shell hooks, wildcard HTTP hooks, and missing sensitive-file denies.
 - `contextforge adoption-brief --output docs/adoption.md`: generate a first-time evaluator page with the 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands.
 - `contextforge review-kit --base main --output contextforge-review-kit.md`: generate a changed-file review brief and copyable Codex/Claude review prompt.
 - `contextforge artifact-map --output docs/artifacts.md`: generate a catalog that tells reviewers, agents, and launch visitors which proof artifact to inspect first.
@@ -24,7 +25,7 @@ Claude can act on.
 - `contextforge compare --output docs/comparison.md`: generate adjacent-tool positioning for README and launch use.
 - `contextforge improve --demo --json`: emit structured repo-rule suggestions for agents and bots.
 - `contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg`: create CI, PR-review, structured suggestion, and status badge artifacts.
-- The reusable GitHub Action and generated audit workflow publish `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` as CI artifacts, opt JavaScript actions into Node 24, and PR-ready comments point reviewers to the proof and review outputs.
+- The reusable GitHub Action and generated audit workflow publish `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` as CI artifacts, opt JavaScript actions into Node 24, and PR-ready comments point reviewers to the proof and review outputs.
 - `contextforge pack --task "review auth regression" --budget 20000 --sessions`: build an explainable task context pack.
 
 ## Key Docs
@@ -36,6 +37,7 @@ Claude can act on.
 - [Proof Pack](docs/proof-pack.md): Shareable readiness packet for launches, PRs, OSS applications, and agent handoffs.
 - [Scorecard](docs/scorecard.md): One-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
 - [MCP Audit](docs/mcp-audit.md): Committed MCP config exposure checks and SARIF output for agent tool safety.
+- [Claude Audit](docs/claude-audit.md): Committed Claude Code settings checks and SARIF output for shared permissions and hooks.
 - [Adoption Brief](docs/adoption.md): First-time evaluator page for maintainers deciding whether to try, star, or wire ContextForge into CI.
 - [Review Kit](docs/review-kit.md): Deterministic review brief for Codex, Claude, human reviewers, and AI review workflows.
 - [Artifact Map](docs/artifacts.md): Generated catalog of ContextForge artifacts and fast paths.

@@ -379,6 +379,7 @@ That means every repository can ask:
 36. Symlinked MCP config detection so repo review and agent loading see the same committed file.
 37. First-time evaluator adoption briefs that turn proof artifacts into a star-ready decision path.
 38. MCP exposure SARIF output so repo-first agent tool risks can reach GitHub Code Scanning.
+39. Claude Code project settings audits for shared permissions, hooks, and sensitive-file deny rules.
 
 ## Explainability Direction
 
@@ -458,3 +459,8 @@ contextforge-mcp.sarif`, because adjacent MCP security scanners increasingly
 surface findings through SARIF or security dashboards while maintainers still
 need a cheap repo-first check that flags committed agent tool config risk before
 Codex, Claude, or another coding agent loads it.
+ContextForge v0.50.0 adds `contextforge claude-audit --summary
+contextforge-claude-audit.md --sarif contextforge-claude.sarif`, because Claude
+Code settings can be committed at the project level and now include permissions,
+hooks, default modes, filesystem/network controls, and sensitive-file deny rules
+that deserve the same repo-first proof surface as MCP configs.

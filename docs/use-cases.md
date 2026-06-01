@@ -131,6 +131,7 @@ contextforge doctor --summary contextforge-doctor.md
 contextforge artifact-map --output docs/artifacts.md
 contextforge scorecard --output contextforge-scorecard.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
+contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge adoption-brief --output docs/adoption.md
 contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge proof-pack --output contextforge-proof-pack.md
@@ -150,6 +151,9 @@ Success signal:
   auto-approval, broad tool permissions, or symlinked config files.
 - Security reviewers can upload `contextforge-mcp.sarif` so MCP config exposure
   findings appear in GitHub Code Scanning beside other file-backed alerts.
+- Claude Code reviewers can open `contextforge-claude-audit.md` or upload
+  `contextforge-claude.sarif` to catch risky shared project settings before
+  users trust repo-provided permissions and hooks.
 - First-time maintainers can open `docs/adoption.md` for the 30-second proof
   path, adjacent-tool positioning, pre-npm try-it commands, and star-worthy
   proof checklist before reading the full repository.

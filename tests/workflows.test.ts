@@ -38,6 +38,7 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('security-events: write');
     expect(workflow).toContain('--sarif contextforge.sarif');
     expect(workflow).toContain('--sarif contextforge-mcp.sarif');
+    expect(workflow).toContain('--sarif contextforge-claude.sarif');
     expect(workflow).toContain('--summary contextforge-summary.md');
     expect(workflow).toContain('--plan contextforge-agent-plan.md');
     expect(workflow).toContain('--comment contextforge-pr-comment.md');
@@ -47,6 +48,8 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('scorecard --output contextforge-scorecard.md');
     expect(workflow).toContain('mcp-audit --summary contextforge-mcp-audit.md');
     expect(workflow).toContain('contextforge-mcp.sarif');
+    expect(workflow).toContain('claude-audit --summary contextforge-claude-audit.md');
+    expect(workflow).toContain('contextforge-claude.sarif');
     expect(workflow).toContain('review-kit --base main --output contextforge-review-kit.md');
     expect(workflow).toContain('artifact-map --output contextforge-artifact-map.md');
     expect(workflow).toContain('if: always()');
@@ -55,6 +58,8 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('github/codeql-action/upload-sarif');
     expect(workflow).toContain('contextforge.sarif');
     expect(workflow).toContain('contextforge-mcp.sarif');
+    expect(workflow).toContain('contextforge-claude-audit.md');
+    expect(workflow).toContain('contextforge-claude.sarif');
     expect(workflow).toContain('contextforge-agent-plan.md');
     expect(workflow).toContain('contextforge-pr-comment.md');
     expect(workflow).toContain('contextforge-suggestions.json');
@@ -62,6 +67,7 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-proof-pack.md');
     expect(workflow).toContain('contextforge-scorecard.md');
     expect(workflow).toContain('contextforge-mcp-audit.md');
+    expect(workflow).toContain('contextforge-claude-audit.md');
     expect(workflow).toContain('contextforge-review-kit.md');
     expect(workflow).toContain('contextforge-artifact-map.md');
   });

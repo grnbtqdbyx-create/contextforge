@@ -1,7 +1,7 @@
 import { access, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.49.0';
+export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.50.0';
 
 export interface GithubActionScaffoldOptions {
   rootDir: string;
@@ -73,6 +73,8 @@ jobs:
           scorecard: contextforge-scorecard.md
           mcp-audit: contextforge-mcp-audit.md
           mcp-sarif: contextforge-mcp.sarif
+          claude-audit: contextforge-claude-audit.md
+          claude-sarif: contextforge-claude.sarif
           review-kit: contextforge-review-kit.md
           artifact-map: contextforge-artifact-map.md
           review-base-ref: main
@@ -93,6 +95,8 @@ jobs:
             contextforge-scorecard.md
             contextforge-mcp-audit.md
             contextforge-mcp.sarif
+            contextforge-claude-audit.md
+            contextforge-claude.sarif
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
@@ -103,6 +107,10 @@ jobs:
         if: ${sarifGuard}
         with:
           sarif_file: contextforge-mcp.sarif
+      - uses: github/codeql-action/upload-sarif@v4
+        if: ${sarifGuard}
+        with:
+          sarif_file: contextforge-claude.sarif
 `;
 }
 
