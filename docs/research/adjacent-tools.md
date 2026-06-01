@@ -541,3 +541,8 @@ ContextForge v0.65.0 extends the same proof mindset to release artifacts:
 the npm publish workflow packs `contextforge-*.tgz`, generates a GitHub
 artifact attestation for that tarball, uploads `npm-pack.json`, and publishes
 the same tarball during the approved Trusted Publishing job.
+ContextForge v0.66.0 adds `contextforge launch-snapshot --output
+docs/launch-snapshot.md`, because README visitors and build-in-public readers
+need a short why-now page that connects AGENTS.md growth, MCP security pressure,
+agentic workflow injection risk, trace waste, and proof-first artifacts without
+reading the whole repository.

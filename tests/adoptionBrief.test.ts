@@ -12,6 +12,7 @@ describe('adoption brief', () => {
     expect(brief).toContain('## Why Now');
     expect(brief).toContain('## Who Should Try It');
     expect(brief).toContain('## 30-Second Evaluation Path');
+    expect(brief).toContain('contextforge launch-snapshot --output docs/launch-snapshot.md');
     expect(brief).toContain('contextforge scorecard --output contextforge-scorecard.md');
     expect(brief).toContain('contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif');
     expect(brief).toContain('contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif');

@@ -1,0 +1,59 @@
+# ContextForge Launch Snapshot
+
+A short, shareable page for people deciding whether this project is worth trying, starring, or wiring into a coding-agent CI gate.
+
+## Why This Exists Now
+
+- AGENTS.md, CLAUDE.md, Copilot prompts, Cursor rules, Cline rules, Gemini guidance, Windsurf rules, and MCP configs are becoming a real repository interface for coding agents.
+- Context engineering guides explain how to feed agents better input, but maintainers still need a deterministic check that says whether the current repo is safe and useful for Codex, Claude Code, Copilot, and adjacent tools.
+- MCP adoption adds powerful committed tool configuration. That makes secret exposure, unpinned package launchers, broad permissions, and remote shell installers worth checking before an agent loads the repo.
+- Agentic workflow injection research shows that issue text, PR text, comments, and generated context can become attacker-influenced instructions when agents run inside GitHub workflows.
+- Token and trace tools show the cost after a session. ContextForge tries to prevent waste earlier by checking instruction bloat, cache instability, repeated tool calls, bulky outputs, and task pack budgets.
+
+## Adjacent Projects People Already Understand
+
+| Category | What people use it for | Where ContextForge fits |
+| --- | --- | --- |
+| context engineering guides | learning how to structure agent context | turns repo readiness into repeatable CI artifacts |
+| agent instruction templates | writing better AGENTS.md or CLAUDE.md files | audits whether those files stay concise, scoped, and safe |
+| token dashboards | understanding spend after a run | catches cache and trace waste before the next run |
+| repo packers | sending files to an LLM | creates smaller task packs with reasons and a budget ledger |
+| MCP security lists | tracking runtime tool risk | scans committed MCP config before agents trust it |
+
+## What To Open First
+
+| Question | Open |
+| --- | --- |
+| Is the repo ready for Codex or Claude? | `contextforge-scorecard.md` |
+| Did this PR change agent-readable behavior? | `contextforge-agent-surface-diff.md` |
+| Which agent surfaces exist here? | `contextforge-agent-surface-inventory.md` |
+| Are MCP configs risky? | `contextforge-mcp-audit.md` and `contextforge-mcp.sarif` |
+| Are Claude Code settings risky? | `contextforge-claude-audit.md` and `contextforge-claude.sarif` |
+| Did the last agent session waste context? | `contextforge-trace-audit.md` |
+| What would a long session cost? | `contextforge-cost-estimate.md` |
+| Is the first npm publish ready? | `contextforge-publish-readiness.md` |
+| Which generated artifact should I inspect? | `docs/artifacts.md` |
+
+## Proof Path
+
+```bash
+contextforge scorecard --output contextforge-scorecard.md
+contextforge surface-inventory --output contextforge-agent-surface-inventory.md
+contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
+contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
+contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
+contextforge trace-audit --demo --summary contextforge-trace-audit.md
+contextforge publish-readiness --summary contextforge-publish-readiness.md
+contextforge artifact-map --output docs/artifacts.md
+```
+
+## Share Copy
+
+ContextForge is a local-first CI gate for the repository context that Codex, Claude Code, Copilot, Cursor, Cline, Gemini, Windsurf, and MCP-powered agents ingest.
+
+It checks instruction bloat, prompt/context poisoning, MCP and Claude settings risk, changed agent surfaces in PRs, trace waste, token-budgeted context packs, and release-readiness proof artifacts.
+
+Repo: https://github.com/grnbtqdbyx-create/contextforge
+
+If it helps your coding agent spend fewer tokens, trust less blindly, and review PR context drift before it runs tools, a star helps more maintainers find it.
+
