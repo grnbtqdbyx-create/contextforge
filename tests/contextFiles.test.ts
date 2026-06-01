@@ -33,4 +33,30 @@ describe('context file discovery', () => {
       '.github/instructions/api/routes.instructions.md'
     ]);
   });
+
+  it('discovers Copilot prompt files, custom agents, and project skills', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-copilot-artifacts-'));
+    await mkdir(path.join(rootDir, '.github/prompts/security'), { recursive: true });
+    await mkdir(path.join(rootDir, '.github/agents/release'), { recursive: true });
+    await mkdir(path.join(rootDir, '.github/skills/deploy'), { recursive: true });
+    await mkdir(path.join(rootDir, '.agents/skills/review'), { recursive: true });
+    await mkdir(path.join(rootDir, '.claude/skills/docs'), { recursive: true });
+    await writeFile(path.join(rootDir, '.github/prompts/security/review.prompt.md'), 'Review the diff for security.\n');
+    await writeFile(path.join(rootDir, '.github/agents/release/manager.agent.md'), 'You are the release manager.\n');
+    await writeFile(path.join(rootDir, '.github/skills/deploy/SKILL.md'), 'Deploy safely.\n');
+    await writeFile(path.join(rootDir, '.agents/skills/review/SKILL.md'), 'Review carefully.\n');
+    await writeFile(path.join(rootDir, '.claude/skills/docs/SKILL.md'), 'Write docs.\n');
+
+    const contextFiles = await listContextFiles(rootDir);
+    const securityFiles = await listSecurityContextFiles(rootDir);
+
+    expect(contextFiles.map((file) => file.relativePath)).toEqual([
+      '.agents/skills/review/SKILL.md',
+      '.claude/skills/docs/SKILL.md',
+      '.github/agents/release/manager.agent.md',
+      '.github/prompts/security/review.prompt.md',
+      '.github/skills/deploy/SKILL.md'
+    ]);
+    expect(securityFiles.map((file) => file.relativePath)).toEqual(contextFiles.map((file) => file.relativePath));
+  });
 });

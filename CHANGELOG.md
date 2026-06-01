@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.55.0 - 2026-06-01
+
+- Extend Copilot context discovery beyond custom instructions to `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/agents/**/*.agent.md`, and project skill files in `.github/skills`, `.claude/skills`, and `.agents/skills`.
+- Include Copilot prompt files, custom agents, and project skills in context health, context security, and context pack scoring.
+- Refresh README, Copilot docs, security docs, context-pack docs, LLM discovery files, and research notes around the broader Copilot customization surface.
+
 ## 0.54.0 - 2026-06-01
 
 - Add GitHub Copilot instruction discovery for `.github/copilot-instructions.md` and `.github/instructions/**/*.instructions.md`.

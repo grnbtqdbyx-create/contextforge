@@ -36,4 +36,25 @@ describe('context health audit', () => {
     expect(audit.findings.some((finding) => finding.file === '.github/copilot-instructions.md' && finding.type === 'repetition')).toBe(true);
     expect(audit.findings.some((finding) => finding.file === '.github/instructions/frontend.instructions.md' && finding.type === 'vague')).toBe(true);
   });
+
+  it('audits Copilot prompts, custom agents, and project skills as repo context', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-copilot-artifact-health-'));
+    await mkdir(path.join(rootDir, '.github/prompts'), { recursive: true });
+    await mkdir(path.join(rootDir, '.github/agents'), { recursive: true });
+    await mkdir(path.join(rootDir, '.github/skills/release'), { recursive: true });
+    await writeFile(path.join(rootDir, '.github/prompts/review.prompt.md'), 'Always be careful. Always be careful.\n');
+    await writeFile(path.join(rootDir, '.github/agents/reviewer.agent.md'), 'Use best practices perfectly.\n');
+    await writeFile(path.join(rootDir, '.github/skills/release/SKILL.md'), 'Do everything perfectly.\n');
+
+    const audit = await auditContextFiles({ rootDir });
+
+    expect(audit.files.map((file) => file.path)).toEqual([
+      '.github/agents/reviewer.agent.md',
+      '.github/prompts/review.prompt.md',
+      '.github/skills/release/SKILL.md'
+    ]);
+    expect(audit.findings.some((finding) => finding.file === '.github/prompts/review.prompt.md' && finding.type === 'repetition')).toBe(true);
+    expect(audit.findings.some((finding) => finding.file === '.github/agents/reviewer.agent.md' && finding.type === 'vague')).toBe(true);
+    expect(audit.findings.some((finding) => finding.file === '.github/skills/release/SKILL.md' && finding.type === 'vague')).toBe(true);
+  });
 });
