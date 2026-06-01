@@ -36,7 +36,7 @@ refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.70.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.71.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -71,7 +71,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.70.0
+      - uses: grnbtqdbyx-create/contextforge@v0.71.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -192,7 +192,7 @@ artifacts show whether GitHub issue, PR, review, comment, title, workflow input,
 or branch/ref text flows into agentic jobs with write permissions or secrets.
 The `contextforge-actions-audit.md` and `contextforge-actions.sarif` artifacts
 show whether GitHub Actions workflows have mutable action refs, missing
-permissions, pwn-request checkout, or direct shell interpolation of untrusted
+permissions, Node 24 runtime opt-in, pwn-request checkout, or direct shell interpolation of untrusted
 GitHub context.
 The `contextforge-trace-audit.md` artifact summarizes repeated tool calls,
 bulky tool output, tool-output-heavy traces, and cache reuse from available

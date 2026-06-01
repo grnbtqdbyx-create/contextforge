@@ -55,6 +55,8 @@ describe('GitHub Actions audit', () => {
         'name: CI',
         'on:',
         '  pull_request:',
+        'env:',
+        '  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true',
         'permissions:',
         '  contents: read',
         'jobs:',
@@ -70,5 +72,32 @@ describe('GitHub Actions audit', () => {
 
     expect(audit.status).toBe('pass');
     expect(audit.findings).toHaveLength(0);
+  });
+
+  it('warns when JavaScript actions run without the GitHub Node 24 opt-in', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-actions-node24-'));
+    await mkdir(path.join(rootDir, '.github/workflows'), { recursive: true });
+    await writeFile(
+      path.join(rootDir, '.github/workflows/ci.yml'),
+      [
+        'name: CI',
+        'on:',
+        '  pull_request:',
+        'permissions:',
+        '  contents: read',
+        'jobs:',
+        '  test:',
+        '    runs-on: ubuntu-latest',
+        '    steps:',
+        '      - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3',
+        '      - run: pnpm test'
+      ].join('\n')
+    );
+
+    const audit = await auditGithubActions({ rootDir });
+
+    expect(audit.status).toBe('warn');
+    expect(audit.findings.map((finding) => finding.type)).toEqual(['actions-missing-node24-opt-in']);
+    expect(createGithubActionsSummary(audit)).toContain('FORCE_JAVASCRIPT_ACTIONS_TO_NODE24');
   });
 });

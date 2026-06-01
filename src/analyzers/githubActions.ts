@@ -24,6 +24,7 @@ const PULL_REQUEST_TARGET_PATTERN = /(^|\n)\s*pull_request_target\s*:/i;
 const CHECKOUT_PATTERN = /^\s*-\s*uses:\s*actions\/checkout@/im;
 const PR_HEAD_REF_PATTERN = /github\.event\.pull_request\.head\.(sha|ref)|github\.head_ref/i;
 const SECRET_PATTERN = /\bsecrets\.[A-Z0-9_]+\b/i;
+const NODE24_OPT_IN_PATTERN = /FORCE_JAVASCRIPT_ACTIONS_TO_NODE24\s*:\s*['"]?true['"]?/i;
 const UNTRUSTED_CONTEXTS = [
   'github.event.issue.title',
   'github.event.issue.body',
@@ -94,7 +95,7 @@ export function createGithubActionsSummary(audit: GithubActionsAudit): string {
           (finding) =>
             `| ${escapeTableCell(finding.type)} | ${finding.severity} | ${escapeTableCell(finding.file ?? '')} | ${escapeTableCell(finding.message)} | ${escapeTableCell(finding.suggestion)} |`
         )
-      : ['| none | low |  | No GitHub Actions hardening findings. | Keep workflows pinned, least-privilege, and isolated from untrusted PR code. |']),
+      : ['| none | low |  | No GitHub Actions hardening findings. | Keep workflows pinned, least-privilege, opted into Node 24, and isolated from untrusted PR code. |']),
     '',
     '## Next Actions',
     '',
@@ -117,6 +118,7 @@ function findActionsRisks(file: string, content: string): Finding[] {
   const hasWriteAll = WRITE_ALL_PATTERN.test(content);
   const hasWritePermissions = WRITE_PERMISSION_PATTERN.test(content) || hasWriteAll;
   const usesSecrets = SECRET_PATTERN.test(content);
+  const usesExternalActions = workflowUsesExternalActions(content);
 
   if (!hasPermissions) {
     findings.push({
@@ -135,6 +137,16 @@ function findActionsRisks(file: string, content: string): Finding[] {
       severity: 'high',
       message: `${file} grants write-all permissions to the workflow token.`,
       suggestion: 'Replace `permissions: write-all` with explicit least-privilege scopes and isolate any write-capable job from untrusted input.'
+    });
+  }
+
+  if (usesExternalActions && !NODE24_OPT_IN_PATTERN.test(content)) {
+    findings.push({
+      file,
+      type: 'actions-missing-node24-opt-in',
+      severity: 'low',
+      message: `${file} uses JavaScript actions without explicitly opting into the GitHub Actions Node 24 runtime.`,
+      suggestion: 'Set top-level `env: FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true` while the GitHub Actions ecosystem finishes migrating action metadata from node20 to node24.'
     });
   }
 
@@ -170,6 +182,14 @@ function findActionsRisks(file: string, content: string): Finding[] {
   }
 
   return findings;
+}
+
+function workflowUsesExternalActions(content: string): boolean {
+  for (const match of content.matchAll(USES_PATTERN)) {
+    const action = match[1];
+    if (!action.startsWith('./') && !action.startsWith('../') && !action.startsWith('docker://')) return true;
+  }
+  return false;
 }
 
 function findUnpinnedActions(file: string, content: string): Finding[] {
@@ -222,12 +242,13 @@ function statusForFindings(findings: Finding[]): GithubActionsStatus {
 }
 
 function nextActions(findings: Finding[]): string[] {
-  if (findings.length === 0) return ['Keep GitHub Actions workflows pinned to full SHAs and least-privilege by default.'];
+  if (findings.length === 0) return ['Keep GitHub Actions workflows pinned to full SHAs, least-privilege, and opted into the Node 24 JavaScript action runtime by default.'];
   const actions = ['Review every GitHub Actions hardening finding before trusting agent-authored or agent-triggered workflows.'];
   if (findings.some((finding) => finding.type === 'actions-unpinned-action')) actions.push('Pin actions to full commit SHAs and update them through review.');
   if (findings.some((finding) => finding.type === 'actions-pwn-request-checkout')) actions.push('Remove PR-head checkout from pull_request_target workflows.');
   if (findings.some((finding) => finding.type === 'actions-script-injection')) actions.push('Route untrusted GitHub contexts through env vars before shell use.');
   if (findings.some((finding) => finding.type.includes('permissions'))) actions.push('Declare least-privilege `permissions:` for every workflow.');
+  if (findings.some((finding) => finding.type === 'actions-missing-node24-opt-in')) actions.push('Opt GitHub Actions workflows into the Node 24 JavaScript action runtime.');
   return actions;
 }
 

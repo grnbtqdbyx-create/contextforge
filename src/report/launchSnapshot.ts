@@ -39,7 +39,7 @@ export function createLaunchSnapshot(options: LaunchSnapshotOptions): string {
     '| Are MCP configs risky? | `contextforge-mcp-audit.md` and `contextforge-mcp.sarif` |',
     '| Are Claude Code settings risky? | `contextforge-claude-audit.md` and `contextforge-claude.sarif` |',
     '| Can GitHub event text reach a privileged agent workflow? | `contextforge-workflow-audit.md` and `contextforge-workflow.sarif` |',
-    '| Are GitHub Actions pinned and least-privilege? | `contextforge-actions-audit.md` and `contextforge-actions.sarif` |',
+    '| Are GitHub Actions pinned, least-privilege, and Node 24-ready? | `contextforge-actions-audit.md` and `contextforge-actions.sarif` |',
     '| Did the last agent session waste context? | `contextforge-trace-audit.md` |',
     '| What would a long session cost? | `contextforge-cost-estimate.md` |',
     '| Is the first npm publish ready? | `contextforge-publish-readiness.md` |',

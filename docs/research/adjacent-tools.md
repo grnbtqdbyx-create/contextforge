@@ -576,3 +576,9 @@ scorecard readers at the matching Markdown/SARIF rerun commands. The product
 reason is simple: a first-time maintainer, Codex session, or Claude session
 should not need to remember every specialized audit command before it can tell
 whether the repository is safe enough for agent-assisted work.
+ContextForge v0.71.0 adds `actions-missing-node24-opt-in` because GitHub's
+hosted runners are moving JavaScript actions from Node 20 to Node 24, and many
+agent-edited repositories now see noisy runtime annotations. The audit keeps the
+fix deterministic: set `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true` at workflow
+level, then treat any remaining "target Node.js 20 but forced to Node.js 24"
+message as a runner metadata annotation rather than a failed hardening state.

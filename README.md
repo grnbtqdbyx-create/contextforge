@@ -359,7 +359,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions --ou
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.70.0
+- uses: grnbtqdbyx-create/contextforge@v0.71.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -448,7 +448,7 @@ and tuned for Codex/Claude repository work.
 | MCP findings should show up in GitHub Security. | `mcp-audit --sarif` writes `contextforge-mcp.sarif` with `mcp-exposure/*` rule ids for Code Scanning. |
 | Claude Code settings can over-trust a repo. | `claude-audit` checks shared `.claude/settings.json` permissions, hooks, bypass modes, and sensitive-file denies. |
 | Agentic GitHub workflows can ingest attacker-controlled text. | `workflow-audit` checks whether issue, PR, review, comment, title, workflow input, or branch/ref text flows into agentic jobs with write permissions or secrets. |
-| Agent-authored CI can weaken the release path. | `actions-audit` checks workflow SHA pins, token permissions, `pull_request_target`, pwn-request checkout, and direct script interpolation. |
+| Agent-authored CI can weaken the release path. | `actions-audit` checks workflow SHA pins, token permissions, Node 24 runtime opt-in, `pull_request_target`, pwn-request checkout, and direct script interpolation. |
 | Claude Code subagents and custom slash commands can hide powerful project prompts. | `security-audit`, context health, and context packs include `.claude/agents/**/*.md` and `.claude/commands/**/*.md`. |
 | Copilot hooks can run shell commands during agent workflows. | `security-audit` scans `.github/hooks/*.json` and committed `.github/copilot/settings*.json` for unsafe shell, exfiltration, hidden directives, and permission weakening. |
 | VS Code workspace settings can carry Copilot instructions. | `security-audit` scans `.vscode/settings.json` and committed `*.code-workspace` files for risky Copilot review, commit, and PR instruction text. |
@@ -498,7 +498,7 @@ contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estima
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.70.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.71.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -583,7 +583,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.70.0 is a public MVP CLI with:
+ContextForge v0.71.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -623,6 +623,7 @@ ContextForge v0.70.0 is a public MVP CLI with:
 - generated `contextforge publish-readiness` checks for npm Trusted Publishing preparation and GitHub tarball attestation setup
 - npm provenance metadata checks for repository, homepage, and issue tracker links
 - GitHub workflow Node 24 JavaScript action runtime opt-in for dogfood and generated workflows
+- `actions-audit` checks for missing GitHub Actions Node 24 JavaScript runtime opt-ins before hosted-runner defaults change
 - generated `contextforge launch-kit` build-in-public launch posts
 - generated `contextforge compare` adjacent-tool positioning guides
 - `Public proof surfaces` doctor check for OSS trust/readiness files
@@ -728,6 +729,7 @@ ContextForge v0.70.0 is a public MVP CLI with:
 - **v0.68.0:** workflow audits expand attacker-controlled coverage to titles and branch/ref text.
 - **v0.69.0:** GitHub Actions audits catch mutable action refs, pwn-request checkout, missing permissions, and direct script interpolation.
 - **v0.70.0:** doctor, proof-pack, and scorecard reports surface Claude settings, agentic workflow, and GitHub Actions hardening evidence in one readiness path.
+- **v0.71.0:** GitHub Actions audits catch missing Node 24 JavaScript action runtime opt-ins and document the known runner annotation behavior.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).
