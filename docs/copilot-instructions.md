@@ -12,6 +12,9 @@ Covered files:
 
 - `.github/copilot-instructions.md`
 - `.github/instructions/**/*.instructions.md`
+- repo-relative `*.instructions.md` files under folders enabled by
+  `chat.instructionsFilesLocations` in `.vscode/settings.json` or committed
+  `*.code-workspace` files
 - `.github/prompts/**/*.prompt.md`
 - `.github/agents/**/*.md`
 - `.github/agents/**/*.agent.md`
@@ -31,6 +34,9 @@ Why this matters:
 - Path-scoped `.github/instructions/**/*.instructions.md` files need an
   `applyTo` frontmatter pattern when maintainers expect automatic application;
   ContextForge flags missing scopes as `copilot-missing-applyto`.
+- Teams can move instruction files into custom repo folders with VS Code
+  `chat.instructionsFilesLocations`; ContextForge follows enabled repo-relative
+  locations so those rules do not fall outside the audit loop.
 - Prompt files, custom agents, and project skills can carry reusable task
   guidance that affects how Copilot plans or executes work.
 - Copilot hooks can execute shell commands at agent lifecycle points, so they

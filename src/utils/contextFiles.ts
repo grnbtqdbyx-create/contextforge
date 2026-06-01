@@ -1,3 +1,4 @@
+import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { listFiles } from './files.js';
 
@@ -12,11 +13,13 @@ export interface ContextFileRef {
 }
 
 export async function listContextFiles(rootDir: string): Promise<ContextFileRef[]> {
-  return listNamedContextFiles(rootDir, (relativePath) => isNamedContextPath(relativePath, CONTEXT_FILE_NAMES));
+  const files = await listNamedContextFiles(rootDir, (relativePath) => isNamedContextPath(relativePath, CONTEXT_FILE_NAMES));
+  return mergeContextFiles(files, await listConfiguredCopilotInstructionFiles(rootDir));
 }
 
 export async function listSecurityContextFiles(rootDir: string): Promise<ContextFileRef[]> {
-  return listNamedContextFiles(rootDir, (relativePath) => isSecurityContextPath(relativePath));
+  const files = await listNamedContextFiles(rootDir, (relativePath) => isSecurityContextPath(relativePath));
+  return mergeContextFiles(files, await listConfiguredCopilotInstructionFiles(rootDir));
 }
 
 async function listNamedContextFiles(rootDir: string, matchesContextPath: (relativePath: string) => boolean): Promise<ContextFileRef[]> {
@@ -32,6 +35,113 @@ async function listNamedContextFiles(rootDir: string, matchesContextPath: (relat
 function isFixtureOrTestContext(relativePath: string): boolean {
   const [firstSegment] = relativePath.split('/');
   return firstSegment === 'fixtures' || firstSegment === 'tests';
+}
+
+async function listConfiguredCopilotInstructionFiles(rootDir: string): Promise<ContextFileRef[]> {
+  const settingsFiles = await listFiles(rootDir, (filePath) => {
+    const relativePath = path.relative(rootDir, filePath).split(path.sep).join('/');
+    return relativePath === '.vscode/settings.json' || /\.code-workspace$/i.test(relativePath);
+  });
+  const configuredLocations = new Set<string>();
+
+  for (const settingsFile of settingsFiles) {
+    const relativePath = path.relative(rootDir, settingsFile).split(path.sep).join('/');
+    const settings = await readCopilotInstructionSettings(settingsFile, relativePath);
+    const locations = getRecord(settings?.['chat.instructionsFilesLocations']);
+    if (!locations) continue;
+    for (const [location, enabled] of Object.entries(locations)) {
+      if (enabled === true && isRepositoryRelativeLocation(location)) {
+        configuredLocations.add(normalizeInstructionLocation(location).replace(/\/+$/, ''));
+      }
+    }
+  }
+
+  const files: ContextFileRef[] = [];
+  for (const location of configuredLocations) {
+    const absoluteLocation = path.join(rootDir, location);
+    const instructionFiles = await listFiles(absoluteLocation, (filePath) => /\.instructions\.md$/i.test(filePath));
+    files.push(
+      ...instructionFiles.map((absolutePath) => ({
+        absolutePath,
+        relativePath: path.relative(rootDir, absolutePath).split(path.sep).join('/')
+      }))
+    );
+  }
+
+  return files.filter((file) => !isFixtureOrTestContext(file.relativePath));
+}
+
+async function readCopilotInstructionSettings(settingsFile: string, relativePath: string): Promise<Record<string, unknown> | undefined> {
+  try {
+    const parsed = JSON.parse(stripJsonComments(await fs.readFile(settingsFile, 'utf8'))) as unknown;
+    const root = getRecord(parsed);
+    if (!root) return undefined;
+    return /\.code-workspace$/i.test(relativePath) ? getRecord(root.settings) : root;
+  } catch {
+    return undefined;
+  }
+}
+
+function stripJsonComments(input: string): string {
+  let output = '';
+  let inString = false;
+  let escaped = false;
+  for (let index = 0; index < input.length; index += 1) {
+    const char = input[index];
+    const next = input[index + 1];
+    if (inString) {
+      output += char;
+      if (escaped) {
+        escaped = false;
+      } else if (char === '\\') {
+        escaped = true;
+      } else if (char === '"') {
+        inString = false;
+      }
+      continue;
+    }
+    if (char === '"') {
+      inString = true;
+      output += char;
+    } else if (char === '/' && next === '/') {
+      while (index < input.length && input[index] !== '\n') index += 1;
+      output += '\n';
+    } else if (char === '/' && next === '*') {
+      index += 2;
+      while (index < input.length && !(input[index] === '*' && input[index + 1] === '/')) index += 1;
+      index += 1;
+    } else {
+      output += char;
+    }
+  }
+  return output.replace(/,\s*([}\]])/g, '$1');
+}
+
+function getRecord(value: unknown): Record<string, unknown> | undefined {
+  return value && typeof value === 'object' && !Array.isArray(value) ? (value as Record<string, unknown>) : undefined;
+}
+
+function isRepositoryRelativeLocation(location: string): boolean {
+  const normalized = normalizeInstructionLocation(location);
+  return (
+    normalized.length > 0 &&
+    !normalized.startsWith('/') &&
+    !normalized.startsWith('~') &&
+    !normalized.includes('://') &&
+    !normalized.split('/').includes('..')
+  );
+}
+
+function normalizeInstructionLocation(location: string): string {
+  return location.replace(/\\/g, '/').split(path.sep).join('/');
+}
+
+function mergeContextFiles(files: ContextFileRef[], configuredFiles: ContextFileRef[]): ContextFileRef[] {
+  const byPath = new Map<string, ContextFileRef>();
+  for (const file of [...files, ...configuredFiles]) {
+    byPath.set(file.relativePath, file);
+  }
+  return [...byPath.values()].sort((left, right) => left.relativePath.localeCompare(right.relativePath));
 }
 
 export function isCopilotInstructionPath(relativePath: string): boolean {

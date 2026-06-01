@@ -25,6 +25,8 @@ separate tools:
 - Copilot path-scoped instruction checks that flag
   `.github/instructions/**/*.instructions.md` files without `applyTo`
   frontmatter
+- VS Code `chat.instructionsFilesLocations` discovery for repo-relative custom
+  Copilot instruction folders
 - context security checks for prompt injection, secret exfiltration, unsafe
   shell instructions, hidden directives, and permission escalation
 - Claude Code project subagent and custom command checks for committed

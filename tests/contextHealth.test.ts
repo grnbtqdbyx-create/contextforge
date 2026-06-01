@@ -60,6 +60,24 @@ describe('context health audit', () => {
     ).toBe(false);
   });
 
+  it('flags configured Copilot instruction files without applyTo frontmatter', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-vscode-applyto-'));
+    await mkdir(path.join(rootDir, '.vscode'), { recursive: true });
+    await mkdir(path.join(rootDir, 'docs/copilot-rules'), { recursive: true });
+    await writeFile(path.join(rootDir, '.vscode/settings.json'), '{"chat.instructionsFilesLocations":{"docs/copilot-rules":true}}\n');
+    await writeFile(path.join(rootDir, 'docs/copilot-rules/review.instructions.md'), 'Use the review checklist.\n');
+
+    const audit = await auditContextFiles({ rootDir });
+
+    expect(audit.findings).toContainEqual(
+      expect.objectContaining({
+        file: 'docs/copilot-rules/review.instructions.md',
+        type: 'copilot-missing-applyto',
+        severity: 'medium'
+      })
+    );
+  });
+
   it('audits Copilot prompts, custom agents, and project skills as repo context', async () => {
     const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-copilot-artifact-health-'));
     await mkdir(path.join(rootDir, '.github/prompts'), { recursive: true });

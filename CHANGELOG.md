@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.73.0 - 2026-06-01
+
+- Discover repo-relative Copilot instruction folders configured through VS Code `chat.instructionsFilesLocations` in `.vscode/settings.json` and committed `*.code-workspace` files.
+- Include configured `*.instructions.md` files in context health and context security scans instead of limiting coverage to `.github/instructions`.
+- Apply the `copilot-missing-applyto` context-health finding to configured Copilot instruction files as well as default path-scoped instruction files.
+
 ## 0.72.0 - 2026-06-01
 
 - Add `copilot-missing-applyto` to context health audits so `.github/instructions/**/*.instructions.md` files without `applyTo` frontmatter are no longer treated as fully scoped Copilot guidance.

@@ -80,7 +80,7 @@ export async function auditContextFiles(options: { rootDir?: string } = {}): Pro
 }
 
 function isCopilotPathScopedInstruction(relativePath: string): boolean {
-  return /^\.github\/instructions\/.+\.instructions\.md$/i.test(relativePath);
+  return /(^|\/).+\.instructions\.md$/i.test(relativePath);
 }
 
 function hasApplyToFrontmatter(content: string): boolean {
