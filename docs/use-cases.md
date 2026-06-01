@@ -130,7 +130,7 @@ contextforge review-kit --demo --base main --output examples/review-kit.md
 contextforge doctor --summary contextforge-doctor.md
 contextforge artifact-map --output docs/artifacts.md
 contextforge scorecard --output contextforge-scorecard.md
-contextforge mcp-audit --summary contextforge-mcp-audit.md
+contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge adoption-brief --output docs/adoption.md
 contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge proof-pack --output contextforge-proof-pack.md
@@ -148,6 +148,8 @@ Success signal:
 - Visitors can open `contextforge-mcp-audit.md` to see whether committed MCP
   configs expose secrets, unsafe shell installers, unpinned packages,
   auto-approval, broad tool permissions, or symlinked config files.
+- Security reviewers can upload `contextforge-mcp.sarif` so MCP config exposure
+  findings appear in GitHub Code Scanning beside other file-backed alerts.
 - First-time maintainers can open `docs/adoption.md` for the 30-second proof
   path, adjacent-tool positioning, pre-npm try-it commands, and star-worthy
   proof checklist before reading the full repository.

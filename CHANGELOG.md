@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.49.0 - 2026-06-01
+
+- Add `contextforge mcp-audit --sarif contextforge-mcp.sarif` so committed MCP config exposure findings can be uploaded to GitHub Code Scanning.
+- Add a dedicated MCP SARIF report with `mcp-exposure/*` rule ids for hardcoded secrets, unsafe shell installers, unpinned packages, auto-approval, broad permissions, symlinked configs, and invalid JSON findings.
+- Refresh the reusable action, generated workflow, dogfood workflow, artifact map, README, MCP docs, LLM discovery files, and research notes around GitHub Security visibility for agent tool config risk.
+
 ## 0.48.0 - 2026-06-01
 
 - Add `contextforge adoption-brief --output docs/adoption.md` for first-time maintainers evaluating whether ContextForge is worth trying, starring, or wiring into CI.
