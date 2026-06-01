@@ -36,7 +36,7 @@ refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.72.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.73.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -71,7 +71,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.72.0
+      - uses: grnbtqdbyx-create/contextforge@v0.73.0
         with:
           min-context-score: 60
           min-cache-score: 60

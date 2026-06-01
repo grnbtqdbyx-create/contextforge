@@ -95,6 +95,37 @@ describe('context file discovery', () => {
     ]);
   });
 
+  it('discovers Copilot instruction files from configured VS Code locations', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-vscode-instructions-locations-'));
+    await mkdir(path.join(rootDir, '.vscode'), { recursive: true });
+    await mkdir(path.join(rootDir, 'docs/copilot-rules/review'), { recursive: true });
+    await writeFile(
+      path.join(rootDir, '.vscode/settings.json'),
+      JSON.stringify({
+        'chat.instructionsFilesLocations': {
+          'docs/copilot-rules': true,
+          '.github/instructions': true,
+          '~/.config/copilot/instructions': false
+        }
+      })
+    );
+    await writeFile(path.join(rootDir, 'docs/copilot-rules/review.instructions.md'), 'Use the review checklist.\n');
+    await writeFile(path.join(rootDir, 'docs/copilot-rules/review/security.instructions.md'), 'Check auth changes.\n');
+
+    const contextFiles = await listContextFiles(rootDir);
+    const securityFiles = await listSecurityContextFiles(rootDir);
+
+    expect(contextFiles.map((file) => file.relativePath)).toEqual([
+      'docs/copilot-rules/review.instructions.md',
+      'docs/copilot-rules/review/security.instructions.md'
+    ]);
+    expect(securityFiles.map((file) => file.relativePath)).toEqual([
+      '.vscode/settings.json',
+      'docs/copilot-rules/review.instructions.md',
+      'docs/copilot-rules/review/security.instructions.md'
+    ]);
+  });
+
   it('discovers Claude Code subagents and custom slash commands', async () => {
     const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-claude-artifacts-'));
     await mkdir(path.join(rootDir, '.claude/agents/review'), { recursive: true });

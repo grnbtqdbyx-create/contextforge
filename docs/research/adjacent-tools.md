@@ -589,3 +589,9 @@ scope may require manual attachment or other selection behavior. Missing scopes
 are easy to miss in agent-authored repos, so `contextforge agents-md-audit` now
 reports `copilot-missing-applyto` before maintainers assume path-scoped guidance
 is deterministically active.
+ContextForge v0.73.0 follows the customization location setting itself:
+repo-relative folders enabled through VS Code `chat.instructionsFilesLocations`
+in `.vscode/settings.json` or committed `*.code-workspace` files are scanned for
+`*.instructions.md`. That closes a practical gap for teams that keep Copilot
+rules outside `.github/instructions` but still expect the same context-health
+and context-security proof.

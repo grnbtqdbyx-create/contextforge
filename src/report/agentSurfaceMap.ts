@@ -23,8 +23,8 @@ const rows: AgentSurfaceRow[] = [
   },
   {
     ecosystem: 'GitHub Copilot',
-    surface: '`.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/hooks/*.json`, `.github/copilot/settings*.json`, `.vscode/settings.json`, `*.code-workspace`',
-    whyItMatters: 'Copilot customization can add always-on instructions, reusable prompts, custom agents, hooks, and workspace instruction text that reviewers may miss.',
+    surface: '`.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, repo-relative `chat.instructionsFilesLocations`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/hooks/*.json`, `.github/copilot/settings*.json`, `.vscode/settings.json`, `*.code-workspace`',
+    whyItMatters: 'Copilot customization can add always-on instructions, custom instruction folders, reusable prompts, custom agents, hooks, and workspace instruction text that reviewers may miss.',
     coverage: '`contextforge security-audit`, `contextforge agents-md-audit`, `contextforge pack`, GitHub Actions SARIF upload',
     source: '[GitHub Copilot custom agents](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-custom-agents), GitHub Copilot customization docs'
   },
