@@ -60,10 +60,19 @@ export function isCopilotHookConfigPath(relativePath: string): boolean {
   );
 }
 
+export function isCopilotWorkspaceSettingsPath(relativePath: string): boolean {
+  const normalized = relativePath.split(path.sep).join('/');
+  return normalized === '.vscode/settings.json' || /\.code-workspace$/i.test(normalized);
+}
+
 function isNamedContextPath(relativePath: string, names: Set<string>): boolean {
   return names.has(path.basename(relativePath)) || isAgentInstructionContextPath(relativePath);
 }
 
 function isSecurityContextPath(relativePath: string): boolean {
-  return isNamedContextPath(relativePath, SECURITY_CONTEXT_FILE_NAMES) || isCopilotHookConfigPath(relativePath);
+  return (
+    isNamedContextPath(relativePath, SECURITY_CONTEXT_FILE_NAMES) ||
+    isCopilotHookConfigPath(relativePath) ||
+    isCopilotWorkspaceSettingsPath(relativePath)
+  );
 }

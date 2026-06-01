@@ -20,6 +20,8 @@ Covered files:
 - `.github/hooks/*.json`
 - `.github/copilot/settings.json`
 - `.github/copilot/settings.local.json`
+- `.vscode/settings.json`
+- `*.code-workspace`
 - `.cursorrules`
 - `.clinerules`
 - `SKILL.md`
@@ -72,8 +74,9 @@ Coding agents read repository files as context. A malicious pull request can add
 or modify Markdown instructions in `README.md`, `AGENTS.md`, `CLAUDE.md`,
 `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`,
 `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, project
-`SKILL.md` files, `.github/hooks/*.json`, `.github/copilot/settings.json`, or
-other agent-facing files that look like ordinary project guidance or workflow
+`SKILL.md` files, `.github/hooks/*.json`, `.github/copilot/settings.json`,
+`.vscode/settings.json`, committed `*.code-workspace` files, or other
+agent-facing files that look like ordinary project guidance or workflow
 automation but try to:
 
 - override higher-priority instructions

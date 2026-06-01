@@ -22,6 +22,8 @@ separate tools:
   shell instructions, hidden directives, and permission escalation
 - Copilot hook security checks for `.github/hooks/*.json` and committed
   `.github/copilot/settings*.json` hook configuration
+- VS Code Copilot workspace settings checks for `.vscode/settings.json` and
+  committed `*.code-workspace` instruction settings
 - MCP exposure checks for committed tool configs with hardcoded secrets, unsafe
   shell installers, unpinned package launches, auto-approval, broad tool
   permissions, or symlinked config files

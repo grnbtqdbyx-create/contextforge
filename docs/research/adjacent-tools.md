@@ -497,3 +497,9 @@ ContextForge v0.56.0 adds the execution side of that Copilot surface:
 configuration are now scanned by context security. GitHub describes hooks as
 shell commands that run at agent lifecycle points, so ContextForge treats them
 as security-sensitive automation rather than normal prose instructions.
+ContextForge v0.57.0 adds the VS Code workspace-settings side of Copilot
+customization. VS Code still supports settings-based instructions for code
+review, commit message generation, and pull-request descriptions via
+`.vscode/settings.json` or committed `.code-workspace` files, so those files
+are now scanned for instruction-injection and exfiltration language before
+contributors trust workspace-provided Copilot behavior.
