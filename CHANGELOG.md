@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.56.0 - 2026-06-01
+
+- Add Copilot hook security discovery for `.github/hooks/*.json`, `.github/copilot/settings.json`, and `.github/copilot/settings.local.json`.
+- Keep Copilot hook files out of context health scoring while scanning them for unsafe shell execution, credential exfiltration, hidden directives, and permission weakening.
+- Refresh README, Copilot customization docs, security docs, LLM discovery files, and research notes around repo-local Copilot hook risk.
+
 ## 0.55.0 - 2026-06-01
 
 - Extend Copilot context discovery beyond custom instructions to `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/agents/**/*.agent.md`, and project skill files in `.github/skills`, `.claude/skills`, and `.agents/skills`.

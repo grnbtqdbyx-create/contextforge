@@ -147,7 +147,7 @@ and reusable context distribution:
 | [AGENTS.md evaluation](https://arxiv.org/abs/2602.11988) | Research reports that context files can reduce task success and raise inference cost when they contain unnecessary requirements. | Keep pushing minimal, measured repo instructions and make `contextforge plan` prioritize removal of noisy or unsafe guidance. |
 | [OpenAI AGENTS.md](https://github.com/openai/agents.md) | AGENTS.md is positioned as a predictable place to give coding agents project context. | Support the convention, but scaffold minimal operational guidance and audit it continuously. |
 | [Claude Code memory docs](https://docs.claude.com/en/docs/claude-code/memory) | Claude project memory lives in `CLAUDE.md` and works best with specific, structured instructions. | Generate concise Claude memory alongside AGENTS.md and keep it inside the same audit loop. |
-| [GitHub Copilot customization](https://docs.github.com/en/copilot/reference/customization-cheat-sheet) | Copilot supports repository instructions, path-scoped instructions, prompt files, custom agents, and project skills across several repo locations. | Treat Copilot customization files as first-class repo context so ContextForge remains useful beyond a Codex/Claude-only niche. |
+| [GitHub Copilot customization](https://docs.github.com/en/copilot/reference/customization-cheat-sheet) | Copilot supports repository instructions, path-scoped instructions, prompt files, custom agents, project skills, hooks, and MCP servers across several repo locations. | Treat Copilot customization files as first-class repo context so ContextForge remains useful beyond a Codex/Claude-only niche. |
 | [CSA README injection note](https://labs.cloudsecurityalliance.org/wp-content/uploads/2026/03/CSA_research_note_readme_instruction_injection_ai_coding_agents_20260317-csa-styled.pdf) | Repository files can become an instruction-injection surface for coding agents. | Keep security findings first in the action plan and preserve SARIF/Code Scanning integration. |
 | [CodeIPI](https://ukgovernmentbeis.github.io/inspect_evals/evals/safeguards/ipi_coding_agent/index.html) | Indirect prompt injection benchmark embeds attacks in software engineering artifacts including README files and code comments. | Treat README as a first-class audit target while keeping the default scope deterministic and local-first. |
 
@@ -492,3 +492,8 @@ agents, and project skills. Current GitHub Copilot customization docs list
 `.github/agents`, and project skills under `.github/skills`, `.claude/skills`,
 or `.agents/skills`; all of those are now treated as auditable repo context
 instead of invisible prompt-side configuration.
+ContextForge v0.56.0 adds the execution side of that Copilot surface:
+`.github/hooks/*.json` and committed `.github/copilot/settings*.json` hook
+configuration are now scanned by context security. GitHub describes hooks as
+shell commands that run at agent lifecycle points, so ContextForge treats them
+as security-sensitive automation rather than normal prose instructions.

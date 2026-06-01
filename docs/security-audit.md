@@ -17,6 +17,9 @@ Covered files:
 - `.github/skills/<skill-name>/SKILL.md`
 - `.claude/skills/<skill-name>/SKILL.md`
 - `.agents/skills/<skill-name>/SKILL.md`
+- `.github/hooks/*.json`
+- `.github/copilot/settings.json`
+- `.github/copilot/settings.local.json`
 - `.cursorrules`
 - `.clinerules`
 - `SKILL.md`
@@ -69,14 +72,16 @@ Coding agents read repository files as context. A malicious pull request can add
 or modify Markdown instructions in `README.md`, `AGENTS.md`, `CLAUDE.md`,
 `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`,
 `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, project
-`SKILL.md` files, or other agent-facing files that look like ordinary project
-guidance but try to:
+`SKILL.md` files, `.github/hooks/*.json`, `.github/copilot/settings.json`, or
+other agent-facing files that look like ordinary project guidance or workflow
+automation but try to:
 
 - override higher-priority instructions
 - weaken approval and sandbox behavior
 - exfiltrate credentials through comments, artifacts, or network calls
 - hide malicious behavior from the user
 - trick an agent into executing unreviewed shell commands
+- install lifecycle hooks that run unsafe shell commands before normal review
 
 ContextForge is not a complete security product, but it gives maintainers an
 early CI signal before an agent treats suspicious repo context as trusted input.

@@ -20,6 +20,8 @@ separate tools:
   `SKILL.md`, and root README files
 - context security checks for prompt injection, secret exfiltration, unsafe
   shell instructions, hidden directives, and permission escalation
+- Copilot hook security checks for `.github/hooks/*.json` and committed
+  `.github/copilot/settings*.json` hook configuration
 - MCP exposure checks for committed tool configs with hardcoded secrets, unsafe
   shell installers, unpinned package launches, auto-approval, broad tool
   permissions, or symlinked config files
