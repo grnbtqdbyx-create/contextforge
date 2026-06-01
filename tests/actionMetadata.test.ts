@@ -18,6 +18,7 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('proof-pack:');
     expect(action).toContain('scorecard:');
     expect(action).toContain('surface-map:');
+    expect(action).toContain('surface-inventory:');
     expect(action).toContain('mcp-audit:');
     expect(action).toContain('mcp-sarif:');
     expect(action).toContain('claude-audit:');
@@ -33,6 +34,7 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('proof-pack-md:');
     expect(action).toContain('scorecard-md:');
     expect(action).toContain('surface-map-md:');
+    expect(action).toContain('surface-inventory-md:');
     expect(action).toContain('mcp-audit-md:');
     expect(action).toContain('mcp-sarif:');
     expect(action).toContain('claude-audit-md:');
@@ -53,6 +55,7 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" proof-pack');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" scorecard');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" surface-map');
+    expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" surface-inventory');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" mcp-audit');
     expect(action).toContain('--sarif \"${{ inputs.mcp-sarif }}\"');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" claude-audit');

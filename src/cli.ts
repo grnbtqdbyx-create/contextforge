@@ -33,6 +33,7 @@ import { createReviewKit, demoReviewKitFiles } from './report/reviewKit.js';
 import { createBadgeSvg } from './report/badge.js';
 import { createArtifactMap } from './report/artifactMap.js';
 import { createAgentSurfaceMap } from './report/agentSurfaceMap.js';
+import { createAgentSurfaceInventory, createAgentSurfaceInventoryMarkdown } from './report/agentSurfaceInventory.js';
 import { buildAudit } from './audit/buildAudit.js';
 import { runSecurityBenchmark } from './benchmark/securityBenchmark.js';
 import { createDoctorSummary, formatDoctor, runDoctor } from './doctor/doctor.js';
@@ -160,6 +161,9 @@ async function main(): Promise<void> {
       break;
     case 'surface-map':
       await commandSurfaceMap(args);
+      break;
+    case 'surface-inventory':
+      await commandSurfaceInventory(args);
       break;
     case 'publish-readiness':
       await commandPublishReadiness(args);
@@ -602,6 +606,17 @@ async function commandSurfaceMap(args: CliArgs): Promise<void> {
   console.log(`Wrote ${args.output}`);
 }
 
+async function commandSurfaceInventory(args: CliArgs): Promise<void> {
+  const inventory = await createAgentSurfaceInventory();
+  if (args.json) {
+    console.log(JSON.stringify(inventory, null, 2));
+    return;
+  }
+  await fs.mkdir(dirname(args.output), { recursive: true });
+  await fs.writeFile(args.output, createAgentSurfaceInventoryMarkdown(inventory));
+  console.log(`Wrote ${args.output}`);
+}
+
 async function commandPublishReadiness(args: CliArgs): Promise<void> {
   const result = await createNpmPublishReadiness({ rootDir: process.cwd() });
   console.log(args.json ? JSON.stringify(result, null, 2) : formatNpmPublishReadiness(result));
@@ -694,6 +709,7 @@ function defaultOutputForCommand(command: string): string {
   if (command === 'review-kit') return 'contextforge-review-kit.md';
   if (command === 'artifact-map') return 'docs/artifacts.md';
   if (command === 'surface-map') return 'contextforge-agent-surface-map.md';
+  if (command === 'surface-inventory') return 'contextforge-agent-surface-inventory.md';
   if (command === 'publish-readiness') return 'contextforge-publish-readiness.md';
   return 'contextforge-report.html';
 }
@@ -804,8 +820,9 @@ Usage:
   contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
   contextforge artifact-map [--output docs/artifacts.md]
   contextforge surface-map [--output contextforge-agent-surface-map.md]
+  contextforge surface-inventory [--json] [--output contextforge-agent-surface-inventory.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.61.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.62.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

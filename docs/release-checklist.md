@@ -15,6 +15,7 @@
 - [x] npm publish-readiness report separates repo checks from account-level setup.
 - [x] Agent readiness scorecard gives README visitors a one-screen Codex/Claude proof surface.
 - [x] Agent surface map gives README visitors a cross-agent support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces.
+- [x] Agent surface inventory gives README visitors a repo-specific list of actual agent-readable files and audit commands.
 - [x] MCP exposure audit catches committed MCP config secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files.
 - [x] MCP exposure findings can be exported as SARIF for GitHub Code Scanning.
 - [x] Claude Code project settings can be audited as Markdown and SARIF artifacts.

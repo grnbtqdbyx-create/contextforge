@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.62.0 - 2026-06-01
+
+- Add `contextforge surface-inventory --output contextforge-agent-surface-inventory.md` to list the actual agent-readable files present in a repository.
+- Include Markdown and JSON inventory output that maps each detected surface to its ecosystem and the ContextForge commands that audit it.
+- Add the inventory artifact to the reusable action, dogfood workflow, artifact map, package files, README, docs, and LLM discovery surfaces.
+
 ## 0.61.0 - 2026-06-01
 
 - Add adjacent agent rule discovery for Cursor `.cursor/rules/**/*.mdc`, Cline `.clinerules/**/*.{md,txt}`, Gemini CLI `GEMINI.md`, Windsurf `.windsurfrules`, and Windsurf `.windsurf/rules/**/*.{md,mdc,txt}` files.

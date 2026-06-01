@@ -73,6 +73,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge surface-map --output contextforge-agent-surface-map.md`'
   },
   {
+    artifact: 'contextforge-agent-surface-inventory.md',
+    audience: 'Agent operators, OSS evaluators, and repo maintainers',
+    useWhen: 'you need the actual agent-readable files present in this repository and the command that audits each one',
+    producedBy: '`contextforge surface-inventory --output contextforge-agent-surface-inventory.md`'
+  },
+  {
     artifact: 'docs/adoption.md',
     audience: 'First-time maintainers and OSS reviewers',
     useWhen: 'you need a decision path for trying, starring, or wiring ContextForge into CI',
@@ -211,6 +217,7 @@ export function createArtifactMap(): string {
     'contextforge adoption-brief --output docs/adoption.md',
     'contextforge scorecard --output contextforge-scorecard.md',
     'contextforge surface-map --output contextforge-agent-surface-map.md',
+    'contextforge surface-inventory --output contextforge-agent-surface-inventory.md',
     'contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif',
     'contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif',
     'contextforge trace-audit --demo --summary contextforge-trace-audit.md',

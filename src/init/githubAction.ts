@@ -1,7 +1,7 @@
 import { access, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.61.0';
+export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.62.0';
 
 export interface GithubActionScaffoldOptions {
   rootDir: string;
@@ -72,6 +72,7 @@ jobs:
           proof-pack: contextforge-proof-pack.md
           scorecard: contextforge-scorecard.md
           surface-map: contextforge-agent-surface-map.md
+          surface-inventory: contextforge-agent-surface-inventory.md
           mcp-audit: contextforge-mcp-audit.md
           mcp-sarif: contextforge-mcp.sarif
           claude-audit: contextforge-claude-audit.md
@@ -96,6 +97,7 @@ jobs:
             contextforge-proof-pack.md
             contextforge-scorecard.md
             contextforge-agent-surface-map.md
+            contextforge-agent-surface-inventory.md
             contextforge-mcp-audit.md
             contextforge-mcp.sarif
             contextforge-claude-audit.md

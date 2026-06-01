@@ -520,3 +520,9 @@ marketing-only: Cursor `.cursor/rules/**/*.mdc`, Cline
 `.clinerules/**/*.{md,txt}`, Gemini CLI `GEMINI.md`, Windsurf
 `.windsurfrules`, and Windsurf `.windsurf/rules/**/*.{md,mdc,txt}` files are
 now discovered, security-audited, and scored as instruction context.
+ContextForge v0.62.0 adds the missing repo-specific proof layer:
+`contextforge surface-inventory --output contextforge-agent-surface-inventory.md`
+lists the actual agent-readable files present in the current repository and
+the command that audits each one, differentiating ContextForge from packers
+that only bundle files and static matrices that only describe supported
+surfaces.
