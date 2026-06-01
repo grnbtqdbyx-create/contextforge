@@ -19,6 +19,7 @@ A fast evaluator page for maintainers deciding whether this repository is worth 
 
 ```bash
 contextforge scorecard --output contextforge-scorecard.md
+contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
@@ -27,6 +28,7 @@ contextforge artifact-map --output docs/artifacts.md
 ```
 
 - Open `contextforge-scorecard.md` first for the one-screen Codex/Claude readiness snapshot.
+- Open `contextforge-agent-surface-diff.md` when a PR may have changed agent-readable instructions, rules, settings, or tool configs.
 - Open `contextforge-mcp-audit.md` when the repo has MCP config files or agent tool setup; upload `contextforge-mcp.sarif` when GitHub Code Scanning should track those findings.
 - Open `contextforge-claude-audit.md` when the repo commits Claude Code project settings, hooks, or permissions.
 - Open `contextforge-trace-audit.md` when you want to see whether a Codex or Claude trace wasted context on repeated tools or bulky outputs.
@@ -51,6 +53,7 @@ pnpm install
 pnpm build
 node dist/cli.js doctor --summary contextforge-doctor.md
 node dist/cli.js scorecard --output contextforge-scorecard.md
+node dist/cli.js surface-diff --base main --output contextforge-agent-surface-diff.md
 node dist/cli.js mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 node dist/cli.js claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 node dist/cli.js trace-audit --demo --summary contextforge-trace-audit.md
@@ -62,7 +65,7 @@ After npm publish, the same proof path should work with `npx contextforge ...`.
 ## Star-Worthy Proof
 
 - The CLI is deterministic and local-first; it does not call an LLM to create audit results.
-- The repository dogfoods its own GitHub Action and uploads scorecard, MCP audit, MCP SARIF, Claude settings audit, trace audit, proof-pack, review-kit, artifact-map, SARIF, JSON, HTML, and Markdown artifacts.
+- The repository dogfoods its own GitHub Action and uploads scorecard, surface diff, MCP audit, MCP SARIF, Claude settings audit, trace audit, proof-pack, review-kit, artifact-map, SARIF, JSON, HTML, and Markdown artifacts.
 - Release notes include validation commands and GitHub Actions run evidence.
 - The project is Apache-2.0 licensed with DCO contribution flow and trademark policy.
 

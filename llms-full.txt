@@ -40,8 +40,10 @@ separate tools:
 - task-specific context packs with explainable file inclusion reasons
 - a cross-agent surface map showing audited Codex, Claude Code, GitHub
   Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces
+- a PR-specific surface diff showing changed agent-readable files, affected
+  ecosystems, and follow-up checks before reviewers trust new branch context
 - CI artifacts: JSON audit, HTML report, SARIF, Markdown summary, PR-ready
-  comment, MCP audit, review kit, surface map, artifact map, proof pack, and agent action plan
+  comment, MCP audit, review kit, surface map, surface diff, artifact map, proof pack, and agent action plan
 
 ## Quick Adoption Path
 
@@ -85,6 +87,7 @@ contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
 contextforge scorecard [--demo] [--json] [--output contextforge-scorecard.md]
 contextforge surface-map [--output contextforge-agent-surface-map.md]
 contextforge surface-inventory [--json] [--output contextforge-agent-surface-inventory.md]
+contextforge surface-diff [--base main] [--json] [--output contextforge-agent-surface-diff.md]
 contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md] [--sarif contextforge-mcp.sarif]
 contextforge claude-audit [--demo] [--json] [--summary contextforge-claude-audit.md] [--sarif contextforge-claude.sarif]
 contextforge trace-audit [--demo] [--json] [--summary contextforge-trace-audit.md]
@@ -128,6 +131,7 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-scorecard.md`: one-screen Codex/Claude readiness snapshot from `scorecard`
 - `contextforge-agent-surface-map.md`: cross-agent support matrix from `surface-map`
 - `contextforge-agent-surface-inventory.md`: repo-specific list of actual agent-readable files from `surface-inventory`
+- `contextforge-agent-surface-diff.md`: PR-specific list of changed agent-readable files from `surface-diff`
 - `contextforge-mcp-audit.md`: committed MCP config exposure summary from `mcp-audit`
 - `contextforge-mcp.sarif`: GitHub Code Scanning SARIF for committed MCP config exposure findings
 - `contextforge-claude-audit.md`: committed Claude Code settings exposure summary from `claude-audit`
@@ -139,8 +143,8 @@ cases so maintainers can see what the scanner is expected to catch.
 - `docs/artifacts.md`: generated artifact catalog and fast paths from `artifact-map`
 - `contextforge-artifact-map.md`: CI-uploaded artifact catalog from reusable and generated workflows
 - `contextforge-publish-readiness.md`: npm Trusted Publishing and package provenance readiness summary from `publish-readiness`
-- Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-agent-surface-map.md`, `contextforge-agent-surface-inventory.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts. Dogfood and generated workflows opt JavaScript actions into Node 24.
-- PR-ready comments point reviewers at `contextforge-proof-pack.md` and `contextforge-review-kit.md` so sticky review discussions can lead to both the deeper doctor/audit proof packet and the changed-file review brief.
+- Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-agent-surface-map.md`, `contextforge-agent-surface-inventory.md`, `contextforge-agent-surface-diff.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts. Dogfood and generated workflows opt JavaScript actions into Node 24.
+- PR-ready comments point reviewers at `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-agent-surface-diff.md` so sticky review discussions can lead to the deeper doctor/audit proof packet, the changed-file review brief, and the changed agent-surface report.
 - `docs/launch-post.md`: generated build-in-public launch kit from `launch-kit`
 - `docs/comparison.md`: generated adjacent-tool positioning guide from `compare`
 - `assets/demo-terminal.svg` and `assets/contextforge-report.png`: launch profile assets checked by `contextforge doctor`

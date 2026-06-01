@@ -43,9 +43,10 @@ describe('review kit report', () => {
     expect(kit).toContain('- `src/report/prComment.ts`');
     expect(kit).toContain('## Evidence Commands');
     expect(kit).toContain('contextforge review-kit --base main --output contextforge-review-kit.md');
+    expect(kit).toContain('contextforge surface-diff --base main --output contextforge-agent-surface-diff.md');
     expect(kit).toContain('## Codex / Claude Review Prompt');
     expect(kit).toContain('You are reviewing a ContextForge pull request for correctness, safety, and agent usefulness.');
-    expect(kit).toContain('Read `contextforge-pr-comment.md`, `contextforge-agent-plan.md`, and `contextforge-proof-pack.md` if they exist.');
+    expect(kit).toContain('Read `contextforge-pr-comment.md`, `contextforge-agent-plan.md`, `contextforge-proof-pack.md`, and `contextforge-agent-surface-diff.md` if they exist.');
   });
 
   it('collects uncommitted working tree files for pre-PR autoreview', async () => {

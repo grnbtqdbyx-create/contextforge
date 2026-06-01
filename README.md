@@ -25,12 +25,14 @@ safely?**
 contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 80
 contextforge surface-map --output contextforge-agent-surface-map.md
 contextforge surface-inventory --output contextforge-agent-surface-inventory.md
+contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
 ```
 
 The audit gates context health, cache stability, and prompt/context poisoning.
 The surface map shows exactly which agent-facing files are covered before a
 maintainer has to read every doc. The inventory shows the agent-readable files
-that are actually present in the current repository.
+that are actually present in the current repository. The diff shows which
+agent-readable files changed in a PR before reviewers trust the new context.
 
 | Agent stack | Surfaces ContextForge checks |
 | --- | --- |
@@ -77,6 +79,8 @@ For the cross-agent support matrix, see
 [contextforge-agent-surface-map.md](contextforge-agent-surface-map.md).
 For the repo-specific agent surface inventory, see
 [contextforge-agent-surface-inventory.md](contextforge-agent-surface-inventory.md).
+For the PR-specific changed agent surface diff, see
+[contextforge-agent-surface-diff.md](contextforge-agent-surface-diff.md).
 For committed MCP config risk checks, see
 [contextforge-mcp-audit.md](contextforge-mcp-audit.md).
 For committed Claude Code settings risk checks, see
@@ -100,6 +104,7 @@ contextforge artifact-map --output docs/artifacts.md
 contextforge scorecard --output contextforge-scorecard.md
 contextforge surface-map --output contextforge-agent-surface-map.md
 contextforge surface-inventory --output contextforge-agent-surface-inventory.md
+contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
@@ -122,6 +127,7 @@ contextforge audit --demo --comment examples/pr-comment.md --badge contextforge-
 | First-time maintainer evaluation | `docs/adoption.md` |
 | Cross-agent surface coverage | `contextforge-agent-surface-map.md` |
 | Actual repo agent surfaces | `contextforge-agent-surface-inventory.md` |
+| Changed PR agent surfaces | `contextforge-agent-surface-diff.md` |
 | MCP config risk | `contextforge-mcp-audit.md` |
 | Claude Code project settings risk | `contextforge-claude-audit.md` |
 | Agent trace efficiency | `contextforge-trace-audit.md` |
@@ -170,6 +176,17 @@ That file lists changed files, infers review focus areas, includes rerun
 commands, and writes a copyable Codex/Claude review prompt. It is designed for
 agent-written PRs, workflow changes, README/AGENTS/CLAUDE edits, and any branch
 where green CI alone is not enough proof.
+
+For a PR-specific view of changed agent instructions, rules, settings, and tool
+configs:
+
+```bash
+contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
+```
+
+That file names the changed agent-readable surfaces, affected ecosystems, and
+follow-up checks before a reviewer lets Codex, Claude, Copilot, Cursor, Cline,
+Gemini, or Windsurf trust the branch.
 
 For a quick map of which generated file to open first:
 
@@ -260,6 +277,7 @@ pnpm contextforge artifact-map
 pnpm contextforge adoption-brief
 pnpm contextforge scorecard
 pnpm contextforge surface-map
+pnpm contextforge surface-diff
 pnpm contextforge mcp-audit
 pnpm contextforge publish-readiness
 pnpm contextforge proof-pack --demo
@@ -289,6 +307,7 @@ contextforge adoption-brief --output docs/adoption.md
 contextforge scorecard --output contextforge-scorecard.md
 contextforge surface-map --output contextforge-agent-surface-map.md
 contextforge surface-inventory --output contextforge-agent-surface-inventory.md
+contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
@@ -304,7 +323,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions --ou
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.62.0
+- uses: grnbtqdbyx-create/contextforge@v0.63.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -323,6 +342,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Show a one-screen readiness scorecard:** publish `contextforge-scorecard.md` so README visitors, reviewers, Codex, and Claude can see the repo's agent readiness quickly.
 - **Show exactly which agent surfaces are covered:** publish `contextforge-agent-surface-map.md` so visitors can scan Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf coverage in one table.
 - **Show which agent surfaces actually exist:** publish `contextforge-agent-surface-inventory.md` so visitors and CI readers can see the real repo-local instructions, rules, settings, and tool configs ContextForge found.
+- **Show which agent surfaces changed in a PR:** publish `contextforge-agent-surface-diff.md` so reviewers can see whether `AGENTS.md`, `CLAUDE.md`, Copilot prompts, MCP configs, Cursor/Cline/Gemini/Windsurf rules, or README entrypoints moved before trusting agent output.
 - **Audit MCP exposure:** publish `contextforge-mcp-audit.md` and `contextforge-mcp.sarif` so committed MCP configs cannot quietly ship hardcoded secrets, remote shell installers, unpinned package launches, auto-approval, broad tool permissions, or symlinked config files.
 - **Audit Claude Code settings:** publish `contextforge-claude-audit.md` and `contextforge-claude.sarif` so repo-committed Claude settings cannot quietly ship bypass modes, broad Bash permissions, remote shell hooks, or missing sensitive-file denies.
 - **Audit trace efficiency:** publish `contextforge-trace-audit.md` so repeated tool calls, huge outputs, tool-output-heavy traces, and low cache reuse are visible before the next long agent session.
@@ -340,7 +360,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Catch context poisoning:** flag instruction overrides, secret exfiltration, unsafe shell, hidden directives, and permission escalation.
 - **Generate budgeted context packs:** give Codex or Claude only the files needed for a task, with "why included" reasons and a visible budget ledger.
 - **Create agent action plans:** turn audit findings into prioritized Markdown that Codex or Claude can execute from.
-- **Show PR-ready evidence:** emit a compact deterministic Markdown comment that review workflows can publish or archive, including pointers to `contextforge-proof-pack.md` and `contextforge-review-kit.md`.
+- **Show PR-ready evidence:** emit a compact deterministic Markdown comment that review workflows can publish or archive, including pointers to `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-agent-surface-diff.md`.
 - **Publish visible proof:** emit `contextforge-badge.svg` so CI can expose a compact agent-context status badge.
 - **Expose LLM-readable docs:** ship `llms.txt` and `llms-full.txt` so coding agents can orient quickly.
 - **Evolve safely:** suggest improved repo-level rules before writing anything.
@@ -383,6 +403,7 @@ and tuned for Codex/Claude repository work.
 | README visitors need a fast answer before reading docs. | `scorecard` writes a one-screen Codex/Claude readiness snapshot. |
 | Visitors ask whether their agent stack is covered. | `surface-map` writes a Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf surface matrix. |
 | Visitors ask what this repo actually exposes to agents. | `surface-inventory` writes the detected repo-local agent surfaces and matching proof commands. |
+| Reviewers miss when a PR changes agent behavior. | `surface-diff` writes the changed agent-readable files, affected ecosystems, and follow-up checks for the branch. |
 | Agent tool configs can hide supply-chain risk. | `mcp-audit` checks committed MCP configs for hardcoded secrets, remote shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files. |
 | MCP findings should show up in GitHub Security. | `mcp-audit --sarif` writes `contextforge-mcp.sarif` with `mcp-exposure/*` rule ids for Code Scanning. |
 | Claude Code settings can over-trust a repo. | `claude-audit` checks shared `.claude/settings.json` permissions, hooks, bypass modes, and sensitive-file denies. |
@@ -424,6 +445,7 @@ contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
 contextforge scorecard [--demo] [--json] [--output contextforge-scorecard.md]
 contextforge surface-map [--output contextforge-agent-surface-map.md]
 contextforge surface-inventory [--json] [--output contextforge-agent-surface-inventory.md]
+contextforge surface-diff [--base main] [--json] [--output contextforge-agent-surface-diff.md]
 contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md] [--sarif contextforge-mcp.sarif]
 contextforge claude-audit [--demo] [--json] [--summary contextforge-claude-audit.md] [--sarif contextforge-claude.sarif]
 contextforge trace-audit [--demo] [--json] [--summary contextforge-trace-audit.md]
@@ -431,7 +453,7 @@ contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estima
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.62.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.63.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -459,6 +481,7 @@ contextforge adoption-brief --output docs/adoption.md
 contextforge scorecard --output contextforge-scorecard.md
 contextforge surface-map --output contextforge-agent-surface-map.md
 contextforge surface-inventory --output contextforge-agent-surface-inventory.md
+contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge proof-pack --output contextforge-proof-pack.md
@@ -495,6 +518,7 @@ First-run readiness checks are documented in [docs/doctor.md](docs/doctor.md).
 Proof pack generation is documented in [docs/proof-pack.md](docs/proof-pack.md).
 Scorecard generation is documented in [docs/scorecard.md](docs/scorecard.md).
 Surface inventory generation is documented in [docs/surface-inventory.md](docs/surface-inventory.md).
+Surface diff generation is documented in [docs/surface-diff.md](docs/surface-diff.md).
 Review-kit generation is documented in [docs/review-kit.md](docs/review-kit.md).
 MCP exposure audits are documented in [docs/mcp-audit.md](docs/mcp-audit.md).
 Claude Code settings audits are documented in [docs/claude-audit.md](docs/claude-audit.md).
@@ -513,7 +537,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.62.0 is a public MVP CLI with:
+ContextForge v0.63.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -524,6 +548,7 @@ ContextForge v0.62.0 is a public MVP CLI with:
 - one-screen `contextforge scorecard` readiness snapshots for README, PR, and CI artifact readers
 - `contextforge surface-map` support matrices for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces
 - `contextforge surface-inventory` repo-specific inventories for the actual agent-readable files present in a repository
+- `contextforge surface-diff` PR-specific changed-surface reports for agent-readable files and follow-up checks
 - committed MCP config exposure audits for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files
 - committed Claude Code settings audits for bypass modes, broad Bash allow rules, remote shell hooks, wildcard HTTP hooks, and missing sensitive-file denies
 - Claude Code project subagent and custom slash-command discovery for `.claude/agents/**/*.md` and `.claude/commands/**/*.md`
@@ -538,11 +563,12 @@ ContextForge v0.62.0 is a public MVP CLI with:
 - reusable GitHub Action and dogfood workflow support for `contextforge-scorecard.md`
 - reusable GitHub Action and dogfood workflow support for `contextforge-agent-surface-map.md`
 - reusable GitHub Action and dogfood workflow support for `contextforge-agent-surface-inventory.md`
+- reusable GitHub Action and dogfood workflow support for `contextforge-agent-surface-diff.md`
 - reusable GitHub Action and dogfood workflow support for `contextforge-mcp-audit.md` and `contextforge-mcp.sarif`
 - reusable GitHub Action and dogfood workflow support for `contextforge-claude-audit.md` and `contextforge-claude.sarif`
 - reusable GitHub Action and dogfood workflow support for `contextforge-review-kit.md`
 - reusable GitHub Action and dogfood workflow support for `contextforge-artifact-map.md`
-- PR-ready comments that point reviewers at `contextforge-proof-pack.md` and `contextforge-review-kit.md`
+- PR-ready comments that point reviewers at `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-agent-surface-diff.md`
 - generated `contextforge artifact-map` catalogs for reviewers, agents, and launch visitors
 - generated `contextforge publish-readiness` checks for npm Trusted Publishing preparation
 - npm provenance metadata checks for repository, homepage, and issue tracker links
@@ -644,6 +670,7 @@ ContextForge v0.62.0 is a public MVP CLI with:
 - **v0.60.0:** README first-viewport positioning with a 30-second proof path and cross-agent coverage table.
 - **v0.61.0:** Adjacent agent rule discovery for modern Cursor, Cline, Gemini CLI, and Windsurf repo-local instruction files.
 - **v0.62.0:** Repo-specific agent surface inventory for the actual instruction, rule, settings, and tool files present in a repository.
+- **v0.63.0:** PR-specific agent surface diffs for changed instruction, rule, settings, and tool files.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

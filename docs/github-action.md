@@ -5,6 +5,7 @@ report, a SARIF file for GitHub Code Scanning, a Markdown job summary, a
 PR-ready Markdown comment, machine-readable improvement suggestions, a compact
 SVG status badge, a shareable proof pack, a one-screen readiness scorecard, an
 agent surface support matrix, a repo-specific agent surface inventory, a
+PR-specific agent surface diff, a
 committed MCP exposure audit, a dedicated MCP SARIF file, a Codex/Claude review
 kit, a Claude Code settings audit, a dedicated Claude settings SARIF file, and
 an agent-readable action plan on every push or pull request.
@@ -24,14 +25,14 @@ workflow, the optional PR comment workflow, `AGENTS.md`, `CLAUDE.md`, and
 `.github/copilot-instructions.md`.
 The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment,
 suggestions JSON, SVG badge, proof-pack Markdown, scorecard Markdown,
-agent surface map Markdown, agent surface inventory Markdown,
+agent surface map Markdown, agent surface inventory Markdown, agent surface diff Markdown,
 MCP audit Markdown, MCP SARIF, Claude settings Markdown, Claude settings SARIF,
 trace audit Markdown, review-kit Markdown, artifact-map Markdown, and agent action plan artifacts. It
 refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.62.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.63.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -66,7 +67,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.62.0
+      - uses: grnbtqdbyx-create/contextforge@v0.63.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -83,6 +84,7 @@ jobs:
           scorecard: contextforge-scorecard.md
           surface-map: contextforge-agent-surface-map.md
           surface-inventory: contextforge-agent-surface-inventory.md
+          surface-diff: contextforge-agent-surface-diff.md
           mcp-audit: contextforge-mcp-audit.md
           mcp-sarif: contextforge-mcp.sarif
           claude-audit: contextforge-claude-audit.md
@@ -108,6 +110,7 @@ jobs:
             contextforge-scorecard.md
             contextforge-agent-surface-map.md
             contextforge-agent-surface-inventory.md
+            contextforge-agent-surface-diff.md
             contextforge-mcp-audit.md
             contextforge-mcp.sarif
             contextforge-claude-audit.md
@@ -147,6 +150,9 @@ and which ContextForge command proves each surface.
 The `contextforge-agent-surface-inventory.md` artifact shows the actual
 agent-readable files present in the caller repository and the ContextForge
 commands that audit each one.
+The `contextforge-agent-surface-diff.md` artifact shows which agent-readable
+files changed in the branch, which agent ecosystems are affected, and which
+checks should rerun before reviewers trust the new context.
 The `contextforge-mcp-audit.md` artifact shows whether committed MCP configs
 contain hardcoded secrets, unsafe remote shell installers, unpinned package
 launches, auto-approval, broad tool permissions, or symlinked config files
@@ -246,6 +252,8 @@ jobs:
         if: always()
       - run: node dist/cli.js surface-inventory --output contextforge-agent-surface-inventory.md
         if: always()
+      - run: node dist/cli.js surface-diff --base main --output contextforge-agent-surface-diff.md
+        if: always()
       - run: node dist/cli.js mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
         if: always()
       - run: node dist/cli.js claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
@@ -276,6 +284,7 @@ jobs:
             contextforge-scorecard.md
             contextforge-agent-surface-map.md
             contextforge-agent-surface-inventory.md
+            contextforge-agent-surface-diff.md
             contextforge-mcp-audit.md
             contextforge-mcp.sarif
             contextforge-claude-audit.md
