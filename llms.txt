@@ -18,6 +18,7 @@ that Codex and Claude can act on.
 - `contextforge scorecard --output contextforge-scorecard.md`: write a one-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
 - `contextforge surface-map --output contextforge-agent-surface-map.md`: write a support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces.
 - `contextforge surface-inventory --output contextforge-agent-surface-inventory.md`: write the actual agent-readable files present in this repo and the commands that audit them.
+- `contextforge surface-diff --base main --output contextforge-agent-surface-diff.md`: write the changed agent-readable files in a PR, affected ecosystems, and follow-up checks.
 - `contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif`: scan committed MCP configs for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files, with optional GitHub Code Scanning output.
 - `contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif`: scan committed Claude Code settings for risky default modes, broad Bash permissions, remote shell hooks, wildcard HTTP hooks, and missing sensitive-file denies.
 - `contextforge security-audit --min-security-score 80`: scan repo instructions, Claude Code subagents, custom slash commands, Copilot prompts, hooks, and workspace settings for prompt/context poisoning.
@@ -31,7 +32,7 @@ that Codex and Claude can act on.
 - `contextforge compare --output docs/comparison.md`: generate adjacent-tool positioning for README and launch use.
 - `contextforge improve --demo --json`: emit structured repo-rule suggestions for agents and bots.
 - `contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg`: create CI, PR-review, structured suggestion, and status badge artifacts.
-- The reusable GitHub Action and generated audit workflow publish `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-agent-surface-map.md`, `contextforge-agent-surface-inventory.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` as CI artifacts, opt JavaScript actions into Node 24, and PR-ready comments point reviewers to the proof and review outputs.
+- The reusable GitHub Action and generated audit workflow publish `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-agent-surface-map.md`, `contextforge-agent-surface-inventory.md`, `contextforge-agent-surface-diff.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` as CI artifacts, opt JavaScript actions into Node 24, and PR-ready comments point reviewers to the proof and review outputs.
 - `contextforge pack --task "review auth regression" --budget 20000 --sessions --output contextforge-pack.md`: build an explainable task context pack with a budget ledger.
 
 ## Key Docs
@@ -44,6 +45,7 @@ that Codex and Claude can act on.
 - [Scorecard](docs/scorecard.md): One-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
 - [Agent Surface Map](contextforge-agent-surface-map.md): Cross-agent support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces.
 - [Agent Surface Inventory](contextforge-agent-surface-inventory.md): Repo-specific list of actual agent-readable files and matching audit commands.
+- [Agent Surface Diff](contextforge-agent-surface-diff.md): PR-specific list of changed agent-readable files, affected ecosystems, and follow-up checks.
 - [MCP Audit](docs/mcp-audit.md): Committed MCP config exposure checks and SARIF output for agent tool safety.
 - [Claude Audit](docs/claude-audit.md): Committed Claude Code settings checks and SARIF output for shared permissions and hooks.
 - [Trace Audit](docs/trace-audit.md): Codex/Claude session efficiency checks for repeated tools, bulky outputs, and cache reuse.

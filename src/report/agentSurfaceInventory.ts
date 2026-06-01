@@ -88,7 +88,7 @@ export async function createAgentSurfaceInventory(options: { rootDir?: string } 
   const surfaces = files
     .map((filePath) => path.relative(rootDir, filePath).split(path.sep).join('/'))
     .filter((relativePath) => !isInventoryIgnored(relativePath))
-    .flatMap((relativePath) => inventoryItemForPath(relativePath))
+    .flatMap((relativePath) => agentSurfaceInventoryItemsForPath(relativePath))
     .sort((left, right) => left.path.localeCompare(right.path) || left.ecosystem.localeCompare(right.ecosystem));
 
   return {
@@ -134,7 +134,7 @@ export function createAgentSurfaceInventoryMarkdown(inventory: AgentSurfaceInven
   return `${lines.join('\n')}\n`;
 }
 
-function inventoryItemForPath(relativePath: string): AgentSurfaceInventoryItem[] {
+export function agentSurfaceInventoryItemsForPath(relativePath: string): AgentSurfaceInventoryItem[] {
   const definition = surfaceDefinitions.find((item) => item.matches(relativePath));
   if (!definition) return [];
   return [

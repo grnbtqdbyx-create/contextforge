@@ -48,6 +48,7 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('scorecard --output contextforge-scorecard.md');
     expect(workflow).toContain('surface-map --output contextforge-agent-surface-map.md');
     expect(workflow).toContain('surface-inventory --output contextforge-agent-surface-inventory.md');
+    expect(workflow).toContain('surface-diff --base main --output contextforge-agent-surface-diff.md');
     expect(workflow).toContain('mcp-audit --summary contextforge-mcp-audit.md');
     expect(workflow).toContain('contextforge-mcp.sarif');
     expect(workflow).toContain('claude-audit --summary contextforge-claude-audit.md');
@@ -71,6 +72,7 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-scorecard.md');
     expect(workflow).toContain('contextforge-agent-surface-map.md');
     expect(workflow).toContain('contextforge-agent-surface-inventory.md');
+    expect(workflow).toContain('contextforge-agent-surface-diff.md');
     expect(workflow).toContain('contextforge-mcp-audit.md');
     expect(workflow).toContain('contextforge-claude-audit.md');
     expect(workflow).toContain('contextforge-review-kit.md');

@@ -45,6 +45,7 @@ export function createPrComment(audit: AuditResult): string {
     '- `contextforge-agent-plan.md` for Codex/Claude handoff',
     '- `contextforge-proof-pack.md` for shareable doctor/audit proof',
     '- `contextforge-review-kit.md` for Codex/Claude review focus',
+    '- `contextforge-agent-surface-diff.md` for changed agent-readable surfaces',
     '',
     '_Generated deterministically by ContextForge. No model or secret-bearing agent is needed to produce this comment._'
   );

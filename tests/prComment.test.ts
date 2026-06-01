@@ -26,6 +26,7 @@ describe('PR comment output', () => {
     expect(comment).toContain('### Top Agent Fixes');
     expect(comment).toContain('`contextforge-proof-pack.md` for shareable doctor/audit proof');
     expect(comment).toContain('`contextforge-review-kit.md` for Codex/Claude review focus');
+    expect(comment).toContain('`contextforge-agent-surface-diff.md` for changed agent-readable surfaces');
     expect(comment).toContain('unsafe-shell');
     expect(comment.length).toBeLessThan(4000);
   });
@@ -53,6 +54,7 @@ describe('PR comment output', () => {
     expect(markdown).toContain('ContextForge Agent Context Gate');
     expect(markdown).toContain('contextforge-proof-pack.md');
     expect(markdown).toContain('contextforge-review-kit.md');
+    expect(markdown).toContain('contextforge-agent-surface-diff.md');
     await rm(comment, { force: true });
     await rm(auditPath, { force: true });
     await rm(reportPath, { force: true });

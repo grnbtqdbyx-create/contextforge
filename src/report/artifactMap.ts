@@ -79,6 +79,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge surface-inventory --output contextforge-agent-surface-inventory.md`'
   },
   {
+    artifact: 'contextforge-agent-surface-diff.md',
+    audience: 'PR reviewers, Codex, Claude, and Copilot agents',
+    useWhen: 'you need to know which agent-readable files changed in a branch and which checks should rerun',
+    producedBy: '`contextforge surface-diff --base main --output contextforge-agent-surface-diff.md`'
+  },
+  {
     artifact: 'docs/adoption.md',
     audience: 'First-time maintainers and OSS reviewers',
     useWhen: 'you need a decision path for trying, starring, or wiring ContextForge into CI',
@@ -202,7 +208,7 @@ export function createArtifactMap(): string {
     '',
     '## Fast Paths',
     '',
-    '- For a PR reviewer: `contextforge-pr-comment.md` -> `contextforge-review-kit.md` -> `contextforge-proof-pack.md`.',
+    '- For a PR reviewer: `contextforge-pr-comment.md` -> `contextforge-review-kit.md` -> `contextforge-agent-surface-diff.md` -> `contextforge-proof-pack.md`.',
     '- For Codex/Claude fixing failures: `contextforge-agent-plan.md` -> `contextforge-summary.md` -> `contextforge-audit.json`.',
     '- For public launch: `contextforge-doctor.md` -> `contextforge-proof-pack.md` -> `docs/launch-post.md`.',
     '',
@@ -218,6 +224,7 @@ export function createArtifactMap(): string {
     'contextforge scorecard --output contextforge-scorecard.md',
     'contextforge surface-map --output contextforge-agent-surface-map.md',
     'contextforge surface-inventory --output contextforge-agent-surface-inventory.md',
+    'contextforge surface-diff --base main --output contextforge-agent-surface-diff.md',
     'contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif',
     'contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif',
     'contextforge trace-audit --demo --summary contextforge-trace-audit.md',

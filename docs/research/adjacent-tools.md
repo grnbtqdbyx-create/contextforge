@@ -526,3 +526,9 @@ lists the actual agent-readable files present in the current repository and
 the command that audits each one, differentiating ContextForge from packers
 that only bundle files and static matrices that only describe supported
 surfaces.
+ContextForge v0.63.0 adds the PR review layer:
+`contextforge surface-diff --base main --output contextforge-agent-surface-diff.md`
+lists the changed agent-readable files in a branch, affected ecosystems, and
+follow-up checks. This targets the fast-growing AGENTS.md, Copilot
+customization, MCP config, Cursor, Cline, Gemini, and Windsurf rule sprawl
+where small documentation-looking changes can alter agent behavior.

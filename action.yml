@@ -1,5 +1,5 @@
 name: 'ContextForge Audit'
-description: 'Run ContextForge context health, cache stability, trace efficiency, security, MCP exposure, Claude settings, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, scorecard, surface map, surface inventory, review kit, artifact map, and agent action plan audits.'
+description: 'Run ContextForge context health, cache stability, trace efficiency, security, MCP exposure, Claude settings, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, scorecard, surface map, surface inventory, surface diff, review kit, artifact map, and agent action plan audits.'
 author: 'Ogün Keskin'
 
 branding:
@@ -67,6 +67,10 @@ inputs:
     description: 'Repo-specific agent-readable surface inventory Markdown output path in the caller workspace.'
     required: false
     default: 'contextforge-agent-surface-inventory.md'
+  surface-diff:
+    description: 'PR-specific changed agent-readable surface diff Markdown output path in the caller workspace.'
+    required: false
+    default: 'contextforge-agent-surface-diff.md'
   mcp-audit:
     description: 'MCP exposure audit Markdown output path in the caller workspace.'
     required: false
@@ -137,6 +141,9 @@ outputs:
   surface-inventory-md:
     description: 'Path to the generated repo-specific agent surface inventory.'
     value: ${{ inputs.surface-inventory }}
+  surface-diff-md:
+    description: 'Path to the generated changed agent surface diff.'
+    value: ${{ inputs.surface-diff }}
   mcp-audit-md:
     description: 'Path to the generated MCP exposure audit.'
     value: ${{ inputs.mcp-audit }}
@@ -221,6 +228,14 @@ runs:
         cd "$GITHUB_WORKSPACE"
         node "$GITHUB_ACTION_PATH/dist/cli.js" surface-inventory \
           --output "${{ inputs.surface-inventory }}"
+    - name: Run ContextForge agent surface diff
+      if: always()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        node "$GITHUB_ACTION_PATH/dist/cli.js" surface-diff \
+          --base "${{ inputs.review-base-ref }}" \
+          --output "${{ inputs.surface-diff }}"
     - name: Run ContextForge MCP exposure audit
       if: always()
       shell: bash

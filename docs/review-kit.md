@@ -13,7 +13,8 @@ The kit includes:
 - the base ref and changed file list
 - review focus areas inferred from docs, workflows, source, tests, and
   agent-readable instruction files
-- evidence commands for doctor, audit, proof pack, tests, typecheck, and build
+- evidence commands for surface diff, doctor, audit, proof pack, tests,
+  typecheck, and build
 - a copyable Codex/Claude review prompt that asks for findings first
 
 Use it when:
@@ -32,10 +33,12 @@ previews.
 
 The reusable GitHub Action and `contextforge init --github-action` workflow can
 publish `contextforge-review-kit.md` alongside the audit, PR comment, proof
-pack, suggestions, badge, summary, SARIF, and HTML artifacts. Use checkout
+pack, surface diff, suggestions, badge, summary, SARIF, and HTML artifacts. Use checkout
 `fetch-depth: 0` when CI should compare the PR branch against the configured
 base ref.
 
 When `contextforge audit --comment contextforge-pr-comment.md` is enabled, the
 PR-ready comment lists `contextforge-review-kit.md` so reviewers can jump from
-the sticky PR discussion to the changed-file review brief.
+the sticky PR discussion to the changed-file review brief, and
+`contextforge-agent-surface-diff.md` so reviewers can see changed agent-readable
+surfaces before trusting branch context.
