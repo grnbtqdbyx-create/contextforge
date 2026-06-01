@@ -9,6 +9,7 @@ Covered files:
 - root `README.md`
 - `AGENTS.md`
 - `CLAUDE.md`
+- `GEMINI.md`
 - `.github/copilot-instructions.md`
 - `.github/instructions/**/*.instructions.md`
 - `.github/prompts/**/*.prompt.md`
@@ -24,8 +25,15 @@ Covered files:
 - `.github/copilot/settings.local.json`
 - `.vscode/settings.json`
 - `*.code-workspace`
+- `.cursor/rules/**/*.mdc`
 - `.cursorrules`
+- `.clinerules/**/*.md`
+- `.clinerules/**/*.txt`
 - `.clinerules`
+- `.windsurfrules`
+- `.windsurf/rules/**/*.md`
+- `.windsurf/rules/**/*.mdc`
+- `.windsurf/rules/**/*.txt`
 - `SKILL.md`
 
 Nested files are reported with repository-relative paths such as
@@ -74,11 +82,13 @@ does not send repository content to an external model.
 
 Coding agents read repository files as context. A malicious pull request can add
 or modify Markdown instructions in `README.md`, `AGENTS.md`, `CLAUDE.md`,
-`.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`,
+`GEMINI.md`, `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`,
 `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`,
 `.claude/agents/**/*.md`, `.claude/commands/**/*.md`, project `SKILL.md`
 files, `.github/hooks/*.json`, `.github/copilot/settings.json`,
-`.vscode/settings.json`, committed `*.code-workspace` files, or other
+`.vscode/settings.json`, committed `*.code-workspace` files,
+`.cursor/rules/**/*.mdc`, `.clinerules/**/*.{md,txt}`, `.windsurfrules`,
+`.windsurf/rules/**/*.{md,mdc,txt}`, or other
 agent-facing files that look like ordinary project guidance or workflow
 automation but try to:
 

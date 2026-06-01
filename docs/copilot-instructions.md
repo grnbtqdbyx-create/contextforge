@@ -1,8 +1,8 @@
 # GitHub Copilot Customization
 
 ContextForge treats GitHub Copilot customization files as agent-readable repo
-context, the same way it treats `AGENTS.md`, `CLAUDE.md`, Cursor rules, and
-other instruction files. That now includes always-on custom instructions,
+context, the same way it treats `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, Cursor,
+Cline, and Windsurf rules, and other instruction files. That now includes always-on custom instructions,
 reusable prompt files, repository custom agents, project skills, and repo-local
 hook configuration files that can run shell commands during agent workflows.
 It also treats committed VS Code workspace settings as a security surface when

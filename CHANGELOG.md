@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.61.0 - 2026-06-01
+
+- Add adjacent agent rule discovery for Cursor `.cursor/rules/**/*.mdc`, Cline `.clinerules/**/*.{md,txt}`, Gemini CLI `GEMINI.md`, Windsurf `.windsurfrules`, and Windsurf `.windsurf/rules/**/*.{md,mdc,txt}` files.
+- Include those files in context health, context security, and context pack instruction scoring so cross-agent coverage claims are backed by actual scanner behavior.
+- Refresh README, docs, LLM discovery files, and the generated surface map around modern Cursor, Cline, Gemini CLI, and Windsurf repo-local rule surfaces.
+
 ## 0.60.0 - 2026-06-01
 
 - Sharpen the README first viewport around ContextForge as an agent context gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repositories.

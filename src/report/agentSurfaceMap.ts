@@ -36,11 +36,11 @@ const rows: AgentSurfaceRow[] = [
     source: '[OpenAI Docs MCP](https://platform.openai.com/docs/docs-mcp), Claude MCP docs, GitHub MCP docs'
   },
   {
-    ecosystem: 'Cursor and Cline-style agents',
-    surface: '`.cursorrules`, `.clinerules`, MCP config files, root repo instructions',
-    whyItMatters: 'Adjacent coding agents often consume repo-local rule files and tool configs that can become stale, broad, or unsafe.',
+    ecosystem: 'Cursor, Cline, Gemini, and Windsurf-style agents',
+    surface: '`.cursor/rules/**/*.mdc`, `.cursorrules`, `.clinerules/**/*.{md,txt}`, `.clinerules`, `GEMINI.md`, `.windsurfrules`, `.windsurf/rules/**/*.{md,mdc,txt}`, MCP config files',
+    whyItMatters: 'Adjacent coding agents consume repo-local rules, memories, and tool configs that can become stale, broad, or unsafe.',
     coverage: '`contextforge security-audit`, `contextforge mcp-audit`, `contextforge pack`',
-    source: 'Adjacent tool research in `docs/research/adjacent-tools.md`'
+    source: '[Cursor rules](https://docs.cursor.com/context/rules), [Cline rules](https://docs.cline.bot/customization/cline-rules), [Gemini CLI context](https://google-gemini.github.io/gemini-cli/docs/cli/gemini-md.html), adjacent tool research in `docs/research/adjacent-tools.md`'
   }
 ];
 

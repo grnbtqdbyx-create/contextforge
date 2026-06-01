@@ -14,7 +14,7 @@
 - [x] Manual npm publish workflow draft.
 - [x] npm publish-readiness report separates repo checks from account-level setup.
 - [x] Agent readiness scorecard gives README visitors a one-screen Codex/Claude proof surface.
-- [x] Agent surface map gives README visitors a cross-agent support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repo surfaces.
+- [x] Agent surface map gives README visitors a cross-agent support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces.
 - [x] MCP exposure audit catches committed MCP config secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files.
 - [x] MCP exposure findings can be exported as SARIF for GitHub Code Scanning.
 - [x] Claude Code project settings can be audited as Markdown and SARIF artifacts.
@@ -26,6 +26,7 @@
 - [x] GitHub Copilot hook configs are scanned for unsafe shell commands and context-security risk when present.
 - [x] VS Code Copilot workspace settings are scanned for risky committed instruction text when present.
 - [x] Claude Code project subagents and custom slash commands are discovered, security-audited, and scored as instruction context when present.
+- [x] Cursor, Cline, Gemini CLI, and Windsurf repo-local rule files are discovered, security-audited, and scored as instruction context when present.
 - [x] First-time evaluator adoption brief gives visitors a 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands.
 - [ ] First approved npm publish.
 

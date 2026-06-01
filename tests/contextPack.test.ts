@@ -165,6 +165,35 @@ describe('context pack generator', () => {
       expect(file?.reasons.some((reason) => reason.type === 'instruction-file')).toBe(true);
     }
   });
+
+  it('scores adjacent agent rule files as instruction context', async () => {
+    const rootDir = await fs.mkdtemp(path.join(os.tmpdir(), 'contextforge-adjacent-agent-pack-'));
+    await fs.mkdir(path.join(rootDir, '.cursor/rules'), { recursive: true });
+    await fs.mkdir(path.join(rootDir, '.clinerules'), { recursive: true });
+    await fs.mkdir(path.join(rootDir, '.windsurf/rules'), { recursive: true });
+    await fs.writeFile(path.join(rootDir, '.cursor/rules/auth.mdc'), 'Review auth code for security regressions.\n');
+    await fs.writeFile(path.join(rootDir, '.clinerules/security.md'), 'Apply auth security review standards.\n');
+    await fs.writeFile(path.join(rootDir, '.windsurf/rules/review.md'), 'Use auth review workflow.\n');
+    await fs.writeFile(path.join(rootDir, '.windsurfrules'), 'Run auth checks before edits.\n');
+    await fs.writeFile(path.join(rootDir, 'GEMINI.md'), 'Use auth architecture notes.\n');
+
+    const pack = await createContextPack({
+      rootDir,
+      task: 'security review auth',
+      budget: 2000
+    });
+
+    for (const filePath of [
+      '.clinerules/security.md',
+      '.cursor/rules/auth.mdc',
+      '.windsurf/rules/review.md',
+      '.windsurfrules',
+      'GEMINI.md'
+    ]) {
+      const file = pack.files.find((item) => item.path === filePath);
+      expect(file?.reasons.some((reason) => reason.type === 'instruction-file')).toBe(true);
+    }
+  });
 });
 
 function record(kind: SessionRecord['kind'], content: string): SessionRecord {

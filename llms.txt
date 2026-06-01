@@ -1,6 +1,6 @@
 # ContextForge
 
-> Agent context gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repos.
+> Agent context gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini, and Windsurf repos.
 
 ContextForge is a local-first TypeScript CLI for maintainers who use AI coding
 agents. It measures token usage, audits repo context files, checks prompt-cache
@@ -16,7 +16,7 @@ that Codex and Claude can act on.
 - `contextforge doctor`: verifies public proof files, launch profile assets, community health files, and next actions.
 - `contextforge proof-pack --output contextforge-proof-pack.md`: combine doctor, audit, evidence commands, and Codex/Claude handoff guidance into one Markdown proof packet.
 - `contextforge scorecard --output contextforge-scorecard.md`: write a one-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
-- `contextforge surface-map --output contextforge-agent-surface-map.md`: write a support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repo surfaces.
+- `contextforge surface-map --output contextforge-agent-surface-map.md`: write a support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces.
 - `contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif`: scan committed MCP configs for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files, with optional GitHub Code Scanning output.
 - `contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif`: scan committed Claude Code settings for risky default modes, broad Bash permissions, remote shell hooks, wildcard HTTP hooks, and missing sensitive-file denies.
 - `contextforge security-audit --min-security-score 80`: scan repo instructions, Claude Code subagents, custom slash commands, Copilot prompts, hooks, and workspace settings for prompt/context poisoning.
@@ -41,7 +41,7 @@ that Codex and Claude can act on.
 - [Comparison](docs/comparison.md): How ContextForge complements repo packers, token dashboards, prompt/eval tools, security scanners, and agent memory files.
 - [Proof Pack](docs/proof-pack.md): Shareable readiness packet for launches, PRs, OSS applications, and agent handoffs.
 - [Scorecard](docs/scorecard.md): One-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
-- [Agent Surface Map](contextforge-agent-surface-map.md): Cross-agent support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repo surfaces.
+- [Agent Surface Map](contextforge-agent-surface-map.md): Cross-agent support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces.
 - [MCP Audit](docs/mcp-audit.md): Committed MCP config exposure checks and SARIF output for agent tool safety.
 - [Claude Audit](docs/claude-audit.md): Committed Claude Code settings checks and SARIF output for shared permissions and hooks.
 - [Trace Audit](docs/trace-audit.md): Codex/Claude session efficiency checks for repeated tools, bulky outputs, and cache reuse.
