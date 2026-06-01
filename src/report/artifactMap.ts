@@ -67,6 +67,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge scorecard --output contextforge-scorecard.md`'
   },
   {
+    artifact: 'contextforge-agent-surface-map.md',
+    audience: 'Agent operators, OSS evaluators, and README visitors',
+    useWhen: 'you need to see which Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline repo surfaces are covered',
+    producedBy: '`contextforge surface-map --output contextforge-agent-surface-map.md`'
+  },
+  {
     artifact: 'docs/adoption.md',
     audience: 'First-time maintainers and OSS reviewers',
     useWhen: 'you need a decision path for trying, starring, or wiring ContextForge into CI',
@@ -204,6 +210,7 @@ export function createArtifactMap(): string {
     'contextforge proof-pack --output contextforge-proof-pack.md',
     'contextforge adoption-brief --output docs/adoption.md',
     'contextforge scorecard --output contextforge-scorecard.md',
+    'contextforge surface-map --output contextforge-agent-surface-map.md',
     'contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif',
     'contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif',
     'contextforge trace-audit --demo --summary contextforge-trace-audit.md',

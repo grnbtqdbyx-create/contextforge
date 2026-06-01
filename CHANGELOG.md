@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.59.0 - 2026-06-01
+
+- Add `contextforge surface-map --output contextforge-agent-surface-map.md` to publish a support matrix for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repo surfaces.
+- Include the surface map in the reusable action, dogfood workflow, generated workflow, artifact catalog, package files, README, and LLM discovery docs.
+- Refresh public positioning around the core maintainer question: which repo files can an agent trust, and which ContextForge command proves it?
+
 ## 0.58.0 - 2026-06-01
 
 - Add Claude Code project subagent and custom command discovery for `.claude/agents/**/*.md` and `.claude/commands/**/*.md`.

@@ -32,6 +32,8 @@ jobs:
         if: always()
       - run: node dist/cli.js scorecard --output contextforge-scorecard.md
         if: always()
+      - run: node dist/cli.js surface-map --output contextforge-agent-surface-map.md
+        if: always()
       - run: node dist/cli.js mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
         if: always()
       - run: node dist/cli.js claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
@@ -60,6 +62,7 @@ jobs:
             contextforge-badge.svg
             contextforge-proof-pack.md
             contextforge-scorecard.md
+            contextforge-agent-surface-map.md
             contextforge-mcp-audit.md
             contextforge-mcp.sarif
             contextforge-claude-audit.md

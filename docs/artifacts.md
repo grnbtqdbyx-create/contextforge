@@ -16,6 +16,7 @@ Use this to decide which ContextForge artifact a maintainer, reviewer, CI bot, C
 | `contextforge-badge.svg` | README and dashboards | you need a compact readiness badge for a public surface | `contextforge audit --badge contextforge-badge.svg` |
 | `contextforge-proof-pack.md` | Launch, review, and handoff readers | you need one shareable proof file that combines doctor and audit evidence | `contextforge proof-pack` |
 | `contextforge-scorecard.md` | README visitors, reviewers, and coding agents | you need a one-screen Codex and Claude readiness snapshot | `contextforge scorecard --output contextforge-scorecard.md` |
+| `contextforge-agent-surface-map.md` | Agent operators, OSS evaluators, and README visitors | you need to see which Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline repo surfaces are covered | `contextforge surface-map --output contextforge-agent-surface-map.md` |
 | `docs/adoption.md` | First-time maintainers and OSS reviewers | you need a decision path for trying, starring, or wiring ContextForge into CI | `contextforge adoption-brief --output docs/adoption.md` |
 | `contextforge-mcp-audit.md` | Security reviewers and agent operators | you need to review MCP configs for hardcoded secrets, unsafe shell, unpinned packages, auto-approval, broad permissions, or symlinked files | `contextforge mcp-audit --summary contextforge-mcp-audit.md` |
 | `contextforge-mcp.sarif` | GitHub Code Scanning | you want MCP config exposure findings to appear beside code scanning alerts | `contextforge mcp-audit --sarif contextforge-mcp.sarif` |
@@ -51,6 +52,7 @@ contextforge audit --summary contextforge-summary.md --plan contextforge-agent-p
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge adoption-brief --output docs/adoption.md
 contextforge scorecard --output contextforge-scorecard.md
+contextforge surface-map --output contextforge-agent-surface-map.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md

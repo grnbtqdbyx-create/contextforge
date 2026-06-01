@@ -5,7 +5,7 @@ report, a SARIF file for GitHub Code Scanning, a Markdown job summary, a
 PR-ready Markdown comment, machine-readable improvement suggestions, a compact
 SVG status badge, a shareable proof pack, a one-screen readiness scorecard, a
 committed MCP exposure audit, a dedicated MCP SARIF file, a Codex/Claude review
-kit, a Claude Code settings audit, a dedicated Claude settings SARIF file, and
+kit, an agent surface support matrix, a Claude Code settings audit, a dedicated Claude settings SARIF file, and
 an agent-readable action plan on every push or pull request.
 
 ## One-command Setup
@@ -23,13 +23,14 @@ workflow, the optional PR comment workflow, `AGENTS.md`, `CLAUDE.md`, and
 `.github/copilot-instructions.md`.
 The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment,
 suggestions JSON, SVG badge, proof-pack Markdown, scorecard Markdown,
+agent surface map Markdown,
 MCP audit Markdown, MCP SARIF, Claude settings Markdown, Claude settings SARIF,
 trace audit Markdown, review-kit Markdown, artifact-map Markdown, and agent action plan artifacts. It
 refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.58.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.59.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -64,7 +65,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.58.0
+      - uses: grnbtqdbyx-create/contextforge@v0.59.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -79,6 +80,7 @@ jobs:
           badge: contextforge-badge.svg
           proof-pack: contextforge-proof-pack.md
           scorecard: contextforge-scorecard.md
+          surface-map: contextforge-agent-surface-map.md
           mcp-audit: contextforge-mcp-audit.md
           mcp-sarif: contextforge-mcp.sarif
           claude-audit: contextforge-claude-audit.md
@@ -102,6 +104,7 @@ jobs:
             contextforge-badge.svg
             contextforge-proof-pack.md
             contextforge-scorecard.md
+            contextforge-agent-surface-map.md
             contextforge-mcp-audit.md
             contextforge-mcp.sarif
             contextforge-claude-audit.md
@@ -135,6 +138,9 @@ permissions.
 The `contextforge-scorecard.md` artifact is the first file to open when a
 reader needs a short agent-readiness answer before inspecting the deeper proof
 packet.
+The `contextforge-agent-surface-map.md` artifact shows which Codex, Claude
+Code, GitHub Copilot, MCP, Cursor, and Cline-style repo surfaces are covered
+and which ContextForge command proves each surface.
 The `contextforge-mcp-audit.md` artifact shows whether committed MCP configs
 contain hardcoded secrets, unsafe remote shell installers, unpinned package
 launches, auto-approval, broad tool permissions, or symlinked config files
@@ -230,6 +236,8 @@ jobs:
         if: always()
       - run: node dist/cli.js scorecard --output contextforge-scorecard.md
         if: always()
+      - run: node dist/cli.js surface-map --output contextforge-agent-surface-map.md
+        if: always()
       - run: node dist/cli.js mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
         if: always()
       - run: node dist/cli.js claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
@@ -258,6 +266,7 @@ jobs:
             contextforge-badge.svg
             contextforge-proof-pack.md
             contextforge-scorecard.md
+            contextforge-agent-surface-map.md
             contextforge-mcp-audit.md
             contextforge-mcp.sarif
             contextforge-claude-audit.md
