@@ -3,6 +3,7 @@ import { readFile, rm } from 'node:fs/promises';
 import { promisify } from 'node:util';
 import { describe, expect, it } from 'vitest';
 import { buildAudit } from '../src/audit/buildAudit.js';
+import { createAgentSurfaceDiff } from '../src/report/agentSurfaceDiff.js';
 import { createPrComment } from '../src/report/prComment.js';
 
 const execFileAsync = promisify(execFile);
@@ -17,13 +18,27 @@ describe('PR comment output', () => {
       minSecurityScore: 70
     });
 
-    const comment = createPrComment(audit);
+    const surfaceDiff = createAgentSurfaceDiff({
+      baseRef: 'main',
+      changes: [
+        { status: 'M', path: 'AGENTS.md' },
+        { status: 'A', path: '.github/copilot-instructions.md' },
+        { status: 'M', path: 'src/index.ts' }
+      ]
+    });
+
+    const comment = createPrComment(audit, { surfaceDiff });
 
     expect(comment).toContain('<!-- contextforge-pr-comment -->');
     expect(comment).toContain('## ContextForge Agent Context Gate');
     expect(comment).toContain('| Context health |');
     expect(comment).toContain('| Context security |');
     expect(comment).toContain('### Top Agent Fixes');
+    expect(comment).toContain('### Changed Agent Surfaces');
+    expect(comment).toContain('2 changed surfaces across GitHub Copilot, OpenAI Codex');
+    expect(comment).toContain('- **added** `.github/copilot-instructions.md` (GitHub Copilot)');
+    expect(comment).toContain('- **modified** `AGENTS.md` (OpenAI Codex)');
+    expect(comment).not.toContain('src/index.ts');
     expect(comment).toContain('`contextforge-proof-pack.md` for shareable doctor/audit proof');
     expect(comment).toContain('`contextforge-review-kit.md` for Codex/Claude review focus');
     expect(comment).toContain('`contextforge-agent-surface-diff.md` for changed agent-readable surfaces');
@@ -52,6 +67,7 @@ describe('PR comment output', () => {
 
     expect(markdown).toContain('<!-- contextforge-pr-comment -->');
     expect(markdown).toContain('ContextForge Agent Context Gate');
+    expect(markdown).toContain('### Changed Agent Surfaces');
     expect(markdown).toContain('contextforge-proof-pack.md');
     expect(markdown).toContain('contextforge-review-kit.md');
     expect(markdown).toContain('contextforge-agent-surface-diff.md');

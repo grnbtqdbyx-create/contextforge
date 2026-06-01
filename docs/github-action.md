@@ -32,7 +32,7 @@ refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.63.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.64.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -67,7 +67,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.63.0
+      - uses: grnbtqdbyx-create/contextforge@v0.64.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -80,6 +80,7 @@ jobs:
           comment: contextforge-pr-comment.md
           suggestions: contextforge-suggestions.json
           badge: contextforge-badge.svg
+          review-base-ref: main
           proof-pack: contextforge-proof-pack.md
           scorecard: contextforge-scorecard.md
           surface-map: contextforge-agent-surface-map.md
@@ -153,6 +154,9 @@ commands that audit each one.
 The `contextforge-agent-surface-diff.md` artifact shows which agent-readable
 files changed in the branch, which agent ecosystems are affected, and which
 checks should rerun before reviewers trust the new context.
+The `contextforge-pr-comment.md` artifact embeds the same changed-surface
+summary so reviewers can see agent-context drift without opening the full
+artifact first.
 The `contextforge-mcp-audit.md` artifact shows whether committed MCP configs
 contain hardcoded secrets, unsafe remote shell installers, unpinned package
 launches, auto-approval, broad tool permissions, or symlinked config files
@@ -243,7 +247,7 @@ jobs:
       - run: corepack prepare pnpm@11.2.2 --activate
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
+      - run: node dist/cli.js audit --min-context-score 60 --min-cache-score 60 --min-security-score 60 --output contextforge-audit.json --report contextforge-report.html --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg --base main
       - run: node dist/cli.js proof-pack --output contextforge-proof-pack.md
         if: always()
       - run: node dist/cli.js scorecard --output contextforge-scorecard.md

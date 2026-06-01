@@ -190,7 +190,8 @@ runs:
           --plan "${{ inputs.plan }}" \
           --comment "${{ inputs.comment }}" \
           --suggestions "${{ inputs.suggestions }}" \
-          --badge "${{ inputs.badge }}"
+          --badge "${{ inputs.badge }}" \
+          --base "${{ inputs.review-base-ref }}"
         if [[ -n "${GITHUB_STEP_SUMMARY:-}" && -f "${{ inputs.summary }}" ]]; then
           cat "${{ inputs.summary }}" >> "$GITHUB_STEP_SUMMARY"
         fi

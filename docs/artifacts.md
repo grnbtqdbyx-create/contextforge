@@ -11,7 +11,7 @@ Use this to decide which ContextForge artifact a maintainer, reviewer, CI bot, C
 | `contextforge.sarif` | GitHub Code Scanning | you want file-backed alerts for risky repository instructions | `contextforge audit --sarif contextforge.sarif` |
 | `contextforge-summary.md` | GitHub Actions summary readers | you need a readable readiness summary in a check run or artifact | `contextforge audit --summary contextforge-summary.md` |
 | `contextforge-agent-plan.md` | Codex and Claude | you need prioritized fix instructions after a failing or warning audit | `contextforge plan` or `contextforge audit --plan contextforge-agent-plan.md` |
-| `contextforge-pr-comment.md` | PR reviewers | you need a sticky PR summary that points at proof and review artifacts | `contextforge audit --comment contextforge-pr-comment.md` |
+| `contextforge-pr-comment.md` | PR reviewers | you need a sticky PR summary with changed agent-surface drift plus proof and review artifact pointers | `contextforge audit --comment contextforge-pr-comment.md` |
 | `contextforge-suggestions.json` | Bots and coding agents | you need structured repository-rule improvement suggestions | `contextforge improve --json` or `contextforge audit --suggestions contextforge-suggestions.json` |
 | `contextforge-badge.svg` | README and dashboards | you need a compact readiness badge for a public surface | `contextforge audit --badge contextforge-badge.svg` |
 | `contextforge-proof-pack.md` | Launch, review, and handoff readers | you need one shareable proof file that combines doctor and audit evidence | `contextforge proof-pack` |
@@ -50,7 +50,7 @@ Use this to decide which ContextForge artifact a maintainer, reviewer, CI bot, C
 contextforge artifact-map --output docs/artifacts.md
 contextforge artifact-map --output contextforge-artifact-map.md
 contextforge publish-readiness --summary contextforge-publish-readiness.md
-contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
+contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg --base main
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge adoption-brief --output docs/adoption.md
 contextforge scorecard --output contextforge-scorecard.md

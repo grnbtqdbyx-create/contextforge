@@ -1,7 +1,12 @@
 import type { AuditResult } from '../audit/buildAudit.js';
 import type { Finding } from '../types.js';
+import type { AgentSurfaceDiff, AgentSurfaceDiffChange } from './agentSurfaceDiff.js';
 
-export function createPrComment(audit: AuditResult): string {
+export interface PrCommentOptions {
+  surfaceDiff?: AgentSurfaceDiff;
+}
+
+export function createPrComment(audit: AuditResult, options: PrCommentOptions = {}): string {
   const lines = [
     '<!-- contextforge-pr-comment -->',
     '## ContextForge Agent Context Gate',
@@ -36,6 +41,19 @@ export function createPrComment(audit: AuditResult): string {
     }
   }
 
+  lines.push('', '### Changed Agent Surfaces', '');
+  if (!options.surfaceDiff || options.surfaceDiff.totalChangedSurfaces === 0) {
+    lines.push('- None detected. Open `contextforge-agent-surface-diff.md` for the full branch scan.');
+  } else {
+    lines.push(
+      `- ${options.surfaceDiff.totalChangedSurfaces} changed surface${options.surfaceDiff.totalChangedSurfaces === 1 ? '' : 's'} across ${
+        options.surfaceDiff.affectedEcosystems.join(', ') || 'no detected ecosystems'
+      }.`
+    );
+    for (const change of options.surfaceDiff.changes.slice(0, 4)) lines.push(`- **${change.action}** ${formatChangedPath(change)} (${change.ecosystem})`);
+    if (options.surfaceDiff.changes.length > 4) lines.push(`- ${options.surfaceDiff.changes.length - 4} more changed surfaces in \`contextforge-agent-surface-diff.md\`.`);
+  }
+
   lines.push(
     '',
     '### Artifacts',
@@ -63,4 +81,9 @@ function topFindings(audit: AuditResult): Finding[] {
 
 function escapeMarkdown(value: string): string {
   return value.replace(/\|/g, '\\|');
+}
+
+function formatChangedPath(change: AgentSurfaceDiffChange): string {
+  if (change.previousPath) return `\`${escapeMarkdown(change.previousPath)}\` -> \`${escapeMarkdown(change.path)}\``;
+  return `\`${escapeMarkdown(change.path)}\``;
 }

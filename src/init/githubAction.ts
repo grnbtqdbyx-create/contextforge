@@ -1,7 +1,7 @@
 import { access, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.63.0';
+export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.64.0';
 
 export interface GithubActionScaffoldOptions {
   rootDir: string;
@@ -69,6 +69,7 @@ jobs:
           comment: contextforge-pr-comment.md
           suggestions: contextforge-suggestions.json
           badge: contextforge-badge.svg
+          review-base-ref: main
           proof-pack: contextforge-proof-pack.md
           scorecard: contextforge-scorecard.md
           surface-map: contextforge-agent-surface-map.md
@@ -81,7 +82,6 @@ jobs:
           trace-audit: contextforge-trace-audit.md
           review-kit: contextforge-review-kit.md
           artifact-map: contextforge-artifact-map.md
-          review-base-ref: main
       - uses: actions/upload-artifact@v5
         if: always()
         with:

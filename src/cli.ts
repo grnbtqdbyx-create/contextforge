@@ -444,7 +444,13 @@ async function commandAudit(args: CliArgs): Promise<void> {
   if (args.sarif) await fs.writeFile(args.sarif, `${JSON.stringify(createSarifReport(audit), null, 2)}\n`);
   if (args.summary) await fs.writeFile(args.summary, createMarkdownSummary(audit));
   if (args.plan) await fs.writeFile(args.plan, createActionPlan(audit));
-  if (args.comment) await fs.writeFile(args.comment, createPrComment(audit));
+  if (args.comment) {
+    const surfaceDiff = createAgentSurfaceDiff({
+      baseRef: args.baseRef,
+      changes: await collectAgentSurfaceDiffChanges(args.baseRef)
+    });
+    await fs.writeFile(args.comment, createPrComment(audit, { surfaceDiff }));
+  }
   if (args.suggestions) await fs.writeFile(args.suggestions, `${JSON.stringify({ schemaVersion: 1, suggestions }, null, 2)}\n`);
   if (args.badge) await fs.writeFile(args.badge, createBadgeSvg(audit));
 
@@ -827,7 +833,7 @@ Usage:
   contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude] [--output contextforge-pack.md]
   contextforge improve [--demo] [--json] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
-  contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--badge contextforge-badge.svg] [--min-security-score 60]
+  contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--badge contextforge-badge.svg] [--base main] [--min-security-score 60]
   contextforge doctor [--demo] [--json] [--summary contextforge-doctor.md] [--benchmark-dir fixtures/security-benchmark]
   contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
   contextforge examples [--output examples/demo-output.md]
@@ -842,7 +848,7 @@ Usage:
   contextforge surface-inventory [--json] [--output contextforge-agent-surface-inventory.md]
   contextforge surface-diff [--base main] [--json] [--output contextforge-agent-surface-diff.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.63.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.64.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

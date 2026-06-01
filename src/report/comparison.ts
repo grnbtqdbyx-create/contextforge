@@ -36,7 +36,7 @@ export function createComparisonGuide(): string {
     'contextforge doctor --summary contextforge-doctor.md',
     'contextforge artifact-map --output docs/artifacts.md',
     'contextforge review-kit --base main --output contextforge-review-kit.md',
-    'contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg',
+    'contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg --base main',
     'contextforge pack --task "review auth regression" --budget 20000 --sessions --output contextforge-pack.md',
     '```',
     ''

@@ -116,7 +116,7 @@ contextforge doctor --summary contextforge-doctor.md
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge launch-kit --output docs/launch-post.md
 contextforge compare --output docs/comparison.md
-contextforge audit --demo --comment examples/pr-comment.md --badge contextforge-badge.svg
+contextforge audit --demo --comment examples/pr-comment.md --badge contextforge-badge.svg --base main
 ```
 
 ## Which Artifact Should I Open?
@@ -315,7 +315,7 @@ contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --inpu
 contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge review-kit --base main --output contextforge-review-kit.md
-contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
+contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg --base main
 contextforge plan --output contextforge-agent-plan.md
 contextforge pack --task "review auth regression" --budget 20000 --sessions --output contextforge-pack.md
 ```
@@ -323,7 +323,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions --ou
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.63.0
+- uses: grnbtqdbyx-create/contextforge@v0.64.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -360,7 +360,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Catch context poisoning:** flag instruction overrides, secret exfiltration, unsafe shell, hidden directives, and permission escalation.
 - **Generate budgeted context packs:** give Codex or Claude only the files needed for a task, with "why included" reasons and a visible budget ledger.
 - **Create agent action plans:** turn audit findings into prioritized Markdown that Codex or Claude can execute from.
-- **Show PR-ready evidence:** emit a compact deterministic Markdown comment that review workflows can publish or archive, including pointers to `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-agent-surface-diff.md`.
+- **Show PR-ready evidence:** emit a compact deterministic Markdown comment that review workflows can publish or archive, including changed agent-surface summaries and pointers to `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-agent-surface-diff.md`.
 - **Publish visible proof:** emit `contextforge-badge.svg` so CI can expose a compact agent-context status badge.
 - **Expose LLM-readable docs:** ship `llms.txt` and `llms-full.txt` so coding agents can orient quickly.
 - **Evolve safely:** suggest improved repo-level rules before writing anything.
@@ -434,7 +434,7 @@ contextforge agents-md-audit [--demo]
 contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude] [--output contextforge-pack.md]
 contextforge improve [--demo] [--json] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
-contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--badge contextforge-badge.svg] [--min-security-score 60]
+contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--badge contextforge-badge.svg] [--base main] [--min-security-score 60]
 contextforge doctor [--demo] [--json] [--summary contextforge-doctor.md] [--benchmark-dir fixtures/security-benchmark]
 contextforge plan [--demo] [--output contextforge-agent-plan.md] [--min-context-score 60] [--min-cache-score 60] [--min-security-score 60]
 contextforge examples [--output examples/demo-output.md]
@@ -453,7 +453,7 @@ contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estima
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.63.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.64.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -475,7 +475,8 @@ contextforge audit --min-context-score 60 --min-cache-score 60 --min-security-sc
   --plan contextforge-agent-plan.md \
   --comment contextforge-pr-comment.md \
   --suggestions contextforge-suggestions.json \
-  --badge contextforge-badge.svg
+  --badge contextforge-badge.svg \
+  --base main
 contextforge artifact-map --output docs/artifacts.md
 contextforge adoption-brief --output docs/adoption.md
 contextforge scorecard --output contextforge-scorecard.md
@@ -537,7 +538,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.63.0 is a public MVP CLI with:
+ContextForge v0.64.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -568,7 +569,7 @@ ContextForge v0.63.0 is a public MVP CLI with:
 - reusable GitHub Action and dogfood workflow support for `contextforge-claude-audit.md` and `contextforge-claude.sarif`
 - reusable GitHub Action and dogfood workflow support for `contextforge-review-kit.md`
 - reusable GitHub Action and dogfood workflow support for `contextforge-artifact-map.md`
-- PR-ready comments that point reviewers at `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-agent-surface-diff.md`
+- PR-ready comments that summarize changed agent-readable surfaces and point reviewers at `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-agent-surface-diff.md`
 - generated `contextforge artifact-map` catalogs for reviewers, agents, and launch visitors
 - generated `contextforge publish-readiness` checks for npm Trusted Publishing preparation
 - npm provenance metadata checks for repository, homepage, and issue tracker links
@@ -671,6 +672,7 @@ ContextForge v0.63.0 is a public MVP CLI with:
 - **v0.61.0:** Adjacent agent rule discovery for modern Cursor, Cline, Gemini CLI, and Windsurf repo-local instruction files.
 - **v0.62.0:** Repo-specific agent surface inventory for the actual instruction, rule, settings, and tool files present in a repository.
 - **v0.63.0:** PR-specific agent surface diffs for changed instruction, rule, settings, and tool files.
+- **v0.64.0:** PR comments embed changed agent-surface summaries using the same base ref as the surface-diff artifact.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

@@ -28,7 +28,7 @@
 contextforge review-kit --base main --output contextforge-review-kit.md
 contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
 contextforge doctor --summary contextforge-doctor.md
-contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
+contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg --base main
 contextforge proof-pack --output contextforge-proof-pack.md
 pnpm test
 pnpm typecheck
