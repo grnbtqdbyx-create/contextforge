@@ -50,6 +50,7 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-mcp.sarif');
     expect(workflow).toContain('claude-audit --summary contextforge-claude-audit.md');
     expect(workflow).toContain('contextforge-claude.sarif');
+    expect(workflow).toContain('trace-audit --summary contextforge-trace-audit.md');
     expect(workflow).toContain('review-kit --base main --output contextforge-review-kit.md');
     expect(workflow).toContain('artifact-map --output contextforge-artifact-map.md');
     expect(workflow).toContain('if: always()');
@@ -70,5 +71,6 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-claude-audit.md');
     expect(workflow).toContain('contextforge-review-kit.md');
     expect(workflow).toContain('contextforge-artifact-map.md');
+    expect(workflow).toContain('contextforge-trace-audit.md');
   });
 });

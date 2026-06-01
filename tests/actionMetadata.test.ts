@@ -21,6 +21,7 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('mcp-sarif:');
     expect(action).toContain('claude-audit:');
     expect(action).toContain('claude-sarif:');
+    expect(action).toContain('trace-audit:');
     expect(action).toContain('review-kit:');
     expect(action).toContain('artifact-map:');
     expect(action).toContain('review-base-ref:');
@@ -34,6 +35,7 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('mcp-sarif:');
     expect(action).toContain('claude-audit-md:');
     expect(action).toContain('claude-sarif:');
+    expect(action).toContain('trace-audit-md:');
     expect(action).toContain('review-kit-md:');
     expect(action).toContain('artifact-map-md:');
     expect(action).toContain('GITHUB_ACTION_PATH');
@@ -52,6 +54,8 @@ describe('GitHub Action metadata', () => {
     expect(action).toContain('--sarif \"${{ inputs.mcp-sarif }}\"');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" claude-audit');
     expect(action).toContain('--sarif \"${{ inputs.claude-sarif }}\"');
+    expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" trace-audit');
+    expect(action).toContain('--summary \"${{ inputs.trace-audit }}\"');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" review-kit');
     expect(action).toContain('node \"$GITHUB_ACTION_PATH/dist/cli.js\" artifact-map');
     expect(action).toContain('--base \"${{ inputs.review-base-ref }}\"');

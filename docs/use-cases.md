@@ -77,6 +77,7 @@ usage dashboard does not explain why.
 ```bash
 contextforge usage --codex --claude
 contextforge cache-audit --codex --claude
+contextforge trace-audit --codex --claude --summary contextforge-trace-audit.md
 contextforge doctor --json
 ```
 
@@ -85,6 +86,8 @@ Success signal:
 - Expensive record kinds and projects are visible.
 - Volatile prefixes, timestamps, and large tool outputs are identified before
   the next long agent session.
+- Repeated tool calls, tool-output-heavy traces, and cache reuse are visible in
+  `contextforge-trace-audit.md`.
 
 ## 5. Build a Task-Specific Context Pack
 
@@ -132,6 +135,7 @@ contextforge artifact-map --output docs/artifacts.md
 contextforge scorecard --output contextforge-scorecard.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
+contextforge trace-audit --demo --summary contextforge-trace-audit.md
 contextforge adoption-brief --output docs/adoption.md
 contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge proof-pack --output contextforge-proof-pack.md
@@ -154,6 +158,9 @@ Success signal:
 - Claude Code reviewers can open `contextforge-claude-audit.md` or upload
   `contextforge-claude.sarif` to catch risky shared project settings before
   users trust repo-provided permissions and hooks.
+- Agent operators can open `contextforge-trace-audit.md` to see whether the demo
+  trace wasted turns on repeated tools or bulky output before they try local
+  Codex/Claude history.
 - First-time maintainers can open `docs/adoption.md` for the 30-second proof
   path, adjacent-tool positioning, pre-npm try-it commands, and star-worthy
   proof checklist before reading the full repository.

@@ -464,3 +464,10 @@ contextforge-claude-audit.md --sarif contextforge-claude.sarif`, because Claude
 Code settings can be committed at the project level and now include permissions,
 hooks, default modes, filesystem/network controls, and sensitive-file deny rules
 that deserve the same repo-first proof surface as MCP configs.
+June 1, 2026 research also shows adjacent agent-eval and usage tools moving
+toward execution-efficiency evidence: repeated tool calls, giant command
+outputs, and cache misses matter even when the final task passes.
+ContextForge v0.51.0 adds `contextforge trace-audit --summary
+contextforge-trace-audit.md`, turning parsed Codex and Claude session records
+into a deterministic report for redundant tools, bulky outputs, tool-output
+dominance, and low cache reuse.

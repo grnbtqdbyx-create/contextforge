@@ -5,6 +5,7 @@
 ContextForge is a local-first TypeScript CLI for maintainers who use AI coding
 agents. It measures token usage, audits repo context files, checks prompt-cache
 stability, scans for malicious repo instructions, audits committed MCP configs,
+reviews Codex/Claude trace efficiency,
 builds task-specific context packs, and produces CI artifacts that Codex and
 Claude can act on.
 
@@ -17,6 +18,7 @@ Claude can act on.
 - `contextforge scorecard --output contextforge-scorecard.md`: write a one-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
 - `contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif`: scan committed MCP configs for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files, with optional GitHub Code Scanning output.
 - `contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif`: scan committed Claude Code settings for risky default modes, broad Bash permissions, remote shell hooks, wildcard HTTP hooks, and missing sensitive-file denies.
+- `contextforge trace-audit --demo --summary contextforge-trace-audit.md`: summarize repeated tool calls, bulky tool output, tool-output dominance, and cache reuse from Codex/Claude traces.
 - `contextforge adoption-brief --output docs/adoption.md`: generate a first-time evaluator page with the 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands.
 - `contextforge review-kit --base main --output contextforge-review-kit.md`: generate a changed-file review brief and copyable Codex/Claude review prompt.
 - `contextforge artifact-map --output docs/artifacts.md`: generate a catalog that tells reviewers, agents, and launch visitors which proof artifact to inspect first.
@@ -38,6 +40,7 @@ Claude can act on.
 - [Scorecard](docs/scorecard.md): One-screen Codex/Claude readiness snapshot for README, PR, and CI artifact readers.
 - [MCP Audit](docs/mcp-audit.md): Committed MCP config exposure checks and SARIF output for agent tool safety.
 - [Claude Audit](docs/claude-audit.md): Committed Claude Code settings checks and SARIF output for shared permissions and hooks.
+- [Trace Audit](docs/trace-audit.md): Codex/Claude session efficiency checks for repeated tools, bulky outputs, and cache reuse.
 - [Adoption Brief](docs/adoption.md): First-time evaluator page for maintainers deciding whether to try, star, or wire ContextForge into CI.
 - [Review Kit](docs/review-kit.md): Deterministic review brief for Codex, Claude, human reviewers, and AI review workflows.
 - [Artifact Map](docs/artifacts.md): Generated catalog of ContextForge artifacts and fast paths.

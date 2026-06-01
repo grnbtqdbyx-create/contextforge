@@ -1,6 +1,6 @@
 {
   "name": "contextforge",
-  "version": "0.50.0",
+  "version": "0.51.0",
   "description": "Self-learning token and context optimizer for Codex and Claude Code.",
   "type": "module",
   "packageManager": "pnpm@11.2.2",
@@ -30,6 +30,7 @@
     "contextforge-scorecard.md",
     "contextforge-mcp-audit.md",
     "contextforge-claude-audit.md",
+    "contextforge-trace-audit.md",
     "README.md",
     "LICENSE",
     "NOTICE",

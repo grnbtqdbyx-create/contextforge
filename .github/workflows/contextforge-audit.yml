@@ -36,6 +36,8 @@ jobs:
         if: always()
       - run: node dist/cli.js claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
         if: always()
+      - run: node dist/cli.js trace-audit --summary contextforge-trace-audit.md
+        if: always()
       - run: node dist/cli.js review-kit --base main --output contextforge-review-kit.md
         if: always()
       - run: node dist/cli.js artifact-map --output contextforge-artifact-map.md
@@ -62,6 +64,7 @@ jobs:
             contextforge-mcp.sarif
             contextforge-claude-audit.md
             contextforge-claude.sarif
+            contextforge-trace-audit.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4

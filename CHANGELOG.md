@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.51.0 - 2026-06-01
+
+- Add `contextforge trace-audit --summary contextforge-trace-audit.md` for Codex and Claude session execution efficiency.
+- Detect repeated tool calls, oversized tool outputs, tool-output-dominant traces, and low cache reuse from parsed session records.
+- Refresh README, adoption brief, artifact map, launch kit, trace audit docs, package metadata, LLM discovery files, and research notes around trace efficiency proof.
+
 ## 0.50.0 - 2026-06-01
 
 - Add `contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif` for committed Claude Code project settings.
