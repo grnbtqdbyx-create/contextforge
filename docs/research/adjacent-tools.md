@@ -476,3 +476,7 @@ contextforge-cost-estimate.md`, because official pricing and prompt-cache
 details change over time. Instead of hardcoding provider prices, the command
 accepts caller-provided input, cached-input, and output prices per 1M tokens and
 turns observed session records into a shareable cost proof.
+ContextForge v0.53.0 tightens the context-pack side of the same token story:
+`contextforge pack --output contextforge-pack.md` now renders a budget ledger
+and reports the measured final pack size instead of clamping an optimistic
+number after generation.

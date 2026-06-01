@@ -20,6 +20,7 @@ describe('package metadata', () => {
     expect(pkg.files).toContain('contextforge-claude-audit.md');
     expect(pkg.files).toContain('contextforge-trace-audit.md');
     expect(pkg.files).toContain('contextforge-cost-estimate.md');
+    expect(pkg.files).toContain('contextforge-pack.md');
     expect(pkg.repository).toEqual({
       type: 'git',
       url: 'git+https://github.com/grnbtqdbyx-create/contextforge.git'

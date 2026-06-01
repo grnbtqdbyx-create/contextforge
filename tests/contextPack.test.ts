@@ -4,6 +4,7 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createContextPack } from '../src/pack/contextPack.js';
 import { scanCodexSessions } from '../src/scanners/codex.js';
+import { estimateTokens } from '../src/tokenizers/index.js';
 import type { SessionRecord } from '../src/types.js';
 
 describe('context pack generator', () => {
@@ -16,6 +17,21 @@ describe('context pack generator', () => {
     expect(pack.files.some((file) => file.path.endsWith('src/auth.ts'))).toBe(true);
     expect(pack.content).not.toContain('sk-should-not-appear');
     expect(pack.estimatedTokens).toBeLessThanOrEqual(300);
+  });
+
+  it('keeps the final generated content inside the requested token budget', async () => {
+    const pack = await createContextPack({
+      rootDir: 'fixtures/project',
+      task: 'fix auth bug',
+      budget: 120
+    });
+
+    expect(estimateTokens(pack.content)).toBeLessThanOrEqual(120);
+    expect(pack.estimatedTokens).toBe(estimateTokens(pack.content));
+    expect(pack.budget.requestedTokens).toBe(120);
+    expect(pack.budget.status).toBe('within-budget');
+    expect(pack.content).toContain('## Budget Ledger');
+    expect(pack.content).toContain('| Requested budget | 120 tokens |');
   });
 
   it('explains why each selected file was included', async () => {

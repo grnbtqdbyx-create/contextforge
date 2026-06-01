@@ -39,7 +39,7 @@ export function createActionPlan(audit: AuditResult): string {
     '',
     '```bash',
     'contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --summary contextforge-summary.md',
-    'contextforge pack --task "fix the top ContextForge audit finding" --budget 20000',
+    'contextforge pack --task "fix the top ContextForge audit finding" --budget 20000 --output contextforge-pack.md',
     'contextforge plan --output contextforge-agent-plan.md',
     '```',
     '',

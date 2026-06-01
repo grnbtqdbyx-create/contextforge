@@ -97,12 +97,12 @@ Success signal:
 Use this before handing a focused bug, security review, or refactor to an agent.
 
 ```bash
-contextforge pack --task "review auth regression" --budget 20000 --sessions
+contextforge pack --task "review auth regression" --budget 20000 --sessions --output contextforge-pack.md
 ```
 
 Success signal:
 
-- The generated pack stays inside the token budget.
+- The generated pack stays inside the token budget and shows a `Budget Ledger`.
 - Each included file explains why it was selected, including task terms,
   manifests, README orientation, instruction files, recent reads, recent edits,
   or failure mentions.
@@ -140,6 +140,7 @@ contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
 contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10
+contextforge pack --demo --task "review auth regression" --budget 600 --output contextforge-pack.md
 contextforge adoption-brief --output docs/adoption.md
 contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge proof-pack --output contextforge-proof-pack.md
@@ -167,6 +168,8 @@ Success signal:
   Codex/Claude history.
 - Budget reviewers can open `contextforge-cost-estimate.md` to see how price
   assumptions affect observed demo token spend.
+- Agent operators can open `contextforge-pack.md` to inspect a bounded task
+  context bundle with a visible budget ledger.
 - First-time maintainers can open `docs/adoption.md` for the 30-second proof
   path, adjacent-tool positioning, pre-npm try-it commands, and star-worthy
   proof checklist before reading the full repository.

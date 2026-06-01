@@ -1,8 +1,9 @@
 # Explainable Context Pack Scoring
 
-ContextForge context packs include a `Why included` line before each file. This
-keeps context selection reviewable instead of turning it into another opaque
-file dump.
+ContextForge context packs include a `Why included` line before each file and a
+budget ledger near the top. This keeps context selection reviewable instead of
+turning it into another opaque file dump, and it makes the requested token
+budget visible to Codex, Claude, and human reviewers.
 
 Current scoring reasons:
 
@@ -20,10 +21,26 @@ Current scoring reasons:
 Example:
 
 ```markdown
+# ContextForge Context Pack
+
+Task: fix auth bug
+Budget: 600 tokens
+
+## Budget Ledger
+
+| Requested budget | 600 tokens |
+| Estimated pack | 214 tokens |
+| Remaining | 386 tokens |
+| Status | within budget |
+
 ## src/auth.ts
 
 Why included: task term match: auth (+4); path match: auth (+3)
 ```
+
+The final Markdown is measured after rendering. If the pack would exceed the
+requested budget, ContextForge drops the lowest-ranked selected files until the
+final estimate fits instead of clamping the reported number.
 
 With session evidence enabled:
 

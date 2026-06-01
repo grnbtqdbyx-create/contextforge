@@ -32,7 +32,7 @@ export function createProofPack(options: { doctor: DoctorResult; audit: AuditRes
     'contextforge doctor --summary contextforge-doctor.md',
     'contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg',
     'contextforge security-benchmark',
-    'contextforge pack --task "next change" --budget 20000 --sessions',
+    'contextforge pack --task "next change" --budget 20000 --sessions --output contextforge-pack.md',
     '```',
     '',
     '## Codex / Claude Handoff',

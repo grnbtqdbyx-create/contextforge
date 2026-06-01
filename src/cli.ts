@@ -360,7 +360,10 @@ async function commandPack(args: CliArgs): Promise<void> {
   });
   const output = valueAfter(process.argv.slice(2), '--output') ?? 'contextforge-pack.md';
   await fs.writeFile(output, pack.content);
-  console.log(`Wrote ${output} with ${pack.files.length} files and ~${pack.estimatedTokens} tokens.`);
+  const budgetStatus = pack.budget.status === 'within-budget' ? 'within budget' : 'over budget';
+  console.log(
+    `Wrote ${output} with ${pack.files.length} files and ~${pack.estimatedTokens}/${pack.budget.requestedTokens} tokens (${budgetStatus}).`
+  );
 }
 
 async function commandImprove(args: CliArgs): Promise<void> {
@@ -772,7 +775,7 @@ Usage:
   contextforge trace-audit [--demo] [--json] [--summary contextforge-trace-audit.md]
   contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estimate.md] [--input-price-per-mtok 0] [--cached-input-price-per-mtok 0] [--output-price-per-mtok 0]
   contextforge agents-md-audit [--demo]
-  contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
+  contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude] [--output contextforge-pack.md]
   contextforge improve [--demo] [--json] [--write] [--open-pr]
   contextforge report [--demo] [--output contextforge-report.html]
   contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--badge contextforge-badge.svg] [--min-security-score 60]
@@ -787,7 +790,7 @@ Usage:
   contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
   contextforge artifact-map [--output docs/artifacts.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.52.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.53.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

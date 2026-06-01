@@ -29,7 +29,7 @@ Claude can act on.
 - `contextforge improve --demo --json`: emit structured repo-rule suggestions for agents and bots.
 - `contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg`: create CI, PR-review, structured suggestion, and status badge artifacts.
 - The reusable GitHub Action and generated audit workflow publish `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` as CI artifacts, opt JavaScript actions into Node 24, and PR-ready comments point reviewers to the proof and review outputs.
-- `contextforge pack --task "review auth regression" --budget 20000 --sessions`: build an explainable task context pack.
+- `contextforge pack --task "review auth regression" --budget 20000 --sessions --output contextforge-pack.md`: build an explainable task context pack with a budget ledger.
 
 ## Key Docs
 
@@ -51,7 +51,7 @@ Claude can act on.
 - [Agent Action Plan](docs/agent-action-plan.md): `contextforge plan` and audit handoff artifacts for Codex/Claude.
 - [Security Audit](docs/security-audit.md): Prompt/context poisoning checks for repo instruction files.
 - [Security Benchmark](docs/security-benchmark.md): Public malicious-context fixtures and expected findings.
-- [Context Pack Scoring](docs/context-pack-scoring.md): Explainable file selection and scoring signals.
+- [Context Pack Scoring](docs/context-pack-scoring.md): Explainable file selection, scoring signals, and budget ledgers.
 - [Adjacent Tool Research](docs/research/adjacent-tools.md): Positioning against token dashboards, repo packers, agent scanners, and CI eval tools.
 
 ## Agent Notes

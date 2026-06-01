@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.53.0 - 2026-06-01
+
+- Add a visible budget ledger to generated `contextforge pack` Markdown output.
+- Measure final rendered pack content and keep it within the requested token budget instead of clamping the reported token count.
+- Refresh README, context-pack docs, artifact map, LLM discovery files, package metadata, and research notes around budget-proof context packs.
+
 ## 0.52.0 - 2026-06-01
 
 - Add `contextforge cost-estimate --summary contextforge-cost-estimate.md` for configurable Codex and Claude session cost estimates.
