@@ -1,7 +1,7 @@
 {
   "name": "contextforge",
-  "version": "0.60.0",
-  "description": "Agent context gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repos.",
+  "version": "0.61.0",
+  "description": "Agent context gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini, and Windsurf repos.",
   "type": "module",
   "packageManager": "pnpm@11.2.2",
   "repository": {
@@ -61,6 +61,10 @@
     "context-audit",
     "developer-tools",
     "cli",
+    "cursor",
+    "cline",
+    "gemini-cli",
+    "windsurf",
     "typescript"
   ],
   "author": "Ogün Keskin",

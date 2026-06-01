@@ -6,7 +6,7 @@ describe('LLM discovery docs', () => {
     const llms = await readFile('llms.txt', 'utf8');
 
     expect(llms).toContain('# ContextForge');
-    expect(llms).toContain('> Agent context gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repos.');
+    expect(llms).toContain('> Agent context gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini, and Windsurf repos.');
     expect(llms).toContain('## Quick Start');
     expect(llms).toContain('contextforge init --all');
     expect(llms).toContain('[Full Context](llms-full.txt)');

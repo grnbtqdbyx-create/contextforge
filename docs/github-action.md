@@ -30,7 +30,7 @@ refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.60.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.61.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -65,7 +65,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.60.0
+      - uses: grnbtqdbyx-create/contextforge@v0.61.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -139,7 +139,7 @@ The `contextforge-scorecard.md` artifact is the first file to open when a
 reader needs a short agent-readiness answer before inspecting the deeper proof
 packet.
 The `contextforge-agent-surface-map.md` artifact shows which Codex, Claude
-Code, GitHub Copilot, MCP, Cursor, and Cline-style repo surfaces are covered
+Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces are covered
 and which ContextForge command proves each surface.
 The `contextforge-mcp-audit.md` artifact shows whether committed MCP configs
 contain hardcoded secrets, unsafe remote shell installers, unpinned package

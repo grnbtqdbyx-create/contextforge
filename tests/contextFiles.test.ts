@@ -111,4 +111,30 @@ describe('context file discovery', () => {
     ]);
     expect(securityFiles.map((file) => file.relativePath)).toEqual(contextFiles.map((file) => file.relativePath));
   });
+
+  it('discovers adjacent agent rule files from Cursor, Cline, Gemini CLI, and Windsurf', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-adjacent-agent-rules-'));
+    await mkdir(path.join(rootDir, '.cursor/rules/api'), { recursive: true });
+    await mkdir(path.join(rootDir, '.clinerules/security'), { recursive: true });
+    await mkdir(path.join(rootDir, '.windsurf/rules/frontend'), { recursive: true });
+    await writeFile(path.join(rootDir, '.cursor/rules/api/review.mdc'), 'Review API changes before editing.\n');
+    await writeFile(path.join(rootDir, '.clinerules/security/review.md'), 'Check secrets before release.\n');
+    await writeFile(path.join(rootDir, '.clinerules/release.txt'), 'Run release checks.\n');
+    await writeFile(path.join(rootDir, '.windsurf/rules/frontend/react.md'), 'Use accessible React patterns.\n');
+    await writeFile(path.join(rootDir, '.windsurfrules'), 'Keep Cascade changes small.\n');
+    await writeFile(path.join(rootDir, 'GEMINI.md'), 'Use the project architecture notes.\n');
+
+    const contextFiles = await listContextFiles(rootDir);
+    const securityFiles = await listSecurityContextFiles(rootDir);
+
+    expect(contextFiles.map((file) => file.relativePath)).toEqual([
+      '.clinerules/release.txt',
+      '.clinerules/security/review.md',
+      '.cursor/rules/api/review.mdc',
+      '.windsurf/rules/frontend/react.md',
+      '.windsurfrules',
+      'GEMINI.md'
+    ]);
+    expect(securityFiles.map((file) => file.relativePath)).toEqual(contextFiles.map((file) => file.relativePath));
+  });
 });

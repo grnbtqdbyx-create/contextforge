@@ -1,6 +1,6 @@
 # ContextForge
 
-**Agent Context Gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repos.**
+**Agent Context Gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini, and Windsurf repos.**
 
 [![CI](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/ci.yml/badge.svg)](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/ci.yml)
 [![ContextForge Audit](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/contextforge-audit.yml/badge.svg)](https://github.com/grnbtqdbyx-create/contextforge/actions/workflows/contextforge-audit.yml)
@@ -35,7 +35,7 @@ maintainer has to read every doc.
 | Codex | `AGENTS.md`, root instructions, MCP configs, context packs, session traces |
 | Claude Code | `CLAUDE.md`, `.claude/settings*.json`, skills, subagents, slash commands, traces |
 | GitHub Copilot | custom instructions, prompt files, custom agents, hooks, workspace settings |
-| MCP / Cursor / Cline | tool configs, `.cursorrules`, `.clinerules`, repo-local guidance |
+| MCP / Cursor / Cline / Gemini / Windsurf | tool configs, `.cursor/rules/**/*.mdc`, `.clinerules/**/*.{md,txt}`, `GEMINI.md`, `.windsurfrules`, repo-local guidance |
 
 | If you are... | ContextForge gives you... |
 | --- | --- |
@@ -297,7 +297,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions --ou
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.60.0
+- uses: grnbtqdbyx-create/contextforge@v0.61.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -314,7 +314,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Map generated artifacts:** write a maintainer-friendly guide for every JSON, Markdown, SARIF, SVG, and HTML output with `contextforge artifact-map`.
 - **Guide first-time evaluators:** generate `docs/adoption.md` so maintainers can decide quickly whether ContextForge is worth trying, starring, or wiring into CI.
 - **Show a one-screen readiness scorecard:** publish `contextforge-scorecard.md` so README visitors, reviewers, Codex, and Claude can see the repo's agent readiness quickly.
-- **Show exactly which agent surfaces are covered:** publish `contextforge-agent-surface-map.md` so visitors can scan Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline coverage in one table.
+- **Show exactly which agent surfaces are covered:** publish `contextforge-agent-surface-map.md` so visitors can scan Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf coverage in one table.
 - **Audit MCP exposure:** publish `contextforge-mcp-audit.md` and `contextforge-mcp.sarif` so committed MCP configs cannot quietly ship hardcoded secrets, remote shell installers, unpinned package launches, auto-approval, broad tool permissions, or symlinked config files.
 - **Audit Claude Code settings:** publish `contextforge-claude-audit.md` and `contextforge-claude.sarif` so repo-committed Claude settings cannot quietly ship bypass modes, broad Bash permissions, remote shell hooks, or missing sensitive-file denies.
 - **Audit trace efficiency:** publish `contextforge-trace-audit.md` so repeated tool calls, huge outputs, tool-output-heavy traces, and low cache reuse are visible before the next long agent session.
@@ -327,7 +327,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Generate a launch kit:** write a one-liner, proof commands, suggested GitHub topics, launch post draft, and maintainer checklist.
 - **Explain the category:** generate a comparison guide that shows where ContextForge complements Repomix, ccusage, promptfoo, and security scanners.
 - **Improve cache stability:** catch volatile prefixes, timestamps, and large tool dumps.
-- **Audit repo instructions, hooks, agents, commands, and workspace settings:** keep root `README.md`, nested `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/agents/**/*.agent.md`, project `SKILL.md` files, `.claude/agents/**/*.md`, `.claude/commands/**/*.md`, `.github/hooks/*.json`, committed `.github/copilot/settings*.json`, `.vscode/settings.json`, committed `*.code-workspace`, `.cursorrules`, and `.clinerules` useful instead of bloated or unsafe.
+- **Audit repo instructions, hooks, agents, commands, and workspace settings:** keep root `README.md`, nested `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/agents/**/*.agent.md`, project `SKILL.md` files, `.claude/agents/**/*.md`, `.claude/commands/**/*.md`, `.github/hooks/*.json`, committed `.github/copilot/settings*.json`, `.vscode/settings.json`, committed `*.code-workspace`, `.cursor/rules/**/*.mdc`, `.cursorrules`, `.clinerules/**/*.{md,txt}`, `.clinerules`, `.windsurfrules`, and `.windsurf/rules/**/*.{md,mdc,txt}` useful instead of bloated or unsafe.
 - **Bootstrap minimal context files:** scaffold concise `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md` files without filling the repo with vague prompt folklore.
 - **Catch context poisoning:** flag instruction overrides, secret exfiltration, unsafe shell, hidden directives, and permission escalation.
 - **Generate budgeted context packs:** give Codex or Claude only the files needed for a task, with "why included" reasons and a visible budget ledger.
@@ -373,7 +373,7 @@ and tuned for Codex/Claude repository work.
 | CI runs upload many files with no index. | Reusable and generated workflows publish `contextforge-artifact-map.md` beside the proof pack and review kit. |
 | First-time visitors need a decision path. | `adoption-brief` writes a one-page evaluator guide with proof commands and adjacent-tool positioning. |
 | README visitors need a fast answer before reading docs. | `scorecard` writes a one-screen Codex/Claude readiness snapshot. |
-| Visitors ask whether their agent stack is covered. | `surface-map` writes a Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline surface matrix. |
+| Visitors ask whether their agent stack is covered. | `surface-map` writes a Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf surface matrix. |
 | Agent tool configs can hide supply-chain risk. | `mcp-audit` checks committed MCP configs for hardcoded secrets, remote shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files. |
 | MCP findings should show up in GitHub Security. | `mcp-audit --sarif` writes `contextforge-mcp.sarif` with `mcp-exposure/*` rule ids for Code Scanning. |
 | Claude Code settings can over-trust a repo. | `claude-audit` checks shared `.claude/settings.json` permissions, hooks, bypass modes, and sensitive-file denies. |
@@ -421,7 +421,7 @@ contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estima
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.60.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.61.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -501,7 +501,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.60.0 is a public MVP CLI with:
+ContextForge v0.61.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -510,13 +510,14 @@ ContextForge v0.60.0 is a public MVP CLI with:
 - shareable `contextforge proof-pack` readiness packets for launch, PR, and OSS evidence
 - generated `contextforge adoption-brief` evaluator pages for first-time maintainers
 - one-screen `contextforge scorecard` readiness snapshots for README, PR, and CI artifact readers
-- `contextforge surface-map` support matrices for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repo surfaces
+- `contextforge surface-map` support matrices for audited Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces
 - committed MCP config exposure audits for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files
 - committed Claude Code settings audits for bypass modes, broad Bash allow rules, remote shell hooks, wildcard HTTP hooks, and missing sensitive-file denies
 - Claude Code project subagent and custom slash-command discovery for `.claude/agents/**/*.md` and `.claude/commands/**/*.md`
 - GitHub Copilot customization discovery for `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/agents/**/*.agent.md`, and project skills under `.github/skills`, `.claude/skills`, and `.agents/skills`
 - GitHub Copilot hook security scanning for `.github/hooks/*.json` and committed `.github/copilot/settings*.json`
 - VS Code Copilot workspace settings security scanning for `.vscode/settings.json` and committed `*.code-workspace` files
+- adjacent agent rule discovery and security scanning for `.cursor/rules/**/*.mdc`, `.clinerules/**/*.{md,txt}`, `GEMINI.md`, `.windsurfrules`, and `.windsurf/rules/**/*.{md,mdc,txt}` files
 - agent trace efficiency audits for redundant tool calls, bulky tool output, tool-output-dominant traces, and low cache reuse
 - configurable session cost estimates with caller-provided per-1M token prices
 - deterministic `contextforge review-kit` briefs for Codex, Claude, and human PR review
@@ -627,6 +628,7 @@ ContextForge v0.60.0 is a public MVP CLI with:
 - **v0.58.0:** Claude Code project subagent and custom slash-command auditing.
 - **v0.59.0:** Cross-agent surface map artifact for Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline coverage.
 - **v0.60.0:** README first-viewport positioning with a 30-second proof path and cross-agent coverage table.
+- **v0.61.0:** Adjacent agent rule discovery for modern Cursor, Cline, Gemini CLI, and Windsurf repo-local instruction files.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

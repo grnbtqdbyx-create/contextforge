@@ -69,7 +69,7 @@ const artifactRows: ArtifactMapRow[] = [
   {
     artifact: 'contextforge-agent-surface-map.md',
     audience: 'Agent operators, OSS evaluators, and README visitors',
-    useWhen: 'you need to see which Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline repo surfaces are covered',
+    useWhen: 'you need to see which Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf repo surfaces are covered',
     producedBy: '`contextforge surface-map --output contextforge-agent-surface-map.md`'
   },
   {

@@ -512,6 +512,11 @@ ContextForge now includes them in health checks, context security, and context
 pack instruction scoring.
 ContextForge v0.59.0 turns the growing coverage list into a public support
 matrix: `contextforge surface-map --output contextforge-agent-surface-map.md`
-shows which Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style
+shows which Codex, Claude Code, GitHub Copilot, MCP, Cursor, Cline, Gemini CLI, and Windsurf
 repo surfaces are audited, which command covers each one, and why the surface
 matters for token cost, context safety, and maintainer trust.
+ContextForge v0.61.0 makes the adjacent-agent row executable instead of
+marketing-only: Cursor `.cursor/rules/**/*.mdc`, Cline
+`.clinerules/**/*.{md,txt}`, Gemini CLI `GEMINI.md`, Windsurf
+`.windsurfrules`, and Windsurf `.windsurf/rules/**/*.{md,mdc,txt}` files are
+now discovered, security-audited, and scored as instruction context.

@@ -49,13 +49,16 @@ export interface ContextPackBudget {
   status: 'within-budget' | 'over-budget';
 }
 
-const TEXT_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.yml', '.yaml', '.toml', '.css', '.html', '.txt']);
+const TEXT_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.mdc', '.yml', '.yaml', '.toml', '.css', '.html', '.txt']);
 
 export async function createContextPack(options: ContextPackOptions): Promise<ContextPack> {
   const rootDir = options.rootDir ?? process.cwd();
   const budget = Math.max(100, options.budget);
   const terms = options.task.toLowerCase().split(/[^a-z0-9_./-]+/).filter((term) => term.length > 2);
-  const files = await listFiles(rootDir, (filePath) => TEXT_EXTENSIONS.has(path.extname(filePath)));
+  const files = await listFiles(rootDir, (filePath) => {
+    const relativePath = path.relative(rootDir, filePath);
+    return TEXT_EXTENSIONS.has(path.extname(filePath)) || isAgentInstructionContextPath(relativePath);
+  });
   const sessionSignals = buildSessionSignals(files.map((file) => path.relative(rootDir, file)), options.records ?? []);
   const candidates: Array<PackedFile & { body: string }> = [];
 
@@ -179,7 +182,7 @@ function scoreReasons(relative: string, haystack: string, terms: string[], signa
       points: pathMatches.length * 3
     });
   }
-  if (/^(AGENTS|CLAUDE)\.md$|(\.cursorrules|\.clinerules)$/i.test(relative) || isAgentInstructionContextPath(relative)) {
+  if (isAgentInstructionContextPath(relative)) {
     reasons.push({
       type: 'instruction-file',
       label: 'repo-level agent instruction file',

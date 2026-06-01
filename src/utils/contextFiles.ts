@@ -1,7 +1,8 @@
 import path from 'node:path';
 import { listFiles } from './files.js';
 
-const CONTEXT_FILE_NAMES = new Set(['AGENTS.md', 'CLAUDE.md', '.cursorrules', '.clinerules']);
+const AGENT_INSTRUCTION_FILE_NAMES = new Set(['AGENTS.md', 'CLAUDE.md', 'GEMINI.md', '.cursorrules', '.clinerules', '.windsurfrules']);
+const CONTEXT_FILE_NAMES = AGENT_INSTRUCTION_FILE_NAMES;
 const SECURITY_CONTEXT_FILE_NAMES = new Set([...CONTEXT_FILE_NAMES, 'SKILL.md', 'README.md']);
 const COPILOT_INSTRUCTIONS_FILE = '.github/copilot-instructions.md';
 
@@ -49,8 +50,23 @@ export function isCopilotArtifactPath(relativePath: string): boolean {
   );
 }
 
+export function isAdjacentAgentRulePath(relativePath: string): boolean {
+  const normalized = relativePath.split(path.sep).join('/');
+  return (
+    /(^|\/)\.cursor\/rules\/.+\.mdc$/i.test(normalized) ||
+    /^\.clinerules\/.+\.(md|txt)$/i.test(normalized) ||
+    /(^|\/)\.windsurf\/rules\/.+\.(md|mdc|txt)$/i.test(normalized)
+  );
+}
+
 export function isAgentInstructionContextPath(relativePath: string): boolean {
-  return isCopilotInstructionPath(relativePath) || isCopilotArtifactPath(relativePath);
+  const normalized = relativePath.split(path.sep).join('/');
+  return (
+    AGENT_INSTRUCTION_FILE_NAMES.has(path.basename(normalized)) ||
+    isCopilotInstructionPath(normalized) ||
+    isCopilotArtifactPath(normalized) ||
+    isAdjacentAgentRulePath(normalized)
+  );
 }
 
 export function isCopilotHookConfigPath(relativePath: string): boolean {
