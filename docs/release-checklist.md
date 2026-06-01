@@ -20,6 +20,7 @@
 - [x] Trace efficiency audit catches repeated tool calls, bulky outputs, tool-output-heavy traces, and low cache reuse.
 - [x] Cost estimate report uses caller-provided pricing instead of hardcoded provider prices.
 - [x] Context pack generation shows a budget ledger and measures final output against the requested token budget.
+- [x] GitHub Copilot instruction files are discovered, audited, and scaffolded with the same context hygiene loop as AGENTS.md and CLAUDE.md.
 - [x] First-time evaluator adoption brief gives visitors a 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands.
 - [ ] First approved npm publish.
 

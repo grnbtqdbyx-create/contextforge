@@ -1,7 +1,7 @@
 # ContextForge Full Context
 
-ContextForge is a self-learning token and context optimizer for Codex and
-Claude Code. It is intended for open source maintainers who want coding agents
+ContextForge is a self-learning token and context optimizer for Codex,
+Claude Code, and GitHub Copilot. It is intended for open source maintainers who want coding agents
 to work with less context waste, better cache stability, safer repo
 instructions, and clearer handoffs.
 
@@ -12,8 +12,9 @@ separate tools:
 
 - token usage visibility for Codex and Claude session data
 - prompt-cache stability checks for volatile prefixes and large tool outputs
-- repo context health checks for `AGENTS.md`, `CLAUDE.md`, `.cursorrules`,
-  `.clinerules`, `SKILL.md`, and root README files
+- repo context health checks for `AGENTS.md`, `CLAUDE.md`,
+  `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`,
+  `.cursorrules`, `.clinerules`, `SKILL.md`, and root README files
 - context security checks for prompt injection, secret exfiltration, unsafe
   shell instructions, hidden directives, and permission escalation
 - MCP exposure checks for committed tool configs with hardcoded secrets, unsafe
@@ -41,6 +42,7 @@ That writes:
 - `.github/workflows/contextforge-pr-comment.yml`
 - `AGENTS.md`
 - `CLAUDE.md`
+- `.github/copilot-instructions.md`
 
 The PR comment workflow is separate because publishing comments requires
 `pull-requests: write`. The audit workflow can remain read-oriented and still
@@ -74,7 +76,7 @@ contextforge adoption-brief [--output docs/adoption.md] [--project-name "My App"
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--force]
 ```
 
 ## Safety Model

@@ -1,6 +1,6 @@
 # ContextForge
 
-> Self-learning token and context optimizer for Codex and Claude Code.
+> Self-learning token and context optimizer for Codex, Claude Code, and GitHub Copilot.
 
 ContextForge is a local-first TypeScript CLI for maintainers who use AI coding
 agents. It measures token usage, audits repo context files, checks prompt-cache
@@ -11,7 +11,7 @@ Claude can act on.
 
 ## Quick Start
 
-- `contextforge init --all --project-name "My Repo"`: scaffold the recommended repo setup.
+- `contextforge init --all --project-name "My Repo"`: scaffold the recommended repo setup, including `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md`.
 - `contextforge doctor --demo --summary contextforge-doctor.md`: run first-readiness checks and write a shareable Markdown report.
 - `contextforge doctor`: verifies public proof files, launch profile assets, community health files, and next actions.
 - `contextforge proof-pack --output contextforge-proof-pack.md`: combine doctor, audit, evidence commands, and Codex/Claude handoff guidance into one Markdown proof packet.
@@ -47,7 +47,8 @@ Claude can act on.
 - [Review Kit](docs/review-kit.md): Deterministic review brief for Codex, Claude, human reviewers, and AI review workflows.
 - [Artifact Map](docs/artifacts.md): Generated catalog of ContextForge artifacts and fast paths.
 - [npm Publish](docs/npm-publish.md): Trusted Publishing workflow, provenance metadata, and publish-readiness checks.
-- [Agent Context Init](docs/agent-context-init.md): Minimal `AGENTS.md` and `CLAUDE.md` scaffolding.
+- [Agent Context Init](docs/agent-context-init.md): Minimal `AGENTS.md`, `CLAUDE.md`, and Copilot instruction scaffolding.
+- [GitHub Copilot Instructions](docs/copilot-instructions.md): Copilot repository-wide and path-scoped instruction audit coverage.
 - [Agent Action Plan](docs/agent-action-plan.md): `contextforge plan` and audit handoff artifacts for Codex/Claude.
 - [Security Audit](docs/security-audit.md): Prompt/context poisoning checks for repo instruction files.
 - [Security Benchmark](docs/security-benchmark.md): Public malicious-context fixtures and expected findings.

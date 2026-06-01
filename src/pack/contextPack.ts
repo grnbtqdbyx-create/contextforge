@@ -2,6 +2,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { redactSecrets, isLikelyBinary } from '../security/secrets.js';
 import { estimateTokens } from '../tokenizers/index.js';
+import { isCopilotInstructionPath } from '../utils/contextFiles.js';
 import { listFiles } from '../utils/files.js';
 import type { SessionRecord } from '../types.js';
 
@@ -178,7 +179,7 @@ function scoreReasons(relative: string, haystack: string, terms: string[], signa
       points: pathMatches.length * 3
     });
   }
-  if (/^(AGENTS|CLAUDE)\.md$|(\.cursorrules|\.clinerules)$/i.test(relative)) {
+  if (/^(AGENTS|CLAUDE)\.md$|(\.cursorrules|\.clinerules)$/i.test(relative) || isCopilotInstructionPath(relative)) {
     reasons.push({
       type: 'instruction-file',
       label: 'repo-level agent instruction file',

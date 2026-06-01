@@ -1,18 +1,19 @@
 # Minimal Agent Context Init
 
 ContextForge can bootstrap short, measurable context files for Codex, Claude
-Code, and other coding agents:
+Code, GitHub Copilot, and other coding agents:
 
 ```bash
-contextforge init --agents-md --claude-md --project-name "My Repo"
+contextforge init --agents-md --claude-md --copilot-instructions --project-name "My Repo"
 ```
 
 This writes:
 
 - `AGENTS.md` for Codex and tools that follow the AGENTS.md convention
 - `CLAUDE.md` for Claude Code project memory
+- `.github/copilot-instructions.md` for GitHub Copilot repository-wide custom instructions
 
-Both templates are intentionally small. Current agent-context research and
+The templates are intentionally small. Current agent-context research and
 vendor guidance point in the same direction: context files work best when they
 are specific, operational, and maintained. Broad rules and stale project lore
 increase token cost and can make agents explore too widely.
@@ -24,6 +25,7 @@ Existing files are preserved by default:
 ```bash
 contextforge init --agents-md
 contextforge init --agents-md --force
+contextforge init --copilot-instructions
 ```
 
 Use `--force` only after reviewing the current file.
