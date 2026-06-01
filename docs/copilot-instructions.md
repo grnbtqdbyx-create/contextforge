@@ -5,6 +5,8 @@ context, the same way it treats `AGENTS.md`, `CLAUDE.md`, Cursor rules, and
 other instruction files. That now includes always-on custom instructions,
 reusable prompt files, repository custom agents, project skills, and repo-local
 hook configuration files that can run shell commands during agent workflows.
+It also treats committed VS Code workspace settings as a security surface when
+they contain settings-based Copilot instructions.
 
 Covered files:
 
@@ -19,6 +21,8 @@ Covered files:
 - `.github/hooks/*.json` (security scan only)
 - `.github/copilot/settings.json` (security scan only)
 - `.github/copilot/settings.local.json` (security scan only when committed)
+- `.vscode/settings.json` (security scan only)
+- `*.code-workspace` (security scan only when committed)
 
 Why this matters:
 
@@ -29,6 +33,9 @@ Why this matters:
 - Copilot hooks can execute shell commands at agent lifecycle points, so they
   are scanned for unsafe shell, data exfiltration, hidden directives, and
   permission weakening rather than scored as prose instructions.
+- VS Code settings can define Copilot instructions for review, commit-message,
+  and pull-request-description generation, so committed workspace settings are
+  scanned as repo-controlled instruction surfaces.
 - Copilot CLI can also combine `AGENTS.md` with
   `.github/copilot-instructions.md`.
 - Noisy, conflicting, oversized, or malicious Copilot customization files can

@@ -78,4 +78,20 @@ describe('context file discovery', () => {
       '.github/hooks/pre-tool-use.json'
     ]);
   });
+
+  it('discovers VS Code Copilot workspace settings only for security scans', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-vscode-copilot-settings-'));
+    await mkdir(path.join(rootDir, '.vscode'), { recursive: true });
+    await writeFile(path.join(rootDir, '.vscode/settings.json'), '{"github.copilot.chat.reviewSelection.instructions":[{"text":"Review carefully."}]}\n');
+    await writeFile(path.join(rootDir, 'app.code-workspace'), '{"settings":{"github.copilot.chat.commitMessageGeneration.instructions":[{"text":"Use concise commits."}]}}\n');
+
+    const contextFiles = await listContextFiles(rootDir);
+    const securityFiles = await listSecurityContextFiles(rootDir);
+
+    expect(contextFiles.map((file) => file.relativePath)).toEqual([]);
+    expect(securityFiles.map((file) => file.relativePath)).toEqual([
+      '.vscode/settings.json',
+      'app.code-workspace'
+    ]);
+  });
 });

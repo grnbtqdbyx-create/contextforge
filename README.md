@@ -16,8 +16,8 @@ outputs, and unsafe Markdown they treat as trusted context.
 ContextForge is a local-first CI gate for that layer. It shows where agent
 tokens go, reduces context bloat, audits prompt-cache stability, scans root
 instructions, Copilot prompt files, custom agents, project skills, and
-repo-local hooks for prompt/context poisoning, and creates task-specific
-context packs for Codex, Claude Code, and GitHub Copilot.
+repo-local hooks and workspace settings for prompt/context poisoning, and
+creates task-specific context packs for Codex, Claude Code, and GitHub Copilot.
 
 Run it before a PR, release, or long agent session to answer one practical
 question: **is this repository ready for an agent to work efficiently, cheaply,
@@ -277,7 +277,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions --ou
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.56.0
+- uses: grnbtqdbyx-create/contextforge@v0.57.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -306,7 +306,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Generate a launch kit:** write a one-liner, proof commands, suggested GitHub topics, launch post draft, and maintainer checklist.
 - **Explain the category:** generate a comparison guide that shows where ContextForge complements Repomix, ccusage, promptfoo, and security scanners.
 - **Improve cache stability:** catch volatile prefixes, timestamps, and large tool dumps.
-- **Audit repo instructions and hooks:** keep root `README.md`, nested `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/agents/**/*.agent.md`, project `SKILL.md` files, `.github/hooks/*.json`, committed `.github/copilot/settings*.json`, `.cursorrules`, and `.clinerules` useful instead of bloated or unsafe.
+- **Audit repo instructions, hooks, and workspace settings:** keep root `README.md`, nested `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/agents/**/*.agent.md`, project `SKILL.md` files, `.github/hooks/*.json`, committed `.github/copilot/settings*.json`, `.vscode/settings.json`, committed `*.code-workspace`, `.cursorrules`, and `.clinerules` useful instead of bloated or unsafe.
 - **Bootstrap minimal context files:** scaffold concise `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md` files without filling the repo with vague prompt folklore.
 - **Catch context poisoning:** flag instruction overrides, secret exfiltration, unsafe shell, hidden directives, and permission escalation.
 - **Generate budgeted context packs:** give Codex or Claude only the files needed for a task, with "why included" reasons and a visible budget ledger.
@@ -356,6 +356,7 @@ and tuned for Codex/Claude repository work.
 | MCP findings should show up in GitHub Security. | `mcp-audit --sarif` writes `contextforge-mcp.sarif` with `mcp-exposure/*` rule ids for Code Scanning. |
 | Claude Code settings can over-trust a repo. | `claude-audit` checks shared `.claude/settings.json` permissions, hooks, bypass modes, and sensitive-file denies. |
 | Copilot hooks can run shell commands during agent workflows. | `security-audit` scans `.github/hooks/*.json` and committed `.github/copilot/settings*.json` for unsafe shell, exfiltration, hidden directives, and permission weakening. |
+| VS Code workspace settings can carry Copilot instructions. | `security-audit` scans `.vscode/settings.json` and committed `*.code-workspace` files for risky Copilot review, commit, and PR instruction text. |
 | First npm publish is a vague manual checklist. | `publish-readiness` separates verified repo setup, provenance metadata, npm account state, and environment steps that require the maintainer. |
 | Coding agents guess which docs matter. | `llms.txt` points them at the important project surfaces. |
 | Agents need structured fixes, not copied bullets. | `contextforge improve --json` emits parseable rule suggestions. |
@@ -396,7 +397,7 @@ contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estima
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.56.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.57.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -475,7 +476,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.56.0 is a public MVP CLI with:
+ContextForge v0.57.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -488,6 +489,7 @@ ContextForge v0.56.0 is a public MVP CLI with:
 - committed Claude Code settings audits for bypass modes, broad Bash allow rules, remote shell hooks, wildcard HTTP hooks, and missing sensitive-file denies
 - GitHub Copilot customization discovery for `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/agents/**/*.agent.md`, and project skills under `.github/skills`, `.claude/skills`, and `.agents/skills`
 - GitHub Copilot hook security scanning for `.github/hooks/*.json` and committed `.github/copilot/settings*.json`
+- VS Code Copilot workspace settings security scanning for `.vscode/settings.json` and committed `*.code-workspace` files
 - agent trace efficiency audits for redundant tool calls, bulky tool output, tool-output-dominant traces, and low cache reuse
 - configurable session cost estimates with caller-provided per-1M token prices
 - deterministic `contextforge review-kit` briefs for Codex, Claude, and human PR review
@@ -512,7 +514,7 @@ ContextForge v0.56.0 is a public MVP CLI with:
 - CI-ready `contextforge-suggestions.json` improvement artifacts
 - compact `contextforge-badge.svg` audit status badges
 - context health audit with nested monorepo and GitHub Copilot customization discovery
-- context security audit with nested monorepo, GitHub Copilot customization discovery, project skill and hook scanning, and root README injection checks
+- context security audit with nested monorepo, GitHub Copilot customization discovery, project skill, hook, workspace settings scanning, and root README injection checks
 - public malicious-context benchmark fixtures
 - cache stability audit
 - task-specific Markdown context packs with session-derived scoring and real budget ledgers
@@ -593,6 +595,7 @@ ContextForge v0.56.0 is a public MVP CLI with:
 - **v0.54.0:** GitHub Copilot repository and path-scoped instruction audit/scaffold support.
 - **v0.55.0:** GitHub Copilot prompt file, custom agent, and project skill audit support.
 - **v0.56.0:** GitHub Copilot hook config security scanning.
+- **v0.57.0:** VS Code Copilot workspace settings security scanning.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

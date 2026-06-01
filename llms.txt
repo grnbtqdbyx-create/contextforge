@@ -48,7 +48,7 @@ Claude can act on.
 - [Artifact Map](docs/artifacts.md): Generated catalog of ContextForge artifacts and fast paths.
 - [npm Publish](docs/npm-publish.md): Trusted Publishing workflow, provenance metadata, and publish-readiness checks.
 - [Agent Context Init](docs/agent-context-init.md): Minimal `AGENTS.md`, `CLAUDE.md`, and Copilot instruction scaffolding.
-- [GitHub Copilot Customization](docs/copilot-instructions.md): Copilot instruction, prompt file, custom agent, project skill, and hook security coverage.
+- [GitHub Copilot Customization](docs/copilot-instructions.md): Copilot instruction, prompt file, custom agent, project skill, hook, and VS Code workspace settings security coverage.
 - [Agent Action Plan](docs/agent-action-plan.md): `contextforge plan` and audit handoff artifacts for Codex/Claude.
 - [Security Audit](docs/security-audit.md): Prompt/context poisoning checks for repo instruction files.
 - [Security Benchmark](docs/security-benchmark.md): Public malicious-context fixtures and expected findings.

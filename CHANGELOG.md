@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.57.0 - 2026-06-01
+
+- Add VS Code Copilot workspace settings security discovery for `.vscode/settings.json` and committed `*.code-workspace` files.
+- Scan settings-based Copilot review, commit-message, and pull-request instruction text for prompt injection, secret exfiltration, hidden directives, unsafe shell guidance, and permission weakening.
+- Refresh README, Copilot customization docs, security docs, LLM discovery files, and research notes around VS Code workspace instruction risk.
+
 ## 0.56.0 - 2026-06-01
 
 - Add Copilot hook security discovery for `.github/hooks/*.json`, `.github/copilot/settings.json`, and `.github/copilot/settings.local.json`.
