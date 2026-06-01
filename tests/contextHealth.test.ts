@@ -37,6 +37,29 @@ describe('context health audit', () => {
     expect(audit.findings.some((finding) => finding.file === '.github/instructions/frontend.instructions.md' && finding.type === 'vague')).toBe(true);
   });
 
+  it('flags path-scoped Copilot instructions without applyTo frontmatter', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-copilot-applyto-'));
+    await mkdir(path.join(rootDir, '.github/instructions'), { recursive: true });
+    await writeFile(path.join(rootDir, '.github/instructions/frontend.instructions.md'), 'Use React Query for server state.\n');
+    await writeFile(
+      path.join(rootDir, '.github/instructions/api.instructions.md'),
+      ['---', 'applyTo: "src/api/**/*.ts"', '---', 'Validate request bodies with Zod.'].join('\n')
+    );
+
+    const audit = await auditContextFiles({ rootDir });
+
+    expect(audit.findings).toContainEqual(
+      expect.objectContaining({
+        file: '.github/instructions/frontend.instructions.md',
+        type: 'copilot-missing-applyto',
+        severity: 'medium'
+      })
+    );
+    expect(
+      audit.findings.some((finding) => finding.file === '.github/instructions/api.instructions.md' && finding.type === 'copilot-missing-applyto')
+    ).toBe(false);
+  });
+
   it('audits Copilot prompts, custom agents, and project skills as repo context', async () => {
     const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-copilot-artifact-health-'));
     await mkdir(path.join(rootDir, '.github/prompts'), { recursive: true });

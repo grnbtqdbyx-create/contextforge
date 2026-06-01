@@ -359,7 +359,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions --ou
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.71.0
+- uses: grnbtqdbyx-create/contextforge@v0.72.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -498,7 +498,7 @@ contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estima
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.71.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.72.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -583,7 +583,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.71.0 is a public MVP CLI with:
+ContextForge v0.72.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -600,6 +600,7 @@ ContextForge v0.71.0 is a public MVP CLI with:
 - committed Claude Code settings audits for bypass modes, broad Bash allow rules, remote shell hooks, wildcard HTTP hooks, and missing sensitive-file denies
 - Claude Code project subagent and custom slash-command discovery for `.claude/agents/**/*.md` and `.claude/commands/**/*.md`
 - GitHub Copilot customization discovery for `.github/copilot-instructions.md`, `.github/instructions/**/*.instructions.md`, `.github/prompts/**/*.prompt.md`, `.github/agents/**/*.md`, `.github/agents/**/*.agent.md`, and project skills under `.github/skills`, `.claude/skills`, and `.agents/skills`
+- GitHub Copilot path-scoped instruction checks that flag `.github/instructions/**/*.instructions.md` files missing `applyTo` frontmatter
 - GitHub Copilot hook security scanning for `.github/hooks/*.json` and committed `.github/copilot/settings*.json`
 - VS Code Copilot workspace settings security scanning for `.vscode/settings.json` and committed `*.code-workspace` files
 - adjacent agent rule discovery and security scanning for `.cursor/rules/**/*.mdc`, `.clinerules/**/*.{md,txt}`, `GEMINI.md`, `.windsurfrules`, and `.windsurf/rules/**/*.{md,mdc,txt}` files
@@ -730,6 +731,7 @@ ContextForge v0.71.0 is a public MVP CLI with:
 - **v0.69.0:** GitHub Actions audits catch mutable action refs, pwn-request checkout, missing permissions, and direct script interpolation.
 - **v0.70.0:** doctor, proof-pack, and scorecard reports surface Claude settings, agentic workflow, and GitHub Actions hardening evidence in one readiness path.
 - **v0.71.0:** GitHub Actions audits catch missing Node 24 JavaScript action runtime opt-ins and document the known runner annotation behavior.
+- **v0.72.0:** Context health audits catch path-scoped Copilot instruction files missing `applyTo` frontmatter.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

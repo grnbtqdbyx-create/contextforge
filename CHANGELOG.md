@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.72.0 - 2026-06-01
+
+- Add `copilot-missing-applyto` to context health audits so `.github/instructions/**/*.instructions.md` files without `applyTo` frontmatter are no longer treated as fully scoped Copilot guidance.
+- Keep scoped Copilot instruction files quiet when they include YAML frontmatter such as `applyTo: "src/**/*.ts"`.
+- Refresh README, Copilot customization docs, LLM discovery files, and research notes around path-scoped instruction applicability.
+
 ## 0.71.0 - 2026-06-01
 
 - Add `actions-missing-node24-opt-in` to `contextforge actions-audit` so repositories using JavaScript actions can prepare for GitHub's Node 24 hosted-runner default.

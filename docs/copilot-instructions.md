@@ -28,6 +28,9 @@ Why this matters:
 
 - Copilot can automatically add repository-wide and path-specific custom
   instructions to requests.
+- Path-scoped `.github/instructions/**/*.instructions.md` files need an
+  `applyTo` frontmatter pattern when maintainers expect automatic application;
+  ContextForge flags missing scopes as `copilot-missing-applyto`.
 - Prompt files, custom agents, and project skills can carry reusable task
   guidance that affects how Copilot plans or executes work.
 - Copilot hooks can execute shell commands at agent lifecycle points, so they

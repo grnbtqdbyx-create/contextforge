@@ -22,6 +22,9 @@ separate tools:
   `.clinerules/**/*.{md,txt}`, `.clinerules`, `GEMINI.md`, `.windsurfrules`,
   `.windsurf/rules/**/*.{md,mdc,txt}`, `SKILL.md`, and
   root README files
+- Copilot path-scoped instruction checks that flag
+  `.github/instructions/**/*.instructions.md` files without `applyTo`
+  frontmatter
 - context security checks for prompt injection, secret exfiltration, unsafe
   shell instructions, hidden directives, and permission escalation
 - Claude Code project subagent and custom command checks for committed
