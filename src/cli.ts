@@ -805,7 +805,7 @@ Usage:
   contextforge artifact-map [--output docs/artifacts.md]
   contextforge surface-map [--output contextforge-agent-surface-map.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.59.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.60.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

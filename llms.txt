@@ -1,6 +1,6 @@
 # ContextForge
 
-> Self-learning token and context optimizer for Codex, Claude Code, and GitHub Copilot.
+> Agent context gate for Codex, Claude Code, GitHub Copilot, MCP, Cursor, and Cline-style repos.
 
 ContextForge is a local-first TypeScript CLI for maintainers who use AI coding
 agents. It measures token usage, audits repo context files, checks prompt-cache

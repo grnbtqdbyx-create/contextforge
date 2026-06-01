@@ -1,7 +1,7 @@
 # ContextForge Full Context
 
-ContextForge is a self-learning token and context optimizer for Codex,
-Claude Code, and GitHub Copilot. It is intended for open source maintainers who want coding agents
+ContextForge is an agent context gate for Codex, Claude Code, GitHub Copilot,
+MCP, Cursor, and Cline-style repositories. It is intended for open source maintainers who want coding agents
 to work with less context waste, better cache stability, safer repo
 instructions, and clearer handoffs.
 
