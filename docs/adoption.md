@@ -23,6 +23,7 @@ contextforge scorecard --output contextforge-scorecard.md
 contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
+contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
 contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10
 contextforge artifact-map --output docs/artifacts.md
@@ -33,6 +34,7 @@ contextforge artifact-map --output docs/artifacts.md
 - Open `contextforge-agent-surface-diff.md` when a PR may have changed agent-readable instructions, rules, settings, or tool configs.
 - Open `contextforge-mcp-audit.md` when the repo has MCP config files or agent tool setup; upload `contextforge-mcp.sarif` when GitHub Code Scanning should track those findings.
 - Open `contextforge-claude-audit.md` when the repo commits Claude Code project settings, hooks, or permissions.
+- Open `contextforge-workflow-audit.md` when GitHub workflows pass issue, PR, review, comment, or workflow input text into agent commands.
 - Open `contextforge-trace-audit.md` when you want to see whether a Codex or Claude trace wasted context on repeated tools or bulky outputs.
 - Open `contextforge-cost-estimate.md` when you want to turn observed tokens into a configurable spend estimate without trusting stale hardcoded prices.
 - Open `docs/artifacts.md` when CI uploaded many files and you need the right next proof artifact.
@@ -44,6 +46,7 @@ contextforge artifact-map --output docs/artifacts.md
 | Repomix / Gitingest | packaging repository files for an LLM | smaller task packs, context health, security gates, and proof artifacts |
 | ccusage / token dashboards | broad session cost visibility | repo-level fixes for noisy instructions and cache instability |
 | promptfoo / eval suites | prompt and model behavior tests | repository readiness and trace-efficiency evidence before agents ingest docs, rules, PR comments, or MCP configs |
+| agentic workflow hardening guides | reducing CI prompt-injection risk | repo-local checks for untrusted GitHub event text reaching privileged agent jobs |
 | MCP scanners / gateways | runtime server and tool-surface analysis | committed config checks before an agent trusts the repo |
 
 ## Try It Before npm Publish
@@ -59,6 +62,7 @@ node dist/cli.js scorecard --output contextforge-scorecard.md
 node dist/cli.js surface-diff --base main --output contextforge-agent-surface-diff.md
 node dist/cli.js mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 node dist/cli.js claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
+node dist/cli.js workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif
 node dist/cli.js trace-audit --demo --summary contextforge-trace-audit.md
 node dist/cli.js cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10
 ```
@@ -68,7 +72,7 @@ After npm publish, the same proof path should work with `npx contextforge ...`.
 ## Star-Worthy Proof
 
 - The CLI is deterministic and local-first; it does not call an LLM to create audit results.
-- The repository dogfoods its own GitHub Action and uploads scorecard, surface diff, MCP audit, MCP SARIF, Claude settings audit, trace audit, proof-pack, review-kit, artifact-map, SARIF, JSON, HTML, and Markdown artifacts.
+- The repository dogfoods its own GitHub Action and uploads scorecard, surface diff, MCP audit, MCP SARIF, Claude settings audit, agentic workflow audit, workflow SARIF, trace audit, proof-pack, review-kit, artifact-map, SARIF, JSON, HTML, and Markdown artifacts.
 - The launch snapshot explains the why-now story without asking visitors to read the whole repository first.
 - PR comments embed changed agent-surface summaries so reviewers see context drift before opening artifacts.
 - Release notes include validation commands and GitHub Actions run evidence.

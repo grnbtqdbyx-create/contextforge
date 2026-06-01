@@ -140,6 +140,7 @@ contextforge launch-snapshot --output docs/launch-snapshot.md
 contextforge scorecard --output contextforge-scorecard.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
+contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
 contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10
 contextforge pack --demo --task "review auth regression" --budget 600 --output contextforge-pack.md
@@ -167,6 +168,9 @@ Success signal:
 - Claude Code reviewers can open `contextforge-claude-audit.md` or upload
   `contextforge-claude.sarif` to catch risky shared project settings before
   users trust repo-provided permissions and hooks.
+- Security reviewers can open `contextforge-workflow-audit.md` or upload
+  `contextforge-workflow.sarif` to catch GitHub issue, PR, review, comment, or
+  workflow input text flowing into privileged AI workflows.
 - Agent operators can open `contextforge-trace-audit.md` to see whether the demo
   trace wasted turns on repeated tools or bulky output before they try local
   Codex/Claude history.

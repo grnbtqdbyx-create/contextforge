@@ -546,3 +546,9 @@ docs/launch-snapshot.md`, because README visitors and build-in-public readers
 need a short why-now page that connects AGENTS.md growth, MCP security pressure,
 agentic workflow injection risk, trace waste, and proof-first artifacts without
 reading the whole repository.
+ContextForge v0.67.0 adds `contextforge workflow-audit --summary
+contextforge-workflow-audit.md --sarif contextforge-workflow.sarif`, because
+agentic GitHub workflows can route issue, PR, review, comment, or workflow input
+text into coding-agent commands while write permissions or secrets are present.
+That turns AI workflow hardening into the same deterministic artifact loop as
+MCP, Claude settings, and context-security checks.

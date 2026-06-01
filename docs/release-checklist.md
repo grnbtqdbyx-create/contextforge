@@ -20,6 +20,7 @@
 - [x] PR comments embed a compact changed agent-surface summary using the same base ref as the surface-diff artifact.
 - [x] npm publish workflow packs, attests, uploads, and publishes the same release tarball.
 - [x] Launch snapshot gives README visitors a why-now, adjacent-category, and proof-first page.
+- [x] Agentic workflow audit catches untrusted GitHub event text flowing into privileged AI workflows.
 - [x] MCP exposure audit catches committed MCP config secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files.
 - [x] MCP exposure findings can be exported as SARIF for GitHub Code Scanning.
 - [x] Claude Code project settings can be audited as Markdown and SARIF artifacts.

@@ -42,6 +42,8 @@ jobs:
         if: always()
       - run: node dist/cli.js claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
         if: always()
+      - run: node dist/cli.js workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif
+        if: always()
       - run: node dist/cli.js trace-audit --summary contextforge-trace-audit.md
         if: always()
       - run: node dist/cli.js review-kit --base main --output contextforge-review-kit.md
@@ -73,6 +75,8 @@ jobs:
             contextforge-mcp.sarif
             contextforge-claude-audit.md
             contextforge-claude.sarif
+            contextforge-workflow-audit.md
+            contextforge-workflow.sarif
             contextforge-trace-audit.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
@@ -88,3 +92,7 @@ jobs:
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
           sarif_file: contextforge-claude.sarif
+      - uses: github/codeql-action/upload-sarif@v4
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        with:
+          sarif_file: contextforge-workflow.sarif

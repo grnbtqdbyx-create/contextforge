@@ -7,8 +7,9 @@ SVG status badge, a shareable proof pack, a one-screen readiness scorecard, an
 agent surface support matrix, a repo-specific agent surface inventory, a
 PR-specific agent surface diff, a
 committed MCP exposure audit, a dedicated MCP SARIF file, a Codex/Claude review
-kit, a Claude Code settings audit, a dedicated Claude settings SARIF file, and
-an agent-readable action plan on every push or pull request.
+kit, a Claude Code settings audit, a dedicated Claude settings SARIF file, an
+agentic GitHub workflow audit, a dedicated workflow SARIF file, and an
+agent-readable action plan on every push or pull request.
 
 ## One-command Setup
 
@@ -27,12 +28,12 @@ The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment,
 suggestions JSON, SVG badge, proof-pack Markdown, scorecard Markdown,
 agent surface map Markdown, agent surface inventory Markdown, agent surface diff Markdown,
 MCP audit Markdown, MCP SARIF, Claude settings Markdown, Claude settings SARIF,
-trace audit Markdown, review-kit Markdown, artifact-map Markdown, and agent action plan artifacts. It
+agentic workflow Markdown, workflow SARIF, trace audit Markdown, review-kit Markdown, artifact-map Markdown, and agent action plan artifacts. It
 refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.66.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.67.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -67,7 +68,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.66.0
+      - uses: grnbtqdbyx-create/contextforge@v0.67.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -90,6 +91,8 @@ jobs:
           mcp-sarif: contextforge-mcp.sarif
           claude-audit: contextforge-claude-audit.md
           claude-sarif: contextforge-claude.sarif
+          workflow-audit: contextforge-workflow-audit.md
+          workflow-sarif: contextforge-workflow.sarif
           trace-audit: contextforge-trace-audit.md
           review-kit: contextforge-review-kit.md
           artifact-map: contextforge-artifact-map.md
@@ -116,6 +119,8 @@ jobs:
             contextforge-mcp.sarif
             contextforge-claude-audit.md
             contextforge-claude.sarif
+            contextforge-workflow-audit.md
+            contextforge-workflow.sarif
             contextforge-trace-audit.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
@@ -131,6 +136,10 @@ jobs:
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
           sarif_file: contextforge-claude.sarif
+      - uses: github/codeql-action/upload-sarif@v4
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        with:
+          sarif_file: contextforge-workflow.sarif
 ```
 
 The action builds ContextForge from the action checkout, then runs the built CLI
@@ -167,6 +176,9 @@ The `contextforge-claude-audit.md` and `contextforge-claude.sarif` artifacts
 show whether committed Claude Code project settings contain risky permission
 modes, broad Bash allow rules, remote shell hooks, wildcard HTTP hooks, or
 missing sensitive-file deny rules.
+The `contextforge-workflow-audit.md` and `contextforge-workflow.sarif`
+artifacts show whether GitHub issue, PR, review, comment, or workflow input
+text flows into agentic jobs with write permissions or secrets.
 The `contextforge-trace-audit.md` artifact summarizes repeated tool calls,
 bulky tool output, tool-output-heavy traces, and cache reuse from available
 Codex or Claude session records.
@@ -262,6 +274,8 @@ jobs:
         if: always()
       - run: node dist/cli.js claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
         if: always()
+      - run: node dist/cli.js workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif
+        if: always()
       - run: node dist/cli.js trace-audit --summary contextforge-trace-audit.md
         if: always()
       - run: node dist/cli.js review-kit --base main --output contextforge-review-kit.md
@@ -293,6 +307,8 @@ jobs:
             contextforge-mcp.sarif
             contextforge-claude-audit.md
             contextforge-claude.sarif
+            contextforge-workflow-audit.md
+            contextforge-workflow.sarif
             contextforge-trace-audit.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
@@ -308,6 +324,10 @@ jobs:
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
           sarif_file: contextforge-claude.sarif
+      - uses: github/codeql-action/upload-sarif@v4
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
+        with:
+          sarif_file: contextforge-workflow.sarif
 ```
 
 For early projects, start with permissive thresholds and raise them as the repo

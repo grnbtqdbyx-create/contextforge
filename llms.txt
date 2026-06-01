@@ -21,6 +21,7 @@ that Codex and Claude can act on.
 - `contextforge surface-diff --base main --output contextforge-agent-surface-diff.md`: write the changed agent-readable files in a PR, affected ecosystems, and follow-up checks.
 - `contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif`: scan committed MCP configs for hardcoded secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files, with optional GitHub Code Scanning output.
 - `contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif`: scan committed Claude Code settings for risky default modes, broad Bash permissions, remote shell hooks, wildcard HTTP hooks, and missing sensitive-file denies.
+- `contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif`: scan GitHub Actions workflows for untrusted issue, PR, review, comment, discussion, or workflow input text reaching privileged agentic jobs.
 - `contextforge security-audit --min-security-score 80`: scan repo instructions, Claude Code subagents, custom slash commands, Copilot prompts, hooks, and workspace settings for prompt/context poisoning.
 - `contextforge trace-audit --demo --summary contextforge-trace-audit.md`: summarize repeated tool calls, bulky tool output, tool-output dominance, and cache reuse from Codex/Claude traces.
 - `contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10`: estimate session spend with caller-provided prices.
@@ -32,7 +33,7 @@ that Codex and Claude can act on.
 - `contextforge compare --output docs/comparison.md`: generate adjacent-tool positioning for README and launch use.
 - `contextforge improve --demo --json`: emit structured repo-rule suggestions for agents and bots.
 - `contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg --base main`: create CI, PR-review, changed agent-surface summary, structured suggestion, and status badge artifacts.
-- The reusable GitHub Action and generated audit workflow publish `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-agent-surface-map.md`, `contextforge-agent-surface-inventory.md`, `contextforge-agent-surface-diff.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` as CI artifacts, opt JavaScript actions into Node 24, and PR-ready comments embed changed agent-surface summaries.
+- The reusable GitHub Action and generated audit workflow publish `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-agent-surface-map.md`, `contextforge-agent-surface-inventory.md`, `contextforge-agent-surface-diff.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-workflow-audit.md`, `contextforge-workflow.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` as CI artifacts, opt JavaScript actions into Node 24, and PR-ready comments embed changed agent-surface summaries.
 - `contextforge pack --task "review auth regression" --budget 20000 --sessions --output contextforge-pack.md`: build an explainable task context pack with a budget ledger.
 
 ## Key Docs
@@ -48,6 +49,7 @@ that Codex and Claude can act on.
 - [Agent Surface Diff](contextforge-agent-surface-diff.md): PR-specific list of changed agent-readable files, affected ecosystems, and follow-up checks.
 - [MCP Audit](docs/mcp-audit.md): Committed MCP config exposure checks and SARIF output for agent tool safety.
 - [Claude Audit](docs/claude-audit.md): Committed Claude Code settings checks and SARIF output for shared permissions and hooks.
+- [Agentic Workflow Audit](docs/workflow-audit.md): GitHub Actions checks for untrusted event text reaching privileged AI workflows.
 - [Trace Audit](docs/trace-audit.md): Codex/Claude session efficiency checks for repeated tools, bulky outputs, and cache reuse.
 - [Cost Estimate](docs/cost-estimate.md): Configurable session cost estimates for input, cached input, and output tokens.
 - [Adoption Brief](docs/adoption.md): First-time evaluator page for maintainers deciding whether to try, star, or wire ContextForge into CI.

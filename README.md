@@ -90,6 +90,10 @@ For committed MCP config risk checks, see
 [contextforge-mcp-audit.md](contextforge-mcp-audit.md).
 For committed Claude Code settings risk checks, see
 [contextforge-claude-audit.md](contextforge-claude-audit.md).
+For the agentic workflow risk model and command details, see
+[docs/workflow-audit.md](docs/workflow-audit.md).
+For agentic GitHub workflow injection risk, see
+[contextforge-workflow-audit.md](contextforge-workflow-audit.md).
 For session trace efficiency, see
 [contextforge-trace-audit.md](contextforge-trace-audit.md).
 For configurable session cost estimates, see
@@ -113,6 +117,7 @@ contextforge surface-inventory --output contextforge-agent-surface-inventory.md
 contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
+contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
 contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10
 contextforge pack --demo --task "review auth regression" --budget 600 --output contextforge-pack.md
@@ -137,6 +142,7 @@ contextforge audit --demo --comment examples/pr-comment.md --badge contextforge-
 | Changed PR agent surfaces | `contextforge-agent-surface-diff.md` |
 | MCP config risk | `contextforge-mcp-audit.md` |
 | Claude Code project settings risk | `contextforge-claude-audit.md` |
+| Agentic workflow injection risk | `contextforge-workflow-audit.md` |
 | Agent trace efficiency | `contextforge-trace-audit.md` |
 | Session cost estimate | `contextforge-cost-estimate.md` |
 | Context pack budget proof | `contextforge-pack.md` |
@@ -328,6 +334,7 @@ contextforge surface-inventory --output contextforge-agent-surface-inventory.md
 contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
+contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
 contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10
 contextforge publish-readiness --summary contextforge-publish-readiness.md
@@ -341,7 +348,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions --ou
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.66.0
+- uses: grnbtqdbyx-create/contextforge@v0.67.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -364,6 +371,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Show which agent surfaces changed in a PR:** publish `contextforge-agent-surface-diff.md` so reviewers can see whether `AGENTS.md`, `CLAUDE.md`, Copilot prompts, MCP configs, Cursor/Cline/Gemini/Windsurf rules, or README entrypoints moved before trusting agent output.
 - **Audit MCP exposure:** publish `contextforge-mcp-audit.md` and `contextforge-mcp.sarif` so committed MCP configs cannot quietly ship hardcoded secrets, remote shell installers, unpinned package launches, auto-approval, broad tool permissions, or symlinked config files.
 - **Audit Claude Code settings:** publish `contextforge-claude-audit.md` and `contextforge-claude.sarif` so repo-committed Claude settings cannot quietly ship bypass modes, broad Bash permissions, remote shell hooks, or missing sensitive-file denies.
+- **Audit agentic workflows:** publish `contextforge-workflow-audit.md` and `contextforge-workflow.sarif` so GitHub workflows cannot quietly feed untrusted issue, PR, review, or comment text into privileged agents.
 - **Audit trace efficiency:** publish `contextforge-trace-audit.md` so repeated tool calls, huge outputs, tool-output-heavy traces, and low cache reuse are visible before the next long agent session.
 - **Estimate session cost:** publish `contextforge-cost-estimate.md` with runtime price inputs for uncached input, cached input, and output tokens.
 - **Publish the artifact map from CI:** attach `contextforge-artifact-map.md` beside proof-pack and review-kit outputs in reusable and generated GitHub workflows.
@@ -427,6 +435,7 @@ and tuned for Codex/Claude repository work.
 | Agent tool configs can hide supply-chain risk. | `mcp-audit` checks committed MCP configs for hardcoded secrets, remote shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files. |
 | MCP findings should show up in GitHub Security. | `mcp-audit --sarif` writes `contextforge-mcp.sarif` with `mcp-exposure/*` rule ids for Code Scanning. |
 | Claude Code settings can over-trust a repo. | `claude-audit` checks shared `.claude/settings.json` permissions, hooks, bypass modes, and sensitive-file denies. |
+| Agentic GitHub workflows can ingest attacker-controlled text. | `workflow-audit` checks whether issue, PR, review, comment, or workflow input text flows into agentic jobs with write permissions or secrets. |
 | Claude Code subagents and custom slash commands can hide powerful project prompts. | `security-audit`, context health, and context packs include `.claude/agents/**/*.md` and `.claude/commands/**/*.md`. |
 | Copilot hooks can run shell commands during agent workflows. | `security-audit` scans `.github/hooks/*.json` and committed `.github/copilot/settings*.json` for unsafe shell, exfiltration, hidden directives, and permission weakening. |
 | VS Code workspace settings can carry Copilot instructions. | `security-audit` scans `.vscode/settings.json` and committed `*.code-workspace` files for risky Copilot review, commit, and PR instruction text. |
@@ -469,12 +478,13 @@ contextforge surface-inventory [--json] [--output contextforge-agent-surface-inv
 contextforge surface-diff [--base main] [--json] [--output contextforge-agent-surface-diff.md]
 contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md] [--sarif contextforge-mcp.sarif]
 contextforge claude-audit [--demo] [--json] [--summary contextforge-claude-audit.md] [--sarif contextforge-claude.sarif]
+contextforge workflow-audit [--demo] [--json] [--summary contextforge-workflow-audit.md] [--sarif contextforge-workflow.sarif]
 contextforge trace-audit [--demo] [--json] [--summary contextforge-trace-audit.md]
 contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estimate.md] [--input-price-per-mtok 0] [--cached-input-price-per-mtok 0] [--output-price-per-mtok 0]
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.66.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.67.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -559,7 +569,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.66.0 is a public MVP CLI with:
+ContextForge v0.67.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -588,6 +598,7 @@ ContextForge v0.66.0 is a public MVP CLI with:
 - reusable GitHub Action and dogfood workflow support for `contextforge-agent-surface-diff.md`
 - reusable GitHub Action and dogfood workflow support for `contextforge-mcp-audit.md` and `contextforge-mcp.sarif`
 - reusable GitHub Action and dogfood workflow support for `contextforge-claude-audit.md` and `contextforge-claude.sarif`
+- reusable GitHub Action and dogfood workflow support for `contextforge-workflow-audit.md` and `contextforge-workflow.sarif`
 - reusable GitHub Action and dogfood workflow support for `contextforge-review-kit.md`
 - reusable GitHub Action and dogfood workflow support for `contextforge-artifact-map.md`
 - PR-ready comments that summarize changed agent-readable surfaces and point reviewers at `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-agent-surface-diff.md`
@@ -697,6 +708,7 @@ ContextForge v0.66.0 is a public MVP CLI with:
 - **v0.64.0:** PR comments embed changed agent-surface summaries using the same base ref as the surface-diff artifact.
 - **v0.65.0:** npm publish workflow packs, attests, uploads, and publishes the same release tarball.
 - **v0.66.0:** launch snapshots explain the why-now, adjacent-category, and proof-first story for README visitors.
+- **v0.67.0:** agentic workflow audits catch untrusted GitHub event text flowing into privileged AI workflows.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).
