@@ -323,7 +323,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions --ou
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.64.0
+- uses: grnbtqdbyx-create/contextforge@v0.65.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -348,7 +348,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Audit trace efficiency:** publish `contextforge-trace-audit.md` so repeated tool calls, huge outputs, tool-output-heavy traces, and low cache reuse are visible before the next long agent session.
 - **Estimate session cost:** publish `contextforge-cost-estimate.md` with runtime price inputs for uncached input, cached input, and output tokens.
 - **Publish the artifact map from CI:** attach `contextforge-artifact-map.md` beside proof-pack and review-kit outputs in reusable and generated GitHub workflows.
-- **Prove npm readiness before publishing:** generate `contextforge-publish-readiness.md` so package metadata, provenance links, Trusted Publishing workflow safety, and human setup are visible separately.
+- **Prove npm readiness before publishing:** generate `contextforge-publish-readiness.md` so package metadata, provenance links, Trusted Publishing workflow safety, GitHub tarball attestation, and human setup are visible separately.
 - **Prepare GitHub Actions for Node 24:** dogfood and generated workflows opt into `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` before GitHub's JavaScript action runtime migration.
 - **Prepare review handoffs:** generate a changed-file review kit with focus areas, evidence commands, and a copyable Codex/Claude prompt.
 - **Publish first-run proof:** write `contextforge-doctor.md` from `doctor --summary` for issues, PRs, launch posts, or README updates.
@@ -410,7 +410,7 @@ and tuned for Codex/Claude repository work.
 | Claude Code subagents and custom slash commands can hide powerful project prompts. | `security-audit`, context health, and context packs include `.claude/agents/**/*.md` and `.claude/commands/**/*.md`. |
 | Copilot hooks can run shell commands during agent workflows. | `security-audit` scans `.github/hooks/*.json` and committed `.github/copilot/settings*.json` for unsafe shell, exfiltration, hidden directives, and permission weakening. |
 | VS Code workspace settings can carry Copilot instructions. | `security-audit` scans `.vscode/settings.json` and committed `*.code-workspace` files for risky Copilot review, commit, and PR instruction text. |
-| First npm publish is a vague manual checklist. | `publish-readiness` separates verified repo setup, provenance metadata, npm account state, and environment steps that require the maintainer. |
+| First npm publish is a vague manual checklist. | `publish-readiness` separates verified repo setup, provenance metadata, GitHub tarball attestation, npm account state, and environment steps that require the maintainer. |
 | Coding agents guess which docs matter. | `llms.txt` points them at the important project surfaces. |
 | Agents need structured fixes, not copied bullets. | `contextforge improve --json` emits parseable rule suggestions. |
 | Repo visitors need instant proof. | `--badge contextforge-badge.svg` creates a compact audit status badge. |
@@ -453,7 +453,7 @@ contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estima
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.64.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.65.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -538,7 +538,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.64.0 is a public MVP CLI with:
+ContextForge v0.65.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -571,7 +571,7 @@ ContextForge v0.64.0 is a public MVP CLI with:
 - reusable GitHub Action and dogfood workflow support for `contextforge-artifact-map.md`
 - PR-ready comments that summarize changed agent-readable surfaces and point reviewers at `contextforge-proof-pack.md`, `contextforge-review-kit.md`, and `contextforge-agent-surface-diff.md`
 - generated `contextforge artifact-map` catalogs for reviewers, agents, and launch visitors
-- generated `contextforge publish-readiness` checks for npm Trusted Publishing preparation
+- generated `contextforge publish-readiness` checks for npm Trusted Publishing preparation and GitHub tarball attestation setup
 - npm provenance metadata checks for repository, homepage, and issue tracker links
 - GitHub workflow Node 24 JavaScript action runtime opt-in for dogfood and generated workflows
 - generated `contextforge launch-kit` build-in-public launch posts
@@ -604,7 +604,7 @@ ContextForge v0.64.0 is a public MVP CLI with:
 - `contextforge init --pr-comment-workflow` scaffolding for opt-in sticky PR comments
 - `contextforge init --all` scaffolding for the full recommended setup
 - `contextforge init --agents-md --claude-md --copilot-instructions` scaffolding for minimal Codex/Claude/Copilot context files
-- manual npm publish workflow draft with OIDC/trusted-publishing readiness checks
+- manual npm publish workflow draft with OIDC/trusted-publishing readiness checks and attested npm tarballs
 
 ## Roadmap
 
@@ -673,6 +673,7 @@ ContextForge v0.64.0 is a public MVP CLI with:
 - **v0.62.0:** Repo-specific agent surface inventory for the actual instruction, rule, settings, and tool files present in a repository.
 - **v0.63.0:** PR-specific agent surface diffs for changed instruction, rule, settings, and tool files.
 - **v0.64.0:** PR comments embed changed agent-surface summaries using the same base ref as the surface-diff artifact.
+- **v0.65.0:** npm publish workflow packs, attests, uploads, and publishes the same release tarball.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

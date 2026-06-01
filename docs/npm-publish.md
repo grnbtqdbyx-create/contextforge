@@ -18,7 +18,10 @@ Recommended setup:
 
 The workflow uses npm Trusted Publishing / OIDC instead of a long-lived
 `NPM_TOKEN`. npm automatically generates provenance for public packages
-published from public GitHub repositories through trusted publishing.
+published from public GitHub repositories through trusted publishing. The
+workflow also packs the npm tarball before publish, generates a GitHub artifact
+attestation for `contextforge-*.tgz`, uploads `npm-pack.json`, and publishes
+that same tarball during the approved publish job.
 The package metadata also points npm readers back to the public repository:
 `repository.url` is `git+https://github.com/grnbtqdbyx-create/contextforge.git`,
 `homepage` is the GitHub README, and `bugs.url` is the GitHub issue tracker.
@@ -38,14 +41,16 @@ node dist/cli.js security-benchmark
 node dist/cli.js audit --min-context-score 70 --min-cache-score 70 --min-security-score 70
 node dist/cli.js publish-readiness --summary contextforge-publish-readiness.md
 npm pack --dry-run
+npm pack --json > npm-pack.json
 ```
 
 `contextforge publish-readiness` separates what the repository can verify from
 what must be completed in npm and GitHub settings. It checks package metadata,
 package provenance links, the Trusted Publishing workflow, publish preflight
-commands, and docs. A `warn` status is expected until Ogün Keskin creates or
-verifies the npm package, configures Trusted Publishing for this repository, and
-approves the `npm-publish` environment for a real publish run.
+commands, GitHub artifact attestation setup for the npm tarball, and docs. A
+`warn` status is expected until Ogün Keskin creates or verifies the npm package,
+configures Trusted Publishing for this repository, and approves the
+`npm-publish` environment for a real publish run.
 
 The current package name is not published at the time this workflow was added.
 Verify before first publish:

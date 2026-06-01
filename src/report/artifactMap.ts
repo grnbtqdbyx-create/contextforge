@@ -159,7 +159,7 @@ const artifactRows: ArtifactMapRow[] = [
   {
     artifact: 'contextforge-publish-readiness.md',
     audience: 'Release maintainers',
-    useWhen: 'you need npm metadata, provenance links, Trusted Publishing, and human approval readiness in one file',
+    useWhen: 'you need npm metadata, provenance links, Trusted Publishing, GitHub tarball attestation, and human approval readiness in one file',
     producedBy: '`contextforge publish-readiness --summary contextforge-publish-readiness.md`'
   },
   {
