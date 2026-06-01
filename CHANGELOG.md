@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.68.0 - 2026-06-01
+
+- Expand `contextforge workflow-audit` to treat issue titles, pull request titles, PR head refs, `github.head_ref`, `github.ref_name`, review-comment bodies, and discussion titles as untrusted agent inputs.
+- Add regression coverage for attacker-controlled title and branch/ref text flowing into agentic workflows.
+- Refresh README, workflow-audit docs, LLM discovery files, generated artifacts, and research notes around non-body GitHub event injection risk.
+
+## 0.67.0 - 2026-06-01
+
+- Add `contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif` for agentic GitHub workflow injection risk.
+- Detect untrusted issue, PR, review, comment, discussion, and workflow input text flowing into model-backed jobs.
+- Wire workflow-audit Markdown and SARIF artifacts into the reusable Action, generated workflows, dogfood workflow, package files, README, docs, and LLM discovery surfaces.
+
+## 0.66.0 - 2026-06-01
+
+- Add `contextforge launch-snapshot --output docs/launch-snapshot.md` to explain the why-now, adjacent-category, and proof-first story for README visitors.
+- Refresh launch-facing docs and README links around the generated snapshot.
+
+## 0.65.0 - 2026-06-01
+
+- Make the npm publish workflow pack, attest, upload, and publish the same release tarball.
+- Add release tarball attestation proof to publish-readiness surfaces.
+
+## 0.64.0 - 2026-06-01
+
+- Embed changed agent-surface summaries into deterministic PR comments.
+- Keep PR comment base-ref handling aligned with the `surface-diff` artifact.
+
+## 0.63.0 - 2026-06-01
+
+- Add `contextforge surface-diff --base main --output contextforge-agent-surface-diff.md` for PR-specific agent-readable file changes.
+- Include affected ecosystems and follow-up checks before reviewers trust changed agent context.
+
 ## 0.62.0 - 2026-06-01
 
 - Add `contextforge surface-inventory --output contextforge-agent-surface-inventory.md` to list the actual agent-readable files present in a repository.

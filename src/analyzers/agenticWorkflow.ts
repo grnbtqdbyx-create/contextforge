@@ -17,10 +17,18 @@ const WORKFLOW_DIR = '.github/workflows/';
 const WORKFLOW_EXTENSIONS = new Set(['.yml', '.yaml']);
 const AGENT_INVOCATION_PATTERN = /\b(codex|claude|anthropic|openai|copilot|aider|opencode|cursor|llm|agent)\b/i;
 const UNTRUSTED_EVENT_CONTEXTS = [
+  'github.event.issue.title',
   'github.event.issue.body',
+  'github.event.pull_request.title',
   'github.event.pull_request.body',
+  'github.event.pull_request.head.ref',
+  'github.event.pull_request.head.label',
+  'github.head_ref',
+  'github.ref_name',
   'github.event.comment.body',
+  'github.event.review_comment.body',
   'github.event.review.body',
+  'github.event.discussion.title',
   'github.event.discussion.body',
   'github.event.inputs'
 ];
@@ -82,7 +90,7 @@ export function createAgenticWorkflowSummary(audit: AgenticWorkflowAudit): strin
           (finding) =>
             `| ${escapeTableCell(finding.type)} | ${finding.severity} | ${escapeTableCell(finding.file ?? '')} | ${escapeTableCell(finding.message)} | ${escapeTableCell(finding.suggestion)} |`
         )
-      : ['| none | low |  | No agentic workflow findings. | Keep untrusted issue, PR, review, and comment text out of privileged agent prompts. |']),
+      : ['| none | low |  | No agentic workflow findings. | Keep untrusted issue, PR, review, comment, discussion, input, title, and branch text out of privileged agent prompts. |']),
     '',
     '## Next Actions',
     '',
@@ -112,7 +120,7 @@ function findWorkflowRisks(file: string, content: string): Finding[] {
       type: 'agentic-untrusted-event-context',
       severity: usesPullRequestTarget || hasWritePermissions || usesSecrets ? 'high' : 'medium',
       message: `${file} feeds ${untrustedContexts.join(', ')} into an agentic command or action.`,
-      suggestion: 'Treat issue, PR, review, and comment text as untrusted data; summarize or sanitize it before passing it to Codex, Claude, Copilot, or other agents.'
+      suggestion: 'Treat issue, PR, review, comment, discussion, input, title, and branch text as untrusted data; summarize or sanitize it before passing it to Codex, Claude, Copilot, or other agents.'
     });
   }
 
@@ -147,9 +155,9 @@ function statusForFindings(findings: Finding[]): AgenticWorkflowStatus {
 
 function nextActions(findings: Finding[]): string[] {
   if (findings.length === 0) return ['Keep agentic workflows read-only unless a maintainer explicitly approves privileged follow-up steps.'];
-  const actions = ['Review every workflow finding before letting coding agents consume GitHub issue, PR, review, or comment text.'];
+  const actions = ['Review every workflow finding before letting coding agents consume GitHub issue, PR, review, comment, discussion, input, title, or branch text.'];
   if (findings.some((finding) => finding.type === 'agentic-untrusted-event-context')) {
-    actions.push('Sanitize or summarize untrusted GitHub event text before passing it to an agent prompt.');
+    actions.push('Sanitize or summarize untrusted GitHub event text, titles, and refs before passing them to an agent prompt.');
   }
   if (findings.some((finding) => finding.type === 'agentic-write-permissions')) {
     actions.push('Separate read-only agent review from write-capable repository mutation steps.');

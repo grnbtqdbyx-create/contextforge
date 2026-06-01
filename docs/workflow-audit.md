@@ -16,18 +16,19 @@ It inspects `.github/workflows/*.yml` and `.github/workflows/*.yaml`.
 
 The audit flags workflows that combine agentic commands or actions with:
 
-- issue, pull request, review, comment, discussion, or workflow input text
+- issue, pull request, review, comment, discussion, workflow input, title, or
+  branch/ref text
 - `pull_request_target` or write-capable repository permissions
 - repository secrets in the same job surface as untrusted event text
 
 Use the Markdown summary in PRs, launch issues, README proof surfaces, and
 ContextForge Audit artifacts when reviewers need a fast answer to: "Can a
-stranger's GitHub text reach a privileged AI workflow?" Use
+stranger's GitHub text, title, or branch name reach a privileged AI workflow?" Use
 `--sarif contextforge-workflow.sarif` when the same findings should appear in
 GitHub Code Scanning beside repository-instruction, MCP, and Claude settings
 alerts.
 
 This is a deterministic repo-surface check. It does not replace a full Actions
 security review, but it makes the highest-risk agentic pattern visible: untrusted
-event text flowing into a model-backed command while the job can write to the
-repository or read secrets.
+event text, titles, or refs flowing into a model-backed command while the job
+can write to the repository or read secrets.

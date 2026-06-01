@@ -34,7 +34,7 @@ contextforge artifact-map --output docs/artifacts.md
 - Open `contextforge-agent-surface-diff.md` when a PR may have changed agent-readable instructions, rules, settings, or tool configs.
 - Open `contextforge-mcp-audit.md` when the repo has MCP config files or agent tool setup; upload `contextforge-mcp.sarif` when GitHub Code Scanning should track those findings.
 - Open `contextforge-claude-audit.md` when the repo commits Claude Code project settings, hooks, or permissions.
-- Open `contextforge-workflow-audit.md` when GitHub workflows pass issue, PR, review, comment, or workflow input text into agent commands.
+- Open `contextforge-workflow-audit.md` when GitHub workflows pass issue, PR, review, comment, title, workflow input, or branch/ref text into agent commands.
 - Open `contextforge-trace-audit.md` when you want to see whether a Codex or Claude trace wasted context on repeated tools or bulky outputs.
 - Open `contextforge-cost-estimate.md` when you want to turn observed tokens into a configurable spend estimate without trusting stale hardcoded prices.
 - Open `docs/artifacts.md` when CI uploaded many files and you need the right next proof artifact.

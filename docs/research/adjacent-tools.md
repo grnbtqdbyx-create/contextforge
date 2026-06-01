@@ -552,3 +552,11 @@ agentic GitHub workflows can route issue, PR, review, comment, or workflow input
 text into coding-agent commands while write permissions or secrets are present.
 That turns AI workflow hardening into the same deterministic artifact loop as
 MCP, Claude settings, and context-security checks.
+ContextForge v0.68.0 expands that audit to attacker-controlled titles and
+branch/ref text such as issue titles, PR titles, `github.head_ref`, and PR head
+refs. The extra coverage follows
+[GitHub Actions script-injection guidance](https://docs.github.com/en/actions/concepts/security/script-injections),
+[GitHub Security Lab's untrusted-input guidance](https://securitylab.github.com/resources/github-actions-untrusted-input/),
+and recent
+[agentic workflow injection research](https://arxiv.org/abs/2605.07135)
+showing that prompt payloads do not need to live only in Markdown bodies.

@@ -46,6 +46,35 @@ describe('agentic workflow audit', () => {
     expect(sarif.runs[0].results.some((result) => result.ruleId === 'agentic-workflow/agentic-untrusted-event-context')).toBe(true);
   });
 
+  it('detects attacker-controlled titles and branch refs in agentic workflows', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-agentic-workflow-title-risk-'));
+    await mkdir(path.join(rootDir, '.github/workflows'), { recursive: true });
+    await writeFile(
+      path.join(rootDir, '.github/workflows/agent-triage.yml'),
+      [
+        'name: AI triage',
+        'on:',
+        '  issues:',
+        '    types: [opened]',
+        '  pull_request:',
+        'permissions:',
+        '  issues: write',
+        'jobs:',
+        '  triage:',
+        '    runs-on: ubuntu-latest',
+        '    steps:',
+        '      - run: claude -p "Triage ${{ github.event.issue.title }} from ${{ github.head_ref }}"'
+      ].join('\n')
+    );
+
+    const audit = await auditAgenticWorkflows({ rootDir });
+    const finding = audit.findings.find((item) => item.type === 'agentic-untrusted-event-context');
+
+    expect(audit.status).toBe('fail');
+    expect(finding?.message).toContain('github.event.issue.title');
+    expect(finding?.message).toContain('github.head_ref');
+  });
+
   it('passes deterministic workflows that do not feed event text into agents', async () => {
     const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-agentic-workflow-safe-'));
     await mkdir(path.join(rootDir, '.github/workflows'), { recursive: true });
