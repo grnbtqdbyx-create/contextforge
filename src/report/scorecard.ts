@@ -35,6 +35,9 @@ export function createAgentReadinessScorecardData(options: { doctor: DoctorResul
       'contextforge-proof-pack.md',
       'contextforge-review-kit.md',
       'contextforge-mcp-audit.md',
+      'contextforge-claude-audit.md',
+      'contextforge-workflow-audit.md',
+      'contextforge-actions-audit.md',
       'contextforge-artifact-map.md',
       'contextforge-agent-plan.md'
     ]
@@ -79,6 +82,9 @@ export function createAgentReadinessScorecard(data: AgentReadinessScorecardData)
     'contextforge proof-pack --output contextforge-proof-pack.md',
     'contextforge review-kit --base main --output contextforge-review-kit.md',
     'contextforge mcp-audit --summary contextforge-mcp-audit.md',
+    'contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif',
+    'contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif',
+    'contextforge actions-audit --summary contextforge-actions-audit.md --sarif contextforge-actions.sarif',
     'contextforge artifact-map --output contextforge-artifact-map.md',
     '```',
     ''

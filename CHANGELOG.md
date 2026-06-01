@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.70.0 - 2026-06-01
+
+- Add Claude Code settings, agentic workflow, and GitHub Actions hardening checks to `contextforge doctor`.
+- Expand proof-pack and scorecard evidence commands so first-readiness reports point directly at `claude-audit`, `workflow-audit`, and `actions-audit` SARIF/Markdown proof.
+- Refresh README, doctor/proof-pack/scorecard docs, LLM discovery files, and research notes around one-command hardening evidence for Codex and Claude handoffs.
+
 ## 0.69.0 - 2026-06-01
 
 - Add `contextforge actions-audit --summary contextforge-actions-audit.md --sarif contextforge-actions.sarif` for GitHub Actions hardening proof.

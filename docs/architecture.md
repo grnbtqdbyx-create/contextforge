@@ -7,7 +7,7 @@ ContextForge is split into small modules:
 - `pack`: create task-specific context packs under a token budget.
 - `improve`: turn audit findings into repo-rule suggestions.
 - `report`: write local HTML reports.
-- `doctor`: compose first-run readiness checks across audits, benchmark fixtures, and GitHub workflow presence.
+- `doctor`: compose first-run readiness checks across audits, benchmark fixtures, MCP exposure, Claude settings, agentic workflows, GitHub Actions hardening, and GitHub workflow presence.
 - `security`: ignore risky paths and redact common secrets.
 
 The CLI composes these modules without network calls by default.

@@ -33,8 +33,8 @@ describe('doctor readiness report', () => {
     await writeFile(path.join(rootDir, '.github/ISSUE_TEMPLATE/bug_report.md'), '---\nname: Bug report\nabout: Report something broken\n---\n');
     await writeFile(path.join(rootDir, '.github/ISSUE_TEMPLATE/feature_request.md'), '---\nname: Feature request\nabout: Suggest an improvement\n---\n');
     await writeFile(path.join(rootDir, '.github/PULL_REQUEST_TEMPLATE.md'), '## What changed\n');
-    await writeFile(path.join(rootDir, '.github/workflows/ci.yml'), 'name: CI\n');
-    await writeFile(path.join(rootDir, '.github/workflows/contextforge-audit.yml'), 'name: ContextForge Audit\n');
+    await writeFile(path.join(rootDir, '.github/workflows/ci.yml'), 'name: CI\npermissions:\n  contents: read\n');
+    await writeFile(path.join(rootDir, '.github/workflows/contextforge-audit.yml'), 'name: ContextForge Audit\npermissions:\n  contents: read\n');
 
     const result = await runDoctor({
       rootDir,
@@ -50,6 +50,9 @@ describe('doctor readiness report', () => {
       'Cache stability',
       'Context security',
       'Security benchmark',
+      'Claude Code settings',
+      'Agentic workflows',
+      'GitHub Actions hardening',
       'GitHub workflows',
       'Public proof surfaces',
       'Launch profile surfaces',
@@ -59,9 +62,43 @@ describe('doctor readiness report', () => {
     expect(result.nextActions.length).toBeGreaterThan(0);
     expect(result.checks.find((check) => check.name === 'Public proof surfaces')?.detail).toContain('examples/review-kit.md present');
     expect(result.checks.find((check) => check.name === 'Launch profile surfaces')?.detail).toContain('docs/artifacts.md present');
+    expect(result.checks.find((check) => check.name === 'GitHub Actions hardening')?.detail).toContain('100/100');
     expect(formatDoctor(result)).toContain('ContextForge doctor: pass');
     expect(createDoctorSummary(result)).toContain('# ContextForge Doctor');
     expect(createDoctorSummary(result)).toContain('| Check | Status | Detail |');
+  });
+
+  it('warns when GitHub Actions hardening findings are present', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-doctor-actions-hardening-'));
+    await mkdir(path.join(rootDir, '.github/workflows'), { recursive: true });
+    await writeFile(
+      path.join(rootDir, '.github/workflows/release.yml'),
+      [
+        'name: Release',
+        'on: pull_request_target',
+        'jobs:',
+        '  release:',
+        '    runs-on: ubuntu-latest',
+        '    steps:',
+        '      - uses: actions/checkout@v5',
+        '        with:',
+        '          ref: ${{ github.event.pull_request.head.sha }}'
+      ].join('\n')
+    );
+
+    const result = await runDoctor({
+      rootDir,
+      records: [],
+      minContextScore: 60,
+      minCacheScore: 60,
+      minSecurityScore: 60
+    });
+
+    const hardening = result.checks.find((check) => check.name === 'GitHub Actions hardening');
+
+    expect(hardening?.status).toBe('warn');
+    expect(hardening?.detail).toContain('findings');
+    expect(result.nextActions).toContain('Fix GitHub Actions hardening findings before trusting release or agent-review workflows.');
   });
 
   it('warns when public proof surfaces are missing', async () => {

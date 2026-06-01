@@ -22,17 +22,23 @@ safely?**
 ## 30-second proof
 
 ```bash
+contextforge doctor --summary contextforge-doctor.md
+contextforge scorecard --output contextforge-scorecard.md
 contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 80
 contextforge surface-map --output contextforge-agent-surface-map.md
 contextforge surface-inventory --output contextforge-agent-surface-inventory.md
 contextforge surface-diff --base main --output contextforge-agent-surface-diff.md
 ```
 
-The audit gates context health, cache stability, and prompt/context poisoning.
-The surface map shows exactly which agent-facing files are covered before a
-maintainer has to read every doc. The inventory shows the agent-readable files
-that are actually present in the current repository. The diff shows which
-agent-readable files changed in a PR before reviewers trust the new context.
+The doctor report now gives one first-readiness answer across context health,
+security benchmark fixtures, MCP exposure, Claude Code settings, agentic
+workflows, GitHub Actions hardening, public proof, launch assets, and community
+health. The scorecard is the one-screen README/PR view. The audit gates context
+health, cache stability, and prompt/context poisoning. The surface map shows
+exactly which agent-facing files are covered before a maintainer has to read
+every doc. The inventory shows the agent-readable files that are actually
+present in the current repository. The diff shows which agent-readable files
+changed in a PR before reviewers trust the new context.
 
 | Agent stack | Surfaces ContextForge checks |
 | --- | --- |
@@ -353,7 +359,7 @@ contextforge pack --task "review auth regression" --budget 20000 --sessions --ou
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.69.0
+- uses: grnbtqdbyx-create/contextforge@v0.70.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -492,7 +498,7 @@ contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estima
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.69.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--copilot-instructions] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.70.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -577,12 +583,13 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.69.0 is a public MVP CLI with:
+ContextForge v0.70.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
 - first-run `contextforge doctor` readiness report with JSON output
 - shareable `contextforge doctor --summary` Markdown reports
+- doctor, proof-pack, and scorecard hardening checks for Claude settings, agentic workflows, and GitHub Actions release safety
 - shareable `contextforge proof-pack` readiness packets for launch, PR, and OSS evidence
 - generated `contextforge adoption-brief` evaluator pages for first-time maintainers
 - one-screen `contextforge scorecard` readiness snapshots for README, PR, and CI artifact readers
@@ -720,6 +727,7 @@ ContextForge v0.69.0 is a public MVP CLI with:
 - **v0.67.0:** agentic workflow audits catch untrusted GitHub event text flowing into privileged AI workflows.
 - **v0.68.0:** workflow audits expand attacker-controlled coverage to titles and branch/ref text.
 - **v0.69.0:** GitHub Actions audits catch mutable action refs, pwn-request checkout, missing permissions, and direct script interpolation.
+- **v0.70.0:** doctor, proof-pack, and scorecard reports surface Claude settings, agentic workflow, and GitHub Actions hardening evidence in one readiness path.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

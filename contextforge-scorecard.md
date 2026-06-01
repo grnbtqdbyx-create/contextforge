@@ -19,6 +19,9 @@ A one-screen snapshot for maintainers, reviewers, and coding agents deciding whe
 | Cache stability | pass | 100/100 with no local sessions scanned |
 | Context security | pass | 100/100 from repo instruction files |
 | Security benchmark | pass | 4/4 benchmark cases passing |
+| Claude Code settings | pass | 100/100 with no Claude Code settings found |
+| Agentic workflows | pass | 100/100 across .github/workflows/ci.yml, .github/workflows/contextforge-audit.yml, .github/workflows/npm-publish.yml |
+| GitHub Actions hardening | pass | 100/100 across .github/workflows/ci.yml, .github/workflows/contextforge-audit.yml, .github/workflows/npm-publish.yml |
 | GitHub workflows | pass | ci.yml, contextforge-audit.yml present |
 | Public proof surfaces | pass | README.md, LICENSE, CONTRIBUTING.md, CHANGELOG.md, llms.txt, llms-full.txt, examples/demo-output.md, examples/pr-comment.md, examples/review-kit.md present |
 | Launch profile surfaces | pass | demo-terminal.svg, contextforge-report.png, docs/launch-post.md, docs/comparison.md, docs/artifacts.md present |
@@ -42,6 +45,9 @@ contextforge scorecard --output contextforge-scorecard.md
 contextforge proof-pack --output contextforge-proof-pack.md
 contextforge review-kit --base main --output contextforge-review-kit.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md
+contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
+contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif
+contextforge actions-audit --summary contextforge-actions-audit.md --sarif contextforge-actions.sarif
 contextforge artifact-map --output contextforge-artifact-map.md
 ```
 

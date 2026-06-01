@@ -134,9 +134,9 @@ cases so maintainers can see what the scanner is expected to catch.
 - `docs/use-cases.md`: maintainer scenarios with commands, artifacts, and success signals
 - `contextforge-suggestions.json`: machine-readable improvement suggestions for Codex, Claude, bots, and CI scripts
 - `contextforge-badge.svg`: compact audit status badge generated from context, cache, and security scores
-- `contextforge-doctor.md`: shareable first-run readiness checklist from `doctor --summary`
-- `contextforge-proof-pack.md`: shareable doctor, audit, command, and handoff evidence from `proof-pack`
-- `contextforge-scorecard.md`: one-screen Codex/Claude readiness snapshot from `scorecard`
+- `contextforge-doctor.md`: shareable first-run readiness checklist from `doctor --summary`, including MCP exposure, Claude settings, agentic workflow, and GitHub Actions hardening status
+- `contextforge-proof-pack.md`: shareable doctor, audit, hardening command, and handoff evidence from `proof-pack`
+- `contextforge-scorecard.md`: one-screen Codex/Claude readiness snapshot from `scorecard`, including hardening checks
 - `contextforge-agent-surface-map.md`: cross-agent support matrix from `surface-map`
 - `contextforge-agent-surface-inventory.md`: repo-specific list of actual agent-readable files from `surface-inventory`
 - `contextforge-agent-surface-diff.md`: PR-specific list of changed agent-readable files from `surface-diff`
