@@ -62,6 +62,8 @@ For session trace efficiency, see
 [contextforge-trace-audit.md](contextforge-trace-audit.md).
 For configurable session cost estimates, see
 [contextforge-cost-estimate.md](contextforge-cost-estimate.md).
+For a demo context pack with a visible budget ledger, see
+[contextforge-pack.md](contextforge-pack.md).
 CI can also upload a structured suggestions file and compact status badge:
 `contextforge-suggestions.json` and `contextforge-badge.svg`. First-run
 readiness can be published as Markdown with `contextforge doctor --summary
@@ -77,6 +79,7 @@ contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
 contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10
+contextforge pack --demo --task "review auth regression" --budget 600 --output contextforge-pack.md
 contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge review-kit --demo --base main --output examples/review-kit.md
 contextforge doctor --summary contextforge-doctor.md
@@ -96,6 +99,7 @@ contextforge audit --demo --comment examples/pr-comment.md --badge contextforge-
 | Claude Code project settings risk | `contextforge-claude-audit.md` |
 | Agent trace efficiency | `contextforge-trace-audit.md` |
 | Session cost estimate | `contextforge-cost-estimate.md` |
+| Context pack budget proof | `contextforge-pack.md` |
 | PR review | `contextforge-pr-comment.md` -> `contextforge-review-kit.md` |
 | Launch or OSS proof | `contextforge-proof-pack.md` |
 | First npm publish | `contextforge-publish-readiness.md` |
@@ -264,13 +268,13 @@ contextforge proof-pack --output contextforge-proof-pack.md
 contextforge review-kit --base main --output contextforge-review-kit.md
 contextforge audit --min-context-score 70 --min-cache-score 70 --min-security-score 70 --sarif contextforge.sarif --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
 contextforge plan --output contextforge-agent-plan.md
-contextforge pack --task "review auth regression" --budget 20000 --sessions
+contextforge pack --task "review auth regression" --budget 20000 --sessions --output contextforge-pack.md
 ```
 
 Or use the GitHub Action before npm publishing is complete:
 
 ```yaml
-- uses: grnbtqdbyx-create/contextforge@v0.52.0
+- uses: grnbtqdbyx-create/contextforge@v0.53.0
   with:
     min-context-score: 60
     min-cache-score: 60
@@ -302,7 +306,7 @@ Or use the GitHub Action before npm publishing is complete:
 - **Audit repo instructions:** keep root `README.md`, nested `AGENTS.md`, `CLAUDE.md`, `.cursorrules`, and `.clinerules` useful instead of bloated or unsafe.
 - **Bootstrap minimal context files:** scaffold concise `AGENTS.md` and `CLAUDE.md` files without filling the repo with vague prompt folklore.
 - **Catch context poisoning:** flag instruction overrides, secret exfiltration, unsafe shell, hidden directives, and permission escalation.
-- **Generate explainable context packs:** give Codex or Claude only the files needed for a task, with "why included" reasons.
+- **Generate budgeted context packs:** give Codex or Claude only the files needed for a task, with "why included" reasons and a visible budget ledger.
 - **Create agent action plans:** turn audit findings into prioritized Markdown that Codex or Claude can execute from.
 - **Show PR-ready evidence:** emit a compact deterministic Markdown comment that review workflows can publish or archive, including pointers to `contextforge-proof-pack.md` and `contextforge-review-kit.md`.
 - **Publish visible proof:** emit `contextforge-badge.svg` so CI can expose a compact agent-context status badge.
@@ -369,7 +373,7 @@ contextforge cache-audit [--demo]
 contextforge security-audit [--demo] [--min-security-score 60]
 contextforge security-benchmark [--benchmark-dir fixtures/security-benchmark]
 contextforge agents-md-audit [--demo]
-contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
+contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude] [--output contextforge-pack.md]
 contextforge improve [--demo] [--json] [--write] [--open-pr]
 contextforge report [--demo] [--output contextforge-report.html]
 contextforge audit [--demo] [--output contextforge-audit.json] [--report contextforge-report.html] [--sarif contextforge.sarif] [--summary contextforge-summary.md] [--plan contextforge-agent-plan.md] [--comment contextforge-pr-comment.md] [--suggestions contextforge-suggestions.json] [--badge contextforge-badge.svg] [--min-security-score 60]
@@ -388,7 +392,7 @@ contextforge cost-estimate [--demo] [--json] [--summary contextforge-cost-estima
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
 contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.52.0] [--force]
+contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.53.0] [--force]
 ```
 
 Local session scans are bounded by default. Use `--max-session-files` and
@@ -466,7 +470,7 @@ See [docs/research/adjacent-tools.md](docs/research/adjacent-tools.md).
 
 ## Current Status
 
-ContextForge v0.52.0 is a public MVP CLI with:
+ContextForge v0.53.0 is a public MVP CLI with:
 
 - Claude Code and Codex JSONL fixture scanners
 - bounded local session scanning fallbacks
@@ -504,7 +508,7 @@ ContextForge v0.52.0 is a public MVP CLI with:
 - context security audit with nested monorepo instruction discovery and root README injection checks
 - public malicious-context benchmark fixtures
 - cache stability audit
-- task-specific Markdown context packs with session-derived scoring
+- task-specific Markdown context packs with session-derived scoring and real budget ledgers
 - HTML report generation
 - SARIF output for GitHub Code Scanning
 - Markdown summaries for GitHub Actions job summaries
@@ -578,6 +582,7 @@ ContextForge v0.52.0 is a public MVP CLI with:
 - **v0.50.0:** Claude Code project settings audit and SARIF for shared permissions and hooks.
 - **v0.51.0:** Agent trace efficiency audit for repeated tools, bulky outputs, and cache reuse.
 - **v0.52.0:** Configurable session cost estimates for input, cached input, and output tokens.
+- **v0.53.0:** Context pack budget ledger with final-content token enforcement.
 - **Next:** first approved npm publish and external launch outreach.
 
 Release preparation lives in [docs/release-checklist.md](docs/release-checklist.md).

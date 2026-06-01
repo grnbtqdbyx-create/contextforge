@@ -37,6 +37,15 @@ export interface ContextPack {
   files: PackedFile[];
   content: string;
   estimatedTokens: number;
+  budget: ContextPackBudget;
+}
+
+export interface ContextPackBudget {
+  requestedTokens: number;
+  estimatedTokens: number;
+  remainingTokens: number;
+  overflowTokens: number;
+  status: 'within-budget' | 'over-budget';
 }
 
 const TEXT_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx', '.json', '.md', '.yml', '.yaml', '.toml', '.css', '.html', '.txt']);
@@ -72,29 +81,70 @@ export async function createContextPack(options: ContextPackOptions): Promise<Co
     if (used >= budget) break;
   }
 
-  const content = [
-    '# ContextForge Context Pack',
-    '',
-    `Task: ${options.task}`,
-    `Budget: ${budget} tokens`,
-    '',
-    ...selected.flatMap((file) => [
-      `## ${file.path}`,
-      '',
-      `Why included: ${formatReasons(file.reasons)}`,
-      '',
-      '```',
-      trimToBudget(file.body, Math.max(50, budget - estimateTokens(selected.map((item) => item.path).join('\n')))),
-      '```',
-      ''
-    ])
-  ].join('\n');
+  let content = renderPackContent(options.task, budget, selected);
+  while (estimateTokens(content) > budget && selected.length > 0) {
+    selected.pop();
+    content = renderPackContent(options.task, budget, selected);
+  }
+  const budgetLedger = createBudgetLedger(budget, estimateTokens(content));
 
   return {
     files: selected.map(({ body: _body, ...file }) => file),
     content,
-    estimatedTokens: Math.min(estimateTokens(content), budget)
+    estimatedTokens: budgetLedger.estimatedTokens,
+    budget: budgetLedger
   };
+}
+
+function renderPackContent(task: string, budget: number, selected: Array<PackedFile & { body: string }>): string {
+  let estimatedTokens = 0;
+  let content = '';
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const ledger = createBudgetLedger(budget, estimatedTokens);
+    content = [
+      '# ContextForge Context Pack',
+      '',
+      `Task: ${task}`,
+      `Budget: ${budget} tokens`,
+      '',
+      '## Budget Ledger',
+      '',
+      `| Requested budget | ${ledger.requestedTokens} tokens |`,
+      `| Estimated pack | ${ledger.estimatedTokens} tokens |`,
+      `| Remaining | ${ledger.remainingTokens} tokens |`,
+      `| Status | ${ledger.status === 'within-budget' ? 'within budget' : 'over budget'} |`,
+      '',
+      ...selected.flatMap((file) => [
+        `## ${file.path}`,
+        '',
+        `Why included: ${formatReasons(file.reasons)}`,
+        '',
+        '```',
+        trimToBudget(file.body, perFileBodyBudget(budget, selected.length)),
+        '```',
+        ''
+      ])
+    ].join('\n');
+    const nextEstimate = estimateTokens(content);
+    if (nextEstimate === estimatedTokens) break;
+    estimatedTokens = nextEstimate;
+  }
+  return content;
+}
+
+function createBudgetLedger(requestedTokens: number, estimatedTokens: number): ContextPackBudget {
+  const overflowTokens = Math.max(0, estimatedTokens - requestedTokens);
+  return {
+    requestedTokens,
+    estimatedTokens,
+    remainingTokens: Math.max(0, requestedTokens - estimatedTokens),
+    overflowTokens,
+    status: overflowTokens > 0 ? 'over-budget' : 'within-budget'
+  };
+}
+
+function perFileBodyBudget(budget: number, fileCount: number): number {
+  return Math.max(40, Math.floor((budget * 0.55) / Math.max(1, fileCount)));
 }
 
 function trimToBudget(content: string, budget: number): string {

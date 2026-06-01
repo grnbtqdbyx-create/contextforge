@@ -61,7 +61,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.52.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.53.0');
   });
 });
 
@@ -320,6 +320,32 @@ describe('CLI cost-estimate command', () => {
     expect(stdout).toContain('ContextForge cost estimate: priced');
     expect(summary).toContain('# ContextForge Cost Estimate');
     expect(summary).toContain('Total estimated cost');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
+describe('CLI pack command', () => {
+  it('writes a context pack with a visible budget ledger', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-pack-ledger-'));
+    const outputPath = path.join(rootDir, 'contextforge-pack.md');
+
+    const { stdout } = await execFileAsync('pnpm', [
+      'contextforge',
+      'pack',
+      '--demo',
+      '--task',
+      'fix auth bug',
+      '--budget',
+      '120',
+      '--output',
+      outputPath
+    ]);
+    const pack = await readFile(outputPath, 'utf8');
+
+    expect(stdout).toContain(`Wrote ${outputPath}`);
+    expect(stdout).toContain('within budget');
+    expect(pack).toContain('## Budget Ledger');
+    expect(pack).toContain('| Requested budget | 120 tokens |');
     await rm(rootDir, { recursive: true, force: true });
   });
 });

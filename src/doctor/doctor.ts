@@ -263,7 +263,7 @@ function nextActions(checks: DoctorCheck[], auditActions: string[]): string[] {
   }
   actions.push(...auditActions.slice(0, 3));
   if (actions.length === 0) {
-    actions.push('Run contextforge pack --task "your next change" to create a focused context pack before coding.');
+    actions.push('Run contextforge pack --task "your next change" --output contextforge-pack.md to create a focused context pack before coding.');
   }
   return actions;
 }

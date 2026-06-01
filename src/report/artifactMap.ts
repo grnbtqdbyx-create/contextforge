@@ -109,6 +109,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge cost-estimate --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10`'
   },
   {
+    artifact: 'contextforge-pack.md',
+    audience: 'Codex, Claude, and human reviewers',
+    useWhen: 'you need a task-specific context bundle with a visible token budget ledger',
+    producedBy: '`contextforge pack --task "review auth regression" --budget 20000 --sessions --output contextforge-pack.md`'
+  },
+  {
     artifact: 'contextforge-review-kit.md',
     audience: 'PR reviewers, Codex, and Claude',
     useWhen: 'you need changed-file review focus for agent-assisted PRs',
@@ -202,6 +208,7 @@ export function createArtifactMap(): string {
     'contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif',
     'contextforge trace-audit --demo --summary contextforge-trace-audit.md',
     'contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10',
+    'contextforge pack --demo --task "review auth regression" --budget 600 --output contextforge-pack.md',
     'contextforge review-kit --base main --output contextforge-review-kit.md',
     '```',
     ''
