@@ -23,12 +23,12 @@ workflow, the optional PR comment workflow, `AGENTS.md`, and `CLAUDE.md`.
 The audit workflow writes JSON, HTML, SARIF, Markdown summary, PR comment,
 suggestions JSON, SVG badge, proof-pack Markdown, scorecard Markdown,
 MCP audit Markdown, MCP SARIF, Claude settings Markdown, Claude settings SARIF,
-review-kit Markdown, artifact-map Markdown, and agent action plan artifacts. It
+trace audit Markdown, review-kit Markdown, artifact-map Markdown, and agent action plan artifacts. It
 refuses to overwrite existing files by default:
 
 ```bash
 contextforge init --github-action --force
-contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.50.0
+contextforge init --github-action --action-ref grnbtqdbyx-create/contextforge@v0.51.0
 ```
 
 `contextforge init --pr-comment-workflow` writes a separate
@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: grnbtqdbyx-create/contextforge@v0.50.0
+      - uses: grnbtqdbyx-create/contextforge@v0.51.0
         with:
           min-context-score: 60
           min-cache-score: 60
@@ -82,6 +82,7 @@ jobs:
           mcp-sarif: contextforge-mcp.sarif
           claude-audit: contextforge-claude-audit.md
           claude-sarif: contextforge-claude.sarif
+          trace-audit: contextforge-trace-audit.md
           review-kit: contextforge-review-kit.md
           artifact-map: contextforge-artifact-map.md
           review-base-ref: main
@@ -104,6 +105,7 @@ jobs:
             contextforge-mcp.sarif
             contextforge-claude-audit.md
             contextforge-claude.sarif
+            contextforge-trace-audit.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4
@@ -142,6 +144,9 @@ The `contextforge-claude-audit.md` and `contextforge-claude.sarif` artifacts
 show whether committed Claude Code project settings contain risky permission
 modes, broad Bash allow rules, remote shell hooks, wildcard HTTP hooks, or
 missing sensitive-file deny rules.
+The `contextforge-trace-audit.md` artifact summarizes repeated tool calls,
+bulky tool output, tool-output-heavy traces, and cache reuse from available
+Codex or Claude session records.
 The `contextforge-review-kit.md` artifact gives Codex, Claude, and human
 reviewers the changed files, review focus areas, evidence commands, and a
 copyable review prompt. Use `fetch-depth: 0` on checkout when a repository wants
@@ -228,6 +233,8 @@ jobs:
         if: always()
       - run: node dist/cli.js claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
         if: always()
+      - run: node dist/cli.js trace-audit --summary contextforge-trace-audit.md
+        if: always()
       - run: node dist/cli.js review-kit --base main --output contextforge-review-kit.md
         if: always()
       - run: node dist/cli.js artifact-map --output contextforge-artifact-map.md
@@ -254,6 +261,7 @@ jobs:
             contextforge-mcp.sarif
             contextforge-claude-audit.md
             contextforge-claude.sarif
+            contextforge-trace-audit.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
       - uses: github/codeql-action/upload-sarif@v4

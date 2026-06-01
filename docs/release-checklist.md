@@ -17,6 +17,7 @@
 - [x] MCP exposure audit catches committed MCP config secrets, unsafe shell installers, unpinned package launches, auto-approval, broad tool permissions, and symlinked config files.
 - [x] MCP exposure findings can be exported as SARIF for GitHub Code Scanning.
 - [x] Claude Code project settings can be audited as Markdown and SARIF artifacts.
+- [x] Trace efficiency audit catches repeated tool calls, bulky outputs, tool-output-heavy traces, and low cache reuse.
 - [x] First-time evaluator adoption brief gives visitors a 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands.
 - [ ] First approved npm publish.
 

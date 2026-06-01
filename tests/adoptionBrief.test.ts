@@ -15,6 +15,7 @@ describe('adoption brief', () => {
     expect(brief).toContain('contextforge scorecard --output contextforge-scorecard.md');
     expect(brief).toContain('contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif');
     expect(brief).toContain('contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif');
+    expect(brief).toContain('contextforge trace-audit --demo --summary contextforge-trace-audit.md');
     expect(brief).toContain('## How It Fits');
     expect(brief).toContain('Repomix');
     expect(brief).toContain('ccusage');

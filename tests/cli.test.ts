@@ -58,7 +58,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.50.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.51.0');
   });
 });
 
@@ -275,6 +275,21 @@ describe('CLI claude-audit command', () => {
     expect(sarif.version).toBe('2.1.0');
     expect(sarif.runs[0].tool.driver.name).toBe('ContextForge Claude Settings');
     expect(sarif.runs[0].results.some((result) => result.ruleId === 'claude-settings/claude-bypass-mode')).toBe(true);
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
+describe('CLI trace-audit command', () => {
+  it('writes an agent trace efficiency summary when requested', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-trace-audit-'));
+    const summaryPath = path.join(rootDir, 'contextforge-trace-audit.md');
+
+    const { stdout } = await execFileAsync('pnpm', ['contextforge', 'trace-audit', '--demo', '--summary', summaryPath]);
+    const summary = await readFile(summaryPath, 'utf8');
+
+    expect(stdout).toContain('ContextForge trace efficiency audit: warn');
+    expect(summary).toContain('# ContextForge Trace Efficiency Audit');
+    expect(summary).toContain('redundant-tool-call');
     await rm(rootDir, { recursive: true, force: true });
   });
 });

@@ -97,6 +97,12 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge claude-audit --sarif contextforge-claude.sarif`'
   },
   {
+    artifact: 'contextforge-trace-audit.md',
+    audience: 'Codex and Claude operators',
+    useWhen: 'you need to review repeated tool calls, bulky tool output, and cache reuse before another long agent session',
+    producedBy: '`contextforge trace-audit --summary contextforge-trace-audit.md`'
+  },
+  {
     artifact: 'contextforge-review-kit.md',
     audience: 'PR reviewers, Codex, and Claude',
     useWhen: 'you need changed-file review focus for agent-assisted PRs',
@@ -188,6 +194,7 @@ export function createArtifactMap(): string {
     'contextforge scorecard --output contextforge-scorecard.md',
     'contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif',
     'contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif',
+    'contextforge trace-audit --demo --summary contextforge-trace-audit.md',
     'contextforge review-kit --base main --output contextforge-review-kit.md',
     '```',
     ''

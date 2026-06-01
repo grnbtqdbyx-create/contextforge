@@ -9,12 +9,12 @@ contextforge usage --demo
 ```
 
 ```text
-Total tokens: 12582
-Input: 8832  Output: 3750  Cached: 3328
+Total tokens: 14482
+Input: 8932  Output: 5550  Cached: 3328
 By kind
   user           2000 tokens (2 records)
   assistant      7390 tokens (4 records)
-  tool           3192 tokens (3 records)
+  tool           5092 tokens (4 records)
 ```
 
 ## CI Audit
@@ -26,7 +26,7 @@ contextforge audit --demo --min-context-score 70 --min-cache-score 70 --min-secu
 ```text
 ContextForge audit: pass
 Context health: 76/100  Cache stability: 75/100  Context security: 100/100
-Cache hit ratio: 37.7%
+Cache hit ratio: 37.3%
 ```
 
 ## Agent Handoff

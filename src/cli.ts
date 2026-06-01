@@ -12,6 +12,7 @@ import { auditCacheStability } from './analyzers/cacheAudit.js';
 import { auditContextSecurity } from './analyzers/contextSecurity.js';
 import { auditMcpExposure, createMcpExposureSummary, formatMcpExposureAudit } from './analyzers/mcpExposure.js';
 import { auditClaudeSettings, createClaudeSettingsSummary, formatClaudeSettingsAudit } from './analyzers/claudeSettings.js';
+import { auditTraceEfficiency, createTraceEfficiencySummary, formatTraceEfficiencyAudit } from './analyzers/traceEfficiency.js';
 import { createContextPack } from './pack/contextPack.js';
 import { suggestRuleImprovements } from './improve/ruleSuggestions.js';
 import { writeHtmlReport } from './report/htmlReport.js';
@@ -99,6 +100,9 @@ async function main(): Promise<void> {
       break;
     case 'claude-audit':
       await commandClaudeAudit(args);
+      break;
+    case 'trace-audit':
+      await commandTraceAudit(args);
       break;
     case 'agents-md-audit':
       await commandContextAudit(args);
@@ -302,6 +306,20 @@ async function commandClaudeAudit(args: CliArgs): Promise<void> {
     else console.log(message);
   }
   if (audit.status === 'fail') process.exitCode = 1;
+}
+
+async function commandTraceAudit(args: CliArgs): Promise<void> {
+  const audit = auditTraceEfficiency(await loadRecords(args));
+  if (args.summary) {
+    await fs.mkdir(dirname(args.summary), { recursive: true });
+    await fs.writeFile(args.summary, createTraceEfficiencySummary(audit));
+  }
+  console.log(args.json ? JSON.stringify(audit, null, 2) : formatTraceEfficiencyAudit(audit));
+  if (args.summary) {
+    const message = `Wrote ${args.summary}`;
+    if (args.json) console.error(message);
+    else console.log(message);
+  }
 }
 
 async function commandPack(args: CliArgs): Promise<void> {
@@ -625,6 +643,7 @@ function defaultOutputForCommand(command: string): string {
   if (command === 'adoption-brief') return 'docs/adoption.md';
   if (command === 'compare') return 'docs/comparison.md';
   if (command === 'mcp-audit') return 'contextforge-mcp-audit.md';
+  if (command === 'trace-audit') return 'contextforge-trace-audit.md';
   if (command === 'proof-pack') return 'contextforge-proof-pack.md';
   if (command === 'scorecard') return 'contextforge-scorecard.md';
   if (command === 'review-kit') return 'contextforge-review-kit.md';
@@ -721,6 +740,7 @@ Usage:
   contextforge security-benchmark [--benchmark-dir fixtures/security-benchmark]
   contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md] [--sarif contextforge-mcp.sarif]
   contextforge claude-audit [--demo] [--json] [--summary contextforge-claude-audit.md] [--sarif contextforge-claude.sarif]
+  contextforge trace-audit [--demo] [--json] [--summary contextforge-trace-audit.md]
   contextforge agents-md-audit [--demo]
   contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
   contextforge improve [--demo] [--json] [--write] [--open-pr]
@@ -737,7 +757,7 @@ Usage:
   contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
   contextforge artifact-map [--output docs/artifacts.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.50.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.51.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

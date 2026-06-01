@@ -13,6 +13,7 @@ contextforge artifact-map --output docs/artifacts.md
 contextforge review-kit --base main --output contextforge-review-kit.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
+contextforge trace-audit --demo --summary contextforge-trace-audit.md
 contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
 contextforge pack --task "review auth regression" --budget 20000 --sessions
 ```
@@ -27,7 +28,7 @@ I am building ContextForge in public.
 
 AI coding agents are powerful, but repositories still waste their context with noisy instructions, unstable cache prefixes, huge tool outputs, and unsafe Markdown.
 
-ContextForge turns that layer into a deterministic readiness check for Codex and Claude Code: context health, cache stability, prompt-injection safety, review kits, public proof files, community health files, CI artifacts, and task-specific context packs.
+ContextForge turns that layer into a deterministic readiness check for Codex and Claude Code: context health, cache stability, trace efficiency, prompt-injection safety, review kits, public proof files, community health files, CI artifacts, and task-specific context packs.
 
 Try the proof path:
 
@@ -48,6 +49,7 @@ If this helps your agent work with less waste and better handoffs, a star helps 
 - `contextforge artifact-map --output docs/artifacts.md` tells visitors which proof artifact to inspect first.
 - `contextforge mcp-audit --sarif contextforge-mcp.sarif` makes MCP config risk visible in GitHub Code Scanning.
 - `contextforge claude-audit --sarif contextforge-claude.sarif` makes Claude Code project settings risk visible in GitHub Code Scanning.
+- `contextforge trace-audit --summary contextforge-trace-audit.md` shows repeated tool calls, large outputs, and cache reuse from Codex or Claude traces.
 - GitHub topics match the target audience.
 - Release notes include validation commands.
 - Open issues show what contributors can help with next.
