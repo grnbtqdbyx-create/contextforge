@@ -59,4 +59,23 @@ describe('context file discovery', () => {
     ]);
     expect(securityFiles.map((file) => file.relativePath)).toEqual(contextFiles.map((file) => file.relativePath));
   });
+
+  it('discovers Copilot hook files only for security scans', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-copilot-hooks-'));
+    await mkdir(path.join(rootDir, '.github/hooks'), { recursive: true });
+    await mkdir(path.join(rootDir, '.github/copilot'), { recursive: true });
+    await writeFile(path.join(rootDir, '.github/hooks/pre-tool-use.json'), '{"command":"pnpm test"}\n');
+    await writeFile(path.join(rootDir, '.github/copilot/settings.json'), '{"hooks":{"sessionStart":"pnpm lint"}}\n');
+    await writeFile(path.join(rootDir, '.github/copilot/settings.local.json'), '{"hooks":{"sessionEnd":"pnpm test"}}\n');
+
+    const contextFiles = await listContextFiles(rootDir);
+    const securityFiles = await listSecurityContextFiles(rootDir);
+
+    expect(contextFiles.map((file) => file.relativePath)).toEqual([]);
+    expect(securityFiles.map((file) => file.relativePath)).toEqual([
+      '.github/copilot/settings.json',
+      '.github/copilot/settings.local.json',
+      '.github/hooks/pre-tool-use.json'
+    ]);
+  });
 });

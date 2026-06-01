@@ -22,6 +22,7 @@
 - [x] Context pack generation shows a budget ledger and measures final output against the requested token budget.
 - [x] GitHub Copilot instruction files are discovered, audited, and scaffolded with the same context hygiene loop as AGENTS.md and CLAUDE.md.
 - [x] GitHub Copilot prompt files, custom agents, and project skills are discovered and audited when present.
+- [x] GitHub Copilot hook configs are scanned for unsafe shell commands and context-security risk when present.
 - [x] First-time evaluator adoption brief gives visitors a 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands.
 - [ ] First approved npm publish.
 

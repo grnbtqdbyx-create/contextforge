@@ -3,7 +3,8 @@
 ContextForge treats GitHub Copilot customization files as agent-readable repo
 context, the same way it treats `AGENTS.md`, `CLAUDE.md`, Cursor rules, and
 other instruction files. That now includes always-on custom instructions,
-reusable prompt files, repository custom agents, and project skills.
+reusable prompt files, repository custom agents, project skills, and repo-local
+hook configuration files that can run shell commands during agent workflows.
 
 Covered files:
 
@@ -15,6 +16,9 @@ Covered files:
 - `.github/skills/<skill-name>/SKILL.md`
 - `.claude/skills/<skill-name>/SKILL.md`
 - `.agents/skills/<skill-name>/SKILL.md`
+- `.github/hooks/*.json` (security scan only)
+- `.github/copilot/settings.json` (security scan only)
+- `.github/copilot/settings.local.json` (security scan only when committed)
 
 Why this matters:
 
@@ -22,6 +26,9 @@ Why this matters:
   instructions to requests.
 - Prompt files, custom agents, and project skills can carry reusable task
   guidance that affects how Copilot plans or executes work.
+- Copilot hooks can execute shell commands at agent lifecycle points, so they
+  are scanned for unsafe shell, data exfiltration, hidden directives, and
+  permission weakening rather than scored as prose instructions.
 - Copilot CLI can also combine `AGENTS.md` with
   `.github/copilot-instructions.md`.
 - Noisy, conflicting, oversized, or malicious Copilot customization files can
@@ -49,5 +56,6 @@ contextforge init --all --project-name "My Repo"
 
 That creates the GitHub Actions audit workflow, optional PR comment workflow,
 `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md`. Prompt files,
-custom agents, and project skills are audited when present, but ContextForge
-does not scaffold them yet because those files should stay task-specific.
+custom agents, project skills, and hook configs are audited when present, but
+ContextForge does not scaffold them yet because those files should stay
+task-specific and explicitly reviewed.
