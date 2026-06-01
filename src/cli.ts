@@ -11,6 +11,7 @@ import { auditContextFiles } from './analyzers/contextHealth.js';
 import { auditCacheStability } from './analyzers/cacheAudit.js';
 import { auditContextSecurity } from './analyzers/contextSecurity.js';
 import { auditMcpExposure, createMcpExposureSummary, formatMcpExposureAudit } from './analyzers/mcpExposure.js';
+import { auditClaudeSettings, createClaudeSettingsSummary, formatClaudeSettingsAudit } from './analyzers/claudeSettings.js';
 import { createContextPack } from './pack/contextPack.js';
 import { suggestRuleImprovements } from './improve/ruleSuggestions.js';
 import { writeHtmlReport } from './report/htmlReport.js';
@@ -21,6 +22,7 @@ import { createAdoptionBrief } from './report/adoptionBrief.js';
 import { createComparisonGuide } from './report/comparison.js';
 import { createDemoOutput } from './report/demoOutput.js';
 import { createLaunchKit } from './report/launchKit.js';
+import { createClaudeSettingsSarif } from './report/claudeSettingsSarif.js';
 import { createMcpExposureSarif } from './report/mcpSarif.js';
 import { createPrComment } from './report/prComment.js';
 import { createProofPack } from './report/proofPack.js';
@@ -94,6 +96,9 @@ async function main(): Promise<void> {
       break;
     case 'mcp-audit':
       await commandMcpAudit(args);
+      break;
+    case 'claude-audit':
+      await commandClaudeAudit(args);
       break;
     case 'agents-md-audit':
       await commandContextAudit(args);
@@ -270,6 +275,26 @@ async function commandMcpAudit(args: CliArgs): Promise<void> {
     await fs.writeFile(args.sarif, `${JSON.stringify(createMcpExposureSarif(audit), null, 2)}\n`);
   }
   console.log(args.json ? JSON.stringify(audit, null, 2) : formatMcpExposureAudit(audit));
+  const written = [args.summary, args.sarif].filter(Boolean);
+  if (written.length > 0) {
+    const message = `Wrote ${written.join(' and ')}`;
+    if (args.json) console.error(message);
+    else console.log(message);
+  }
+  if (audit.status === 'fail') process.exitCode = 1;
+}
+
+async function commandClaudeAudit(args: CliArgs): Promise<void> {
+  const audit = await auditClaudeSettings({ rootDir: args.demo ? 'fixtures/claude-settings-risk' : process.cwd() });
+  if (args.summary) {
+    await fs.mkdir(dirname(args.summary), { recursive: true });
+    await fs.writeFile(args.summary, createClaudeSettingsSummary(audit));
+  }
+  if (args.sarif) {
+    await fs.mkdir(dirname(args.sarif), { recursive: true });
+    await fs.writeFile(args.sarif, `${JSON.stringify(createClaudeSettingsSarif(audit), null, 2)}\n`);
+  }
+  console.log(args.json ? JSON.stringify(audit, null, 2) : formatClaudeSettingsAudit(audit));
   const written = [args.summary, args.sarif].filter(Boolean);
   if (written.length > 0) {
     const message = `Wrote ${written.join(' and ')}`;
@@ -695,6 +720,7 @@ Usage:
   contextforge security-audit [--demo] [--min-security-score 60]
   contextforge security-benchmark [--benchmark-dir fixtures/security-benchmark]
   contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md] [--sarif contextforge-mcp.sarif]
+  contextforge claude-audit [--demo] [--json] [--summary contextforge-claude-audit.md] [--sarif contextforge-claude.sarif]
   contextforge agents-md-audit [--demo]
   contextforge pack --task "fix auth bug" --budget 20000 [--demo] [--sessions] [--codex] [--claude]
   contextforge improve [--demo] [--json] [--write] [--open-pr]
@@ -711,7 +737,7 @@ Usage:
   contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
   contextforge artifact-map [--output docs/artifacts.md]
   contextforge publish-readiness [--json] [--summary contextforge-publish-readiness.md]
-  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.49.0] [--force]
+  contextforge init [--all] [--github-action] [--pr-comment-workflow] [--agents-md] [--claude-md] [--project-name "My App"] [--action-ref grnbtqdbyx-create/contextforge@v0.50.0] [--force]
 
 Session scan safety:
   --max-session-files 50       newest JSONL files to scan per provider

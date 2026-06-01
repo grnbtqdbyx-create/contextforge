@@ -12,6 +12,7 @@ contextforge doctor --summary contextforge-doctor.md
 contextforge artifact-map --output docs/artifacts.md
 contextforge review-kit --base main --output contextforge-review-kit.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
+contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge audit --summary contextforge-summary.md --plan contextforge-agent-plan.md --comment contextforge-pr-comment.md --suggestions contextforge-suggestions.json --badge contextforge-badge.svg
 contextforge pack --task "review auth regression" --budget 20000 --sessions
 ```
@@ -46,6 +47,7 @@ If this helps your agent work with less waste and better handoffs, a star helps 
 - `contextforge doctor --summary` produces a shareable readiness report.
 - `contextforge artifact-map --output docs/artifacts.md` tells visitors which proof artifact to inspect first.
 - `contextforge mcp-audit --sarif contextforge-mcp.sarif` makes MCP config risk visible in GitHub Code Scanning.
+- `contextforge claude-audit --sarif contextforge-claude.sarif` makes Claude Code project settings risk visible in GitHub Code Scanning.
 - GitHub topics match the target audience.
 - Release notes include validation commands.
 - Open issues show what contributors can help with next.

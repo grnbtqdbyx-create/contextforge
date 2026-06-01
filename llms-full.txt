@@ -63,6 +63,7 @@ contextforge compare [--output docs/comparison.md]
 contextforge proof-pack [--demo] [--output contextforge-proof-pack.md]
 contextforge scorecard [--demo] [--json] [--output contextforge-scorecard.md]
 contextforge mcp-audit [--demo] [--json] [--summary contextforge-mcp-audit.md] [--sarif contextforge-mcp.sarif]
+contextforge claude-audit [--demo] [--json] [--summary contextforge-claude-audit.md] [--sarif contextforge-claude.sarif]
 contextforge adoption-brief [--output docs/adoption.md] [--project-name "My App"]
 contextforge review-kit [--demo] [--base main] [--output contextforge-review-kit.md]
 contextforge artifact-map [--output docs/artifacts.md]
@@ -102,12 +103,14 @@ cases so maintainers can see what the scanner is expected to catch.
 - `contextforge-scorecard.md`: one-screen Codex/Claude readiness snapshot from `scorecard`
 - `contextforge-mcp-audit.md`: committed MCP config exposure summary from `mcp-audit`
 - `contextforge-mcp.sarif`: GitHub Code Scanning SARIF for committed MCP config exposure findings
+- `contextforge-claude-audit.md`: committed Claude Code settings exposure summary from `claude-audit`
+- `contextforge-claude.sarif`: GitHub Code Scanning SARIF for committed Claude Code settings findings
 - `docs/adoption.md`: first-time evaluator page from `adoption-brief`, including the 30-second proof path, adjacent-tool positioning, and pre-npm try-it commands
 - `contextforge-review-kit.md`: changed-file review brief and Codex/Claude review prompt from `review-kit`
 - `docs/artifacts.md`: generated artifact catalog and fast paths from `artifact-map`
 - `contextforge-artifact-map.md`: CI-uploaded artifact catalog from reusable and generated workflows
 - `contextforge-publish-readiness.md`: npm Trusted Publishing and package provenance readiness summary from `publish-readiness`
-- Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts. Dogfood and generated workflows opt JavaScript actions into Node 24.
+- Reusable GitHub Action and generated audit workflows upload `contextforge-proof-pack.md`, `contextforge-scorecard.md`, `contextforge-mcp-audit.md`, `contextforge-mcp.sarif`, `contextforge-claude-audit.md`, `contextforge-claude.sarif`, `contextforge-review-kit.md`, and `contextforge-artifact-map.md` alongside JSON, HTML, SARIF, summary, plan, comment, suggestions, and badge artifacts. Dogfood and generated workflows opt JavaScript actions into Node 24.
 - PR-ready comments point reviewers at `contextforge-proof-pack.md` and `contextforge-review-kit.md` so sticky review discussions can lead to both the deeper doctor/audit proof packet and the changed-file review brief.
 - `docs/launch-post.md`: generated build-in-public launch kit from `launch-kit`
 - `docs/comparison.md`: generated adjacent-tool positioning guide from `compare`

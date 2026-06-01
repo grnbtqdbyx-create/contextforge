@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.50.0 - 2026-06-01
+
+- Add `contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif` for committed Claude Code project settings.
+- Detect risky Claude Code `defaultMode`, missing bypass disablement, broad Bash allow rules, remote shell hooks, wildcard HTTP hook destinations, missing sensitive-file deny rules, and invalid settings JSON.
+- Refresh the reusable action, generated workflow, dogfood workflow, artifact map, README, Claude audit docs, LLM discovery files, and launch/adoption surfaces around Claude Code settings safety.
+
 ## 0.49.0 - 2026-06-01
 
 - Add `contextforge mcp-audit --sarif contextforge-mcp.sarif` so committed MCP config exposure findings can be uploaded to GitHub Code Scanning.

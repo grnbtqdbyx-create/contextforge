@@ -1,5 +1,5 @@
 name: 'ContextForge Audit'
-description: 'Run ContextForge context health, cache stability, security, MCP exposure, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, scorecard, review kit, artifact map, and agent action plan audits.'
+description: 'Run ContextForge context health, cache stability, security, MCP exposure, Claude settings, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, scorecard, review kit, artifact map, and agent action plan audits.'
 author: 'Ogün Keskin'
 
 branding:
@@ -67,6 +67,14 @@ inputs:
     description: 'MCP exposure SARIF output path in the caller workspace.'
     required: false
     default: 'contextforge-mcp.sarif'
+  claude-audit:
+    description: 'Claude Code settings audit Markdown output path in the caller workspace.'
+    required: false
+    default: 'contextforge-claude-audit.md'
+  claude-sarif:
+    description: 'Claude Code settings SARIF output path in the caller workspace.'
+    required: false
+    default: 'contextforge-claude.sarif'
   review-kit:
     description: 'Codex/Claude review kit Markdown output path in the caller workspace.'
     required: false
@@ -117,6 +125,12 @@ outputs:
   mcp-sarif:
     description: 'Path to the generated MCP exposure SARIF report.'
     value: ${{ inputs.mcp-sarif }}
+  claude-audit-md:
+    description: 'Path to the generated Claude Code settings audit.'
+    value: ${{ inputs.claude-audit }}
+  claude-sarif:
+    description: 'Path to the generated Claude Code settings SARIF report.'
+    value: ${{ inputs.claude-sarif }}
   review-kit-md:
     description: 'Path to the generated Codex/Claude review kit.'
     value: ${{ inputs.review-kit }}
@@ -180,6 +194,14 @@ runs:
         node "$GITHUB_ACTION_PATH/dist/cli.js" mcp-audit \
           --summary "${{ inputs.mcp-audit }}" \
           --sarif "${{ inputs.mcp-sarif }}"
+    - name: Run ContextForge Claude Code settings audit
+      if: always()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        node "$GITHUB_ACTION_PATH/dist/cli.js" claude-audit \
+          --summary "${{ inputs.claude-audit }}" \
+          --sarif "${{ inputs.claude-sarif }}"
     - name: Run ContextForge review kit
       if: always()
       shell: bash

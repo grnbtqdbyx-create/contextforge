@@ -13,6 +13,8 @@ describe('artifact map report', () => {
     expect(map).toContain('docs/adoption.md');
     expect(map).toContain('contextforge-mcp-audit.md');
     expect(map).toContain('contextforge-mcp.sarif');
+    expect(map).toContain('contextforge-claude-audit.md');
+    expect(map).toContain('contextforge-claude.sarif');
     expect(map).toContain('npm metadata, provenance links, Trusted Publishing');
     expect(map).toContain('contextforge-agent-plan.md');
     expect(map).toContain('For a PR reviewer');

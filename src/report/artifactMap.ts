@@ -85,6 +85,18 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge mcp-audit --sarif contextforge-mcp.sarif`'
   },
   {
+    artifact: 'contextforge-claude-audit.md',
+    audience: 'Claude Code maintainers',
+    useWhen: 'you need to review committed Claude Code project settings, hooks, permissions, and sensitive-file denies',
+    producedBy: '`contextforge claude-audit --summary contextforge-claude-audit.md`'
+  },
+  {
+    artifact: 'contextforge-claude.sarif',
+    audience: 'GitHub Code Scanning',
+    useWhen: 'you want Claude Code settings findings to appear beside code scanning alerts',
+    producedBy: '`contextforge claude-audit --sarif contextforge-claude.sarif`'
+  },
+  {
     artifact: 'contextforge-review-kit.md',
     audience: 'PR reviewers, Codex, and Claude',
     useWhen: 'you need changed-file review focus for agent-assisted PRs',
@@ -175,6 +187,7 @@ export function createArtifactMap(): string {
     'contextforge adoption-brief --output docs/adoption.md',
     'contextforge scorecard --output contextforge-scorecard.md',
     'contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif',
+    'contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif',
     'contextforge review-kit --base main --output contextforge-review-kit.md',
     '```',
     ''

@@ -58,7 +58,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.49.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.50.0');
   });
 });
 
@@ -250,6 +250,31 @@ describe('CLI mcp-audit command', () => {
     expect(sarif.version).toBe('2.1.0');
     expect(sarif.runs[0].tool.driver.name).toBe('ContextForge MCP Exposure');
     expect(sarif.runs[0].results.some((result) => result.ruleId === 'mcp-exposure/hardcoded-secret')).toBe(true);
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
+describe('CLI claude-audit command', () => {
+  it('writes Claude Code settings summary and SARIF when requested', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-claude-audit-'));
+    const summaryPath = path.join(rootDir, 'contextforge-claude-audit.md');
+    const sarifPath = path.join(rootDir, 'contextforge-claude.sarif');
+
+    await expect(
+      execFileAsync('pnpm', ['contextforge', 'claude-audit', '--demo', '--summary', summaryPath, '--sarif', sarifPath])
+    ).rejects.toMatchObject({
+      stdout: expect.stringContaining('ContextForge Claude settings audit: fail')
+    });
+    const summary = await readFile(summaryPath, 'utf8');
+    const sarif = JSON.parse(await readFile(sarifPath, 'utf8')) as {
+      version: string;
+      runs: Array<{ tool: { driver: { name: string } }; results: Array<{ ruleId: string }> }>;
+    };
+
+    expect(summary).toContain('# ContextForge Claude Code Settings Audit');
+    expect(sarif.version).toBe('2.1.0');
+    expect(sarif.runs[0].tool.driver.name).toBe('ContextForge Claude Settings');
+    expect(sarif.runs[0].results.some((result) => result.ruleId === 'claude-settings/claude-bypass-mode')).toBe(true);
     await rm(rootDir, { recursive: true, force: true });
   });
 });
