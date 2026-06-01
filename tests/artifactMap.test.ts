@@ -23,7 +23,10 @@ describe('artifact map report', () => {
     expect(map).toContain('contextforge-claude.sarif');
     expect(map).toContain('contextforge-workflow-audit.md');
     expect(map).toContain('contextforge-workflow.sarif');
+    expect(map).toContain('contextforge-actions-audit.md');
+    expect(map).toContain('contextforge-actions.sarif');
     expect(map).toContain('contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif');
+    expect(map).toContain('contextforge actions-audit --summary contextforge-actions-audit.md --sarif contextforge-actions.sarif');
     expect(map).toContain('contextforge-trace-audit.md');
     expect(map).toContain('contextforge-cost-estimate.md');
     expect(map).toContain('npm metadata, provenance links, Trusted Publishing');

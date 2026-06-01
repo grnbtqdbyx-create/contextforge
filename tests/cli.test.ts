@@ -62,7 +62,7 @@ describe('CLI help command', () => {
   it('prints the current default GitHub Action ref in init examples', async () => {
     const { stdout } = await execFileAsync('pnpm', ['contextforge', 'help']);
 
-    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.68.0');
+    expect(stdout).toContain('--action-ref grnbtqdbyx-create/contextforge@v0.69.0');
   });
 });
 
@@ -333,6 +333,31 @@ describe('CLI workflow-audit command', () => {
     const summary = await readFile(summaryPath, 'utf8');
 
     expect(summary).toContain('agentic-secret-exposure');
+    await rm(rootDir, { recursive: true, force: true });
+  });
+});
+
+describe('CLI actions-audit command', () => {
+  it('writes a GitHub Actions hardening summary and SARIF when requested', async () => {
+    const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-actions-audit-'));
+    const summaryPath = path.join(rootDir, 'actions-audit.md');
+    const sarifPath = path.join(rootDir, 'actions-audit.sarif');
+
+    const { stdout } = await execFileAsync('pnpm', [
+      'contextforge',
+      'actions-audit',
+      '--summary',
+      summaryPath,
+      '--sarif',
+      sarifPath
+    ]);
+    const summary = await readFile(summaryPath, 'utf8');
+    const sarif = JSON.parse(await readFile(sarifPath, 'utf8')) as { runs: Array<{ tool: { driver: { name: string } } }> };
+
+    expect(stdout).toContain('ContextForge GitHub Actions audit:');
+    expect(stdout).toContain(`Wrote ${summaryPath} and ${sarifPath}`);
+    expect(summary).toContain('# ContextForge GitHub Actions Audit');
+    expect(sarif.runs[0].tool.driver.name).toBe('ContextForge GitHub Actions');
     await rm(rootDir, { recursive: true, force: true });
   });
 });

@@ -133,6 +133,18 @@ const artifactRows: ArtifactMapRow[] = [
     producedBy: '`contextforge workflow-audit --sarif contextforge-workflow.sarif`'
   },
   {
+    artifact: 'contextforge-actions-audit.md',
+    audience: 'Security reviewers and release maintainers',
+    useWhen: 'you need to review GitHub Actions SHA pins, token permissions, pull_request_target risk, and direct script interpolation',
+    producedBy: '`contextforge actions-audit --summary contextforge-actions-audit.md`'
+  },
+  {
+    artifact: 'contextforge-actions.sarif',
+    audience: 'GitHub Code Scanning',
+    useWhen: 'you want GitHub Actions hardening findings to appear beside code scanning alerts',
+    producedBy: '`contextforge actions-audit --sarif contextforge-actions.sarif`'
+  },
+  {
     artifact: 'contextforge-trace-audit.md',
     audience: 'Codex and Claude operators',
     useWhen: 'you need to review repeated tool calls, bulky tool output, and cache reuse before another long agent session',
@@ -247,6 +259,7 @@ export function createArtifactMap(): string {
     'contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif',
     'contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif',
     'contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif',
+    'contextforge actions-audit --summary contextforge-actions-audit.md --sarif contextforge-actions.sarif',
     'contextforge trace-audit --demo --summary contextforge-trace-audit.md',
     'contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10',
     'contextforge pack --demo --task "review auth regression" --budget 600 --output contextforge-pack.md',

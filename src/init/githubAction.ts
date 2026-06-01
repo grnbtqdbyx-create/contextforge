@@ -1,7 +1,7 @@
 import { access, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.68.0';
+export const DEFAULT_GITHUB_ACTION_REF = 'grnbtqdbyx-create/contextforge@v0.69.0';
 
 export interface GithubActionScaffoldOptions {
   rootDir: string;
@@ -53,7 +53,7 @@ jobs:
   contextforge-audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           fetch-depth: 0
       - uses: ${actionRef}
@@ -81,10 +81,12 @@ jobs:
           claude-sarif: contextforge-claude.sarif
           workflow-audit: contextforge-workflow-audit.md
           workflow-sarif: contextforge-workflow.sarif
+          actions-audit: contextforge-actions-audit.md
+          actions-sarif: contextforge-actions.sarif
           trace-audit: contextforge-trace-audit.md
           review-kit: contextforge-review-kit.md
           artifact-map: contextforge-artifact-map.md
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         if: always()
         with:
           name: contextforge-audit
@@ -108,25 +110,31 @@ jobs:
             contextforge-claude.sarif
             contextforge-workflow-audit.md
             contextforge-workflow.sarif
+            contextforge-actions-audit.md
+            contextforge-actions.sarif
             contextforge-trace-audit.md
             contextforge-review-kit.md
             contextforge-artifact-map.md
-      - uses: github/codeql-action/upload-sarif@v4
+      - uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4
         if: ${sarifGuard}
         with:
           sarif_file: contextforge.sarif
-      - uses: github/codeql-action/upload-sarif@v4
+      - uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4
         if: ${sarifGuard}
         with:
           sarif_file: contextforge-mcp.sarif
-      - uses: github/codeql-action/upload-sarif@v4
+      - uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4
         if: ${sarifGuard}
         with:
           sarif_file: contextforge-claude.sarif
-      - uses: github/codeql-action/upload-sarif@v4
+      - uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4
         if: ${sarifGuard}
         with:
           sarif_file: contextforge-workflow.sarif
+      - uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4
+        if: ${sarifGuard}
+        with:
+          sarif_file: contextforge-actions.sarif
 `;
 }
 

@@ -163,7 +163,7 @@ function releaseArtifactAttestationCheck(workflow: string): NpmPublishReadinessC
   const missing = requiredFragments(workflow, [
     'attestations: write',
     'npm pack --json > npm-pack.json',
-    'actions/attest@v4',
+    'actions/attest@',
     "subject-path: 'contextforge-*.tgz'",
     'npm publish contextforge-*.tgz --access public'
   ]);
