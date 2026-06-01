@@ -141,6 +141,7 @@ contextforge scorecard --output contextforge-scorecard.md
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif
+contextforge actions-audit --summary contextforge-actions-audit.md --sarif contextforge-actions.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
 contextforge cost-estimate --demo --summary contextforge-cost-estimate.md --input-price-per-mtok 2 --cached-input-price-per-mtok 0.2 --output-price-per-mtok 10
 contextforge pack --demo --task "review auth regression" --budget 600 --output contextforge-pack.md
@@ -171,6 +172,10 @@ Success signal:
 - Security reviewers can open `contextforge-workflow-audit.md` or upload
   `contextforge-workflow.sarif` to catch GitHub issue, PR, review, comment,
   title, workflow input, or branch/ref text flowing into privileged AI workflows.
+- Release reviewers can open `contextforge-actions-audit.md` or upload
+  `contextforge-actions.sarif` to catch mutable action refs, missing
+  permissions, pwn-request checkout, and direct script interpolation before
+  agent-authored workflow changes reach `main`.
 - Agent operators can open `contextforge-trace-audit.md` to see whether the demo
   trace wasted turns on repeated tools or bulky output before they try local
   Codex/Claude history.

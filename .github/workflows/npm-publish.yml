@@ -24,13 +24,14 @@ permissions:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  NPM_TAG: ${{ inputs.npm_tag }}
 
 jobs:
   preflight:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
@@ -47,10 +48,10 @@ jobs:
       - run: npm pack --dry-run
       - run: npm pack --json > npm-pack.json
       - name: Generate npm tarball attestation
-        uses: actions/attest@v4
+        uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4
         with:
           subject-path: 'contextforge-*.tgz'
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         if: always()
         with:
           name: contextforge-npm-publish-readiness
@@ -65,8 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: npm-publish
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
@@ -83,8 +84,8 @@ jobs:
       - run: npm pack --dry-run
       - run: npm pack --json > npm-pack.json
       - name: Generate npm tarball attestation
-        uses: actions/attest@v4
+        uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26 # v4
         with:
           subject-path: 'contextforge-*.tgz'
       - name: Publish to npm
-        run: npm publish contextforge-*.tgz --access public --tag "${{ inputs.npm_tag }}"
+        run: npm publish contextforge-*.tgz --access public --tag "$NPM_TAG"

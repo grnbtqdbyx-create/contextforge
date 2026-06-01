@@ -30,6 +30,7 @@ A short, shareable page for people deciding whether this project is worth trying
 | Are MCP configs risky? | `contextforge-mcp-audit.md` and `contextforge-mcp.sarif` |
 | Are Claude Code settings risky? | `contextforge-claude-audit.md` and `contextforge-claude.sarif` |
 | Can GitHub event text reach a privileged agent workflow? | `contextforge-workflow-audit.md` and `contextforge-workflow.sarif` |
+| Are GitHub Actions pinned and least-privilege? | `contextforge-actions-audit.md` and `contextforge-actions.sarif` |
 | Did the last agent session waste context? | `contextforge-trace-audit.md` |
 | What would a long session cost? | `contextforge-cost-estimate.md` |
 | Is the first npm publish ready? | `contextforge-publish-readiness.md` |
@@ -44,6 +45,7 @@ contextforge surface-diff --base main --output contextforge-agent-surface-diff.m
 contextforge mcp-audit --summary contextforge-mcp-audit.md --sarif contextforge-mcp.sarif
 contextforge claude-audit --summary contextforge-claude-audit.md --sarif contextforge-claude.sarif
 contextforge workflow-audit --summary contextforge-workflow-audit.md --sarif contextforge-workflow.sarif
+contextforge actions-audit --summary contextforge-actions-audit.md --sarif contextforge-actions.sarif
 contextforge trace-audit --demo --summary contextforge-trace-audit.md
 contextforge publish-readiness --summary contextforge-publish-readiness.md
 contextforge artifact-map --output docs/artifacts.md
@@ -53,7 +55,7 @@ contextforge artifact-map --output docs/artifacts.md
 
 ContextForge is a local-first CI gate for the repository context that Codex, Claude Code, Copilot, Cursor, Cline, Gemini, Windsurf, and MCP-powered agents ingest.
 
-It checks instruction bloat, prompt/context poisoning, MCP and Claude settings risk, agentic workflow injection risk, changed agent surfaces in PRs, trace waste, token-budgeted context packs, and release-readiness proof artifacts.
+It checks instruction bloat, prompt/context poisoning, MCP and Claude settings risk, agentic workflow injection risk, GitHub Actions hardening, changed agent surfaces in PRs, trace waste, token-budgeted context packs, and release-readiness proof artifacts.
 
 Repo: https://github.com/grnbtqdbyx-create/contextforge
 

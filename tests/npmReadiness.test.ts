@@ -49,14 +49,14 @@ describe('npm publish readiness', () => {
         '      - run: node dist/cli.js audit --min-context-score 70 --min-cache-score 70 --min-security-score 70',
         '      - run: npm pack --dry-run',
         '      - run: npm pack --json > npm-pack.json',
-        '      - uses: actions/attest@v4',
+        '      - uses: actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26',
         '        with:',
         "          subject-path: 'contextforge-*.tgz'",
         '  publish:',
         '    if: ${{ inputs.dry_run == false }}',
         '    environment: npm-publish',
         '    steps:',
-        '      - run: npm publish contextforge-*.tgz --access public --tag "${{ inputs.npm_tag }}"'
+        '      - run: npm publish contextforge-*.tgz --access public --tag "$NPM_TAG"'
       ].join('\n')
     );
     await writeFile(

@@ -1,5 +1,5 @@
 name: 'ContextForge Audit'
-description: 'Run ContextForge context health, cache stability, trace efficiency, security, MCP exposure, Claude settings, agentic workflow, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, scorecard, surface map, surface inventory, surface diff, review kit, artifact map, and agent action plan audits.'
+description: 'Run ContextForge context health, cache stability, trace efficiency, security, MCP exposure, Claude settings, agentic workflow, GitHub Actions hardening, HTML, JSON, SARIF, Markdown, PR comment, suggestions, badge, proof pack, scorecard, surface map, surface inventory, surface diff, review kit, artifact map, and agent action plan audits.'
 author: 'Ogün Keskin'
 
 branding:
@@ -95,6 +95,14 @@ inputs:
     description: 'Agentic GitHub workflow SARIF output path in the caller workspace.'
     required: false
     default: 'contextforge-workflow.sarif'
+  actions-audit:
+    description: 'GitHub Actions hardening audit Markdown output path in the caller workspace.'
+    required: false
+    default: 'contextforge-actions-audit.md'
+  actions-sarif:
+    description: 'GitHub Actions hardening SARIF output path in the caller workspace.'
+    required: false
+    default: 'contextforge-actions.sarif'
   trace-audit:
     description: 'Agent trace efficiency audit Markdown output path in the caller workspace.'
     required: false
@@ -170,6 +178,12 @@ outputs:
   workflow-sarif:
     description: 'Path to the generated agentic GitHub workflow SARIF report.'
     value: ${{ inputs.workflow-sarif }}
+  actions-audit-md:
+    description: 'Path to the generated GitHub Actions hardening audit.'
+    value: ${{ inputs.actions-audit }}
+  actions-sarif:
+    description: 'Path to the generated GitHub Actions hardening SARIF report.'
+    value: ${{ inputs.actions-sarif }}
   trace-audit-md:
     description: 'Path to the generated agent trace efficiency audit.'
     value: ${{ inputs.trace-audit }}
@@ -275,6 +289,14 @@ runs:
         node "$GITHUB_ACTION_PATH/dist/cli.js" workflow-audit \
           --summary "${{ inputs.workflow-audit }}" \
           --sarif "${{ inputs.workflow-sarif }}"
+    - name: Run ContextForge GitHub Actions audit
+      if: always()
+      shell: bash
+      run: |
+        cd "$GITHUB_WORKSPACE"
+        node "$GITHUB_ACTION_PATH/dist/cli.js" actions-audit \
+          --summary "${{ inputs.actions-audit }}" \
+          --sarif "${{ inputs.actions-sarif }}"
     - name: Run ContextForge trace efficiency audit
       if: always()
       shell: bash

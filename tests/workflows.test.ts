@@ -27,9 +27,10 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('needs: preflight');
     expect(workflow).toContain('environment: npm-publish');
     expect(workflow).toContain('npm pack --json > npm-pack.json');
-    expect(workflow).toContain('actions/attest@v4');
+    expect(workflow).toContain('actions/attest@59d89421af93a897026c735860bf21b6eb4f7b26');
     expect(workflow).toContain("subject-path: 'contextforge-*.tgz'");
     expect(workflow).toContain('npm publish contextforge-*.tgz --access public');
+    expect(workflow).toContain('NPM_TAG: ${{ inputs.npm_tag }}');
     expect(workflow).toContain('publish-readiness --summary contextforge-publish-readiness.md');
     expect(workflow).toContain('contextforge-publish-readiness.md');
     expect(workflow).toContain('npm-pack.json');
@@ -61,6 +62,8 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-claude.sarif');
     expect(workflow).toContain('workflow-audit --summary contextforge-workflow-audit.md');
     expect(workflow).toContain('contextforge-workflow.sarif');
+    expect(workflow).toContain('actions-audit --summary contextforge-actions-audit.md');
+    expect(workflow).toContain('contextforge-actions.sarif');
     expect(workflow).toContain('trace-audit --summary contextforge-trace-audit.md');
     expect(workflow).toContain('review-kit --base main --output contextforge-review-kit.md');
     expect(workflow).toContain('artifact-map --output contextforge-artifact-map.md');
@@ -74,6 +77,8 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-claude.sarif');
     expect(workflow).toContain('contextforge-workflow-audit.md');
     expect(workflow).toContain('contextforge-workflow.sarif');
+    expect(workflow).toContain('contextforge-actions-audit.md');
+    expect(workflow).toContain('contextforge-actions.sarif');
     expect(workflow).toContain('contextforge-agent-plan.md');
     expect(workflow).toContain('contextforge-pr-comment.md');
     expect(workflow).toContain('contextforge-suggestions.json');
@@ -86,8 +91,10 @@ describe('GitHub workflows', () => {
     expect(workflow).toContain('contextforge-mcp-audit.md');
     expect(workflow).toContain('contextforge-claude-audit.md');
     expect(workflow).toContain('contextforge-workflow-audit.md');
+    expect(workflow).toContain('contextforge-actions-audit.md');
     expect(workflow).toContain('contextforge-review-kit.md');
     expect(workflow).toContain('contextforge-artifact-map.md');
     expect(workflow).toContain('contextforge-trace-audit.md');
+    expect(workflow).toContain('github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa');
   });
 });

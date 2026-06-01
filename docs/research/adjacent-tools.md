@@ -560,3 +560,13 @@ refs. The extra coverage follows
 and recent
 [agentic workflow injection research](https://arxiv.org/abs/2605.07135)
 showing that prompt payloads do not need to live only in Markdown bodies.
+ContextForge v0.69.0 adds `contextforge actions-audit --summary
+contextforge-actions-audit.md --sarif contextforge-actions.sarif`, because
+agent-authored workflow edits need the same proof loop as repo context files.
+The check is intentionally narrower than full CI/CD security scanners such as
+[zizmor](https://github.com/woodruffw/zizmor) and focused on the footguns that
+matter most for coding-agent repositories: mutable action refs, missing
+permissions, `pull_request_target`, pwn-request checkout, and direct shell
+interpolation of untrusted GitHub contexts. ContextForge dogfoods the feature by
+pinning its own workflows to full action SHAs and uploading the new Actions
+SARIF beside MCP, Claude settings, and agentic workflow alerts.

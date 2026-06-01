@@ -22,6 +22,7 @@ describe('package metadata', () => {
     expect(pkg.files).toContain('contextforge-mcp-audit.md');
     expect(pkg.files).toContain('contextforge-claude-audit.md');
     expect(pkg.files).toContain('contextforge-workflow-audit.md');
+    expect(pkg.files).toContain('contextforge-actions-audit.md');
     expect(pkg.files).toContain('contextforge-trace-audit.md');
     expect(pkg.files).toContain('contextforge-cost-estimate.md');
     expect(pkg.files).toContain('contextforge-pack.md');

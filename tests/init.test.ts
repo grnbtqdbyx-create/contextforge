@@ -35,6 +35,8 @@ describe('GitHub Action init scaffold', () => {
     expect(workflow).toContain('contextforge-claude.sarif');
     expect(workflow).toContain('contextforge-workflow-audit.md');
     expect(workflow).toContain('contextforge-workflow.sarif');
+    expect(workflow).toContain('contextforge-actions-audit.md');
+    expect(workflow).toContain('contextforge-actions.sarif');
     expect(workflow).toContain('contextforge-trace-audit.md');
     expect(workflow).toContain('contextforge-review-kit.md');
     expect(workflow).toContain('contextforge-artifact-map.md');
@@ -48,6 +50,8 @@ describe('GitHub Action init scaffold', () => {
     expect(workflow).toContain('claude-sarif: contextforge-claude.sarif');
     expect(workflow).toContain('workflow-audit: contextforge-workflow-audit.md');
     expect(workflow).toContain('workflow-sarif: contextforge-workflow.sarif');
+    expect(workflow).toContain('actions-audit: contextforge-actions-audit.md');
+    expect(workflow).toContain('actions-sarif: contextforge-actions.sarif');
     expect(workflow).toContain('trace-audit: contextforge-trace-audit.md');
     expect(workflow).toContain('review-kit: contextforge-review-kit.md');
     expect(workflow).toContain('artifact-map: contextforge-artifact-map.md');
@@ -84,7 +88,7 @@ describe('GitHub Action init scaffold', () => {
     const rootDir = await mkdtemp(path.join(os.tmpdir(), 'contextforge-init-default-ref-'));
     const result = await scaffoldGithubActionWorkflow({ rootDir });
 
-    expect(await readFile(result.path, 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.68.0');
+    expect(await readFile(result.path, 'utf8')).toContain('uses: grnbtqdbyx-create/contextforge@v0.69.0');
   });
 
   it('is available through the init CLI command', async () => {

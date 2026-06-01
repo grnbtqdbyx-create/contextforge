@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.69.0 - 2026-06-01
+
+- Add `contextforge actions-audit --summary contextforge-actions-audit.md --sarif contextforge-actions.sarif` for GitHub Actions hardening proof.
+- Detect mutable action refs, missing workflow permissions, `permissions: write-all`, `pull_request_target` risk, pwn-request checkout, and direct script interpolation of untrusted GitHub contexts.
+- Dogfood the audit by pinning ContextForge workflows to full action SHAs, adding least-privilege CI permissions, routing npm publish tags through an environment variable, and uploading Actions SARIF to Code Scanning.
+
 ## 0.68.0 - 2026-06-01
 
 - Expand `contextforge workflow-audit` to treat issue titles, pull request titles, PR head refs, `github.head_ref`, `github.ref_name`, review-comment bodies, and discussion titles as untrusted agent inputs.
